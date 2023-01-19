@@ -1,0 +1,57 @@
+:root {
+  --primary-text: rgba(255, 255, 255, 0.8);
+  --secondary-text: rgba(255, 255, 255, 0.5);
+  --thirdly-text: rgba(255, 255, 255, 0.35);
+  --primary-color: rgba(253, 108, 3, 1);
+  --border-color: rgba(38, 38, 38, 1);
+  --easing-func: cubic-bezier(0.1, 0.6, 0.4, 1);
+}
+
+html {
+  height: 100%;
+}
+
+html,
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "SF Pro Display", sans-serif;
+}
+
+main {
+  max-width: 1272px;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 50px 16px 100px 16px;
+}
+
+#__next {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > * ::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+body > * ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body > * ::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 12px;
+  background-clip: padding-box;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 40px 8px;
+  }
+}
