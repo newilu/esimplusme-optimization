@@ -44,7 +44,7 @@ export default function Pagination({
             disabled={isNaN(pageNum)}
             onClick={() => setCurrentPage(pageNum)}
           >
-            {!isNaN(pageNum) ? pageNum : "..."}
+            {isNaN(pageNum) ? "..." : pageNum}
           </PageSwitchButton>
         ))}
       </PageSwitchButtonsWrapper>

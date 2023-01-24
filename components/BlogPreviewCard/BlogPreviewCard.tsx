@@ -39,8 +39,8 @@ function BlogPreviewCard({
         </Link>
       </ImageWrapper>
       <CardCategories>
-        {categories.map(({ name, id }) => (
-          <CardCategory key={id}>#{name}</CardCategory>
+        {categories.map(({ name, id: categoryId }) => (
+          <CardCategory key={categoryId}>#{name}</CardCategory>
         ))}
       </CardCategories>
       <Link href={`/blog/${url ?? id}`}>

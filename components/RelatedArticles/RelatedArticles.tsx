@@ -1,5 +1,5 @@
 import React from "react";
-import BlogPreviewCard from "../BlogPreviewCard";
+// import BlogPreviewCard from "../BlogPreviewCard";
 import { GridWrapper, Title, Wrapper } from "./styled";
 
 function RelatedArticles() {
@@ -7,9 +7,9 @@ function RelatedArticles() {
     <Wrapper>
       <Title>Related articiels</Title>
       <GridWrapper>
-        <BlogPreviewCard href="/" />
-        <BlogPreviewCard href="/" />
-        <BlogPreviewCard href="/" />
+        {/*<BlogPreviewCard href="/" />*/}
+        {/*<BlogPreviewCard href="/" />*/}
+        {/*<BlogPreviewCard href="/" />*/}
       </GridWrapper>
     </Wrapper>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import xmark from "public/staticfiles/xmark.svg";
-import { useModalControls, useOutsideClick } from "../../utils/hooks";
+import { useModalControls } from "../../utils/hooks";
 import { NAV_LINKS } from "utils/constants";
 import ThemeSwitcher from "../ThemeSwitcher";
 import Logo from "../Logo";
@@ -18,36 +18,14 @@ import {
   HotMenuWrapper,
 } from "./styled";
 
-const Arrow = () => {
-  return (
-    <svg
-      width="8"
-      height="6"
-      viewBox="0 0 8 6"
-      fill="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M3.12851 4.82401L0.491029 2.1525C0.036193 1.69766 0.0361938 0.960227 0.49103 0.505392C0.945866 0.0505557 1.6833 0.0505557 2.13814 0.505392L2.80516 1.17242L3.55227 1.92511C3.77982 2.15437 4.15036 2.15506 4.37876 1.92665L5.78997 0.515443C6.24481 0.0606075 6.98224 0.060608 7.43708 0.515444C7.89191 0.97028 7.89191 1.70771 7.43708 2.16255L4.7996 4.81396C4.34476 5.2688 3.58334 5.27885 3.12851 4.82401Z" />
-    </svg>
-  );
-};
-
 function Navbar() {
   const { t } = useTranslation();
-  const userProfileDropdownRef = React.useRef<HTMLUListElement | null>(null);
 
-  const {
-    isOpen: isUserProfileDropdownOpen,
-    openModal: openUserProfileDropdown,
-    closeModal: closeUserProfileDropdown,
-  } = useModalControls();
   const {
     isOpen: isNavMenuOpen,
     closeModal: closeNavMenu,
     openModal: openNavMenu,
   } = useModalControls(false, { disableBodyScroll: true });
-
-  useOutsideClick(userProfileDropdownRef, closeUserProfileDropdown);
 
   React.useEffect(() => {
     const listener = () => {

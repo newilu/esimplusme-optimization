@@ -1,14 +1,13 @@
 import React from "react";
+import { GetServerSideProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import api from "@/api";
+import { Article, Author as AuthorType } from "@/utils/types";
 import Navbar from "@/components/Navbar";
-import { SectionTitle, Text } from "@/utils/styled";
 import PaginatedGridView from "@/components/PaginatedGridView";
 import BlogPreviewCard from "@/components/BlogPreviewCard";
 import EsimAppBanner from "@/components/EsimAppBanner";
 import Footer from "@/components/Footer";
-import { GetServerSideProps } from "next";
-import api from "@/api";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Article, Author as AuthorType } from "@/utils/types";
 import AuthorComponent from "@/components/AuthorComponent";
 
 function Author({

@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { default as NavLink } from "next/link";
+import NavLink from "next/link";
 import { Container as BaseContainer } from "../../utils/styled";
 
 export const HotMenuWrapper = styled.div`

@@ -1,9 +1,9 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import EsimAppBanner from "@/components/EsimAppBanner";
 import Blog from "@/components/Blog";
 import api from "@/api";
@@ -36,10 +36,11 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   const articles = await api.articles.listArticles();
-  const id = params?.id;
-  const article = articles.find((el) => el.url === id || el.id === +id!);
+  const id = params?.id as string;
 
-  if (!id || !article) {
+  const article = articles.find((el) => el.url === id || el.id === +id);
+
+  if (!article) {
     return {
       redirect: {
         destination: "/",
