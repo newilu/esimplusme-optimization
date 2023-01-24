@@ -16,7 +16,7 @@ const nextConfig = {
     tsconfigPath,
   },
   images: {
-    domains: ["wallpaperaccess.com"],
+    domains: ["wallpaperaccess.com", "admin-blog.esimplus.me"],
     minimumCacheTTL: 999999,
   },
 };

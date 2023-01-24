@@ -74,7 +74,6 @@ export const ImageWrapper = styled.div`
 `;
 
 export const CardCategory = styled.div`
-  margin-top: 20px;
   width: fit-content;
   background: ${(props) => props.theme.cardCategoryStripBg};
   border-radius: 4px;
@@ -83,6 +82,18 @@ export const CardCategory = styled.div`
   font-size: 12px;
   line-height: 14px;
   color: ${(props) => props.theme.primaryText};
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+`;
+
+export const CardCategories = styled.div`
+  margin-top: 20px;
+  display: flex;
+  grid-gap: 5px;
+  flex-wrap: wrap;
 `;
 
 export const Wrapper = styled.div`

@@ -13,6 +13,7 @@ const themes = {
     appBannerBg: "rgba(233, 236, 242, 0.5)",
     tocBorderColor: "rgba(128, 141, 158, 0.1)",
     cardCategoryStripBg: "rgba(128, 141, 158, 0.15)",
+    cardBaseBg: "rgba(128, 141, 158, 0.05)",
   },
   dark: {
     name: "dark",
@@ -28,6 +29,7 @@ const themes = {
     appBannerBg: "rgba(233, 236, 242, 0.15)",
     tocBorderColor: "rgba(128, 141, 158, 0.1)",
     cardCategoryStripBg: "rgba(255, 255, 255, 0.15)",
+    cardBaseBg: "rgba(255, 255, 255, 0.05)",
   },
 };
 

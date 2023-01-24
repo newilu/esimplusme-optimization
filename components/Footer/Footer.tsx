@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import facebook from "public/staticfiles/Facebook.svg";
 import telegram from "public/staticfiles/Telegram.svg";
@@ -74,7 +74,7 @@ function Footer() {
                   <ListTitle>{t("support")}</ListTitle>
                   <List>
                     <ListItem onClick={() => {}}>
-                      {t("footer_online_support")}
+                      {t("online_support")}
                     </ListItem>
                     <ListItem>
                       <a
@@ -133,7 +133,7 @@ function Footer() {
       </TopSection>
       <BottomSection>
         <Container>
-          <div>Appvillis UAB, 2022</div>
+          <div>Appvillis UAB, {new Date().getFullYear()}</div>
           <ul>
             <li>
               <a

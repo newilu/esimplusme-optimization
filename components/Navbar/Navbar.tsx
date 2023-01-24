@@ -1,5 +1,6 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
+import Image from "next/image";
 import xmark from "public/staticfiles/xmark.svg";
 import { useModalControls, useOutsideClick } from "../../utils/hooks";
 import { NAV_LINKS } from "utils/constants";
@@ -86,7 +87,6 @@ function Navbar() {
                   {t(label)}
                 </Link>
               ))}
-              <div onClick={() => {}}>{t("support")}</div>
             </LinksWrapper>
           </div>
           <HotMenuWrapper>
@@ -112,37 +112,17 @@ function Navbar() {
               <div>
                 <Logo />
                 <button onClick={closeNavMenu}>
-                  <img width={14} height={14} src={xmark} alt="x mark" />
+                  <Image width={14} height={14} src={xmark} alt="x mark" />
                 </button>
               </div>
               <ul>
-                <NavMenuItem>
-                  <Link href="/" onClick={handleNavMenuItemCLick}>
-                    <>{t("my_esim")}</>
-                  </Link>{" "}
-                </NavMenuItem>{" "}
-                <NavMenuItem>
-                  <Link href="/faq" onClick={handleNavMenuItemCLick}>
-                    <>{t("faq")}</>
-                  </Link>{" "}
-                </NavMenuItem>{" "}
-                <NavMenuItem
-                  onClick={(e) => {
-                    handleNavMenuItemCLick(e);
-                  }}
-                >
-                  <>{t("support")}</>
-                </NavMenuItem>{" "}
-                <NavMenuItem>
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    href="https://sms.esimplus.me"
-                    onClick={handleNavMenuItemCLick}
-                  >
-                    <>{t("virtual_numbers")}</>
-                  </a>
-                </NavMenuItem>{" "}
+                {NAV_LINKS.map(({ href, label }) => (
+                  <NavMenuItem key={href}>
+                    <Link href={href} onClick={handleNavMenuItemCLick}>
+                      <>{t(label)}</>
+                    </Link>{" "}
+                  </NavMenuItem>
+                ))}
               </ul>
             </NavMenu>
           </BurgerMenu>

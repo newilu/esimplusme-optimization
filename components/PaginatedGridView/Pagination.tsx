@@ -9,6 +9,7 @@ import {
   PaginationButtonsWrapper,
   PrevPageButton,
 } from "./styled";
+import { useTranslation } from "next-i18next";
 
 export type Props = {
   currentPage: number;
@@ -23,6 +24,7 @@ export default function Pagination({
   maxLength,
   setCurrentPage,
 }: Props) {
+  const { t } = useTranslation();
   const pageNums = getPaginationItems(currentPage, lastPage, maxLength);
 
   return (
@@ -32,7 +34,7 @@ export default function Pagination({
         onClick={() => setCurrentPage(currentPage - 1)}
       >
         <Image width={24} height={24} src={arrow} alt="" />
-        Previous
+        {t("prev_page")}
       </PrevPageButton>
       <PageSwitchButtonsWrapper>
         {pageNums.map((pageNum, idx) => (
@@ -50,7 +52,7 @@ export default function Pagination({
         disabled={currentPage === lastPage}
         onClick={() => setCurrentPage(currentPage + 1)}
       >
-        Next
+        {t("next_page")}
         <Image width={24} height={24} src={arrow} alt="" />
       </NextPageButton>
     </PaginationButtonsWrapper>

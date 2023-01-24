@@ -7,8 +7,10 @@ import gplayDark from "public/staticfiles/gplay-black.svg";
 import appstore from "public/staticfiles/appstore.svg";
 import appstoreDark from "public/staticfiles/appstore-black.svg";
 import { ButtonsWrapper, Title, Wrapper, Text } from "./styled";
+import { useTranslation } from "next-i18next";
 
 function EsimAppBanner() {
+  const { t } = useTranslation();
   const { isDarkTheme } = useTheme();
 
   const handleMarketClick = (market: string) => {
@@ -28,11 +30,8 @@ function EsimAppBanner() {
   return (
     <Wrapper>
       <div>
-        <Title>Download eSIM plus now</Title>
-        <Text>
-          Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру
-          сгенерировать несколько абзацев более менее осмысленного...
-        </Text>
+        <Title>{t("app_banner_title")}</Title>
+        <Text>{t("app_banner_subtitle")}</Text>
         <ButtonsWrapper>
           <button onClick={() => handleMarketClick("appstore")}>
             <a

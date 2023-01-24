@@ -41,14 +41,6 @@ export const NavMenuItem = styled.li`
   justify-content: space-between;
   padding: 15px 0;
 
-  &:first-child {
-    border-top: 1px solid ${(props) => props.theme.borderColor};
-  }
-  &:last-child {
-    margin: 15px 0;
-    border-top: 1px solid ${(props) => props.theme.borderColor};
-  }
-
   a {
     text-decoration: navajowhite;
     color: ${(props) => props.theme.primaryText};

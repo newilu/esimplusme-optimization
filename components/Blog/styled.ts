@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { CardCategory } from "@/components/BlogPreviewCard/styled";
+import { Text } from "@/utils/styled";
 
 export const BlogInfoWrapper = styled.div`
   display: flex;
@@ -7,6 +8,10 @@ export const BlogInfoWrapper = styled.div`
   align-items: baseline;
   margin: 25px 0 35px 0;
   grid-gap: 15px;
+  > a {
+    text-decoration: none;
+    display: block;
+  }
 
   @media (max-width: 768px) {
     margin: 15px 0;
@@ -26,6 +31,20 @@ export const BlogReadingTime = styled.div`
 
 export const LeftSide = styled.div`
   grid-area: main;
+
+  ${Text} {
+    h1 {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 29px;
+      color: ${(props) => props.theme.primaryText};
+    }
+
+    img {
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
 
   ${CardCategory} {
     margin-bottom: 25px;
