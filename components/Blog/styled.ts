@@ -35,14 +35,43 @@ export const LeftSide = styled.div`
   ${Text} {
     h1 {
       font-weight: 700;
-      font-size: 24px;
-      line-height: 29px;
+      font-size: 42px;
+      line-height: 42px;
       color: ${(props) => props.theme.primaryText};
     }
 
-    img {
-      width: 100% !important;
-      height: auto !important;
+    h2 {
+      font-size: 36px;
+      line-height: 40px;
+    }
+    h3 {
+      font-size: 32px;
+      line-height: 36px;
+    }
+    h4 {
+      font-size: 28px;
+      line-height: 32px;
+    }
+    h5 {
+      font-size: 24px;
+      line-height: 28px;
+    }
+    h6 {
+      font-size: 20px;
+      line-height: 24px;
+    }
+    .image-wrapper {
+      margin-top: 15px;
+      max-height: 400px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      img {
+        width: 100% !important;
+        height: auto !important;
+      }
     }
   }
 
@@ -100,6 +129,10 @@ export const RightSide = styled.div`
   max-height: calc(100vh - 65px);
   grid-area: toc;
   padding-top: 3rem;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -110,6 +143,8 @@ export const Wrapper = styled.div`
   grid-template-columns: minmax(0, 2.5fr) minmax(0, 15rem);
 
   @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main";
     padding-bottom: 50px;
   }
 `;

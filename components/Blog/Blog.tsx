@@ -7,6 +7,9 @@ import {
   CardCategories,
   CardCategory,
 } from "@/components/BlogPreviewCard/styled";
+import { useTranslation } from "next-i18next";
+import { format } from "date-fns";
+import { useRouter } from "next/router";
 import {
   BlogInfoWrapper,
   BlogReadingTime,
@@ -18,10 +21,25 @@ import {
   RightSide,
   Wrapper,
 } from "./styled";
-import { useTranslation } from "next-i18next";
+import { scrollToId } from "@/utils/common";
 
-function Blog({ categories, title, readingTime, content, author }: Article) {
+function Blog({
+  categories,
+  title,
+  readingTime,
+  content,
+  author,
+  createdAt,
+  tableOfContent,
+}: Article) {
+  const router = useRouter();
   const { t } = useTranslation();
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      scrollToId(window.location.hash.slice(1), 64);
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -42,7 +60,10 @@ function Blog({ categories, title, readingTime, content, author }: Article) {
               size="small"
               image={author.image}
               name={author.name}
-              subtitle={author.description}
+              subtitle={`${t("published")} ${format(
+                new Date(createdAt.date.replace(" ", "T")),
+                "PP"
+              )}`}
             />
           </Link>
           <BlogReadingTime>{readingTime}</BlogReadingTime>
@@ -57,18 +78,20 @@ function Blog({ categories, title, readingTime, content, author }: Article) {
             <h2>{t("table_of_content")}</h2>
           </DocumentTocHeading>
           <DocumentTocList>
-            <DocumentTocItem $active>
-              <a href="#интерактивный_пример">Интерактивный пример</a>
-            </DocumentTocItem>{" "}
-            <DocumentTocItem>
-              <a href="#интерактивный_пример">Интерактивный пример</a>
-            </DocumentTocItem>{" "}
-            <DocumentTocItem>
-              <a href="#интерактивный_пример">Интерактивный пример</a>
-            </DocumentTocItem>{" "}
-            <DocumentTocItem>
-              <a href="#интерактивный_пример">Интерактивный пример</a>
-            </DocumentTocItem>
+            {tableOfContent.map((el, i) => {
+              const name = el.match(/name="(.*?)"/)?.[1];
+
+              return (
+                <DocumentTocItem
+                  key={i}
+                  $active={router.asPath.includes(`#${name}`)}
+                >
+                  <Link href={`#${name}`} scroll={false}>
+                    {name}
+                  </Link>
+                </DocumentTocItem>
+              );
+            })}
           </DocumentTocList>
         </DocumentToc>
       </RightSide>

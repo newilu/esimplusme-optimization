@@ -9,6 +9,7 @@ import BlogPreviewCard from "@/components/BlogPreviewCard";
 import EsimAppBanner from "@/components/EsimAppBanner";
 import Footer from "@/components/Footer";
 import AuthorComponent from "@/components/AuthorComponent";
+import { useTranslation } from "next-i18next";
 
 function Author({
   articles,
@@ -17,6 +18,8 @@ function Author({
   articles: Article[];
   author: AuthorType;
 }) {
+  const { t } = useTranslation();
+
   return (
     <>
       <Navbar />
@@ -24,7 +27,7 @@ function Author({
         <AuthorComponent
           name={author.name}
           image={author.image}
-          subtitle={author.description}
+          subtitle={t("public_author")}
         />
         <PaginatedGridView
           items={articles.map((el, id) => (
@@ -44,9 +47,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const authorId = params?.id as string | undefined;
 
-  const articles = await api.authors.listArticlesByAuthor(authorId);
+  const articles = await api.articles.getArticlesByAuthorId(authorId);
+  const author = await api.authors.getAuthorById(authorId);
 
-  if (!articles) {
+  if (!articles || !author) {
     return {
       redirect: {
         destination: "/",
@@ -59,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     props: {
       ...(await serverSideTranslations(locale ?? "en", ["common"])),
       articles,
-      author: articles[0].author,
+      author,
     },
   };
 };

@@ -1,13 +1,14 @@
 export type Category = {
   id: number;
   name: string;
+  articleCount: number;
 };
 
 export type Author = {
   id: number;
   name: string;
-  description: string;
   image: string;
+  articleCount: number;
 };
 
 export type Article = {
@@ -20,11 +21,12 @@ export type Article = {
     timezone: string;
   };
   id: number;
-  pageTitle: string;
+  metaTitle: string;
   metaDescription: string;
-  preview: string;
+  preview: { image: string | null; content: string; title: string };
   readingTime: string;
-  tableOfContent: { [key: number]: string };
+  tableOfContent: string[];
   title: string;
   url?: string | null;
+  relatedArticles: Article[];
 };

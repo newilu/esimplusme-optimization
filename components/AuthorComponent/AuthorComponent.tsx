@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import ph from "public/staticfiles/author-placeholder.svg";
 import {
   AuthorImageWrapper,
   AuthorName,
@@ -9,7 +10,7 @@ import {
 
 export type AuthorComponentProps = {
   name: string;
-  image: string;
+  image: string | null;
   subtitle: string;
   size?: "small" | "default";
 };
@@ -23,7 +24,7 @@ function AuthorComponent({
   return (
     <Wrapper size={size}>
       <AuthorImageWrapper>
-        <Image width={80} height={80} src={image} alt={name} />
+        <Image width={80} height={80} src={image ?? ph} alt={name} />
       </AuthorImageWrapper>
       <div>
         <AuthorName>{name}</AuthorName>

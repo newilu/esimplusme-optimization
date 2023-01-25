@@ -1,15 +1,18 @@
 import React from "react";
-// import BlogPreviewCard from "../BlogPreviewCard";
+import { useTranslation } from "next-i18next";
+import { Article } from "utils/types";
+import BlogPreviewCard from "../BlogPreviewCard";
 import { GridWrapper, Title, Wrapper } from "./styled";
 
-function RelatedArticles() {
+function RelatedArticles({ articles }: { articles: Article[] }) {
+  const { t } = useTranslation();
   return (
     <Wrapper>
-      <Title>Related articiels</Title>
+      <Title>{t("related_articles")}</Title>
       <GridWrapper>
-        {/*<BlogPreviewCard href="/" />*/}
-        {/*<BlogPreviewCard href="/" />*/}
-        {/*<BlogPreviewCard href="/" />*/}
+        {articles.map((el, i) => (
+          <BlogPreviewCard key={i} {...el} />
+        ))}
       </GridWrapper>
     </Wrapper>
   );

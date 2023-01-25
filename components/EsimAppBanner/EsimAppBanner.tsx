@@ -25,7 +25,6 @@ function EsimAppBanner() {
     //   default:
     //     break;
     // }
-    console.log(market);
   };
   return (
     <Wrapper>

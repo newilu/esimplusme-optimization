@@ -3,16 +3,16 @@ import { Article, Author } from "@/utils/types";
 
 const ENDPOINTS = {
   listAuthors: () => "/authors",
-  listArticlesByAuthor: (id: string | number) => `/articles/author/${id}`,
+  getAuthorById: (id: string | number) => `/author/${id}`,
 };
 
 function listAuthors() {
   return queryFetcher<Author[]>(ENDPOINTS.listAuthors());
 }
 
-function listArticlesByAuthor(id?: string | number) {
+function getAuthorById(id?: string | number) {
   if (!id) return;
-  return queryFetcher<Article[]>(ENDPOINTS.listArticlesByAuthor(id));
+  return queryFetcher<Author>(ENDPOINTS.getAuthorById(id));
 }
 
-export { ENDPOINTS, listAuthors, listArticlesByAuthor };
+export { ENDPOINTS, listAuthors, getAuthorById };

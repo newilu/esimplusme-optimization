@@ -43,8 +43,16 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   const categoryId = params?.id as string;
+  let articles: Article[] | undefined;
 
-  const articles = await api.categories.listArticlesByCategory(categoryId);
+  const articleByName = await api.categories
+    .listArticlesByCategoryName(categoryId)
+    ?.catch(() => undefined);
+  articles = articleByName;
+
+  if (!articleByName) {
+    articles = await api.categories.listArticlesByCategory(categoryId);
+  }
 
   if (!articles) {
     return {
@@ -55,12 +63,15 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
 
+  const categoryName = Number(categoryId)
+    ? await api.categories.getCategoryById(categoryId)
+    : categoryId;
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", ["common"])),
       articles,
-      categoryName: articles[0].categories.find((el) => el.id === +categoryId)
-        ?.name,
+      categoryName,
     },
   };
 };

@@ -101,23 +101,14 @@ function getCookie(name: string) {
   }
   return null;
 }
-function eraseCookie(name: string) {
-  if (typeof window === "undefined") return;
 
-  document.cookie = `${name}=; domain=.esimplus.me; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-}
-
-function hashToArray<T extends object = {}>(
-  obj: T
-): FlatArray<T[keyof T], 1>[] {
-  return Object.values(obj).flat();
-}
-
-export {
-  hashToArray,
-  setCookie,
-  getCookie,
-  eraseCookie,
-  getErrorMessage,
-  themes,
+const scrollToId = (id: string, offsetY = 0) => {
+  const el = document.getElementById(id);
+  if (el) {
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + window.scrollY - offsetY,
+      behavior: "smooth",
+    });
+  }
 };
+export { setCookie, getCookie, scrollToId, getErrorMessage, themes };

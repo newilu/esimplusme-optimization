@@ -95,7 +95,7 @@ function Navbar() {
               </div>
               <ul>
                 {NAV_LINKS.map(({ href, label }) => (
-                  <NavMenuItem key={href}>
+                  <NavMenuItem key={label}>
                     <Link href={href} onClick={handleNavMenuItemCLick}>
                       <>{t(label)}</>
                     </Link>{" "}
