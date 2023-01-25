@@ -1,9 +1,16 @@
 import React from "react";
 import Image from "next/image";
 import { AuthorDesr, AuthorName, AuthorImageWrapper, Wrapper } from "./styled";
-import { Author } from "@/utils/types";
 
-function AuthorPreviewCard({ name, image, description }: Author) {
+function AuthorPreviewCard({
+  name,
+  image,
+  description,
+}: {
+  name: string;
+  image: string;
+  description: React.ReactNode;
+}) {
   return (
     <Wrapper>
       <AuthorImageWrapper>

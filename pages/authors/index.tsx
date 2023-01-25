@@ -22,7 +22,11 @@ function Authors({ authors }: { authors: Author[] }) {
         <PaginatedGridView
           gap={6}
           items={authors.map((el, id) => (
-            <AuthorPreviewCard key={id} {...el} />
+            <AuthorPreviewCard
+              key={id}
+              {...el}
+              description={`${el.articleCount} ${t("articles")}`}
+            />
           ))}
         />
         <EsimAppBanner />
