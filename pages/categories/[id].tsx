@@ -10,13 +10,16 @@ import EsimAppBanner from "@/components/EsimAppBanner";
 import Footer from "@/components/Footer";
 import PaginatedGridView from "@/components/PaginatedGridView";
 import BlogPreviewCard from "@/components/BlogPreviewCard";
+import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
 
 function Category({
   articles,
   categoryName,
+  totalPages,
 }: {
   articles: Article[];
   categoryName: string;
+  totalPages: number;
 }) {
   const { t } = useTranslation();
 
@@ -27,6 +30,7 @@ function Category({
         <Text>{t("category")}</Text>
         <SectionTitle>{categoryName}</SectionTitle>
         <PaginatedGridView
+          totalPages={totalPages}
           items={articles.map((el, id) => (
             <BlogPreviewCard key={id} {...el} />
           ))}
@@ -41,20 +45,28 @@ function Category({
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   params,
+  query,
 }) => {
+  const { page = 1 } = query;
+
   const categoryId = params?.id as string;
-  let articles: Article[] | undefined;
 
-  const articleByName = await api.categories
-    .listArticlesByCategoryName(categoryId)
-    ?.catch(() => undefined);
-  articles = articleByName;
+  let articles = await api.categories.listArticlesByCategoryName(
+    categoryId,
+    MAX_ELEMENTS_PER_VIEW,
+    (+page - 1) * MAX_ELEMENTS_PER_VIEW
+  );
+  console.log(articles.headers);
 
-  if (!articleByName) {
-    articles = await api.categories.listArticlesByCategory(categoryId);
+  if (!articles.data) {
+    articles = await api.categories.listArticlesByCategory(
+      categoryId,
+      MAX_ELEMENTS_PER_VIEW,
+      (+page - 1) * MAX_ELEMENTS_PER_VIEW
+    );
   }
 
-  if (!articles) {
+  if (!articles.data) {
     return {
       redirect: {
         destination: "/",
@@ -64,14 +76,21 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   const categoryName = Number(categoryId)
-    ? await api.categories.getCategoryById(categoryId)
+    ? await api.categories
+        .getCategoryById(categoryId)
+        ?.then(({ data }) => data?.name)
     : categoryId;
+
+  const totalArticlesCount =
+    Number(articles.headers.get("x-pagination-total-count")) || 0;
+  const totalPages = Math.round(totalArticlesCount / MAX_ELEMENTS_PER_VIEW);
 
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", ["common"])),
-      articles,
+      articles: articles.data,
       categoryName,
+      totalPages,
     },
   };
 };

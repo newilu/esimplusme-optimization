@@ -1,12 +1,18 @@
 import React from "react";
-import { SectionTitle, Text } from "@/utils/styled";
-import { Wrapper } from "./styled";
-import PaginatedGridView from "@/components/PaginatedGridView";
-import BlogPreviewCard from "../BlogPreviewCard";
-import { Article } from "@/utils/types";
 import { useTranslation } from "next-i18next";
+import { SectionTitle, Text } from "utils/styled";
+import { Article } from "utils/types";
+import PaginatedGridView from "components/PaginatedGridView";
+import BlogPreviewCard from "../BlogPreviewCard";
+import { Wrapper } from "./styled";
 
-function BlogList({ articles }: { articles: Article[] }) {
+function BlogList({
+  articles,
+  totalPages,
+}: {
+  articles: Article[];
+  totalPages: number;
+}) {
   const { t } = useTranslation();
 
   return (
@@ -14,6 +20,7 @@ function BlogList({ articles }: { articles: Article[] }) {
       <SectionTitle>{t("blog_page_title")}</SectionTitle>
       <Text>{t("blog_page_descr")}</Text>
       <PaginatedGridView
+        totalPages={totalPages}
         items={articles.map((el, id) => (
           <BlogPreviewCard key={id} {...el} />
         ))}

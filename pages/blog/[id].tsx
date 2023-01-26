@@ -41,14 +41,16 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   const id = params?.id as string;
-  let article: Article | undefined;
+  let article: Article | null | undefined;
 
   const articleByURL = await api.articles
     .getArticleByCustomUrl(id)
-    ?.catch(() => undefined);
-  article = articleByURL;
+    .catch(() => undefined);
+  article = articleByURL?.data;
 
-  if (!articleByURL) article = await api.articles.getArticleById(id);
+  if (!articleByURL?.data) {
+    article = await api.articles.getArticleById(id)?.then(({ data }) => data);
+  }
 
   if (!article) {
     return {

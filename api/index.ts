@@ -20,17 +20,25 @@ function queryFetcher<T = unknown>(endpoint = "", options?: RequestInit) {
   return fetch(`${BASE_URL}${endpoint}`, {
     ...options,
     headers: { ...options?.headers, ...getAuthAndBaseHeaders() },
-  })
-    .then(async (result) => {
-      const data = await result.json();
-      if (result.status >= 400) {
-        throw new Error(getErrorMessage(data));
-      }
-      return data as T;
-    })
-    .catch((e: unknown) => {
-      throw e;
-    });
+  }).then(async (result) => {
+    const data = await result.json();
+    if (result.status >= 400) {
+      return {
+        headers: result.headers,
+        data: null,
+        error: getErrorMessage(data),
+      } as {
+        headers: Headers;
+        data: T | null;
+        error: string | null;
+      };
+    }
+    return { headers: result.headers, data, error: null } as {
+      headers: Headers;
+      data: T | null;
+      error: string | null;
+    };
+  });
 }
 
 const api = { articles, categories, authors };

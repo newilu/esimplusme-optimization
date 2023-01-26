@@ -8,19 +8,22 @@ import EsimAppBanner from "@/components/EsimAppBanner";
 import api from "@/api";
 import { Article, Category } from "@/utils/types";
 import ArticleCategories from "@/components/ArticleCategories";
+import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
 
 function Blog({
   articles,
   categories,
+  totalPages,
 }: {
   articles: Article[];
   categories: Category[];
+  totalPages: number;
 }) {
   return (
     <>
       <Navbar />
       <main>
-        <BlogList articles={articles} />
+        <BlogList articles={articles} totalPages={totalPages} />
         <ArticleCategories categories={categories} />
         <EsimAppBanner />
       </main>
@@ -29,17 +32,30 @@ function Blog({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  query,
+}) => {
+  const { page = 1 } = query;
+
   const [articles, categories] = await Promise.all([
-    api.articles.listArticles(),
+    api.articles.listArticles(
+      MAX_ELEMENTS_PER_VIEW,
+      (+page - 1) * MAX_ELEMENTS_PER_VIEW
+    ),
     api.categories.listCategories(),
   ]);
+
+  const totalArticlesCount =
+    Number(articles.headers.get("x-pagination-total-count")) || 0;
+  const totalPages = Math.round(totalArticlesCount / MAX_ELEMENTS_PER_VIEW);
 
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", ["common"])),
-      articles,
-      categories,
+      articles: articles.data,
+      categories: categories.data,
+      totalPages,
     },
   };
 };

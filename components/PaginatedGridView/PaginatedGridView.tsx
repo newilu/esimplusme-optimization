@@ -7,32 +7,23 @@ import { useWindowSize } from "@/context/WindowSizeContext";
 function PaginatedGridView({
   items = [],
   gap,
+  totalPages,
 }: {
   items?: React.ReactNode[];
   gap?: number;
+  totalPages: number;
 }) {
   const { isMobile } = useWindowSize();
-  const [pageCount, setPageCount] = React.useState(1);
-  const [currentPage, setCurrentPage] = React.useState(0);
-
-  React.useEffect(() => {
-    setPageCount(Math.ceil(items.length / 6));
-  }, [items]);
 
   return (
     <Wrapper>
       <GridWrapper id="paginated_grid_content" gap={gap}>
-        {items.slice(6 * currentPage, 6 * currentPage + 6).map((el) => (
+        {items.map((el) => (
           <GridItem key={v4()}>{el}</GridItem>
         ))}
       </GridWrapper>
-      {pageCount >= 2 && (
-        <Pagination
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-          maxLength={isMobile ? 5 : 7}
-          lastPage={pageCount - 1}
-        />
+      {totalPages >= 2 && (
+        <Pagination maxLength={isMobile ? 5 : 7} lastPage={totalPages} />
       )}
     </Wrapper>
   );

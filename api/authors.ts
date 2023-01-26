@@ -1,17 +1,17 @@
 import { queryFetcher } from "./index";
-import { Article, Author } from "@/utils/types";
+import { Author } from "@/utils/types";
 
 const ENDPOINTS = {
-  listAuthors: () => "/authors",
-  getAuthorById: (id: string | number) => `/author/${id}`,
+  listAuthors: (limit: number, offset: number) =>
+    `/authors?limit=${limit}&offset=${offset}`,
+  getAuthorById: (id?: string | number) => `/author/${id}`,
 };
 
-function listAuthors() {
-  return queryFetcher<Author[]>(ENDPOINTS.listAuthors());
+function listAuthors(limit: number, offset: number) {
+  return queryFetcher<Author[]>(ENDPOINTS.listAuthors(limit, offset));
 }
 
 function getAuthorById(id?: string | number) {
-  if (!id) return;
   return queryFetcher<Author>(ENDPOINTS.getAuthorById(id));
 }
 

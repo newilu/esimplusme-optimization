@@ -1,22 +1,37 @@
 import { queryFetcher } from "./index";
 import { Article, Category } from "@/utils/types";
+import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
 
 const ENDPOINTS = {
   listCategories: () => "/categories",
-  listArticlesByCategory: (id: string | number) => `/articles/category/${id}`,
-  listArticlesByCategoryName: (name: string) =>
-    `/articles/category?name=${name}`,
+  listArticlesByCategory: (
+    id: string | number,
+    limit?: number,
+    offset?: number
+  ) => `/articles/category/${id}?limit=${limit}&offset=${offset}`,
+  listArticlesByCategoryName: (name: string, limit?: number, offset?: number) =>
+    `/articles/category?name=${name}&limit=${limit}&offset=${offset}`,
   getCategoryById: (id: string | number) => `/category/${id}`,
 };
 
-function listArticlesByCategory(id?: string | number) {
-  if (!id) return;
-  return queryFetcher<Article[]>(ENDPOINTS.listArticlesByCategory(id));
+function listArticlesByCategory(
+  id: string | number,
+  limit = MAX_ELEMENTS_PER_VIEW,
+  offset = 0
+) {
+  return queryFetcher<Article[]>(
+    ENDPOINTS.listArticlesByCategory(id, limit, offset)
+  );
 }
 
-function listArticlesByCategoryName(name?: string) {
-  if (!name) return;
-  return queryFetcher<Article[]>(ENDPOINTS.listArticlesByCategoryName(name));
+function listArticlesByCategoryName(
+  name: string,
+  limit = MAX_ELEMENTS_PER_VIEW,
+  offset = 0
+) {
+  return queryFetcher<Article[]>(
+    ENDPOINTS.listArticlesByCategoryName(name, limit, offset)
+  );
 }
 
 function listCategories() {

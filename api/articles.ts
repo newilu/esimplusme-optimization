@@ -2,15 +2,20 @@ import { queryFetcher } from "./index";
 import { Article } from "@/utils/types";
 
 const ENDPOINTS = {
-  listArticles: () => "/articles",
+  listArticles: (limit?: string | number, offset?: string | number) =>
+    `/articles?limit=${limit}&offset=${offset}`,
   getArticleById: (id: string | number) => `/articles/${id}`,
-  getArticleByCustomUrl: (url: string) => `/article?url=${url}`,
-  getArticlesByAuthorId: (id: string | number) => `/articles/author/${id}`,
+  getArticleByCustomUrl: (url?: string) => `/article?url=${url}`,
+  getArticlesByAuthorId: (
+    id?: string | number,
+    limit?: string | number,
+    offset?: string | number
+  ) => `/articles/author/${id}?limit=${limit}&offset=${offset}`,
   getArticlesByCategoryId: (id: string | number) => `/articles/category/${id}`,
 };
 
-function listArticles() {
-  return queryFetcher<Article[]>(ENDPOINTS.listArticles());
+function listArticles(limit?: string | number, offset?: string | number) {
+  return queryFetcher<Article[]>(ENDPOINTS.listArticles(limit, offset));
 }
 
 function getArticleById(id?: string | number) {
@@ -18,13 +23,17 @@ function getArticleById(id?: string | number) {
   return queryFetcher<Article>(ENDPOINTS.getArticleById(id));
 }
 
-function getArticlesByAuthorId(id?: string | number) {
-  if (!id) return;
-  return queryFetcher<Article>(ENDPOINTS.getArticlesByAuthorId(id));
+function getArticlesByAuthorId(
+  id?: string | number,
+  limit?: string | number,
+  offset?: string | number
+) {
+  return queryFetcher<Article>(
+    ENDPOINTS.getArticlesByAuthorId(id, limit, offset)
+  );
 }
 
 function getArticleByCustomUrl(url?: string) {
-  if (!url) return;
   return queryFetcher<Article>(ENDPOINTS.getArticleByCustomUrl(url));
 }
 
