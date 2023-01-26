@@ -7,7 +7,7 @@ export type Category = {
 export type Author = {
   id: number;
   name: string;
-  image: string;
+  image: string | null;
   articleCount: number;
 };
 

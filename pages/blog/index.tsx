@@ -48,8 +48,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const totalArticlesCount =
     Number(articles.headers.get("x-pagination-total-count")) || 0;
-  const totalPages = Math.round(totalArticlesCount / MAX_ELEMENTS_PER_VIEW);
-
+  const totalPages = Math.ceil(totalArticlesCount / MAX_ELEMENTS_PER_VIEW);
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", ["common"])),

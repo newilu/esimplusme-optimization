@@ -1,11 +1,21 @@
+import React from "react";
 import { appWithTranslation } from "next-i18next";
+import Head from "next/head.js";
+import nProgress from "nprogress";
+import { Router } from "next/router";
+import "public/nprogress.css";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "context/ThemeContext";
 import nextI18NextConfig from "../next-i18next.config.js";
 import { WidthProvider } from "@/context/WindowSizeContext";
-import Head from "next/head.js";
 import favicon from "@/public/favicon.ico";
-import React from "react";
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/unbound-method
+Router.events.on("routeChangeStart", nProgress.start);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/unbound-method
+Router.events.on("routeChangeError", nProgress.done);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/unbound-method
+Router.events.on("routeChangeComplete", nProgress.done);
 
 function App({ Component, pageProps }: AppProps) {
   return (

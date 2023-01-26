@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const totalArticlesCount =
     Number(headers.get("x-pagination-total-count")) || 0;
-  const totalPages = Math.round(totalArticlesCount / MAX_ELEMENTS_PER_VIEW);
+  const totalPages = Math.ceil(totalArticlesCount / MAX_ELEMENTS_PER_VIEW);
 
   if (!articles || !author) {
     return {

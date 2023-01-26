@@ -28,9 +28,13 @@ export const AuthorImageWrapper = styled.div`
 
 export const Wrapper = styled.div`
   border-radius: 10px;
-  padding: 25px;
   background: ${(props) => props.theme.cardBaseBg};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+  > a {
+    padding: 25px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;

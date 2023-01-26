@@ -33,11 +33,22 @@ export const LeftSide = styled.div`
   grid-area: main;
 
   ${Text} {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: ${(props) => props.theme.primaryText};
+    }
+
+    p {
+      margin: 15px 0;
+    }
     h1 {
       font-weight: 700;
       font-size: 42px;
       line-height: 42px;
-      color: ${(props) => props.theme.primaryText};
     }
 
     h2 {

@@ -14,3 +14,4 @@ export const LANGUAGE_OPTIONS = [
 ];
 
 export const MAX_ELEMENTS_PER_VIEW = 6;
+export const MAX_AUTHORS_PER_VIEW = 12;
