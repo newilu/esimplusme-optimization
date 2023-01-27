@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import ph from "public/staticfiles/author-placeholder.svg";
 import api from "@/api";
 import { Author } from "@/utils/types";
-import { MAX_AUTHORS_PER_VIEW, MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
+import { MAX_AUTHORS_PER_VIEW } from "@/utils/constants";
 import { SectionTitle, Text } from "@/utils/styled";
 import Navbar from "@/components/Navbar";
 import EsimAppBanner from "@/components/EsimAppBanner";
