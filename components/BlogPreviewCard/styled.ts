@@ -56,10 +56,13 @@ export const ImageWrapper = styled.div`
   border-radius: 10px;
   width: 100%;
   height: 200px;
-  overflow: hidden;
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-size: 100%;
+  background: ${(props) => props.theme.cardCategoryStripBg};
 
   > a {
+    border-radius: 10px;
+    overflow: hidden;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
     margin: 0;
     padding: 0;
     width: 100%;

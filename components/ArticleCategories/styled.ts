@@ -29,7 +29,7 @@ export const CategoriesGridItem = styled.div`
 export const CategoriesGridWrapper = styled.div`
   margin-top: 50px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 6px;
 `;
 
