@@ -57,6 +57,7 @@ export const ImageWrapper = styled.div`
   width: 100%;
   height: 200px;
   overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 
   > a {
     margin: 0;
