@@ -31,6 +31,11 @@ export const CardText = styled.div`
   line-height: 18px;
   color: ${(props) => props.theme.secondaryText};
   margin-bottom: 25px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const CardTitle = styled.div`
@@ -39,14 +44,18 @@ export const CardTitle = styled.div`
   line-height: 18px;
   color: ${(props) => props.theme.primaryText};
   margin: 20px 0 15px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const ImageWrapper = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   width: 100%;
-  max-height: 200px;
-  height: auto;
+  height: 200px;
   overflow: hidden;
 
   > a {
