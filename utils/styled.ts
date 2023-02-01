@@ -15,7 +15,7 @@ export const SectionTitle = styled.h1`
   line-height: 50px;
   color: ${(props) => props.theme.primaryText};
   text-align: left;
-  margin-bottom: 15px;
+  margin: 0 0 15px 0;
 
   @media (max-width: 768px) {
     font-size: 28px;

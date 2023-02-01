@@ -11,10 +11,7 @@ class MyDocument extends Document {
       <Html lang={currentLocale}>
         <Head>
           <meta charSet="utf-8" />
-          <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
-            rel="stylesheet"
-          />
+
           <link href="/app.css" rel="stylesheet" />
         </Head>
         <body>

@@ -123,6 +123,7 @@ export const DocumentTocHeading = styled.header`
     font-weight: 700;
     font-size: 24px;
     line-height: 29px;
+    margin: 0;
   }
 `;
 export const DocumentToc = styled.section`
