@@ -2,7 +2,7 @@
   --primary-text: rgba(255, 255, 255, 0.8);
   --secondary-text: rgba(255, 255, 255, 0.5);
   --thirdly-text: rgba(255, 255, 255, 0.35);
-  --primary-color: rgba(253, 108, 3, 1);
+  --primary-color: #0076ff;
   --border-color: rgba(38, 38, 38, 1);
   --easing-func: cubic-bezier(0.1, 0.6, 0.4, 1);
 }

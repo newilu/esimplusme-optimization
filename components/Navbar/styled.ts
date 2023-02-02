@@ -10,7 +10,6 @@ export const HotMenuWrapper = styled.div`
   padding: 0 1rem;
 
   > div {
-    border-right: 1px solid ${(props) => props.theme.borderColor};
     flex: 1;
     display: flex;
     padding: 0 5px;
@@ -18,10 +17,6 @@ export const HotMenuWrapper = styled.div`
 
     &:first-child {
       min-width: fit-content;
-    }
-
-    &:last-child {
-      border: none;
     }
   }
 
@@ -83,9 +78,10 @@ export const NavMenu = styled.div<{ isOpen?: boolean }>`
   transition: 0.3s all var(--easing-func);
 
   ul {
+    margin: 30px 0 0 0;
+    padding: 0;
     flex: 1;
     overflow: hidden scroll;
-    margin-top: 30px;
     display: flex;
     flex-direction: column;
   }
@@ -130,7 +126,7 @@ export const BurgerMenu = styled.div`
   color: ${(props) => props.theme.primaryText};
   -webkit-tap-highlight-color: transparent;
 
-  @media (min-width: 1025px) {
+  @media (min-width: 769px) {
     display: none !important;
   }
 `;
@@ -197,9 +193,13 @@ export const Wrapper = styled.nav`
     > div {
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex: 1 1 auto;
-      border-left: 1px solid ${(props) => props.theme.borderColor};
+
+      &:nth-child(2) {
+        padding-left: 16px;
+        border-left: 1px solid ${(props) => props.theme.borderColor};
+        flex: 1 1 auto;
+      }
+
       &:first-child {
         padding: 1rem 1rem 1rem 0;
         justify-content: start;
@@ -208,8 +208,12 @@ export const Wrapper = styled.nav`
       }
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 768px) {
+      justify-content: flex-end;
       > div {
+        &:first-child {
+          flex: 1;
+        }
         &:nth-child(2) {
           display: none;
         }

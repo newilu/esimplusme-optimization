@@ -24,9 +24,6 @@ function WidthProvider<T extends {}>(props: T) {
   React.useEffect(() => {
     if (typeof window === "undefined") return undefined;
     function handleResize() {
-      if (window.innerHeight < 400) {
-        document.body.style.overflow = "hidden";
-      }
       setSize({
         height: window.innerHeight,
         width: window.innerWidth,
