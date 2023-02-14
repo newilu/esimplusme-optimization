@@ -33,6 +33,11 @@ export const LeftSide = styled.div`
   grid-area: main;
 
   ${Text} {
+    a {
+      color: inherit;
+      font-weight: bold;
+    }
+
     h1,
     h2,
     h3,
@@ -116,6 +121,7 @@ export const DocumentTocItem = styled.li<{ $active?: boolean }>`
 export const DocumentTocList = styled.ul`
   display: flex;
   flex-direction: column;
+  list-style: none;
 `;
 export const DocumentTocHeading = styled.header`
   h2 {
