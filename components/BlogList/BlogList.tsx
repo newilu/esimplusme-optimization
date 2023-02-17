@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
-import { SectionTitle, Text } from "utils/styled";
+import { SectionTitle } from "utils/styled";
 import { Article } from "utils/types";
 import PaginatedGridView from "components/PaginatedGridView";
 import BlogPreviewCard from "../BlogPreviewCard";
