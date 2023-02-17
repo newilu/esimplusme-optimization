@@ -18,7 +18,6 @@ function BlogList({
   return (
     <Wrapper>
       <SectionTitle>{t("blog_page_title")}</SectionTitle>
-      <Text>{t("blog_page_descr")}</Text>
       <PaginatedGridView
         totalPages={totalPages}
         items={articles.map((el, id) => (

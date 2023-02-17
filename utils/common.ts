@@ -14,6 +14,9 @@ const themes = {
     tocBorderColor: "rgba(128, 141, 158, 0.1)",
     cardCategoryStripBg: "rgba(128, 141, 158, 0.15)",
     cardBaseBg: "rgba(128, 141, 158, 0.05)",
+    downloadAppBg: "rgba(233, 236, 242, 0.5)",
+    notificationsBg:
+      "linear-gradient(180deg, rgba(0, 0, 0, 0.05) 43.57%, rgba(0, 0, 0, 0) 100%)",
   },
   dark: {
     name: "dark",
@@ -30,6 +33,9 @@ const themes = {
     tocBorderColor: "rgba(128, 141, 158, 0.1)",
     cardCategoryStripBg: "rgba(255, 255, 255, 0.15)",
     cardBaseBg: "rgba(255, 255, 255, 0.05)",
+    downloadAppBg: "rgba(233, 236, 242, 0.15)",
+    notificationsBg:
+      "linear-gradient(180deg, rgba(255, 255, 255, 0.05) 43.57%, rgba(255, 255, 255, 0) 100%)",
   },
 };
 

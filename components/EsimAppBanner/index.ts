@@ -1,1 +1,1 @@
-export { EsimAppBanner as default } from "./EsimAppBanner";
+export { ManageYourNumbers as default } from './ManageYourNumbers';

@@ -144,6 +144,7 @@ export const BottomSection = styled.div`
     color: #6f6f6f;
 
     ul {
+      list-style: none;
       display: flex;
       margin: 0;
       padding: 0;
