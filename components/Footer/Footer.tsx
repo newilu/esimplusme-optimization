@@ -64,7 +64,9 @@ function Footer() {
                       </a>
                     </ListItem>
                     <ListItem>
-                      <a href="/">{t("mobile_data")}</a>
+                      <a href="https://mobiledata.esimplus.me">
+                        {t("mobile_data")}
+                      </a>
                     </ListItem>
                   </List>
                 </ListWrapper>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Container } from "../../utils/styled";
+import { Container } from "utils/styled";
 
 export const ImageWrapper = styled.div`
   padding-top: 90px;
@@ -66,7 +66,7 @@ export const ButtonsWrapper = styled.div`
       }
 
       img {
-        width: 100%;
+        width: auto;
         height: 100%;
       }
     }

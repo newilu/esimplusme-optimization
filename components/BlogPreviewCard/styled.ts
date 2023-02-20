@@ -81,7 +81,8 @@ export const ImageWrapper = styled.div`
   img {
     transition: 0.2s all var(--easing-func);
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     pointer-events: none;
   }
 `;
