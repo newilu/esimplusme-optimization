@@ -11,6 +11,20 @@ export type Author = {
   articleCount: number;
 };
 
+export type ArticlePreview = {
+  image: string | null;
+  content: string;
+  title: string;
+  url?: string | null;
+  id: number;
+  createdAt: {
+    date: string;
+    timezone_type: number;
+    timezone: string;
+  };
+  categories: Category[];
+};
+
 export type Article = {
   author: Author;
   categories: Category[];
@@ -23,10 +37,10 @@ export type Article = {
   id: number;
   metaTitle: string;
   metaDescription: string;
-  preview: { image: string | null; content: string; title: string };
+  preview: ArticlePreview;
   readingTime: string;
   tableOfContent: string[];
   title: string;
   url?: string | null;
-  relatedArticles: Article[];
+  relatedArticles: ArticlePreview[];
 };

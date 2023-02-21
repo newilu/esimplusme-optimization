@@ -20,8 +20,8 @@ function BlogList({
       <SectionTitle>{t("blog_page_title")}</SectionTitle>
       <PaginatedGridView
         totalPages={totalPages}
-        items={articles.map((el, id) => (
-          <BlogPreviewCard key={id} {...el} />
+        items={articles.map(({ preview }, id) => (
+          <BlogPreviewCard key={id} {...preview} />
         ))}
       />
     </Wrapper>

@@ -4,7 +4,11 @@ import { Article } from "utils/types";
 import BlogPreviewCard from "../BlogPreviewCard";
 import { GridWrapper, Title, Wrapper } from "./styled";
 
-function RelatedArticles({ articles }: { articles: Article[] }) {
+function RelatedArticles({
+  articles,
+}: {
+  articles: Article["relatedArticles"];
+}) {
   const { t } = useTranslation();
   return (
     <Wrapper>

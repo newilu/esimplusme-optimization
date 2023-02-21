@@ -31,8 +31,8 @@ function Category({
         <SectionTitle>{categoryName}</SectionTitle>
         <PaginatedGridView
           totalPages={totalPages}
-          items={articles.map((el, id) => (
-            <BlogPreviewCard key={id} {...el} />
+          items={articles.map(({ preview }, id) => (
+            <BlogPreviewCard key={id} {...preview} />
           ))}
         />
         <EsimAppBanner />
@@ -56,7 +56,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     MAX_ELEMENTS_PER_VIEW,
     (+page - 1) * MAX_ELEMENTS_PER_VIEW
   );
-  console.log(articles.headers);
 
   if (!articles.data) {
     articles = await api.categories.listArticlesByCategory(
