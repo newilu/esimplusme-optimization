@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { useTheme } from "styled-components";
 import { useInView } from "utils/hooks";
-import { Container, SectionTitle } from "utils/styled";
+import { Container } from "utils/styled";
 import cloudConnection from "./assets/cloud-connection.svg";
 import phone from "./assets/call-calling.svg";
 import sms from "./assets/sms.svg";

@@ -33,7 +33,7 @@ function BlogPreviewCard({
     <Wrapper>
       <Link href={`/blog/${url ?? id}`}>
         <ImageWrapper>
-          <Image width={300} height={200} src={image ?? ph} alt="" />
+          <Image width={300} height={200} src={image.src ?? ph} alt="" />
         </ImageWrapper>
         <CardCategories>
           {categories.map(({ name, id: categoryId }) => (
