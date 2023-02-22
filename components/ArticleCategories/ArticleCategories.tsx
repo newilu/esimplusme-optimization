@@ -14,7 +14,7 @@ function ArticleCategories({ categories }: { categories: Category[] }) {
   const { t } = useTranslation();
   return (
     <Wrapper>
-      <div>{t("article_categories")}</div>
+      <h2>{t("article_categories")}</h2>
       <CategoriesGridWrapper>
         {categories.map(({ name, articleCount }, i) => (
           <CategoriesGridItem key={i}>

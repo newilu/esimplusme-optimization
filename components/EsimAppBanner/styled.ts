@@ -84,6 +84,20 @@ export const Content = styled.div`
   width: 100%;
   padding-top: 90px;
 
+  > div:first-child {
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 50px;
+    color: ${(props) => props.theme.primaryText};
+    text-align: left;
+    margin: 0 0 15px 0;
+
+    @media (max-width: 768px) {
+      font-size: 28px;
+      line-height: 33px;
+    }
+  }
+
   ul {
     padding: 50px 0;
     display: grid;

@@ -31,29 +31,27 @@ function BlogPreviewCard({
   const { t } = useTranslation();
   return (
     <Wrapper>
-      <ImageWrapper>
-        <Link href={`/blog/${url ?? id}`}>
-          <Image width={300} height={200} src={image ?? ph} alt="" />
-        </Link>
-      </ImageWrapper>
-      <CardCategories>
-        {categories.map(({ name, id: categoryId }) => (
-          <CardCategory key={categoryId}>#{name}</CardCategory>
-        ))}
-      </CardCategories>
       <Link href={`/blog/${url ?? id}`}>
+        <ImageWrapper>
+          <Image width={300} height={200} src={image ?? ph} alt="" />
+        </ImageWrapper>
+        <CardCategories>
+          {categories.map(({ name, id: categoryId }) => (
+            <CardCategory key={categoryId}>#{name}</CardCategory>
+          ))}
+        </CardCategories>
         <CardTitle>{title}</CardTitle>
+        <CardText dangerouslySetInnerHTML={{ __html: content }} />
+        <CardFooter>
+          <div>
+            {t("read_article")}{" "}
+            <Image width={16} height={16} src={arrow} alt="arrow" />{" "}
+          </div>
+          <BlogPublicationDate>
+            {format(new Date(createdAt.date.replace(" ", "T")), "PP")}
+          </BlogPublicationDate>
+        </CardFooter>
       </Link>
-      <CardText dangerouslySetInnerHTML={{ __html: content }} />
-      <CardFooter>
-        <Link href={`/blog/${url ?? id}`}>
-          {t("read_article")}{" "}
-          <Image width={16} height={16} src={arrow} alt="arrow" />{" "}
-        </Link>
-        <BlogPublicationDate>
-          {format(new Date(createdAt.date.replace(" ", "T")), "PP")}
-        </BlogPublicationDate>
-      </CardFooter>
     </Wrapper>
   );
 }

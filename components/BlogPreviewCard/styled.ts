@@ -12,15 +12,16 @@ export const CardFooter = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  color: ${(props) => props.theme.primary};
 
-  a {
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 14px;
+  > div:first-child {
     display: flex;
     align-items: center;
-    color: ${(props) => props.theme.primary};
+    grid-gap: 5px;
   }
 `;
 
@@ -58,19 +59,13 @@ export const ImageWrapper = styled.div`
   height: 200px;
   mask-size: 100%;
   background: ${(props) => props.theme.cardCategoryStripBg};
-
-  > a {
-    border-radius: 10px;
-    overflow: hidden;
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     img {

@@ -123,14 +123,12 @@ export const DocumentTocList = styled.ul`
   flex-direction: column;
   list-style: none;
 `;
-export const DocumentTocHeading = styled.header`
-  h2 {
-    color: ${(props) => props.theme.primaryText};
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 29px;
-    margin: 0;
-  }
+export const DocumentTocHeading = styled.div`
+  color: ${(props) => props.theme.primaryText};
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 0;
 `;
 export const DocumentToc = styled.section`
   display: flex;

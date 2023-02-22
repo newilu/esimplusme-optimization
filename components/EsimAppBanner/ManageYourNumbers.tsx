@@ -28,7 +28,7 @@ function ManageYourNumbers() {
       <div />
       <Container>
         <Content>
-          <SectionTitle>{t("download_the_esimplus_app")}</SectionTitle>
+          <div>{t("download_the_esimplus_app")}</div>
           <ul>
             <li>
               <Image width={24} height={24} src={phone} alt="phone call" />

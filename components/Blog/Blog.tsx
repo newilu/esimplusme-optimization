@@ -74,9 +74,7 @@ function Blog({
       </LeftSide>
       <RightSide>
         <DocumentToc>
-          <DocumentTocHeading>
-            <h2>{t("table_of_content")}</h2>
-          </DocumentTocHeading>
+          <DocumentTocHeading>{t("table_of_content")}</DocumentTocHeading>
           <DocumentTocList>
             {tableOfContent.map((el, i) => {
               const name = el.match(/name="(.*?)"/)?.[1];

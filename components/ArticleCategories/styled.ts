@@ -36,7 +36,7 @@ export const CategoriesGridWrapper = styled.div`
 export const Wrapper = styled.div`
   margin: 100px 0;
 
-  > div:first-child {
+  > h2 {
     font-weight: 700;
     font-size: 42px;
     line-height: 50px;
