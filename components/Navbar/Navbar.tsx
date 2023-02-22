@@ -4,8 +4,8 @@ import Image from "next/image";
 import xmark from "public/staticfiles/xmark.svg";
 import { useModalControls } from "../../utils/hooks";
 import { NAV_LINKS } from "utils/constants";
+import ThemeSwitcher from "../ThemeSwitcher";
 import Logo from "../Logo";
-import LanguageMenu from "../LanguageMenu";
 import {
   Wrapper,
   Container,
@@ -67,7 +67,9 @@ function Navbar() {
             </LinksWrapper>
           </div>
           <HotMenuWrapper>
-            <LanguageMenu />
+            <div>
+              <ThemeSwitcher size={"medium"} />
+            </div>
           </HotMenuWrapper>
           <BurgerMenu>
             <svg
