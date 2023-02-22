@@ -9,6 +9,7 @@ import api from "@/api";
 import { Article, Category } from "@/utils/types";
 import ArticleCategories from "@/components/ArticleCategories";
 import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
+import Head from "next/head";
 
 function Blog({
   articles,
@@ -21,6 +22,31 @@ function Blog({
 }) {
   return (
     <>
+      <Head>
+        <title></title>
+        <meta name="description" content="описание" />
+        <link rel="canonical" href="урл блога" />
+        <meta property="og:title" content="тайтл" />
+        <meta property="og:description" content="описание" />
+        <meta property="twitter:title" content="тайтл" />
+        <meta property="twitter:description" content="описание" />
+        <meta property="article:published_time" content="дата публикации" />
+        <meta property="article:modified_time" content="дата редактирования" />
+        <meta name="robots" content="https://blog.esimplus.me/robots.txt" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://blog.esimplus.me/" />
+        <meta
+          property="og:image"
+          content="https://static.esimplus.net/storage/logos/logo.png"
+        />
+        <meta property="og:image:width" content="112" />
+        <meta property="og:image:height" content="93" />
+        <meta
+          name="twitter:image"
+          content="https://static.esimplus.net/storage/logos/logo.png"
+        />
+      </Head>
       <Navbar />
       <main>
         <BlogList articles={articles} totalPages={totalPages} />

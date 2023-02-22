@@ -151,7 +151,7 @@ export const RightSide = styled.div`
   }
 `;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.article`
   padding-bottom: 100px;
   display: grid;
   gap: 3rem;

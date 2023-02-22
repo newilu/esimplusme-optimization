@@ -22,6 +22,35 @@ function BlogById({ article }: { article: Article }) {
         <meta property="og:description" content={article.metaDescription} />
         <meta name="twitter:title" content={article.metaTitle} />
         <meta name="twitter:description" content={article.metaDescription} />
+        <link
+          rel="canonical"
+          href={`https://blog.esimplus.me/${article.url ?? article.id}`}
+        />
+        <meta
+          property="article:published_time"
+          content={article.createdAt.date}
+        />
+        <meta
+          property="article:modified_time"
+          content={article.updatedAt.date}
+        />
+        <meta name="robots" content="https://blog.esimplus.me/robots.txt" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="article" />
+        <meta
+          property="og:url"
+          content={`https://blog.esimplus.me/${article.url ?? article.id}`}
+        />
+        <meta property="og:image" content={article.preview.image.src ?? ""} />
+        <meta
+          property="og:image:width"
+          content={String(article.preview.image.width)}
+        />
+        <meta
+          property="og:image:height"
+          content={String(article.preview.image.height)}
+        />
+        <meta name="twitter:image" content={article.preview.image.src ?? ""} />
       </Head>
       <Navbar />
       <main>

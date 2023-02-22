@@ -12,7 +12,7 @@ export type Author = {
 };
 
 export type ArticlePreview = {
-  image: string | null;
+  image: { src: string | null; width: number; height: number };
   content: string;
   title: string;
   url?: string | null;
@@ -30,6 +30,11 @@ export type Article = {
   categories: Category[];
   content: { [key: number]: string };
   createdAt: {
+    date: string;
+    timezone_type: number;
+    timezone: string;
+  };
+  updatedAt: {
     date: string;
     timezone_type: number;
     timezone: string;
