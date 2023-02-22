@@ -14,10 +14,6 @@ export const HotMenuWrapper = styled.div`
     display: flex;
     padding: 0 5px;
     justify-content: center;
-
-    &:first-child {
-      min-width: fit-content;
-    }
   }
 
   @media (max-width: 500px) {

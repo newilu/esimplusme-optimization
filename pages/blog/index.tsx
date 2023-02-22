@@ -30,8 +30,14 @@ function Blog({
         <meta property="og:description" content="описание" />
         <meta property="twitter:title" content="тайтл" />
         <meta property="twitter:description" content="описание" />
-        <meta property="article:published_time" content="дата публикации" />
-        <meta property="article:modified_time" content="дата редактирования" />
+        <meta
+          property="article:published_time"
+          content="2022-02-28T21:15:42+00:00"
+        />
+        <meta
+          property="article:modified_time"
+          content="2022-02-28T21:15:42+00:00"
+        />
         <meta name="robots" content="https://blog.esimplus.me/robots.txt" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
