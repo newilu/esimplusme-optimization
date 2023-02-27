@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import { Article } from "@/utils/types";
-import { SectionTitle, Text } from "@/utils/styled";
+import { SectionTitle } from "@/utils/styled";
 import Navbar from "@/components/Navbar";
 import EsimAppBanner from "@/components/EsimAppBanner";
 import Footer from "@/components/Footer";
@@ -27,8 +27,9 @@ function Category({
     <>
       <Navbar />
       <main>
-        <Text>{t("category")}</Text>
-        <SectionTitle>{categoryName}</SectionTitle>
+        <SectionTitle>
+          {t("category")} {categoryName}
+        </SectionTitle>
         <PaginatedGridView
           totalPages={totalPages}
           items={articles.map(({ preview }, id) => (

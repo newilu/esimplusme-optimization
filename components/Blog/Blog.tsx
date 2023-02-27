@@ -44,15 +44,6 @@ function Blog({
   return (
     <Wrapper>
       <LeftSide>
-        <CardCategories>
-          {categories.map(({ name, id }) => (
-            <CardCategory key={id}>
-              <Link target="_blank" href={`/categories/${name}`}>
-                #{name}
-              </Link>
-            </CardCategory>
-          ))}
-        </CardCategories>
         <SectionTitle>{title}</SectionTitle>
         <BlogInfoWrapper>
           <Link href={`/authors/${author.id}`}>
@@ -66,7 +57,18 @@ function Blog({
               )}`}
             />
           </Link>
-          <BlogReadingTime>{readingTime}</BlogReadingTime>
+          <div>
+            <CardCategories>
+              {categories.map(({ name, id }) => (
+                <CardCategory key={id}>
+                  <Link target="_blank" href={`/categories/${name}`}>
+                    #{name}
+                  </Link>
+                </CardCategory>
+              ))}
+            </CardCategories>
+            <BlogReadingTime>{readingTime}</BlogReadingTime>
+          </div>
         </BlogInfoWrapper>
         <Text
           dangerouslySetInnerHTML={{ __html: Object.values(content).join("") }}

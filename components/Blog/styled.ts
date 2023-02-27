@@ -1,16 +1,33 @@
 import styled from "styled-components";
-import { CardCategory } from "@/components/BlogPreviewCard/styled";
+import {
+  CardCategories,
+  CardCategory,
+} from "@/components/BlogPreviewCard/styled";
 import { Text } from "@/utils/styled";
 
 export const BlogInfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin: 25px 0 35px 0;
   grid-gap: 15px;
   > a {
     text-decoration: none;
     display: block;
+  }
+
+  > div:last-child {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    grid-gap: 5px;
+
+    ${CardCategories} {
+      margin: 0;
+      > div {
+        margin: 0 !important;
+      }
+    }
   }
 
   @media (max-width: 768px) {
