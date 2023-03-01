@@ -84,7 +84,9 @@ function Blog({
               return (
                 <DocumentTocItem
                   key={i}
-                  $active={decodeURIComponent(router.asPath).includes(name)}
+                  $active={decodeURIComponent(router.asPath).includes(
+                    name ?? ""
+                  )}
                 >
                   <Link
                     href={`#${name}`}
