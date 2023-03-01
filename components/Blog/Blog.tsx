@@ -84,9 +84,13 @@ function Blog({
               return (
                 <DocumentTocItem
                   key={i}
-                  $active={router.asPath.includes(`#${name}`)}
+                  $active={decodeURIComponent(router.asPath).includes(name)}
                 >
-                  <Link href={`#${name}`} scroll={false}>
+                  <Link
+                    href={`#${name}`}
+                    scroll={false}
+                    onClick={() => scrollToId(name ?? "", 90)}
+                  >
                     {name}
                   </Link>
                 </DocumentTocItem>
