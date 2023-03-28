@@ -16,7 +16,7 @@ import { generateRandomReviewsCount } from "@/shared/lib";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import FAQSection from "@/features/FAQSection";
 import SetupGuide from "@/features/MobiledataSetupGuide";
-import MobileDataHeader from "@/features/MobileDataHeader";
+import { MobileDataHeader } from "@/features/MobileDataHeader/MobileDataHeader";
 
 type HomeProps = {
   countries: Country[];

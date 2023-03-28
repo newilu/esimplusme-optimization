@@ -6,7 +6,7 @@ import { Container } from "shared/ui/styled";
 import Button from "shared/ui/Button";
 import { Wrapper } from "./styled";
 
-function MobiledataHeader() {
+function MobileDataHeader() {
   const { t } = useTranslation();
 
   // React.useEffect(() => {
@@ -34,4 +34,4 @@ function MobiledataHeader() {
   );
 }
 
-export { MobiledataHeader };
+export { MobileDataHeader };
