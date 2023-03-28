@@ -1,22 +1,22 @@
 import React from "react";
 import Head from "next/head";
-import Footer from "@/components/Footer";
+import Footer from "components/Footer";
 import Navbar from "widgets/Navbar";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import user4 from "features/Reviews/assets/user4.jpeg";
 import user5 from "features/Reviews/assets/user5.jpeg";
 import user6 from "features/Reviews/assets/user6.jpeg";
-import AvailableMobileDataPlans from "@/widgets/AvailableMobileDataPlans";
-import api from "@/api";
-import { Country, Region, RegionById } from "@/utils/types";
-import Reviews from "@/features/Reviews";
+import AvailableMobileDataPlans from "widgets/AvailableMobileDataPlans";
+import api from "api";
+import { Country, Region, RegionById } from "utils/types";
+import Reviews from "features/Reviews";
 import { Trans, useTranslation } from "next-i18next";
-import { generateRandomReviewsCount } from "@/shared/lib";
-import DownloadAppSection from "@/features/DownloadAppSection";
-import FAQSection from "@/features/FAQSection";
-import SetupGuide from "@/features/MobiledataSetupGuide";
-import { MobileDataHeader } from "@/features/MobileDataHeader/MobileDataHeader";
+import { generateRandomReviewsCount } from "shared/lib";
+import DownloadAppSection from "features/DownloadAppSection";
+import FAQSection from "features/FAQSection";
+import SetupGuide from "features/MobiledataSetupGuide";
+import Header from "features/Header";
 
 type HomeProps = {
   countries: Country[];
@@ -85,7 +85,7 @@ export default function Home({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Navbar color="white" />
-      <MobileDataHeader />
+      <Header />
       <SetupGuide />
       <AvailableMobileDataPlans
         countries={countries}
