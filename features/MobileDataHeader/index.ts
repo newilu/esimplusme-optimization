@@ -1,1 +1,1 @@
-export { MobileDataHeader as default } from './MobileDataHeader';
+export { MobiledataHeader as default } from "./MobileDataHeader";
