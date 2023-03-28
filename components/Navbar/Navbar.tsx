@@ -2,10 +2,10 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import xmark from "public/staticfiles/xmark.svg";
-import { useModalControls } from "../../utils/hooks";
+import { useModalControls } from "shared/hooks";
 import { NAV_LINKS } from "utils/constants";
 import ThemeSwitcher from "../ThemeSwitcher";
-import Logo from "../Logo";
+import Logo from "../../entities/Logo";
 import {
   Wrapper,
   Container,

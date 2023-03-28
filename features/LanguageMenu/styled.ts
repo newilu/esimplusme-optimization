@@ -5,27 +5,17 @@ export const ActiveLanguage = styled.div`
   display: flex;
   align-items: center;
   grid-gap: 5px;
+  width: 32px;
+  height: 24px;
+  border-radius: 6px;
+  overflow: hidden;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 
-  > div:first-child {
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 24px;
-    border-radius: 4px;
-
-    img {
-      width: 32px;
-      height: 32px;
-    }
-  }
-
-  > div:last-child {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    color: ${(props) => props.theme.primaryText};
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
 
@@ -45,7 +35,7 @@ export const LanguageMenuList = styled.ul<{ show: boolean }>`
   padding: 16px;
   background: ${(props) => props.theme.cardsBg};
   backdrop-filter: blur(125px);
-  box-shadow: 0 40px 64px -24px rgba(15, 15, 15, 0.5);
+  box-shadow: 0 0 20px rgba(15, 15, 15, 0.2);
   border-radius: 15px;
 
   li {

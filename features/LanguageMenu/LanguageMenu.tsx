@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useOutsideClick } from "utils/hooks";
-import { LANGUAGE_OPTIONS } from "utils/constants";
+import { useOutsideClick } from "@/shared/hooks";
+import { LANGUAGE_OPTIONS } from "@/utils/constants";
 import {
   ActiveLanguage,
   LanguageMenuItem,
@@ -36,21 +36,22 @@ function LanguageMenu() {
 
   const onToggleLanguageClick = (newLocale: string) => {
     const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, { locale: newLocale });
+    void router.replace({ pathname, query }, asPath, {
+      locale: newLocale,
+      shallow: true,
+    });
   };
 
   return (
     <Wrapper>
       <div>
         <ActiveLanguage onClick={() => setIsLanguageMenuOpen(true)}>
-          <div>
-            <Image
-              width={32}
-              height={32}
-              src={activeLanguageOption.img}
-              alt="active language option"
-            />
-          </div>
+          <Image
+            width={32}
+            height={32}
+            src={activeLanguageOption.img}
+            alt="active language option"
+          />
         </ActiveLanguage>
         <LanguageMenuList ref={containerRef} show={isLanguageMenuOpen}>
           {LANGUAGE_OPTIONS.map((lang) => (

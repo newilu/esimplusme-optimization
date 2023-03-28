@@ -1,6 +1,7 @@
 import React from "react";
 import { appWithTranslation } from "next-i18next";
 import Head from "next/head.js";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import nProgress from "nprogress";
 import { Router } from "next/router";
 import "public/nprogress.css";
@@ -17,17 +18,21 @@ Router.events.on("routeChangeError", nProgress.done);
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/unbound-method
 Router.events.on("routeChangeComplete", nProgress.done);
 
+const queryClient = new QueryClient();
+
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
         <link rel="icon" href={favicon.src} />
       </Head>
-      <WidthProvider>
-        <ThemeProvider>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </WidthProvider>{" "}
+      <QueryClientProvider client={queryClient}>
+        <WidthProvider>
+          <ThemeProvider>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </WidthProvider>{" "}
+      </QueryClientProvider>
     </>
   );
 }

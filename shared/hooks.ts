@@ -34,12 +34,13 @@ function useModalControls(
 
   React.useEffect(
     function disableBodyScroll() {
-      if (options?.disableBodyScroll) {
-        const escapeKeyListener = (e: KeyboardEvent) =>
-          e.code === "Escape" && closeModal();
+      const escapeKeyListener = (e: KeyboardEvent) =>
+        e.code === "Escape" && closeModal();
 
+      window.addEventListener("keydown", escapeKeyListener);
+
+      if (options?.disableBodyScroll) {
         if (isOpen) {
-          window.addEventListener("keydown", escapeKeyListener);
           document.body.setAttribute(
             "style",
             "overflow:hidden;position:fixed;left:0;right:0;top:0;bottom:0;"
@@ -48,11 +49,12 @@ function useModalControls(
             .querySelector("html")
             ?.setAttribute("style", "overflow:hidden;");
         } else {
-          window.removeEventListener("keydown", escapeKeyListener);
           document.body.removeAttribute("style");
           document.querySelector("html")?.removeAttribute("style");
         }
       }
+
+      return () => window.removeEventListener("keydown", escapeKeyListener);
     },
     [closeModal, isOpen, options?.disableBodyScroll]
   );

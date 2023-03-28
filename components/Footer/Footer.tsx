@@ -5,7 +5,7 @@ import facebook from "public/staticfiles/Facebook.svg";
 import telegram from "public/staticfiles/Telegram.svg";
 import whatWeAccept from "public/staticfiles/what-we-accept.svg";
 import { Container } from "utils/styled";
-import Logo from "../Logo";
+import Logo from "../../entities/Logo";
 import {
   ListItem,
   List,

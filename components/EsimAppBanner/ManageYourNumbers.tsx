@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { useTheme } from "styled-components";
-import { useInView } from "utils/hooks";
+import { useInView } from "shared/hooks";
 import { Container } from "utils/styled";
 import cloudConnection from "./assets/cloud-connection.svg";
 import phone from "./assets/call-calling.svg";
