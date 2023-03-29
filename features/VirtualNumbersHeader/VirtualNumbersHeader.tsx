@@ -66,62 +66,60 @@ function VirtualNumbersHeader() {
   }, [items]);
 
   return (
-    <div style={{ overflow: "hidden" }}>
-      <Container>
-        <Wrapper id="header">
-          <InfoSection>
-            <div>
-              <SectionTitle>
+    <Container>
+      <Wrapper id="header">
+        <InfoSection>
+          <div>
+            <SectionTitle>
+              <div>
+                <Trans i18nKey="acceptance_and_activation" />
+              </div>
+            </SectionTitle>
+            <SectionSubtitle>{t("for_anonymous_reg")}</SectionSubtitle>
+          </div>
+          <Button
+            onClick={
+              () => {}
+              // window.gtag("event", "virtualnumber_header_call_to_action_click")
+            }
+            label={
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://sms.esimplus.me"
+              >
+                {t("get_a_number")}
+              </a>
+            }
+          />
+        </InfoSection>
+        <MessagesSection>
+          <MessagesWrapper layout>
+            {items.slice(0, isMobile ? 3 : 5).map(({ title, text, img }) => (
+              <Message
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                layout
+                key={text.replace(/\D/g, "")}
+              >
                 <div>
-                  <Trans i18nKey="acceptance_and_activation" />
+                  <Image
+                    width={40}
+                    height={40}
+                    src={img}
+                    alt="message sender image"
+                  />
                 </div>
-              </SectionTitle>
-              <SectionSubtitle>{t("for_anonymous_reg")}</SectionSubtitle>
-            </div>
-            <Button
-              onClick={
-                () => {}
-                // window.gtag("event", "virtualnumber_header_call_to_action_click")
-              }
-              label={
-                <a
-                  rel="noreferrer"
-                  target="_blank"
-                  href="https://sms.esimplus.me"
-                >
-                  {t("get_a_number")}
-                </a>
-              }
-            />
-          </InfoSection>
-          <MessagesSection>
-            <MessagesWrapper layout>
-              {items.slice(0, isMobile ? 3 : 5).map(({ title, text, img }) => (
-                <Message
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  layout
-                  key={text.replace(/\D/g, "")}
-                >
-                  <div>
-                    <Image
-                      width={40}
-                      height={40}
-                      src={img}
-                      alt="message sender image"
-                    />
-                  </div>
-                  <div>
-                    <MessageTitle>{title}</MessageTitle>
-                    <MessageText>{text}</MessageText>
-                  </div>
-                </Message>
-              ))}
-            </MessagesWrapper>
-          </MessagesSection>
-        </Wrapper>
-      </Container>
-    </div>
+                <div>
+                  <MessageTitle>{title}</MessageTitle>
+                  <MessageText>{text}</MessageText>
+                </div>
+              </Message>
+            ))}
+          </MessagesWrapper>
+        </MessagesSection>
+      </Wrapper>
+    </Container>
   );
 }
 

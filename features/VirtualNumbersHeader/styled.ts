@@ -189,7 +189,7 @@ export const Wrapper = styled.div`
   display: flex;
   grid-gap: 16px;
   min-height: 700px;
-  height: 100vh;
+  height: cacl(100vh - 65px);
   max-height: 1000px;
 
   > div:last-child {

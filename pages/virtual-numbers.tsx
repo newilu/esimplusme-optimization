@@ -66,7 +66,7 @@ function VirtualNumbers() {
   }, []);
 
   return (
-    <>
+    <div style={{ overflow: "hidden" }}>
       <Navbar />
       <VirtualNumbersHeader />
       <HowToGetSms />
@@ -86,7 +86,7 @@ function VirtualNumbers() {
       <DownloadAppSection sectionTitle="download_the_esimplus_app_mobile_data" />
       <FAQSection />
       <Footer />
-    </>
+    </div>
   );
 }
 
