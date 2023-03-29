@@ -2,6 +2,7 @@ import styled from "styled-components";
 import pedr from "./assets/pedr-min.webp";
 
 export const Wrapper = styled.header`
+  margin-top: -65px;
   padding: 100px;
   min-height: 800px;
   height: 100vh;

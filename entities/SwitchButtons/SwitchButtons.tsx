@@ -4,8 +4,6 @@ import { useWindowSize } from "context/WindowSizeContext";
 import { uuid } from "utils/common";
 import { SwitchButton, Wrapper } from "./styled";
 
-const id = uuid();
-
 function SwitchButtons({
   options,
   value,
@@ -22,6 +20,8 @@ function SwitchButtons({
   const [activeButton, setActiveButton] = React.useState<
     { label: React.ReactNode; value: string } | undefined
   >(value ?? options[0]);
+
+  const id = uuid();
 
   const handleSelectButton = (el: {
     label: React.ReactNode;
@@ -45,7 +45,7 @@ function SwitchButtons({
         ? `${(options.length + 1) * baseHeight}px`
         : `${baseHeight}px`;
     }
-  }, [isDropdownOpen, styledAsDropdown, options.length]);
+  }, [isDropdownOpen, styledAsDropdown, options.length, id]);
 
   return (
     <Wrapper

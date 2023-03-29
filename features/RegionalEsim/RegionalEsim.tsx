@@ -38,11 +38,12 @@ function RegionalEsim({
 }) {
   const router = useRouter();
   const { t, i18n } = useTranslation();
-  const [filteredCountries, setFilteredCountries] = React.useState<Country[]>(
-    []
-  );
+  const [filteredCountries, setFilteredCountries] =
+    React.useState<Country[]>(countries);
+  const [filteredRegions, setFilteredRegions] =
+    React.useState<Region[]>(regions);
   const [selectedRegion, setSelectedRegion] = React.useState<Region | null>(
-    null
+    regions.find((el) => el.name.toLowerCase() === router.query.region) ?? null
   );
   const [coverageCountries, setCoverageCountries] = React.useState<
     Bundle["countries"]
@@ -74,20 +75,7 @@ function RegionalEsim({
     }
   );
 
-  const filteredRegions = React.useMemo(() => {
-    const newBundlesFilteredByCountries = regions.filter(({ id }) =>
-      filteredCountries.find(({ regionlist }) => regionlist.includes(id))
-    );
-    const existingActiveBundleInNewBundlesList =
-      newBundlesFilteredByCountries.find(
-        ({ name }) => name === selectedRegion?.name
-      );
-    if (!existingActiveBundleInNewBundlesList) setSelectedRegion(null);
-
-    return newBundlesFilteredByCountries;
-  }, [selectedRegion?.name, filteredCountries, regions]);
-
-  const handleRegionChange = (region: Region | null) => {
+  const handleRegionChange = React.useCallback((region: Region | null) => {
     scrollToId(SectionIDS.SearchYourDestination, 65);
     setSelectedRegion(region);
     void router.push(
@@ -95,7 +83,8 @@ function RegionalEsim({
       undefined,
       { scroll: false, shallow: true }
     );
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     if (debouncedFilterText) {
@@ -114,6 +103,19 @@ function RegionalEsim({
       setFilteredCountries(countries);
     }
   }, [i18n.language, debouncedFilterText, countries]);
+
+  React.useEffect(() => {
+    const newBundlesFilteredByCountries = regions.filter(({ id }) =>
+      filteredCountries.find(({ regionlist }) => regionlist.includes(id))
+    );
+    const existingActiveBundleInNewBundlesList =
+      newBundlesFilteredByCountries.find(
+        ({ name }) => name === selectedRegion?.name
+      );
+    if (!existingActiveBundleInNewBundlesList) handleRegionChange(null);
+
+    setFilteredRegions(newBundlesFilteredByCountries);
+  }, [filteredCountries, handleRegionChange, regions, selectedRegion?.name]);
 
   return (
     <Wrapper>

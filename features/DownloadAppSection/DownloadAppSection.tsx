@@ -122,8 +122,8 @@ function DownloadAppSection({ sectionTitle }: { sectionTitle: string }) {
       <ImageWrapper>
         <div />
         <Image
-          width={300}
-          height={570}
+          width={640}
+          height={850}
           src={isVisible ? devices : ""}
           alt="devices"
         />

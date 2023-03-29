@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Container } from '../../utils/styled';
+import styled from "styled-components";
+import { Container } from "../../utils/styled";
 
 export const ImageWrapper = styled.div`
   padding-top: 90px;
@@ -26,7 +26,7 @@ export const ImageWrapper = styled.div`
     margin: 0;
     max-height: 570px;
     max-width: 100%;
-    height: auto;
+    height: 100%;
     width: auto;
   }
 
@@ -62,7 +62,7 @@ export const ButtonsWrapper = styled.div`
     > button {
       cursor: pointer;
       color: ${(props) =>
-        props.theme.name === 'light' ? '#ffffff' : '#000000'};
+        props.theme.name === "light" ? "#ffffff" : "#000000"};
       display: flex;
       justify-content: center;
       align-items: center;
@@ -71,7 +71,7 @@ export const ButtonsWrapper = styled.div`
       border-radius: 6px;
       height: 40px;
       background: ${(props) =>
-        props.theme.name === 'light' ? '#000000' : '#ffffff'};
+        props.theme.name === "light" ? "#000000" : "#ffffff"};
 
       > a {
         width: 100%;

@@ -24,6 +24,9 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: ${(props) => (props.theme as any).bg};
   }
+  a.active{
+    color: ${(props) => (props.theme as any).primary}
+  }
 `;
 
 function ThemeProvider<T extends { children: React.ReactNode }>(props: T) {

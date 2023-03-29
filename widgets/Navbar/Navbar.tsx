@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import Link from "next/link";
 import { useWindowSize } from "context/WindowSizeContext";
 import xmark from "shared/assets/xmark.svg";
 import burgerMenu from "./assets/burger-menu.png";
@@ -15,7 +14,7 @@ import {
   Wrapper,
   Container,
   LinksWrapper,
-  NavLink,
+  Link,
   ButtonsWrapper,
   BurgerMenu,
   NavMenu,
@@ -82,63 +81,36 @@ function Navbar({ color }: { color?: string }) {
   }, [isTablet]);
 
   return (
-    <Wrapper id="navbar">
-      <Container>
-        <Logo color="inherit" />
-        <div>
-          <LinksWrapper>
-            <NavLink href="/">{t("mobile_data")}</NavLink>
-            <NavLink $isOpen={isNumbersDropdownVisible} href="/virtual-numbers">
-              <>
-                <div>{t("virtual_numbers")}</div>
-              </>
-            </NavLink>
-          </LinksWrapper>
-        </div>
-        <div>
-          <ThemeSwitcher />
-        </div>
-        <div>
-          <LanguageMenu />
-        </div>
-        <ButtonsWrapper>
-          <Button
-            style={{ height: 45 }}
-            onClick={handleSignInClick}
-            label={
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href={
-                  router.pathname.includes("virtual-numbers")
-                    ? "https://sms.esimplus.me/"
-                    : "https://mobiledata.esimplus.me/"
-                }
-              >
-                {t("sign_in")}
-              </a>
-            }
-          />
-        </ButtonsWrapper>
-        <BurgerMenu>
-          <Image
-            onClick={openNavMenu}
-            width={24}
-            height={24}
-            src={burgerMenu}
-            alt="burger menu"
-          />
-          <NavMenu isOpen={isNavMenuOpen}>
-            <div>
-              <Logo />
-              <button onClick={closeNavMenu}>
-                <Image width={14} height={14} src={xmark} alt="x mark" />
-              </button>
-            </div>
+    <>
+      <div style={{ marginBottom: 65 }} />
+      <Wrapper id="navbar">
+        <Container>
+          <Logo color="inherit" />
+          <div>
+            <LinksWrapper>
+              <Link exact href="/">
+                {t("mobile_data")}
+              </Link>
+              <Link $isOpen={isNumbersDropdownVisible} href="/virtual-numbers">
+                <>
+                  <div>{t("virtual_numbers")}</div>
+                </>
+              </Link>
+              <Link href="/blog">{t("blog")}</Link>
+            </LinksWrapper>
+          </div>
+          <div>
+            <ThemeSwitcher />
+          </div>
+          <div>
+            <LanguageMenu />
+          </div>
+          <ButtonsWrapper>
             <Button
               style={{ height: 45 }}
+              onClick={handleSignInClick}
               label={
-                <Link
+                <a
                   target="_blank"
                   rel="noreferrer"
                   href={
@@ -148,13 +120,46 @@ function Navbar({ color }: { color?: string }) {
                   }
                 >
                   {t("sign_in")}
-                </Link>
+                </a>
               }
             />
-          </NavMenu>
-        </BurgerMenu>
-      </Container>
-    </Wrapper>
+          </ButtonsWrapper>
+          <BurgerMenu>
+            <Image
+              onClick={openNavMenu}
+              width={24}
+              height={24}
+              src={burgerMenu}
+              alt="burger menu"
+            />
+            <NavMenu isOpen={isNavMenuOpen}>
+              <div>
+                <Logo />
+                <button onClick={closeNavMenu}>
+                  <Image width={14} height={14} src={xmark} alt="x mark" />
+                </button>
+              </div>
+              <Button
+                style={{ height: 45 }}
+                label={
+                  <Link
+                    target="_blank"
+                    rel="noreferrer"
+                    href={
+                      router.pathname.includes("virtual-numbers")
+                        ? "https://sms.esimplus.me/"
+                        : "https://mobiledata.esimplus.me/"
+                    }
+                  >
+                    {t("sign_in")}
+                  </Link>
+                }
+              />
+            </NavMenu>
+          </BurgerMenu>
+        </Container>
+      </Wrapper>
+    </>
   );
 }
 

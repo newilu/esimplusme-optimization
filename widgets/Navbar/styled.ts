@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { Container as BaseContainer } from "shared/ui/styled";
-import Link from "next/link";
+import NavLink from "@/shared/ui/NavLink";
 
 export const NavMenu = styled.div<{ isOpen?: boolean }>`
   display: flex;
@@ -75,10 +75,6 @@ export const NavMenu = styled.div<{ isOpen?: boolean }>`
 export const BurgerMenu = styled.div`
   color: ${(props) => props.theme.primaryText};
 
-  a {
-    color: ${(props) => props.theme.primaryText};
-  }
-
   > img {
     filter: invert(${(props) => Number(props.theme.name !== "light")});
   }
@@ -100,23 +96,8 @@ export const ButtonsWrapper = styled.div`
   }
 `;
 
-export const NavLink = styled(Link)<{ $isOpen?: boolean }>`
-  position: relative;
-  text-decoration: none;
-  padding: 0;
-  color: inherit;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
+export const Link = styled(NavLink)<{ $isOpen?: boolean }>`
   > div:first-child {
-    display: flex;
-    align-items: center;
-    grid-gap: 5px;
-
     svg {
       transform: rotate(${(props) => (props.$isOpen ? "180deg" : "0")});
 
@@ -124,11 +105,6 @@ export const NavLink = styled(Link)<{ $isOpen?: boolean }>`
         pointer-events: none;
       }
     }
-  }
-
-  &.active,
-  &.active > svg {
-    color: ${(props) => props.theme.primary} !important;
   }
 `;
 

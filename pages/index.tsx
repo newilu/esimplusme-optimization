@@ -103,7 +103,7 @@ export default function Home({
           />
         }
       />
-      <DownloadAppSection sectionTitle="download_the_esimplus_app_mobile_data" />
+      <DownloadAppSection sectionTitle="download_the_esimplus_app_virtual_numbers" />
       <FAQSection />
       <Footer />
     </div>
