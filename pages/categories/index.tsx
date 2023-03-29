@@ -1,7 +1,7 @@
 import React from "react";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/widgets/Navbar";
 import Footer from "@/components/Footer";
 import EsimAppBanner from "@/components/EsimAppBanner";
 

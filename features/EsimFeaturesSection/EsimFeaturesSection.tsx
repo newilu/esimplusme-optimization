@@ -73,7 +73,7 @@ function EsimFeaturesSection() {
         <SectionTitle>{t("why_esim")}</SectionTitle>
         <FeaturesWrapper>
           {features.map(({ title, text, img }) => (
-            <Feature key={img}>
+            <Feature key={title}>
               <div>
                 <FeatureIcon src={img} width={40} height={40} alt={title} />
                 <FeatureTitle>{title}</FeatureTitle>

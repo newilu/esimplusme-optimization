@@ -10,6 +10,7 @@ export const CountryCard = styled(Card)`
   align-items: center;
   grid-gap: 15px;
   cursor: pointer;
+  background: ${(props) => props.theme.translucentCardsBg};
 
   &:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -188,10 +189,6 @@ export const BundlesWrapper = styled.div`
   justify-content: center;
   grid-gap: 12px;
   margin-bottom: 12px;
-
-  > div {
-    flex: 1 1 300px;
-  }
 `;
 
 export const SpecialOfferWrapper = styled.div`

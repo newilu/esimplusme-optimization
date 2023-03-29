@@ -22,9 +22,13 @@ export const LinksWrapper = styled.div`
     padding: 25px 0;
     flex-direction: column;
     grid-gap: 32px;
+
     > div:last-child {
-      display: none;
+      &:not(:has(div:only-child)) {
+        display: none;
+      }
     }
+
     &:first-child {
       margin-bottom: 0;
     }

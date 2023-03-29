@@ -84,6 +84,7 @@ export const ReviewText = styled.div`
 export const ReviewCard = styled(Card)`
   height: 100%;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  background: ${(props) => props.theme.translucentCardsBg};
 `;
 
 export const ReviewCardWrapper = styled.div`

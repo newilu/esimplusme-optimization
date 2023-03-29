@@ -13,7 +13,6 @@ import gplay from "./assets/gplay.svg";
 import gplayDark from "./assets/gplay-black.svg";
 import appstore from "./assets/appstore.svg";
 import appstoreDark from "./assets/appstore-black.svg";
-import { useInView } from "shared/hooks";
 import { SectionTitle } from "shared/ui/styled";
 import { ButtonsWrapper, Content, ImageWrapper, Wrapper } from "./styled";
 import Image from "next/image";
@@ -22,8 +21,6 @@ function DownloadAppSection({ sectionTitle }: { sectionTitle: string }) {
   const router = useRouter();
   const { t } = useTranslation();
   const theme = useTheme();
-  const ref = React.useRef<HTMLDivElement | null>(null);
-  const isVisible = useInView(ref, { once: true, rootMargin: "-50px" });
 
   const handleMarketClick = (market: string) => {
     // window.fbq("track", "Lead");
@@ -39,7 +36,7 @@ function DownloadAppSection({ sectionTitle }: { sectionTitle: string }) {
   };
 
   return (
-    <Wrapper ref={ref} id="mobile_app_section">
+    <Wrapper id="mobile_app_section">
       <Content>
         <SectionTitle>{t(sectionTitle)}</SectionTitle>
         <ul>
@@ -86,11 +83,7 @@ function DownloadAppSection({ sectionTitle }: { sectionTitle: string }) {
                   width={120}
                   height={40}
                   src={
-                    isVisible
-                      ? (theme as any).name === "light"
-                        ? appstore
-                        : appstoreDark
-                      : ""
+                    (theme as any).name === "light" ? appstore : appstoreDark
                   }
                   alt="appstore"
                 />
@@ -105,13 +98,7 @@ function DownloadAppSection({ sectionTitle }: { sectionTitle: string }) {
                 <Image
                   width={140}
                   height={40}
-                  src={
-                    isVisible
-                      ? (theme as any).name === "light"
-                        ? gplay
-                        : gplayDark
-                      : ""
-                  }
+                  src={(theme as any).name === "light" ? gplay : gplayDark}
                   alt="gplay"
                 />
               </a>
@@ -121,12 +108,7 @@ function DownloadAppSection({ sectionTitle }: { sectionTitle: string }) {
       </Content>
       <ImageWrapper>
         <div />
-        <Image
-          width={640}
-          height={850}
-          src={isVisible ? devices : ""}
-          alt="devices"
-        />
+        <Image width={640} height={850} src={devices} alt="devices" />
       </ImageWrapper>
     </Wrapper>
   );

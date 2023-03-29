@@ -11,7 +11,7 @@ export const NoMatchesText = styled.div`
 `;
 
 export const Card = styled.div`
-  background: ${(props) => props.theme.cardsBg};
+  background: ${(props) => props.theme.translucentCardsBg};
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   border: 1px solid ${(props) => props.theme.cardsBorder};
   border-radius: 20px;

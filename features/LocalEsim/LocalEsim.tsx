@@ -11,7 +11,7 @@ import { DEFAULT_SELECTED_DATA_SIZE, SectionIDS } from "shared/constants";
 import CountryFlag from "shared/ui/CountryFlag";
 import Loader from "shared/ui/Loader";
 import { NoMatchesText } from "shared/ui/styled";
-import { useInView, useModalControls } from "shared/hooks";
+import { useModalControls } from "shared/hooks";
 import SearchInput from "shared/ui/SearchInput";
 import xmark from "shared/assets/xmark.svg";
 import MobileDataBundleCard from "entities/MobileDataBundleCard";
@@ -56,7 +56,6 @@ function LocalEsim({ countries }: { countries: Country[] }) {
   const [filterText, setFilterText] = React.useState<string>("");
   const [debouncedFilterText] = useDebounce(filterText, 500);
   const sectionRef = React.useRef<HTMLDivElement | null>(null);
-  const isVisible = useInView(sectionRef, { once: true });
 
   const {
     isOpen: isCoverageCountriesModalOpen,
@@ -209,7 +208,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
                   dataSize={rest.dataAmount}
                   title={name}
                   duration={duration}
-                  img={isVisible ? image : undefined}
+                  img={image}
                   price={price}
                   supportedCountries={supportedCountries}
                   worldwide={worldwide}

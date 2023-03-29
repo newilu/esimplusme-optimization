@@ -135,6 +135,10 @@ export const CardsWrapper = styled.div`
   grid-gap: 2rem;
   list-style: none;
 
+  > div {
+    background: ${(props) => props.theme.translucentCardsBg};
+  }
+
   @media (max-width: 900px) {
     grid-gap: 1rem;
   }

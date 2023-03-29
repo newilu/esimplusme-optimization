@@ -16,10 +16,38 @@ import {
   LinksWrapper,
   TopSection,
   BottomSection,
+  Chat,
 } from "./styled";
+import { Country, Region, RegionById } from "@/utils/types";
+import NavLink from "@/shared/ui/NavLink";
+import CountryFlag from "@/shared/ui/CountryFlag";
+import { BASE_STORAGE_URL, SectionIDS } from "@/shared/constants";
+import { scrollToId } from "@/shared/lib";
+import { useRouter } from "next/router";
 
-function Footer() {
+function Footer({
+  countries = [],
+  regions = [],
+  worldwideRegion,
+}: {
+  countries?: Country[];
+  regions?: Region[];
+  worldwideRegion?: RegionById;
+}) {
+  const router = useRouter();
+  const [isShowingAllCountries, setIsShowingAllCountries] =
+    React.useState(false);
   const { t } = useTranslation();
+
+  const countryList = React.useMemo(
+    () => (isShowingAllCountries ? countries : countries.slice(0, 9)),
+    [isShowingAllCountries, countries]
+  );
+
+  const handleRegionSelect = (region?: string) => {
+    scrollToId(SectionIDS.SearchYourDestination, 65);
+    void router.push({ query: { region } }, undefined, { shallow: true });
+  };
 
   return (
     <Wrapper>
@@ -101,6 +129,109 @@ function Footer() {
               </div>
               <div />
             </LinksWrapper>
+            {router.pathname === "/" && (
+              <LinksWrapper>
+                <div>
+                  <ListWrapper>
+                    <ListTitle>{t("local_esim")}</ListTitle>
+                    <List>
+                      {countryList.map(({ country, isoName2 }) => (
+                        <ListItem key={country}>
+                          <NavLink
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleRegionSelect(isoName2.toLowerCase());
+                            }}
+                            href="mock"
+                          >
+                            <Chat key={country}>
+                              <div>
+                                <CountryFlag
+                                  width={22}
+                                  height={22}
+                                  name={isoName2}
+                                  alt="local plan"
+                                />
+                              </div>
+                              {country}
+                            </Chat>
+                          </NavLink>
+                        </ListItem>
+                      ))}
+                      <ListItem
+                        onClick={() =>
+                          setIsShowingAllCountries((prev) => !prev)
+                        }
+                      >
+                        <span>
+                          {isShowingAllCountries ? "Less" : "More"}...
+                        </span>
+                      </ListItem>
+                    </List>
+                  </ListWrapper>
+                </div>
+                <div>
+                  <ListWrapper>
+                    <ListTitle>{t("regional_esim")}</ListTitle>
+                    <List>
+                      {regions.map(({ name }) => (
+                        <ListItem key={name}>
+                          <NavLink
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleRegionSelect(name.toLowerCase());
+                            }}
+                            href="mock"
+                          >
+                            <Chat key={name}>
+                              <div>
+                                <Image
+                                  width={22}
+                                  height={22}
+                                  src={`${BASE_STORAGE_URL}48x30/${name}350.jpg`}
+                                  alt="regional plan"
+                                />
+                              </div>
+                              {name}
+                            </Chat>
+                          </NavLink>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </ListWrapper>
+                </div>
+                <div>
+                  <ListWrapper>
+                    <ListTitle>{t("global_esim")}</ListTitle>
+                    <List>
+                      <ListItem>
+                        <NavLink
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleRegionSelect(
+                              worldwideRegion?.name.toLowerCase()
+                            );
+                          }}
+                          href="mock"
+                        >
+                          <Chat>
+                            <div>
+                              <Image
+                                width={22}
+                                height={22}
+                                src={`${BASE_STORAGE_URL}48x30/Pay-as-you-go.jpg`}
+                                alt="worldwide plan"
+                              />
+                            </div>
+                            {worldwideRegion?.name}
+                          </Chat>
+                        </NavLink>
+                      </ListItem>
+                    </List>
+                  </ListWrapper>
+                </div>
+              </LinksWrapper>
+            )}
             <ul>
               <li>
                 <a

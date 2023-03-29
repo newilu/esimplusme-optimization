@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { useTheme } from "styled-components";
-import { useInView } from "shared/hooks";
 import { Container } from "utils/styled";
 import cloudConnection from "./assets/cloud-connection.svg";
 import phone from "./assets/call-calling.svg";
@@ -20,11 +19,9 @@ import { ButtonsWrapper, Content, ImageWrapper, Wrapper } from "./styled";
 function ManageYourNumbers() {
   const { t } = useTranslation();
   const theme = useTheme();
-  const ref = React.useRef<HTMLDivElement | null>(null);
-  const isVisible = useInView(ref, { once: true, rootMargin: "-50px" });
 
   return (
-    <Wrapper ref={ref} id="mobile_app_section">
+    <Wrapper id="mobile_app_section">
       <div />
       <Container>
         <Content>
@@ -73,11 +70,7 @@ function ManageYourNumbers() {
                     width={120}
                     height={40}
                     src={
-                      isVisible
-                        ? (theme as any).name === "light"
-                          ? appstore
-                          : appstoreDark
-                        : ""
+                      (theme as any).name === "light" ? appstore : appstoreDark
                     }
                     alt="appstore"
                   />
@@ -92,13 +85,7 @@ function ManageYourNumbers() {
                   <Image
                     width={140}
                     height={40}
-                    src={
-                      isVisible
-                        ? (theme as any).name === "light"
-                          ? gplay
-                          : gplayDark
-                        : ""
-                    }
+                    src={(theme as any).name === "light" ? gplay : gplayDark}
                     alt="gplay"
                   />
                 </a>
@@ -107,12 +94,7 @@ function ManageYourNumbers() {
           </ButtonsWrapper>
         </Content>
         <ImageWrapper>
-          <Image
-            width={300}
-            height={570}
-            src={isVisible ? devices : ""}
-            alt="devices"
-          />
+          <Image width={300} height={570} src={devices} alt="devices" />
         </ImageWrapper>
       </Container>
     </Wrapper>

@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import { Article, Author as AuthorType } from "@/utils/types";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/widgets/Navbar";
 import PaginatedGridView from "@/components/PaginatedGridView";
 import BlogPreviewCard from "@/components/BlogPreviewCard";
 import EsimAppBanner from "@/components/EsimAppBanner";

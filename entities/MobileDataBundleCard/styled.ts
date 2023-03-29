@@ -50,10 +50,6 @@ export const BundleCapability = styled.div`
   @media (max-width: 430px) {
     min-width: 75px;
     flex: 1;
-
-    &:nth-child(2) {
-      flex: 1 1 auto;
-    }
   }
   @media (max-width: 350px) {
     flex: 1;
@@ -83,5 +79,5 @@ export const BundleTitle = styled.div`
 export const Wrapper = styled(BaseCard)`
   padding: 20px;
   max-width: 400px;
-  flex: 1;
+  flex: 0 1 400px;
 `;

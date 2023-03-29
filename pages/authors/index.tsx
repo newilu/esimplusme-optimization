@@ -7,7 +7,7 @@ import api from "@/api";
 import { Author } from "@/utils/types";
 import { MAX_AUTHORS_PER_VIEW } from "@/utils/constants";
 import { SectionTitle, Text } from "@/utils/styled";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/widgets/Navbar";
 import EsimAppBanner from "@/components/EsimAppBanner";
 import Footer from "@/components/Footer";
 import PaginatedGridView from "@/components/PaginatedGridView";

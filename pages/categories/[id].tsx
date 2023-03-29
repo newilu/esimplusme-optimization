@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import { Article } from "@/utils/types";
 import { SectionTitle } from "@/utils/styled";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/widgets/Navbar";
 import EsimAppBanner from "@/components/EsimAppBanner";
 import Footer from "@/components/Footer";
 import PaginatedGridView from "@/components/PaginatedGridView";
