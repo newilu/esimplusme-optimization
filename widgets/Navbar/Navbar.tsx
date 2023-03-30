@@ -162,80 +162,81 @@ function Navbar({
                   <Image width={14} height={14} src={xmark} alt="x mark" />
                 </button>
               </div>
-              {countries && regions && worldwideRegion && (
-                <>
-                  {" "}
-                  {Boolean(navSelectedRegion) ? (
-                    <SelectedRegion>
-                      <SelectedRegionTitle>
-                        <button
-                          onClick={() => setNavSelectedRegion(null)}
-                          aria-label="unset region"
-                        >
-                          <ArrowRight />
-                        </button>
-                        {t(navSelectedRegion as string)}
-                      </SelectedRegionTitle>
-                      <ul>
-                        {navSelectedRegion === Regions.Local &&
-                          countries.map(({ isoName2, ...rest }) => (
-                            <li key={isoName2}>
-                              <Link
-                                href={{
-                                  href: "/",
-                                  query: { region: isoName2.toLowerCase() },
-                                }}
-                                onClick={() => {
-                                  closeNavMenu();
-                                  setNavSelectedRegion(null);
-                                }}
-                              >
-                                <Chat>
-                                  <div>
-                                    <CountryFlag
-                                      width={22}
-                                      height={22}
-                                      src={rest.image}
-                                      name={isoName2}
-                                      alt="local plan"
-                                    />
-                                  </div>
-                                  {isoName2}
-                                </Chat>
-                                <ArrowRight />
-                              </Link>
-                            </li>
-                          ))}{" "}
-                        {navSelectedRegion === Regions.Regional &&
-                          regions.map(({ name }) => (
-                            <li key={name}>
-                              <Link
-                                href={{
-                                  href: "/",
-                                  query: { region: name.toLowerCase() },
-                                }}
-                                onClick={() => {
-                                  closeNavMenu();
-                                  setNavSelectedRegion(null);
-                                }}
-                              >
-                                <Chat>
-                                  <div>
-                                    <CountryFlag
-                                      width={22}
-                                      height={22}
-                                      src={`https://static.esimplus.net/storage/flags/${name?.toLowerCase()}.svg`}
-                                      name={name}
-                                      alt="local plan"
-                                    />
-                                  </div>
-                                  {name}
-                                </Chat>
-                                <ArrowRight />
-                              </Link>
-                            </li>
-                          ))}{" "}
-                        {navSelectedRegion === Regions.Global && (
+              <>
+                {Boolean(navSelectedRegion) ? (
+                  <SelectedRegion>
+                    <SelectedRegionTitle>
+                      <button
+                        onClick={() => setNavSelectedRegion(null)}
+                        aria-label="unset region"
+                      >
+                        <ArrowRight />
+                      </button>
+                      {t(navSelectedRegion as string)}
+                    </SelectedRegionTitle>
+                    <ul>
+                      {navSelectedRegion === Regions.Local &&
+                        countries &&
+                        countries.map(({ isoName2, ...rest }) => (
+                          <li key={isoName2}>
+                            <Link
+                              href={{
+                                href: "/",
+                                query: { region: isoName2.toLowerCase() },
+                              }}
+                              onClick={() => {
+                                closeNavMenu();
+                                setNavSelectedRegion(null);
+                              }}
+                            >
+                              <Chat>
+                                <div>
+                                  <CountryFlag
+                                    width={22}
+                                    height={22}
+                                    src={rest.image}
+                                    name={isoName2}
+                                    alt="local plan"
+                                  />
+                                </div>
+                                {isoName2}
+                              </Chat>
+                              <ArrowRight />
+                            </Link>
+                          </li>
+                        ))}{" "}
+                      {navSelectedRegion === Regions.Regional &&
+                        regions &&
+                        regions.map(({ name }) => (
+                          <li key={name}>
+                            <Link
+                              href={{
+                                href: "/",
+                                query: { region: name.toLowerCase() },
+                              }}
+                              onClick={() => {
+                                closeNavMenu();
+                                setNavSelectedRegion(null);
+                              }}
+                            >
+                              <Chat>
+                                <div>
+                                  <CountryFlag
+                                    width={22}
+                                    height={22}
+                                    src={`https://static.esimplus.net/storage/flags/${name.toLowerCase()}.svg`}
+                                    name={name}
+                                    alt="local plan"
+                                  />
+                                </div>
+                                {name}
+                              </Chat>
+                              <ArrowRight />
+                            </Link>
+                          </li>
+                        ))}{" "}
+                      {navSelectedRegion === Regions.Global &&
+                        worldwideRegion && (
                           <li>
                             <Link
                               href={{
@@ -254,7 +255,7 @@ function Navbar({
                                   <CountryFlag
                                     width={22}
                                     height={22}
-                                    src={`https://static.esimplus.net/storage/flags/${worldwideRegion.name?.toLowerCase()}.svg`}
+                                    src={`https://static.esimplus.net/storage/flags/${worldwideRegion.name.toLowerCase()}.svg`}
                                     name={worldwideRegion.name}
                                     alt="local plan"
                                   />
@@ -265,15 +266,16 @@ function Navbar({
                             </Link>
                           </li>
                         )}
-                      </ul>
-                    </SelectedRegion>
-                  ) : (
-                    <ul>
-                      <NavMenuItem isDropdownOpen={isMobileDataDropdownOpen}>
-                        <div>
-                          <Link onClick={handleNavMenuItemCLick} href="/">
-                            {t("mobile_data")}
-                          </Link>
+                    </ul>
+                  </SelectedRegion>
+                ) : (
+                  <ul>
+                    <NavMenuItem isDropdownOpen={isMobileDataDropdownOpen}>
+                      <div>
+                        <Link exact onClick={handleNavMenuItemCLick} href="/">
+                          {t("mobile_data")}
+                        </Link>
+                        {countries && (
                           <ArrowRight
                             onClick={(e) => {
                               e.stopPropagation();
@@ -282,33 +284,32 @@ function Navbar({
                                 : openMobileDataDropdown();
                             }}
                           />
-                        </div>
-                        <ul>
-                          {Object.values(Regions).map((el) => (
-                            <li
-                              key={el}
-                              onClick={() => setNavSelectedRegion(el)}
-                            >
-                              {t(el)} <ArrowRight />
-                            </li>
-                          ))}
-                        </ul>
-                      </NavMenuItem>
-                      <NavMenuItem>
-                        <Link
-                          href="/virtual-numbers"
-                          onClick={handleNavMenuItemCLick}
-                        >
-                          <>
-                            {t("virtual_numbers")}
-                            <ArrowRight />
-                          </>
-                        </Link>
-                      </NavMenuItem>
-                    </ul>
-                  )}
-                </>
-              )}
+                        )}
+                      </div>
+                      <ul>
+                        {Object.values(Regions).map((el) => (
+                          <li key={el} onClick={() => setNavSelectedRegion(el)}>
+                            {t(el)} <ArrowRight />
+                          </li>
+                        ))}
+                      </ul>
+                    </NavMenuItem>
+                    <NavMenuItem>
+                      <Link
+                        href="/virtual-numbers"
+                        onClick={handleNavMenuItemCLick}
+                      >
+                        <>{t("virtual_numbers")}</>
+                      </Link>
+                    </NavMenuItem>{" "}
+                    <NavMenuItem>
+                      <Link href="/blog" onClick={handleNavMenuItemCLick}>
+                        <>{t("blog")}</>
+                      </Link>
+                    </NavMenuItem>
+                  </ul>
+                )}
+              </>
 
               <Button
                 style={{ height: 45 }}

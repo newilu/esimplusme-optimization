@@ -84,12 +84,7 @@ export default function Home({
         <meta name="description" content="eSIM+ blog" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Navbar
-        color="white"
-        countries={countries}
-        regions={regions}
-        worldwideRegion={worldwideRegion}
-      />
+      <Navbar color="white" />
       <Header />
       <SetupGuide />
       <AvailableMobileDataPlans

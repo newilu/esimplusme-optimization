@@ -24,6 +24,7 @@ export const LanguageMenuList = styled.ul<{ show: boolean }>`
   visibility: ${(props) => (props.show ? "visible" : "hidden")};
   opacity: ${(props) => (props.show ? "1" : "0")};
   max-width: 350px;
+  width: max-content;
   height: auto;
   display: flex;
   flex-wrap: wrap;
@@ -60,6 +61,7 @@ export const LanguageMenuList = styled.ul<{ show: boolean }>`
   }
   @media (max-width: 375px) {
     right: 0;
+    width: 100%;
   }
 `;
 

@@ -68,7 +68,12 @@ function LanguageMenu() {
                 }}
               >
                 <div>
-                  <Image src={lang.img} alt={lang.label} />
+                  <Image
+                    width={30}
+                    height={30}
+                    src={lang.img}
+                    alt={lang.label}
+                  />
                 </div>
                 <div>
                   <div>{lang.label}</div>
