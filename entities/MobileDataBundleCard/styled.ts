@@ -79,5 +79,5 @@ export const BundleTitle = styled.div`
 export const Wrapper = styled(BaseCard)`
   padding: 20px;
   max-width: 400px;
-  flex: 0 1 400px;
+  flex: 1 1 350px;
 `;

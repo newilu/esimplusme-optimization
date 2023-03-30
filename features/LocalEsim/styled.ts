@@ -237,7 +237,7 @@ export const CountriesCards = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  grid-gap: 12px;
+  grid-gap: 16px;
 
   @media (max-width: 768px) {
     grid-gap: 8px;

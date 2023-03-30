@@ -5,6 +5,14 @@ import {
   SelectedCountryFlagWrapper,
 } from "../LocalEsim/styled";
 
+export const RegionsWrapper = styled(CountriesCards)`
+  margin-top: 16px;
+
+  @media (max-width: 440px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+`;
 export const Wrapper = styled.div`
   ${CountryCard} {
     flex: 0 1 200px;
@@ -14,13 +22,6 @@ export const Wrapper = styled.div`
     > img {
       width: auto;
       height: 36px;
-    }
-  }
-
-  @media (max-width: 440px) {
-    ${CountriesCards} {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
   }
 `;

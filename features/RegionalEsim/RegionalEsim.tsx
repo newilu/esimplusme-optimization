@@ -27,7 +27,7 @@ import {
   SelectedCountryNameWrapper,
   SelectedCountryFlagWrapper,
 } from "../LocalEsim/styled";
-import { Wrapper } from "./styled";
+import { RegionsWrapper, Wrapper } from "./styled";
 
 function RegionalEsim({
   countries,
@@ -156,55 +156,55 @@ function RegionalEsim({
       )}
       {(isFilteredCountriesLoading ||
         (isRegionByIdLoading && isRegionByIdFetching)) && <Loader />}
-      <CountriesCards>
-        {!isFilteredCountriesLoading && regionById && (
-          <CountriesCards style={{ width: "100%" }}>
-            {Object.values(regionById.bundles)
-              .flat()
-              .map(
-                ({
-                  countries: supportedCountries,
-                  name,
-                  dataAmount,
-                  duration,
-                  image,
-                  regionId,
-                  price,
-                  worldwide,
-                  currency,
-                  ...rest
-                }) => (
-                  <MobileDataBundleCard
-                    key={rest.paymentCode}
-                    dataSize={dataAmount}
-                    title={name}
-                    duration={duration}
-                    img={image}
-                    supportedCountries={supportedCountries}
-                    price={price}
-                    worldwide={worldwide}
-                    embeddedHeader={
-                      <CoverageCountriesOpenModalButton
-                        onClick={() => {
-                          setCoverageCountries(supportedCountries);
-                          openCoverageCountriesModal();
-                        }}
-                      />
-                    }
-                    embeddedFooter={
-                      <GetPlanButton
-                        dataAmount={dataAmount}
-                        providerType={rest.providerType}
-                        price={price}
-                        isoName2={rest.isoName2}
-                        currency={currency}
-                      />
-                    }
-                  />
-                )
-              )}
-          </CountriesCards>
-        )}
+      {!isFilteredCountriesLoading && regionById && (
+        <CountriesCards style={{ width: "100%" }}>
+          {Object.values(regionById.bundles)
+            .flat()
+            .map(
+              ({
+                countries: supportedCountries,
+                name,
+                dataAmount,
+                duration,
+                image,
+                regionId,
+                price,
+                worldwide,
+                currency,
+                ...rest
+              }) => (
+                <MobileDataBundleCard
+                  key={rest.paymentCode}
+                  dataSize={dataAmount}
+                  title={name}
+                  duration={duration}
+                  img={image}
+                  supportedCountries={supportedCountries}
+                  price={price}
+                  worldwide={worldwide}
+                  embeddedHeader={
+                    <CoverageCountriesOpenModalButton
+                      onClick={() => {
+                        setCoverageCountries(supportedCountries);
+                        openCoverageCountriesModal();
+                      }}
+                    />
+                  }
+                  embeddedFooter={
+                    <GetPlanButton
+                      dataAmount={dataAmount}
+                      providerType={rest.providerType}
+                      price={price}
+                      isoName2={rest.isoName2}
+                      currency={currency}
+                    />
+                  }
+                />
+              )
+            )}
+        </CountriesCards>
+      )}
+      <RegionsWrapper>
         {!isFilteredCountriesLoading &&
           filteredRegions.map(({ name, ...props }) => (
             <CountryCard
@@ -224,7 +224,8 @@ function RegionalEsim({
               </div>
             </CountryCard>
           ))}
-      </CountriesCards>
+      </RegionsWrapper>
+
       {!filteredRegions.length && !isFilteredCountriesLoading && (
         <NoMatchesText>
           <Trans
