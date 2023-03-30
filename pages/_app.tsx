@@ -1,15 +1,21 @@
 import React from "react";
-import { appWithTranslation } from "next-i18next";
-import Head from "next/head.js";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import nProgress from "nprogress";
-import { Router } from "next/router";
 import "public/nprogress.css";
+import nProgress from "nprogress";
 import type { AppProps } from "next/app";
+import dynamic from "next/dynamic";
+import Head from "next/head.js";
+import { Router } from "next/router";
+import { appWithTranslation } from "next-i18next";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "context/ThemeContext";
+import { CookieConsentProvider } from "context/CookieConsentContext";
+import { WidthProvider } from "context/WindowSizeContext";
+import favicon from "public/favicon.ico";
 import nextI18NextConfig from "../next-i18next.config.js";
-import { WidthProvider } from "@/context/WindowSizeContext";
-import favicon from "@/public/favicon.ico";
+
+const EsimAppBanner = dynamic(() => import("features/EsimAppBanner"), {
+  ssr: false,
+});
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/unbound-method
 Router.events.on("routeChangeStart", nProgress.start);
@@ -29,7 +35,10 @@ function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <WidthProvider>
           <ThemeProvider>
-            <Component {...pageProps} />
+            <CookieConsentProvider>
+              <EsimAppBanner />
+              <Component {...pageProps} />
+            </CookieConsentProvider>
           </ThemeProvider>
         </WidthProvider>{" "}
       </QueryClientProvider>

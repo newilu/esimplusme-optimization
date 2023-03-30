@@ -24,6 +24,7 @@ import CountryFlag from "@/shared/ui/CountryFlag";
 import { BASE_STORAGE_URL, SectionIDS } from "@/shared/constants";
 import { scrollToId } from "@/shared/lib";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function Footer({
   countries = [],
@@ -269,31 +270,15 @@ function Footer({
           <div>Appvillis UAB, {new Date().getFullYear()}</div>
           <ul>
             <li>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://esimplus.me/privacy"
-              >
-                {t("privacy_policy")}
-              </a>
+              <Link href="/privacy">{t("privacy_policy")}</Link>
             </li>{" "}
             <li>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://esimplus.me/terms"
-              >
-                {t("terms_of_use")}
-              </a>
+              <Link href="/terms">{t("terms_of_use")}</Link>
             </li>{" "}
             <li>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://esimplus.me/esim-supported-devices"
-              >
+              <Link href="/esim-supported-devices">
                 {t("esim_supported_devices")}
-              </a>
+              </Link>
             </li>{" "}
           </ul>
           <div>

@@ -17,7 +17,11 @@ import { SectionTitle } from "shared/ui/styled";
 import { ButtonsWrapper, Content, ImageWrapper, Wrapper } from "./styled";
 import Image from "next/image";
 
-function DownloadAppSection({ sectionTitle }: { sectionTitle: string }) {
+function DownloadAppSection({
+  sectionTitle = "download_the_esimplus_app",
+}: {
+  sectionTitle?: string;
+}) {
   const router = useRouter();
   const { t } = useTranslation();
   const theme = useTheme();
@@ -36,81 +40,83 @@ function DownloadAppSection({ sectionTitle }: { sectionTitle: string }) {
   };
 
   return (
-    <Wrapper id="mobile_app_section">
-      <Content>
-        <SectionTitle>{t(sectionTitle)}</SectionTitle>
-        <ul>
-          <li>
-            <Image width={24} height={24} src={phone} alt="phone call" />
-            {t("incoming_and_outgoing_calls")}
-          </li>{" "}
-          <li>
-            <Image width={24} height={24} src={sms} alt="sms" />
-            {t("incoming_and_outgoing_messages")}
-          </li>{" "}
-          <li>
-            <Image width={24} height={24} src={support} alt="support" />
-            {t("online_support")}
-          </li>{" "}
-          <li>
-            <Image width={24} height={24} src={globe} alt="globe" />
-            {t("esim_profiles_with_worldwide_access")}
-          </li>{" "}
-          <li>
-            <Image
-              width={24}
-              height={24}
-              src={cloudConnection}
-              alt="cloud connection"
-            />
-            {t("access_to_numbers_from_any_device")}
-          </li>{" "}
-          <li>
-            <Image width={24} height={24} src={card} alt="card" />
-            {t("price_transparency")}
-          </li>
-        </ul>
-        <ButtonsWrapper>
-          <div>{t("download_an_app")}</div>
-          <div>
-            <button onClick={() => handleMarketClick("appstore")}>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://apps.apple.com/by/app/esim-mobile-data-cloud-sim/id1482736281"
-              >
-                <Image
-                  width={120}
-                  height={40}
-                  src={
-                    (theme as any).name === "light" ? appstore : appstoreDark
-                  }
-                  alt="appstore"
-                />
-              </a>
-            </button>
-            <button onClick={() => handleMarketClick("googleplay")}>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://play.google.com/store/apps/details?id=com.appvillis.esim&hl=ru&gl=US"
-              >
-                <Image
-                  width={140}
-                  height={40}
-                  src={(theme as any).name === "light" ? gplay : gplayDark}
-                  alt="gplay"
-                />
-              </a>
-            </button>
-          </div>
-        </ButtonsWrapper>
-      </Content>
-      <ImageWrapper>
-        <div />
-        <Image width={640} height={850} src={devices} alt="devices" />
-      </ImageWrapper>
-    </Wrapper>
+    <div style={{ overflow: "hidden" }}>
+      <Wrapper id="mobile_app_section">
+        <Content>
+          <SectionTitle>{t(sectionTitle)}</SectionTitle>
+          <ul>
+            <li>
+              <Image width={24} height={24} src={phone} alt="phone call" />
+              {t("incoming_and_outgoing_calls")}
+            </li>{" "}
+            <li>
+              <Image width={24} height={24} src={sms} alt="sms" />
+              {t("incoming_and_outgoing_messages")}
+            </li>{" "}
+            <li>
+              <Image width={24} height={24} src={support} alt="support" />
+              {t("online_support")}
+            </li>{" "}
+            <li>
+              <Image width={24} height={24} src={globe} alt="globe" />
+              {t("esim_profiles_with_worldwide_access")}
+            </li>{" "}
+            <li>
+              <Image
+                width={24}
+                height={24}
+                src={cloudConnection}
+                alt="cloud connection"
+              />
+              {t("access_to_numbers_from_any_device")}
+            </li>{" "}
+            <li>
+              <Image width={24} height={24} src={card} alt="card" />
+              {t("price_transparency")}
+            </li>
+          </ul>
+          <ButtonsWrapper>
+            <div>{t("download_an_app")}</div>
+            <div>
+              <button onClick={() => handleMarketClick("appstore")}>
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://apps.apple.com/by/app/esim-mobile-data-cloud-sim/id1482736281"
+                >
+                  <Image
+                    width={120}
+                    height={40}
+                    src={
+                      (theme as any).name === "light" ? appstore : appstoreDark
+                    }
+                    alt="appstore"
+                  />
+                </a>
+              </button>
+              <button onClick={() => handleMarketClick("googleplay")}>
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://play.google.com/store/apps/details?id=com.appvillis.esim&hl=ru&gl=US"
+                >
+                  <Image
+                    width={140}
+                    height={40}
+                    src={(theme as any).name === "light" ? gplay : gplayDark}
+                    alt="gplay"
+                  />
+                </a>
+              </button>
+            </div>
+          </ButtonsWrapper>
+        </Content>
+        <ImageWrapper>
+          <div />
+          <Image width={640} height={850} src={devices} alt="devices" />
+        </ImageWrapper>
+      </Wrapper>
+    </div>
   );
 }
 

@@ -7,3 +7,5 @@ export const BASE_STORAGE_URL = "https://static.esimplus.net/storage/plans/";
 export enum SectionIDS {
   SearchYourDestination = "search_your_destination_section",
 }
+
+export const LANGS_LIST = ["ru", "en", "pl"];

@@ -8,7 +8,7 @@ import { Author } from "@/utils/types";
 import { MAX_AUTHORS_PER_VIEW } from "@/utils/constants";
 import { SectionTitle, Text } from "@/utils/styled";
 import Navbar from "@/widgets/Navbar";
-import EsimAppBanner from "@/components/EsimAppBanner";
+import EsimAppBanner from "features/DownloadAppSection";
 import Footer from "@/components/Footer";
 import PaginatedGridView from "@/components/PaginatedGridView";
 import AuthorPreviewCard from "@/components/AuthorPreviewCard";

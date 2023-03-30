@@ -6,7 +6,7 @@ import api from "@/api";
 import { Article } from "@/utils/types";
 import { SectionTitle } from "@/utils/styled";
 import Navbar from "@/widgets/Navbar";
-import EsimAppBanner from "@/components/EsimAppBanner";
+import EsimAppBanner from "features/DownloadAppSection";
 import Footer from "@/components/Footer";
 import PaginatedGridView from "@/components/PaginatedGridView";
 import BlogPreviewCard from "@/components/BlogPreviewCard";

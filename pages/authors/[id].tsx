@@ -7,7 +7,7 @@ import { Article, Author as AuthorType } from "@/utils/types";
 import Navbar from "@/widgets/Navbar";
 import PaginatedGridView from "@/components/PaginatedGridView";
 import BlogPreviewCard from "@/components/BlogPreviewCard";
-import EsimAppBanner from "@/components/EsimAppBanner";
+import EsimAppBanner from "features/DownloadAppSection";
 import Footer from "@/components/Footer";
 import AuthorComponent from "@/components/AuthorComponent";
 import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";

@@ -2,14 +2,14 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useWindowSize } from "context/WindowSizeContext";
 import xmark from "shared/assets/xmark.svg";
-import burgerMenu from "./assets/burger-menu.png";
-import { useModalControls, useOutsideClick } from "shared/hooks";
+import { useModalControls } from "shared/hooks";
 import ThemeSwitcher from "features/ThemeSwitcher";
 import Logo from "entities/Logo";
 import Button from "shared/ui/Button";
 import LanguageMenu from "features/LanguageMenu";
+import burgerMenu from "./assets/burger-menu.png";
+import ArrowRight from "./assets/ArrowRight";
 import {
   Wrapper,
   Container,
@@ -18,25 +18,47 @@ import {
   ButtonsWrapper,
   BurgerMenu,
   NavMenu,
+  SelectedRegionTitle,
+  SelectedRegion,
+  NavMenuItem,
+  Chat,
 } from "./styled";
+import CountryFlag from "@/shared/ui/CountryFlag";
+import { Country, Region, RegionById } from "@/utils/types";
 
-function Navbar({ color }: { color?: string }) {
+enum Regions {
+  Local = "local_esim",
+  Regional = "regional_esim",
+  Global = "global_esim",
+}
+
+function Navbar({
+  color,
+  regions,
+  worldwideRegion,
+  countries,
+}: {
+  color?: string;
+  countries?: Country[];
+  regions?: Region[];
+  worldwideRegion?: RegionById;
+}) {
   const router = useRouter();
-  const { isTablet } = useWindowSize();
   const { t } = useTranslation();
-  const [isNumbersDropdownVisible, setIsNumbersDropdownVisible] =
-    React.useState(false);
-  const virtualNumbersDropdownRef = React.useRef<HTMLUListElement | null>(null);
+  const [navSelectedRegion, setNavSelectedRegion] =
+    React.useState<Regions | null>(null);
+
+  const {
+    isOpen: isMobileDataDropdownOpen,
+    closeModal: closeMobileDataDropdown,
+    openModal: openMobileDataDropdown,
+  } = useModalControls();
 
   const {
     isOpen: isNavMenuOpen,
     closeModal: closeNavMenu,
     openModal: openNavMenu,
   } = useModalControls(false, { disableBodyScroll: true });
-
-  useOutsideClick(virtualNumbersDropdownRef, (e: any) => {
-    e.target.id !== "dropdown" && setIsNumbersDropdownVisible(false);
-  });
 
   const handleSignInClick = () => {
     switch (true) {
@@ -74,11 +96,12 @@ function Navbar({ color }: { color?: string }) {
     return () => window.removeEventListener("scroll", listener);
   }, [color]);
 
-  React.useEffect(() => {
-    if (isTablet) {
-      setIsNumbersDropdownVisible(false);
-    }
-  }, [isTablet]);
+  const handleNavMenuItemCLick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    closeNavMenu();
+    e.stopPropagation();
+  };
 
   return (
     <>
@@ -91,7 +114,7 @@ function Navbar({ color }: { color?: string }) {
               <Link exact href="/">
                 {t("mobile_data")}
               </Link>
-              <Link $isOpen={isNumbersDropdownVisible} href="/virtual-numbers">
+              <Link href="/virtual-numbers">
                 <>
                   <div>{t("virtual_numbers")}</div>
                 </>
@@ -139,6 +162,154 @@ function Navbar({ color }: { color?: string }) {
                   <Image width={14} height={14} src={xmark} alt="x mark" />
                 </button>
               </div>
+              {countries && regions && worldwideRegion && (
+                <>
+                  {" "}
+                  {Boolean(navSelectedRegion) ? (
+                    <SelectedRegion>
+                      <SelectedRegionTitle>
+                        <button
+                          onClick={() => setNavSelectedRegion(null)}
+                          aria-label="unset region"
+                        >
+                          <ArrowRight />
+                        </button>
+                        {t(navSelectedRegion as string)}
+                      </SelectedRegionTitle>
+                      <ul>
+                        {navSelectedRegion === Regions.Local &&
+                          countries.map(({ isoName2, ...rest }) => (
+                            <li key={isoName2}>
+                              <Link
+                                href={{
+                                  href: "/",
+                                  query: { region: isoName2.toLowerCase() },
+                                }}
+                                onClick={() => {
+                                  closeNavMenu();
+                                  setNavSelectedRegion(null);
+                                }}
+                              >
+                                <Chat>
+                                  <div>
+                                    <CountryFlag
+                                      width={22}
+                                      height={22}
+                                      src={rest.image}
+                                      name={isoName2}
+                                      alt="local plan"
+                                    />
+                                  </div>
+                                  {isoName2}
+                                </Chat>
+                                <ArrowRight />
+                              </Link>
+                            </li>
+                          ))}{" "}
+                        {navSelectedRegion === Regions.Regional &&
+                          regions.map(({ name }) => (
+                            <li key={name}>
+                              <Link
+                                href={{
+                                  href: "/",
+                                  query: { region: name.toLowerCase() },
+                                }}
+                                onClick={() => {
+                                  closeNavMenu();
+                                  setNavSelectedRegion(null);
+                                }}
+                              >
+                                <Chat>
+                                  <div>
+                                    <CountryFlag
+                                      width={22}
+                                      height={22}
+                                      src={`https://static.esimplus.net/storage/flags/${name?.toLowerCase()}.svg`}
+                                      name={name}
+                                      alt="local plan"
+                                    />
+                                  </div>
+                                  {name}
+                                </Chat>
+                                <ArrowRight />
+                              </Link>
+                            </li>
+                          ))}{" "}
+                        {navSelectedRegion === Regions.Global && (
+                          <li>
+                            <Link
+                              href={{
+                                href: "/",
+                                query: {
+                                  region: worldwideRegion.name.toLowerCase(),
+                                },
+                              }}
+                              onClick={() => {
+                                closeNavMenu();
+                                setNavSelectedRegion(null);
+                              }}
+                            >
+                              <Chat>
+                                <div>
+                                  <CountryFlag
+                                    width={22}
+                                    height={22}
+                                    src={`https://static.esimplus.net/storage/flags/${worldwideRegion.name?.toLowerCase()}.svg`}
+                                    name={worldwideRegion.name}
+                                    alt="local plan"
+                                  />
+                                </div>
+                                {worldwideRegion.name}
+                              </Chat>
+                              <ArrowRight />
+                            </Link>
+                          </li>
+                        )}
+                      </ul>
+                    </SelectedRegion>
+                  ) : (
+                    <ul>
+                      <NavMenuItem isDropdownOpen={isMobileDataDropdownOpen}>
+                        <div>
+                          <Link onClick={handleNavMenuItemCLick} href="/">
+                            {t("mobile_data")}
+                          </Link>
+                          <ArrowRight
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              isMobileDataDropdownOpen
+                                ? closeMobileDataDropdown()
+                                : openMobileDataDropdown();
+                            }}
+                          />
+                        </div>
+                        <ul>
+                          {Object.values(Regions).map((el) => (
+                            <li
+                              key={el}
+                              onClick={() => setNavSelectedRegion(el)}
+                            >
+                              {t(el)} <ArrowRight />
+                            </li>
+                          ))}
+                        </ul>
+                      </NavMenuItem>
+                      <NavMenuItem>
+                        <Link
+                          href="/virtual-numbers"
+                          onClick={handleNavMenuItemCLick}
+                        >
+                          <>
+                            {t("virtual_numbers")}
+                            <ArrowRight />
+                          </>
+                        </Link>
+                      </NavMenuItem>
+                    </ul>
+                  )}
+                </>
+              )}
+
               <Button
                 style={{ height: 45 }}
                 label={

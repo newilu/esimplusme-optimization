@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Navbar from "@/widgets/Navbar";
 import Footer from "@/components/Footer";
 import BlogList from "@/components/BlogList";
-import EsimAppBanner from "@/components/EsimAppBanner";
+import EsimAppBanner from "features/DownloadAppSection";
 import api from "@/api";
 import { Article, Category } from "@/utils/types";
 import ArticleCategories from "@/components/ArticleCategories";
