@@ -23,12 +23,6 @@ export const LinksWrapper = styled.div`
     flex-direction: column;
     grid-gap: 32px;
 
-    > div:last-child {
-      &:not(:has(div:only-child)) {
-        display: none;
-      }
-    }
-
     &:first-child {
       margin-bottom: 0;
     }
@@ -135,6 +129,7 @@ export const ListWrapper = styled.div`
 
 export const BottomSection = styled.div`
   background: #101010;
+  padding-bottom: 70px;
 
   ${Container} {
     padding: 26px 16px;

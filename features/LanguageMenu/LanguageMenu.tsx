@@ -34,12 +34,14 @@ function LanguageMenu() {
 
   useOutsideClick(containerRef, handleOutsideClick);
 
-  const onToggleLanguageClick = (newLocale: string) => {
+  const onToggleLanguageClick = async (newLocale: string) => {
     const { pathname, asPath, query } = router;
-    void router.replace({ pathname, query }, asPath, {
+    await router.replace({ pathname, query }, asPath, {
       locale: newLocale,
-      shallow: true,
+      scroll: false,
     });
+
+    await i18n.changeLanguage(newLocale);
   };
 
   return (
@@ -63,7 +65,6 @@ function LanguageMenu() {
                 type="button"
                 onClick={() => {
                   setActiveLanguageOption(lang);
-                  void i18n.changeLanguage(lang.value);
                   onToggleLanguageClick(lang.value);
                 }}
               >

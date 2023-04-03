@@ -17,6 +17,8 @@ import DownloadAppSection from "features/DownloadAppSection";
 import FAQSection from "features/FAQSection";
 import SetupGuide from "features/MobiledataSetupGuide";
 import Header from "features/Header";
+import { LANGS_LIST } from "@/shared/constants";
+import { useRouter } from "next/router";
 
 type HomeProps = {
   countries: Country[];
@@ -29,7 +31,8 @@ export default function Home({
   regions,
   worldwideRegion,
 }: HomeProps) {
-  const { t } = useTranslation();
+  const { pathname } = useRouter();
+  const { t, i18n } = useTranslation();
   const [reviewsCount, setReviesCount] = React.useState("350000");
 
   const reviewsList = React.useMemo(
@@ -80,9 +83,53 @@ export default function Home({
   return (
     <div style={{ overflow: "hidden" }}>
       <Head>
-        <title>eSIM+ blog</title>
-        <meta name="description" content="eSIM+ blog" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{t("mobile_data_title")}</title>
+        <meta name="description" content={t("mobile_data_page_description")} />
+        <meta property="og:locale" content={i18n.language} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://esimplus.me${pathname}`} />
+        <meta property="og:site_name" content="eSIM+" />
+        <meta
+          property="og:image"
+          content="https://static.esimplus.net/storage/logos/logo.png"
+        />
+        <meta property="og:image:width" content="112" />
+        <meta property="og:image:height" content="93" />
+        <meta property="og:title" content={t("mobile_data_title")} />
+        <meta
+          property="og:description"
+          content={t("mobile_data_page_description")}
+        />
+        <meta name="twitter:card" content="app" />
+        <meta name="twitter:title" content={t("mobile_data_title")} />
+        <meta
+          name="twitter:description"
+          content={t("mobile_data_page_description")}
+        />
+        <meta
+          name="twitter:image"
+          content="https://static.esimplus.net/storage/logos/logo.png"
+        />
+        <meta property="article:modified_time" content="2022-10-06" />
+        <link
+          rel="canonical"
+          href={`https://esimplus.me${
+            i18n.language.startsWith("en")
+              ? ""
+              : `/${i18n.language.slice(0, 2)}`
+          }`}
+        />
+        {LANGS_LIST.map((lng) => (
+          <link
+            key={lng.concat("2")}
+            rel="alternate"
+            href={`https://esimplus.me${
+              lng.startsWith("en") ? "" : `/${lng.slice(0, 2)}`
+            }`}
+            hrefLang={lng.toLowerCase()}
+          />
+        ))}
       </Head>
       <Navbar color="white" />
       <Header />
@@ -103,7 +150,7 @@ export default function Home({
           />
         }
       />
-      <DownloadAppSection sectionTitle="download_the_esimplus_app_virtual_numbers" />
+      <DownloadAppSection sectionTitle="download_the_esimplus_app_mobile_data" />
       <FAQSection />
       <Footer
         countries={countries}

@@ -128,7 +128,29 @@ function Footer({
                   </List>
                 </ListWrapper>
               </div>
-              <div />
+              <div>
+                <ListWrapper>
+                  <ListTitle>{t("contacts")}</ListTitle>
+                  <List>
+                    <ListItem>
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href="mailto:support.esim@appvillis.com"
+                      >
+                        support.esim@appvillis.com
+                      </a>
+                    </ListItem>{" "}
+                    <ListItem>
+                      Appvillis UAB. CRN 304930580. Šiaulių g. 10-56, Vilnius,
+                      01134, Lithuania
+                    </ListItem>{" "}
+                    <ListItem>
+                      <a href="tel:+37064757853">+37064757853</a>
+                    </ListItem>
+                  </List>
+                </ListWrapper>
+              </div>
             </LinksWrapper>
             {router.pathname === "/" && (
               <LinksWrapper>
