@@ -15,11 +15,12 @@ function GlobalEsim({ worldwideRegion }: { worldwideRegion?: RegionById }) {
     isOpen: isCoverageCountriesModalOpen,
     closeModal: closeCoverageCountriesModal,
     openModal: openCoverageCountriesModal,
-  } = useModalControls(false);
+  } = useModalControls(false, { disableBodyScroll: true });
 
   return (
     <>
       <CoverageCountriesModal
+        worldwide
         closeModal={closeCoverageCountriesModal}
         isOpen={isCoverageCountriesModalOpen}
         supportedCountries={coverageCountries}

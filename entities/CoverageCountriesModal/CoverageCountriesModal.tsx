@@ -1,7 +1,7 @@
 import React from "react";
 import { useDebounce } from "use-debounce";
 import { Trans, useTranslation } from "next-i18next";
-import type { Country, Bundle } from "utils/types";
+import type { Bundle } from "utils/types";
 import { NoMatchesText } from "shared/ui/styled";
 import api from "api";
 import Modal from "shared/ui/Modal";
@@ -60,7 +60,7 @@ function CoverageCountriesModal({
       isOpen={isOpen}
       onClose={closeModal}
       title={t("coverage_countries")}
-      style={{ maxWidth: "90%", height: "100%" }}
+      style={{ height: "100%" }}
       content={
         <CoverageCountries>
           {!disableSearch && (

@@ -5,17 +5,44 @@ export const ActiveLanguage = styled.div`
   display: flex;
   align-items: center;
   grid-gap: 5px;
-  width: 32px;
-  height: 24px;
-  border-radius: 6px;
-  overflow: hidden;
-  justify-content: center;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  > div:first-child {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  > div:last-child {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: inherit;
+  }
+
+  @media (max-width: 768px) {
+    > div:last-child {
+      display: none;
+    }
+
+    > div:first-child {
+      width: 24px;
+      border-radius: 100vmax;
+
+      img {
+        width: 26px;
+        height: 26px;
+      }
+    }
   }
 `;
 

@@ -48,12 +48,15 @@ function LanguageMenu() {
     <Wrapper>
       <div>
         <ActiveLanguage onClick={() => setIsLanguageMenuOpen(true)}>
-          <Image
-            width={32}
-            height={32}
-            src={activeLanguageOption.img}
-            alt="active language option"
-          />
+          <div>
+            <Image
+              width={32}
+              height={32}
+              src={activeLanguageOption.img}
+              alt="active language option"
+            />
+          </div>
+          <div>{activeLanguageOption.label}</div>
         </ActiveLanguage>
         <LanguageMenuList ref={containerRef} show={isLanguageMenuOpen}>
           {LANGUAGE_OPTIONS.map((lang) => (

@@ -39,6 +39,8 @@ function LocalEsim({ countries }: { countries: Country[] }) {
   const [coverageCountries, setCoverageCountries] = React.useState<
     Bundle["countries"]
   >([]);
+  const [isWorldwidePlanSelected, setIsWorldwidePlanSelected] =
+    React.useState(false);
   const [activeCountry, setActiveCountry] = React.useState<Country | null>(
     countries.find((el) => el.isoName2.toLowerCase() === router.query.region) ??
       null
@@ -61,7 +63,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
     isOpen: isCoverageCountriesModalOpen,
     closeModal: closeCoverageCountriesModal,
     openModal: openCoverageCountriesModal,
-  } = useModalControls(false);
+  } = useModalControls(false, { disableBodyScroll: true });
 
   const {
     data: countryByIsoName = null,
@@ -141,6 +143,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
   return (
     <>
       <CoverageCountriesModal
+        worldwide={isWorldwidePlanSelected}
         closeModal={closeCoverageCountriesModal}
         isOpen={isCoverageCountriesModalOpen}
         supportedCountries={coverageCountries}
@@ -216,6 +219,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
                     <CoverageCountriesOpenModalButton
                       onClick={() => {
                         setCoverageCountries(supportedCountries);
+                        setIsWorldwidePlanSelected(!!worldwide);
                         openCoverageCountriesModal();
                       }}
                     />

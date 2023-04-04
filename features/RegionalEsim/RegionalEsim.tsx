@@ -48,6 +48,8 @@ function RegionalEsim({
   const [coverageCountries, setCoverageCountries] = React.useState<
     Bundle["countries"]
   >([]);
+  const [isWorldwidePlanSelected, setIsWorldwidePlanSelected] =
+    React.useState(false);
   const [isFilteredCountriesLoading, setIsFilteredCountriesLoading] =
     React.useState(false);
   const [filterText, setFilterText] = React.useState("");
@@ -57,7 +59,7 @@ function RegionalEsim({
     isOpen: isCoverageCountriesModalOpen,
     closeModal: closeCoverageCountriesModal,
     openModal: openCoverageCountriesModal,
-  } = useModalControls(false);
+  } = useModalControls(false, { disableBodyScroll: true });
 
   const {
     data: regionById = null,
@@ -120,6 +122,7 @@ function RegionalEsim({
   return (
     <Wrapper>
       <CoverageCountriesModal
+        worldwide={isWorldwidePlanSelected}
         closeModal={closeCoverageCountriesModal}
         isOpen={isCoverageCountriesModalOpen}
         supportedCountries={coverageCountries}
@@ -186,6 +189,7 @@ function RegionalEsim({
                     <CoverageCountriesOpenModalButton
                       onClick={() => {
                         setCoverageCountries(supportedCountries);
+                        setIsWorldwidePlanSelected(!!worldwide);
                         openCoverageCountriesModal();
                       }}
                     />

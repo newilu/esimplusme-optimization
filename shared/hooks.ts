@@ -32,32 +32,24 @@ function useModalControls(
     setIsOpen(false);
   }, []);
 
-  React.useEffect(
-    function disableBodyScroll() {
+  React.useEffect(() => {
+    if (options?.disableBodyScroll) {
       const escapeKeyListener = (e: KeyboardEvent) =>
         e.code === "Escape" && closeModal();
 
-      window.addEventListener("keydown", escapeKeyListener);
-
-      if (options?.disableBodyScroll) {
-        if (isOpen) {
-          document.body.setAttribute(
-            "style",
-            "overflow:hidden;position:fixed;left:0;right:0;top:0;bottom:0;"
-          );
-          document
-            .querySelector("html")
-            ?.setAttribute("style", "overflow:hidden;");
-        } else {
-          document.body.removeAttribute("style");
-          document.querySelector("html")?.removeAttribute("style");
-        }
+      if (isOpen) {
+        window.addEventListener("keydown", escapeKeyListener);
+        document.body.setAttribute("style", "overflow:hidden;");
+        document
+          .querySelector("html")
+          ?.setAttribute("style", "overflow:hidden;");
+      } else {
+        window.removeEventListener("keydown", escapeKeyListener);
+        document.body.removeAttribute("style");
+        document.querySelector("html")?.removeAttribute("style");
       }
-
-      return () => window.removeEventListener("keydown", escapeKeyListener);
-    },
-    [closeModal, isOpen, options?.disableBodyScroll]
-  );
+    }
+  }, [closeModal, isOpen, options?.disableBodyScroll]);
 
   return {
     isOpen,
