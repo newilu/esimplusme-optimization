@@ -119,15 +119,20 @@ function Navbar({
                   <div>{t("virtual_numbers")}</div>
                 </>
               </Link>
-              <Link href="/blog">{t("blog")}</Link>
+              <Link href="/blog" locale="en">
+                {t("blog")}
+              </Link>
             </LinksWrapper>
           </div>
           <div>
             <ThemeSwitcher />
           </div>
-          <div>
-            <LanguageMenu />
-          </div>
+          {(router.pathname === "/" ||
+            router.asPath.includes("virtual-numbers")) && (
+            <div>
+              <LanguageMenu />
+            </div>
+          )}
           <ButtonsWrapper>
             <Button
               style={{ height: 45 }}
