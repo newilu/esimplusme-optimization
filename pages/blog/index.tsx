@@ -1,19 +1,17 @@
 import React from "react";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
 import Navbar from "@/widgets/Navbar";
 import Footer from "@/components/Footer";
 import BlogList from "@/components/BlogList";
-import EsimAppBanner from "features/DownloadAppSection";
+import EsimAppBanner from "@/features/DownloadAppSection";
 import api from "@/api";
 import { Article, Category } from "@/utils/types";
-import ArticleCategories from "@/components/ArticleCategories";
 import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
-import Head from "next/head";
 
 function Blog({
   articles,
-  categories,
   totalPages,
 }: {
   articles: Article[];
@@ -23,13 +21,28 @@ function Blog({
   return (
     <>
       <Head>
-        <title></title>
-        <meta name="description" content="описание" />
-        <link rel="canonical" href="урл блога" />
-        <meta property="og:title" content="тайтл" />
-        <meta property="og:description" content="описание" />
-        <meta property="twitter:title" content="тайтл" />
-        <meta property="twitter:description" content="описание" />
+        <title>eSIM Plus: Helpful Blog with eSIM Good Advices</title>
+        <meta
+          name="description"
+          content="Learn more about eSIM advantages and ways to use in big travel or inside a country. In the blog, you can find only trusted, up-to-date information about eSIM."
+        />
+        <link rel="canonical" href="https://esimplus.me/blog" />
+        <meta
+          property="og:title"
+          content="eSIM Plus: Helpful Blog with eSIM Good Advices"
+        />
+        <meta
+          property="og:description"
+          content="Learn more about eSIM advantages and ways to use in big travel or inside a country. In the blog, you can find only trusted, up-to-date information about eSIM."
+        />
+        <meta
+          property="twitter:title"
+          content="eSIM Plus: Helpful Blog with eSIM Good Advices"
+        />
+        <meta
+          property="twitter:description"
+          content="Learn more about eSIM advantages and ways to use in big travel or inside a country. In the blog, you can find only trusted, up-to-date information about eSIM."
+        />
         <meta
           property="article:published_time"
           content="2022-02-28T21:15:42+00:00"
@@ -38,10 +51,10 @@ function Blog({
           property="article:modified_time"
           content="2022-02-28T21:15:42+00:00"
         />
-        <meta name="robots" content="https://blog.esimplus.me/robots.txt" />
+        <meta name="robots" content="index,follow" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://blog.esimplus.me/" />
+        <meta property="og:url" content="https://esimplus.me/blog" />
         <meta
           property="og:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
@@ -56,7 +69,6 @@ function Blog({
       <Navbar />
       <main>
         <BlogList articles={articles} totalPages={totalPages} />
-        <ArticleCategories categories={categories} />
         <EsimAppBanner />
       </main>
       <Footer />
