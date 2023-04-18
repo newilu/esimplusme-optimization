@@ -43,7 +43,7 @@ function DownloadAppSection({
     <div style={{ overflow: "hidden" }}>
       <Wrapper id="mobile_app_section">
         <Content>
-          <SectionTitle>{t(sectionTitle)}</SectionTitle>
+          <SectionTitle as="div">{t(sectionTitle)}</SectionTitle>
           <ul>
             <li>
               <Image width={24} height={24} src={phone} alt="phone call" />

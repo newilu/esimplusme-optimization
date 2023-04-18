@@ -101,6 +101,9 @@ function Footer({
                         {t("mobile_data")}
                       </Link>
                     </ListItem>
+                    <ListItem>
+                      <Link href="/blog">{t("blog_page_title")}</Link>
+                    </ListItem>
                   </List>
                 </ListWrapper>
               </div>

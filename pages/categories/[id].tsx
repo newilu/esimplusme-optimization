@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 import PaginatedGridView from "@/components/PaginatedGridView";
 import BlogPreviewCard from "@/components/BlogPreviewCard";
 import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
+import Head from "next/head";
 
 function Category({
   articles,
@@ -25,6 +26,35 @@ function Category({
 
   return (
     <>
+      <Head>
+        <title>{categoryName}</title>
+        <meta name="description" content={categoryName} />
+        <meta property="og:title" content={categoryName} />
+        <meta property="og:description" content={categoryName} />
+        <meta name="twitter:title" content={categoryName} />
+        <meta name="twitter:description" content={categoryName} />
+        <link
+          rel="canonical"
+          href={`https://esimplus.me/categories/${categoryName}`}
+        />
+        <meta name="robots" content="index,follow" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="article" />
+        <meta
+          property="og:url"
+          content={`https://esimplus.me/categories/${categoryName}`}
+        />
+        <meta
+          property="og:image"
+          content="https://static.esimplus.net/storage/logos/logo.png"
+        />
+        <meta property="og:image:width" content="112" />
+        <meta property="og:image:height" content="93" />
+        <meta
+          name="twitter:image"
+          content="https://static.esimplus.net/storage/logos/logo.png"
+        />
+      </Head>
       <Navbar />
       <main>
         <SectionTitle>
