@@ -84,18 +84,22 @@ function Footer({
                   <ListTitle>{t("services")}</ListTitle>
                   <List>
                     <ListItem>
-                      <a
+                      <Link
                         target="_blank"
                         rel="noreferrer"
                         href="https://sms.esimplus.me"
                       >
                         {t("virtual_numbers")}
-                      </a>
+                      </Link>
                     </ListItem>
                     <ListItem>
-                      <a href="https://mobiledata.esimplus.me">
+                      <Link
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://mobiledata.esimplus.me"
+                      >
                         {t("mobile_data")}
-                      </a>
+                      </Link>
                     </ListItem>
                     <ListItem>
                       <Link href="/blog">{t("blog_page_title")}</Link>
