@@ -25,6 +25,7 @@ import { BASE_STORAGE_URL, SectionIDS } from "@/shared/constants";
 import { scrollToId } from "@/shared/lib";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
 
 function Footer({
   countries = [],
@@ -38,7 +39,7 @@ function Footer({
   const router = useRouter();
   const [isShowingAllCountries, setIsShowingAllCountries] =
     React.useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const countryList = React.useMemo(
     () => (isShowingAllCountries ? countries : countries.slice(0, 9)),
@@ -67,13 +68,13 @@ function Footer({
                 </a>
               </button>{" "}
               <button>
-                <a
+                <Link
                   target="_blank"
                   rel="noreferrer"
-                  href="https://t.me/esimplus"
+                  href={i18n.language === "ru" ? TG_RU_LINK : TG_DEFAULT_LINK}
                 >
                   <Image src={telegram} alt="telegram" />
-                </a>
+                </Link>
               </button>{" "}
             </SocialNetworksWrapper>
           </div>
@@ -111,26 +112,33 @@ function Footer({
                 <ListWrapper>
                   <ListTitle>{t("support")}</ListTitle>
                   <List>
-                    <ListItem onClick={() => {}}>
+                    <ListItem
+                      onClick={() => {
+                        // eslint-disable-next-line new-cap
+                        window.HelpCrunch("openChat");
+                      }}
+                    >
                       {t("online_support")}
                     </ListItem>
                     <ListItem>
-                      <a
+                      <Link
                         target="_blank"
                         rel="noreferrer"
                         href="mailto:support.esim@appvillis.com"
                       >
                         support.esim@appvillis.com
-                      </a>
+                      </Link>
                     </ListItem>{" "}
                     <ListItem>
-                      <a
+                      <Link
                         target="_blank"
                         rel="noreferrer"
-                        href="https://t.me/esimplus_support"
+                        href={
+                          i18n.language === "ru" ? TG_RU_LINK : TG_DEFAULT_LINK
+                        }
                       >
                         Telegram
-                      </a>
+                      </Link>
                     </ListItem>
                   </List>
                 </ListWrapper>
