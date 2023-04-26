@@ -31,6 +31,7 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <link rel="icon" href={favicon.src} />
+        <meta name="yandex-verification" content="b0cce6481d476b06" />
       </Head>
       <QueryClientProvider client={queryClient}>
         <WidthProvider>
