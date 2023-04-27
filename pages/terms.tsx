@@ -27,7 +27,7 @@ function TermsOfUse() {
   return (
     <>
       <Head>
-        <title>eSIM+ | {t("terms_of_use")}</title>
+        <title>{t("terms_of_use")}</title>
         <meta name="description" content={t("terms_of_use_page_description")} />
         <meta property="og:locale" content={i18n.language} />
         <meta property="og:type" content="website" />

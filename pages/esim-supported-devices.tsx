@@ -98,10 +98,13 @@ function SupportedDevices() {
   return (
     <>
       <Head>
-        <title>eSIM+ | {t("esim_supported_devices")}</title>
+        <title>{t("esim_supported_devices")}</title>
         <meta
           name="description"
-          content={t("esim_supported_devices_page_description")}
+          content={t("esim_supported_devices_page_description").replace(
+            "2022",
+            new Date().getFullYear().toString()
+          )}
         />
         <meta property="og:locale" content={i18n.language} />
         <meta property="og:type" content="website" />
@@ -119,7 +122,10 @@ function SupportedDevices() {
         />
         <meta
           property="og:description"
-          content={t("esim_supported_devices_page_description")}
+          content={t("esim_supported_devices_page_description").replace(
+            "2022",
+            new Date().getFullYear().toString()
+          )}
         />
         <meta name="twitter:card" content="app" />
         <meta
@@ -128,7 +134,10 @@ function SupportedDevices() {
         />
         <meta
           name="twitter:description"
-          content={t("esim_supported_devices_page_description")}
+          content={t("esim_supported_devices_page_description").replace(
+            "2022",
+            new Date().getFullYear().toString()
+          )}
         />
         <meta
           name="twitter:image"

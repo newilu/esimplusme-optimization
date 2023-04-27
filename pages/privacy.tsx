@@ -23,7 +23,7 @@ function Privacy() {
   return (
     <>
       <Head>
-        <title>eSIM+ | {t("privacy_policy")}</title>
+        <title>{t("privacy_policy")}</title>
         <meta
           name="description"
           content={t("privacy_policy_page_description")}
