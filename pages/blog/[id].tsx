@@ -3,9 +3,9 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/widgets/Navbar";
 import Footer from "@/components/Footer";
-import EsimAppBanner from "@/components/EsimAppBanner";
+import EsimAppBanner from "features/DownloadAppSection";
 import api from "@/api";
 import { Article } from "@/utils/types";
 import RelatedArticles from "@/components/RelatedArticles";
@@ -24,7 +24,7 @@ function BlogById({ article }: { article: Article }) {
         <meta name="twitter:description" content={article.metaDescription} />
         <link
           rel="canonical"
-          href={`https://blog.esimplus.me/${article.url ?? article.id}`}
+          href={`https://esimplus.me/blog/${article.url ?? article.id}`}
         />
         <meta
           property="article:published_time"
@@ -34,12 +34,12 @@ function BlogById({ article }: { article: Article }) {
           property="article:modified_time"
           content={article.updatedAt.date}
         />
-        <meta name="robots" content="https://blog.esimplus.me/robots.txt" />
+        <meta name="robots" content="index,follow" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
         <meta
           property="og:url"
-          content={`https://blog.esimplus.me/${article.url ?? article.id}`}
+          content={`https://esimplus.me/blog/${article.url ?? article.id}`}
         />
         <meta property="og:image" content={article.preview.image.src ?? ""} />
         <meta

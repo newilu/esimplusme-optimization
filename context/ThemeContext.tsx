@@ -1,9 +1,11 @@
 import React from "react";
+import { Toaster } from "react-hot-toast";
 import {
   createGlobalStyle,
   ThemeProvider as StyledThemeProvider,
 } from "styled-components";
-import { getCookie, setCookie, themes } from "utils/common";
+import { getCookie, setCookie } from "utils/common";
+import themes from "shared/ui/themes";
 
 type ThemeContextProps = {
   isDarkTheme: boolean;
@@ -21,6 +23,9 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     background: ${(props) => (props.theme as any).bg};
+  }
+  a.active{
+    color: ${(props) => (props.theme as any).primary}
   }
 `;
 
@@ -47,6 +52,26 @@ function ThemeProvider<T extends { children: React.ReactNode }>(props: T) {
   return (
     <ThemeContext.Provider value={{ isDarkTheme, toggleTheme }} {...props}>
       <GlobalStyle theme={themes[isDarkTheme ? "dark" : "light"]} />
+      <Toaster
+        toastOptions={{
+          success: {
+            iconTheme: {
+              primary: "#0076ff",
+              secondary: "#EDF0FA",
+            },
+            style: {
+              background: isDarkTheme ? "#1a1c2c" : "white",
+              color: themes[isDarkTheme ? "dark" : "light"].primaryText,
+            },
+          },
+          error: {
+            style: {
+              background: isDarkTheme ? "#1a1c2c" : "white",
+              color: themes[isDarkTheme ? "dark" : "light"].primaryText,
+            },
+          },
+        }}
+      />
       <StyledThemeProvider theme={themes[isDarkTheme ? "dark" : "light"]}>
         {props.children}
       </StyledThemeProvider>

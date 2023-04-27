@@ -19,3 +19,12 @@ declare module "react-i18next" {
     resources: I18nNamespaces;
   }
 }
+
+declare global {
+  interface Window {
+    HelpCrunch: (method: string) => void;
+    gtag: (event: string, action: string, params?: any) => void;
+    fbq: (event: string, name: string, options?: any) => void;
+    ym: (...args: any) => void;
+  }
+}

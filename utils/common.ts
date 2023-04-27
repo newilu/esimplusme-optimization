@@ -1,44 +1,3 @@
-const themes = {
-  light: {
-    name: "light",
-    primary: "#0076FF",
-    primaryText: "#101010",
-    secondaryText: "#6F6F6F",
-    borderColor: "#f1f1f1",
-    bg: "#ffffff",
-    htmlBg: "#ffffff",
-    benefitsBg: "#F7F7F7",
-    cardsBg: "#ffffff",
-    navbarBg: "#ffffff",
-    appBannerBg: "rgba(233, 236, 242, 0.5)",
-    tocBorderColor: "rgba(128, 141, 158, 0.1)",
-    cardCategoryStripBg: "rgba(128, 141, 158, 0.15)",
-    cardBaseBg: "rgba(128, 141, 158, 0.05)",
-    downloadAppBg: "rgba(233, 236, 242, 0.5)",
-    notificationsBg:
-      "linear-gradient(180deg, rgba(0, 0, 0, 0.05) 43.57%, rgba(0, 0, 0, 0) 100%)",
-  },
-  dark: {
-    name: "dark",
-    primary: "#0076FF",
-    primaryText: "#FFFFFF",
-    secondaryText: "rgba(255,255,255,0.65)",
-    borderColor: "rgba(255,255,255,0.1)",
-    bg: "radial-gradient(84.44% 84.68% at -3.96% -9.68%, #040D30 0%, #000006 100%)",
-    htmlBg: "#000006",
-    benefitsBg: "rgba(247, 247, 247, 0.1)",
-    cardsBg: "#17171F",
-    navbarBg: "rgba(15,16,28,0.85)",
-    appBannerBg: "rgba(233, 236, 242, 0.15)",
-    tocBorderColor: "rgba(128, 141, 158, 0.1)",
-    cardCategoryStripBg: "rgba(255, 255, 255, 0.15)",
-    cardBaseBg: "rgba(255, 255, 255, 0.05)",
-    downloadAppBg: "rgba(233, 236, 242, 0.15)",
-    notificationsBg:
-      "linear-gradient(180deg, rgba(255, 255, 255, 0.05) 43.57%, rgba(255, 255, 255, 0) 100%)",
-  },
-};
-
 function getErrorMessage(error: any): string {
   let message = "";
 
@@ -117,4 +76,28 @@ const scrollToId = (id: string, offsetY = 0) => {
     });
   }
 };
-export { setCookie, getCookie, scrollToId, getErrorMessage, themes };
+
+function uuid() {
+  // Public Domain/MIT
+  let d = new Date().getTime(); //Timestamp
+  let d2 =
+    (typeof performance !== "undefined" && performance.now() * 1000) || 0; //Time in microseconds since page-load or 0 if unsupported
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    let r = Math.random() * 16; //random number between 0 and 16
+    if (d > 0) {
+      //Use timestamp until depleted
+      // eslint-disable-next-line no-bitwise
+      r = (d + r) % 16 | 0;
+      d = Math.floor(d / 16);
+    } else {
+      //Use microseconds since page-load if supported
+      // eslint-disable-next-line no-bitwise
+      r = (d2 + r) % 16 | 0;
+      d2 = Math.floor(d2 / 16);
+    }
+    // eslint-disable-next-line no-bitwise
+    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
+}
+
+export { setCookie, getCookie, scrollToId, getErrorMessage, uuid };

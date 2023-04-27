@@ -12,6 +12,4 @@ export const Title = styled.div`
   color: ${(props) => props.theme.primaryText};
   margin-bottom: 30px;
 `;
-export const Wrapper = styled.div`
-  margin-top: 100px;
-`;
+export const Wrapper = styled.div``;

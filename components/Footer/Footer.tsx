@@ -5,7 +5,7 @@ import facebook from "public/staticfiles/Facebook.svg";
 import telegram from "public/staticfiles/Telegram.svg";
 import whatWeAccept from "public/staticfiles/what-we-accept.svg";
 import { Container } from "utils/styled";
-import Logo from "../Logo";
+import Logo from "../../entities/Logo";
 import {
   ListItem,
   List,
@@ -16,10 +16,40 @@ import {
   LinksWrapper,
   TopSection,
   BottomSection,
+  Chat,
 } from "./styled";
+import { Country, Region, RegionById } from "@/utils/types";
+import NavLink from "@/shared/ui/NavLink";
+import CountryFlag from "@/shared/ui/CountryFlag";
+import { BASE_STORAGE_URL, SectionIDS } from "@/shared/constants";
+import { scrollToId } from "@/shared/lib";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
 
-function Footer() {
-  const { t } = useTranslation();
+function Footer({
+  countries = [],
+  regions = [],
+  worldwideRegion,
+}: {
+  countries?: Country[];
+  regions?: Region[];
+  worldwideRegion?: RegionById;
+}) {
+  const router = useRouter();
+  const [isShowingAllCountries, setIsShowingAllCountries] =
+    React.useState(false);
+  const { t, i18n } = useTranslation();
+
+  const countryList = React.useMemo(
+    () => (isShowingAllCountries ? countries : countries.slice(0, 9)),
+    [isShowingAllCountries, countries]
+  );
+
+  const handleRegionSelect = (region?: string) => {
+    scrollToId(SectionIDS.SearchYourDestination, 65);
+    void router.push({ query: { region } }, undefined, { shallow: true });
+  };
 
   return (
     <Wrapper>
@@ -38,13 +68,13 @@ function Footer() {
                 </a>
               </button>{" "}
               <button>
-                <a
+                <Link
                   target="_blank"
                   rel="noreferrer"
-                  href="https://t.me/esimplus"
+                  href={i18n.language === "ru" ? TG_RU_LINK : TG_DEFAULT_LINK}
                 >
                   <Image src={telegram} alt="telegram" />
-                </a>
+                </Link>
               </button>{" "}
             </SocialNetworksWrapper>
           </div>
@@ -55,18 +85,25 @@ function Footer() {
                   <ListTitle>{t("services")}</ListTitle>
                   <List>
                     <ListItem>
-                      <a
+                      <Link
                         target="_blank"
                         rel="noreferrer"
                         href="https://sms.esimplus.me"
                       >
                         {t("virtual_numbers")}
-                      </a>
+                      </Link>
                     </ListItem>
                     <ListItem>
-                      <a href="https://mobiledata.esimplus.me">
+                      <Link
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://mobiledata.esimplus.me"
+                      >
                         {t("mobile_data")}
-                      </a>
+                      </Link>
+                    </ListItem>
+                    <ListItem>
+                      <Link href="/blog">{t("blog_page_title")}</Link>
                     </ListItem>
                   </List>
                 </ListWrapper>
@@ -75,9 +112,41 @@ function Footer() {
                 <ListWrapper>
                   <ListTitle>{t("support")}</ListTitle>
                   <List>
-                    <ListItem onClick={() => {}}>
+                    <ListItem
+                      onClick={() => {
+                        // eslint-disable-next-line new-cap
+                        window.HelpCrunch("openChat");
+                      }}
+                    >
                       {t("online_support")}
                     </ListItem>
+                    <ListItem>
+                      <Link
+                        target="_blank"
+                        rel="noreferrer"
+                        href="mailto:support.esim@appvillis.com"
+                      >
+                        support.esim@appvillis.com
+                      </Link>
+                    </ListItem>{" "}
+                    <ListItem>
+                      <Link
+                        target="_blank"
+                        rel="noreferrer"
+                        href={
+                          i18n.language === "ru" ? TG_RU_LINK : TG_DEFAULT_LINK
+                        }
+                      >
+                        Telegram
+                      </Link>
+                    </ListItem>
+                  </List>
+                </ListWrapper>
+              </div>
+              <div>
+                <ListWrapper>
+                  <ListTitle>{t("contacts")}</ListTitle>
+                  <List>
                     <ListItem>
                       <a
                         target="_blank"
@@ -88,19 +157,119 @@ function Footer() {
                       </a>
                     </ListItem>{" "}
                     <ListItem>
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://t.me/esimplus_support"
-                      >
-                        Telegram
-                      </a>
+                      Appvillis UAB. CRN 304930580. Šiaulių g. 10-56, Vilnius,
+                      01134, Lithuania
+                    </ListItem>{" "}
+                    <ListItem>
+                      <a href="tel:+37064757853">+37064757853</a>
                     </ListItem>
                   </List>
                 </ListWrapper>
               </div>
-              <div />
             </LinksWrapper>
+            {router.pathname === "/" && (
+              <LinksWrapper>
+                <div>
+                  <ListWrapper>
+                    <ListTitle>{t("local_esim")}</ListTitle>
+                    <List>
+                      {countryList.map(({ country, isoName2 }) => (
+                        <ListItem key={country}>
+                          <NavLink
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleRegionSelect(isoName2.toLowerCase());
+                            }}
+                            href="mock"
+                          >
+                            <Chat key={country}>
+                              <div>
+                                <CountryFlag
+                                  width={22}
+                                  height={22}
+                                  name={isoName2}
+                                  alt="local plan"
+                                />
+                              </div>
+                              {country}
+                            </Chat>
+                          </NavLink>
+                        </ListItem>
+                      ))}
+                      <ListItem
+                        onClick={() =>
+                          setIsShowingAllCountries((prev) => !prev)
+                        }
+                      >
+                        <span>
+                          {isShowingAllCountries ? "Less" : "More"}...
+                        </span>
+                      </ListItem>
+                    </List>
+                  </ListWrapper>
+                </div>
+                <div>
+                  <ListWrapper>
+                    <ListTitle>{t("regional_esim")}</ListTitle>
+                    <List>
+                      {regions.map(({ name }) => (
+                        <ListItem key={name}>
+                          <NavLink
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleRegionSelect(name.toLowerCase());
+                            }}
+                            href="mock"
+                          >
+                            <Chat key={name}>
+                              <div>
+                                <Image
+                                  width={22}
+                                  height={22}
+                                  src={`${BASE_STORAGE_URL}48x30/${name}350.jpg`}
+                                  alt="regional plan"
+                                />
+                              </div>
+                              {name}
+                            </Chat>
+                          </NavLink>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </ListWrapper>
+                </div>
+                <div>
+                  <ListWrapper>
+                    <ListTitle>{t("global_esim")}</ListTitle>
+                    <List>
+                      <ListItem>
+                        <NavLink
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleRegionSelect(
+                              worldwideRegion?.name.toLowerCase()
+                            );
+                          }}
+                          href="mock"
+                        >
+                          <Chat>
+                            <div>
+                              <Image
+                                width={22}
+                                height={22}
+                                src={`${BASE_STORAGE_URL}48x30/Pay-as-you-go.jpg`}
+                                alt="worldwide plan"
+                              />
+                            </div>
+                            {worldwideRegion?.name}
+                          </Chat>
+                        </NavLink>
+                      </ListItem>
+                    </List>
+                  </ListWrapper>
+                </div>
+              </LinksWrapper>
+            )}
             <ul>
               <li>
                 <a
@@ -138,31 +307,15 @@ function Footer() {
           <div>Appvillis UAB, {new Date().getFullYear()}</div>
           <ul>
             <li>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://esimplus.me/privacy"
-              >
-                {t("privacy_policy")}
-              </a>
+              <Link href="/privacy">{t("privacy_policy")}</Link>
             </li>{" "}
             <li>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://esimplus.me/terms"
-              >
-                {t("terms_of_use")}
-              </a>
+              <Link href="/terms">{t("terms_of_use")}</Link>
             </li>{" "}
             <li>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://esimplus.me/esim-supported-devices"
-              >
+              <Link href="/esim-supported-devices">
                 {t("esim_supported_devices")}
-              </a>
+              </Link>
             </li>{" "}
           </ul>
           <div>
