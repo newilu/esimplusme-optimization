@@ -103,7 +103,9 @@ function Footer({
                       </Link>
                     </ListItem>
                     <ListItem>
-                      <Link href="/blog">{t("blog_page_title")}</Link>
+                      <Link href="/blog" locale="en">
+                        {t("blog_page_title")}
+                      </Link>
                     </ListItem>
                   </List>
                 </ListWrapper>
