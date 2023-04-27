@@ -21,8 +21,10 @@ function SetupGuide() {
             <Button
               onClick={() => {
                 scrollToId(SectionIDS.SearchYourDestination, 65);
-                // window.ym(79496440, "reachGoal", "setup_cta_click");
-                // window.gtag("event", "setup_cta_click");
+                if (typeof window !== "undefined") {
+                  window.ym(79496440, "reachGoal", "setup_cta_click");
+                  window.gtag("event", "setup_cta_click");
+                }
               }}
               label={t("get_mobile_data")}
               variant="outlined"

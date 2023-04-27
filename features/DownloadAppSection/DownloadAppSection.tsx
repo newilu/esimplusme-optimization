@@ -27,14 +27,16 @@ function DownloadAppSection({
   const theme = useTheme();
 
   const handleMarketClick = (market: string) => {
-    // window.fbq("track", "Lead");
+    typeof window !== "undefined" && window.fbq("track", "Lead");
     switch (true) {
       case router.pathname.includes("virtual-numbers"):
-        // window.gtag("event", `virtualnumber_${market}_click`);
+        typeof window !== "undefined" &&
+          window.gtag("event", `virtualnumber_${market}_click`);
         break;
 
       default:
-        // window.gtag("event", `mobiledata_${market}_click`);
+        typeof window !== "undefined" &&
+          window.gtag("event", `mobiledata_${market}_click`);
         break;
     }
   };

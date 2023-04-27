@@ -41,10 +41,11 @@ function HowToGetSms() {
         </CardsWrapper>
         <GetNumberWrapper>
           <Button
-            onClick={
-              () => {}
-              // window.gtag("event", "virtualnumber_setup_button_click")
-            }
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.gtag("event", "virtualnumber_setup_button_click");
+              }
+            }}
             label={
               <a
                 target="_blank"

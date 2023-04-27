@@ -17,8 +17,10 @@ function GetFreeNumberSection() {
           <button
             type="button"
             onClick={() => {
-              // window.gtag('event', 'virtualnumber_free_click');
-              window.open("https://sms.esimplus.me/");
+              if (typeof window !== "undefined") {
+                window.gtag("event", "virtualnumber_free_click");
+                window.open("https://sms.esimplus.me/");
+              }
             }}
           >
             {t("i_want_free_number")}

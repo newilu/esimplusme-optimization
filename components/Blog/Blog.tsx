@@ -60,11 +60,7 @@ function Blog({
           <div>
             <CardCategories>
               {categories.map(({ name, id }) => (
-                <CardCategory key={id}>
-                  <Link target="_blank" href={`/categories/${name}`}>
-                    #{name}
-                  </Link>
-                </CardCategory>
+                <CardCategory key={id}>#{name}</CardCategory>
               ))}
             </CardCategories>
             <BlogReadingTime>{readingTime}</BlogReadingTime>

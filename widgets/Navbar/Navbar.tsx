@@ -61,13 +61,15 @@ function Navbar({
   } = useModalControls(false, { disableBodyScroll: true });
 
   const handleSignInClick = () => {
-    switch (true) {
-      case router.pathname.includes("virtual-numbers"):
-        // window.gtag('event', 'signin_virtualnumber_click');
-        break;
-      default:
-        // window.gtag('event', 'signin_mobiledata_click');
-        break;
+    if (typeof window !== "undefined") {
+      switch (true) {
+        case router.pathname.includes("virtual-numbers"):
+          window.gtag("event", "signin_virtualnumber_click");
+          break;
+        default:
+          window.gtag("event", "signin_mobiledata_click");
+          break;
+      }
     }
   };
 
@@ -120,7 +122,7 @@ function Navbar({
                 </>
               </Link>
               <Link href="/blog" locale="en">
-                {t("blog")}
+                {t("blog_page_title")}
               </Link>
             </LinksWrapper>
           </div>
@@ -309,7 +311,7 @@ function Navbar({
                     </NavMenuItem>{" "}
                     <NavMenuItem>
                       <Link href="/blog" onClick={handleNavMenuItemCLick}>
-                        <>{t("blog")}</>
+                        <>{t("blog_page_title")}</>
                       </Link>
                     </NavMenuItem>
                   </ul>

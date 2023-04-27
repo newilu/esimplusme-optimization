@@ -9,10 +9,12 @@ import { Wrapper } from "./styled";
 function Header() {
   const { t } = useTranslation();
 
-  // React.useEffect(() => {
-  //   window.ym(79496440, "reachGoal", "landing_page_view");
-  //   window.gtag("event", "landing_page_view");
-  // }, []);
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.ym(79496440, "reachGoal", "landing_page_view");
+      window.gtag("event", "landing_page_view");
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -24,8 +26,10 @@ function Header() {
         <Button
           onClick={() => {
             scrollToId(SectionIDS.SearchYourDestination, 65);
-            // window.ym(79496440, "reachGoal", "header_cta_click");
-            // window.gtag("event", "header_cta_click");
+            if (typeof window !== "undefined") {
+              window.ym(79496440, "reachGoal", "header_cta_click");
+              window.gtag("event", "header_cta_click");
+            }
           }}
           label={t("get_mobile_data")}
         />

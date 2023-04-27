@@ -78,10 +78,14 @@ function VirtualNumbersHeader() {
             <SectionSubtitle>{t("for_anonymous_reg")}</SectionSubtitle>
           </div>
           <Button
-            onClick={
-              () => {}
-              // window.gtag("event", "virtualnumber_header_call_to_action_click")
-            }
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.gtag(
+                  "event",
+                  "virtualnumber_header_call_to_action_click"
+                );
+              }
+            }}
             label={
               <a
                 rel="noreferrer"
