@@ -309,13 +309,17 @@ function Footer({
           <div>Appvillis UAB, {new Date().getFullYear()}</div>
           <ul>
             <li>
-              <Link href="/privacy">{t("privacy_policy")}</Link>
+              <Link locale="en" href="/privacy">
+                {t("privacy_policy")}
+              </Link>
             </li>{" "}
             <li>
-              <Link href="/terms">{t("terms_of_use")}</Link>
+              <Link locale="en" href="/terms">
+                {t("terms_of_use")}
+              </Link>
             </li>{" "}
             <li>
-              <Link href="/esim-supported-devices">
+              <Link locale="en" href="/esim-supported-devices">
                 {t("esim_supported_devices")}
               </Link>
             </li>{" "}

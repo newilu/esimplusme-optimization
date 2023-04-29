@@ -7,7 +7,7 @@ import { Wrapper } from "./styled";
 function Logo({ color, ...props }: { color?: string }) {
   return (
     <Wrapper style={{ color }} {...props}>
-      <Link href="/">
+      <Link href="/" locale="en">
         <Image width={36} height={30} src={logo} alt="logo" />
         <div>
           <div>

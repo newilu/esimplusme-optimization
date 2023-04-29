@@ -19,6 +19,15 @@ const nextConfig = {
     domains: ["static.esimplus.net", "admin-blog.esimplus.me"],
     minimumCacheTTL: 999999,
   },
+  async redirects() {
+    return [
+      {
+        source: "/mobile-data",
+        destination: "/",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
