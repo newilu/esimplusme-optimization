@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import facebook from "public/staticfiles/Facebook.svg";
 import telegram from "public/staticfiles/Telegram.svg";
+import ln from "public/staticfiles/ln.svg";
 import whatWeAccept from "public/staticfiles/what-we-accept.svg";
 import { Container } from "utils/styled";
 import Logo from "../../entities/Logo";
@@ -74,6 +75,15 @@ function Footer({
                   href={i18n.language === "ru" ? TG_RU_LINK : TG_DEFAULT_LINK}
                 >
                   <Image src={telegram} alt="telegram" />
+                </Link>
+              </button>{" "}
+              <button>
+                <Link
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://www.linkedin.com/company/esimplus"
+                >
+                  <Image src={ln} alt="linkedin" />
                 </Link>
               </button>{" "}
             </SocialNetworksWrapper>
