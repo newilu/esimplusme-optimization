@@ -85,22 +85,12 @@ function Footer({
                   <ListTitle>{t("services")}</ListTitle>
                   <List>
                     <ListItem>
-                      <Link
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://sms.esimplus.me"
-                      >
+                      <Link href="/virtual-numbers">
                         {t("virtual_numbers")}
                       </Link>
                     </ListItem>
                     <ListItem>
-                      <Link
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://mobiledata.esimplus.me"
-                      >
-                        {t("mobile_data")}
-                      </Link>
+                      <Link href="/">{t("mobile_data")}</Link>
                     </ListItem>
                     <ListItem>
                       <Link href="/blog" locale="en">
@@ -292,13 +282,9 @@ function Footer({
                 </a>
               </li>{" "}
               <li>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://esimplus.me/esim-supported-devices"
-                >
+                <Link href="/esim-supported-devices">
                   {t("esim_supported_devices")}
-                </a>
+                </Link>
               </li>{" "}
             </ul>
           </div>
@@ -319,7 +305,7 @@ function Footer({
               </Link>
             </li>{" "}
             <li>
-              <Link locale="en" href="/esim-supported-devices">
+              <Link href="/esim-supported-devices">
                 {t("esim_supported_devices")}
               </Link>
             </li>{" "}
