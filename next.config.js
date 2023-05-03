@@ -19,6 +19,14 @@ const nextConfig = {
     domains: ["static.esimplus.net", "admin-blog.esimplus.me"],
     minimumCacheTTL: 999999,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/sitemap.xml",
+        destination: "/api/sitemap",
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
