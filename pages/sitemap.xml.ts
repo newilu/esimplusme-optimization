@@ -9,7 +9,6 @@ const langList = LANGUAGE_OPTIONS.map((el) => el.value).filter(
 function generateSiteMap(posts: { id: number }[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-     <!--We manually set the two URLs we know already-->
      <url>
        <loc>${BASE_APP_URL}/</loc>
        <lastmod>${format(new Date(), "yyyy-MM-dd")}</lastmod>
