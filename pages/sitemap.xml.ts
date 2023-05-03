@@ -1,11 +1,12 @@
 import { format } from "date-fns";
 import { LANGUAGE_OPTIONS, BASE_APP_URL } from "../utils/constants";
+import { NextApiResponse } from "next";
 
 const langList = LANGUAGE_OPTIONS.map((el) => el.value).filter(
   (el) => el !== "en"
 );
 
-function generateSiteMap(posts) {
+function generateSiteMap(posts: { id: number }[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
      <!--We manually set the two URLs we know already-->
@@ -95,7 +96,7 @@ function SiteMap() {
   return null;
 }
 
-export async function getServerSideProps({ res }) {
+export async function getServerSideProps({ res }: { res: NextApiResponse }) {
   // We make an API call to gather the URLs for our site
   // const posts = ...
 
