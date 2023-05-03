@@ -95,17 +95,18 @@ function SupportedDevices() {
     window.scrollTo(0, 0);
   }, []);
 
+  const pageDescription = t("esim_supported_devices_page_description").replace(
+    "2022",
+    `${new Date().toLocaleString(i18n.language, {
+      month: "long",
+    })} ${new Date().getFullYear().toString()}`
+  );
+
   return (
     <>
       <Head>
         <title>{t("esim_supported_devices")}</title>
-        <meta
-          name="description"
-          content={t("esim_supported_devices_page_description").replace(
-            "2022",
-            new Date().getFullYear().toString()
-          )}
-        />
+        <meta name="description" content={pageDescription} />
         <meta property="og:locale" content={i18n.language} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://esimplus.me${pathname}`} />
@@ -120,25 +121,13 @@ function SupportedDevices() {
           property="og:title"
           content={`eSIM+ | ${t("esim_supported_devices")}`}
         />
-        <meta
-          property="og:description"
-          content={t("esim_supported_devices_page_description").replace(
-            "2022",
-            new Date().getFullYear().toString()
-          )}
-        />
+        <meta property="og:description" content={pageDescription} />
         <meta name="twitter:card" content="app" />
         <meta
           name="twitter:title"
           content={`eSIM+ | ${t("esim_supported_devices")}`}
         />
-        <meta
-          name="twitter:description"
-          content={t("esim_supported_devices_page_description").replace(
-            "2022",
-            new Date().getFullYear().toString()
-          )}
-        />
+        <meta name="twitter:description" content={pageDescription} />
         <meta
           name="twitter:image"
           content="https://static.esimplus.net/storage/logos/logo.png"

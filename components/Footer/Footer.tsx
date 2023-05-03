@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import facebook from "public/staticfiles/Facebook.svg";
 import telegram from "public/staticfiles/Telegram.svg";
+import ln from "public/staticfiles/ln.svg";
 import whatWeAccept from "public/staticfiles/what-we-accept.svg";
 import { Container } from "utils/styled";
 import Logo from "../../entities/Logo";
@@ -76,6 +77,15 @@ function Footer({
                   <Image src={telegram} alt="telegram" />
                 </Link>
               </button>{" "}
+              <button>
+                <Link
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://www.linkedin.com/company/esimplus"
+                >
+                  <Image src={ln} alt="linkedin" />
+                </Link>
+              </button>{" "}
             </SocialNetworksWrapper>
           </div>
           <div>
@@ -85,22 +95,12 @@ function Footer({
                   <ListTitle>{t("services")}</ListTitle>
                   <List>
                     <ListItem>
-                      <Link
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://sms.esimplus.me"
-                      >
+                      <Link href="/virtual-numbers">
                         {t("virtual_numbers")}
                       </Link>
                     </ListItem>
                     <ListItem>
-                      <Link
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://mobiledata.esimplus.me"
-                      >
-                        {t("mobile_data")}
-                      </Link>
+                      <Link href="/">{t("mobile_data")}</Link>
                     </ListItem>
                     <ListItem>
                       <Link href="/blog" locale="en">
@@ -292,13 +292,9 @@ function Footer({
                 </a>
               </li>{" "}
               <li>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://esimplus.me/esim-supported-devices"
-                >
+                <Link href="/esim-supported-devices">
                   {t("esim_supported_devices")}
-                </a>
+                </Link>
               </li>{" "}
             </ul>
           </div>
@@ -309,10 +305,14 @@ function Footer({
           <div>Appvillis UAB, {new Date().getFullYear()}</div>
           <ul>
             <li>
-              <Link href="/privacy">{t("privacy_policy")}</Link>
+              <Link locale="en" href="/privacy">
+                {t("privacy_policy")}
+              </Link>
             </li>{" "}
             <li>
-              <Link href="/terms">{t("terms_of_use")}</Link>
+              <Link locale="en" href="/terms">
+                {t("terms_of_use")}
+              </Link>
             </li>{" "}
             <li>
               <Link href="/esim-supported-devices">

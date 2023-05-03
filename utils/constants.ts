@@ -34,6 +34,12 @@ export const LANGUAGE_OPTIONS = [
     country: "Portugal",
     value: "pt",
   },
+  {
+    img: "https://static.esimplus.net/storage/flags/es.svg",
+    label: "Spanish",
+    country: "Spain",
+    value: "es",
+  },
 ];
 
 export const MAX_ELEMENTS_PER_VIEW = 6;
