@@ -95,8 +95,25 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
   query,
 }) => {
-  const { page = 1 } = query;
+  const { page = 1, ...rest } = query;
   const authorId = params?.id as string | undefined;
+
+  if (locale !== "en") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const queryParams = new URLSearchParams({
+      ...(page > 1 ? { page } : {}),
+      ...Object.fromEntries(
+        Object.entries(rest).filter(([label]) => !params?.[label])
+      ),
+    } as any);
+
+    return {
+      redirect: {
+        destination: `/authors/${authorId}?${queryParams.toString()}`,
+        statusCode: 301,
+      },
+    };
+  }
 
   const { data: articles, headers } = await api.articles.getArticlesByAuthorId(
     authorId,
@@ -120,7 +137,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+      ...(await serverSideTranslations("en", ["common"])),
       articles,
       author,
       totalPages,

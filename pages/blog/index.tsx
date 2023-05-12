@@ -80,7 +80,21 @@ export const getServerSideProps: GetServerSideProps = async ({
   locale,
   query,
 }) => {
-  const { page = 1 } = query;
+  const { page = 1, ...rest } = query;
+  if (locale !== "en") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const params = new URLSearchParams({
+      ...(page > 1 ? { page } : {}),
+      ...rest,
+    } as any);
+
+    return {
+      redirect: {
+        destination: `/blog?${params.toString()}`,
+        statusCode: 301,
+      },
+    };
+  }
 
   const [articles, categories] = await Promise.all([
     api.articles.listArticles(
@@ -89,13 +103,13 @@ export const getServerSideProps: GetServerSideProps = async ({
     ),
     api.categories.listCategories(),
   ]);
-  console.log(articles);
+
   const totalArticlesCount =
     Number(articles.headers.get("x-pagination-total-count")) || 0;
   const totalPages = Math.ceil(totalArticlesCount / MAX_ELEMENTS_PER_VIEW);
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+      ...(await serverSideTranslations("en", ["common"])),
       articles: articles.data,
       categories: categories.data,
       totalPages,

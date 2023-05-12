@@ -68,9 +68,26 @@ function BlogById({ article }: { article: Article }) {
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   params,
+  query,
 }) => {
   const id = params?.id as string;
   let article: Article | null | undefined;
+
+  if (locale !== "en") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const queryParams = new URLSearchParams({
+      ...Object.fromEntries(
+        Object.entries(query).filter(([label]) => !params?.[label])
+      ),
+    } as any);
+
+    return {
+      redirect: {
+        destination: `/blog/${id}?${queryParams.toString()}`,
+        statusCode: 301,
+      },
+    };
+  }
 
   const articleByURL = await api.articles
     .getArticleByCustomUrl(id)
@@ -92,7 +109,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+      ...(await serverSideTranslations("en", ["common"])),
       article,
     },
   };

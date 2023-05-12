@@ -182,7 +182,7 @@ function Footer({
                               e.preventDefault();
                               handleRegionSelect(isoName2.toLowerCase());
                             }}
-                            href="mock"
+                            href={`/?region=${isoName2.toLowerCase()}`}
                           >
                             <Chat key={country}>
                               <div>
@@ -221,7 +221,7 @@ function Footer({
                               e.preventDefault();
                               handleRegionSelect(name.toLowerCase());
                             }}
-                            href="mock"
+                            href={`/?region=${name.toLowerCase()}`}
                           >
                             <Chat key={name}>
                               <div>
@@ -252,7 +252,7 @@ function Footer({
                               worldwideRegion?.name.toLowerCase()
                             );
                           }}
-                          href="mock"
+                          href={`/?region=worldwide`}
                         >
                           <Chat>
                             <div>

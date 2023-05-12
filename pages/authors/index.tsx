@@ -98,7 +98,23 @@ export const getServerSideProps: GetServerSideProps = async ({
   locale,
   query,
 }) => {
-  const { page = 1 } = query;
+  const { page = 1, ...rest } = query;
+
+  if (locale !== "en") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const params = new URLSearchParams({
+      ...(page > 1 ? { page } : {}),
+      ...rest,
+    } as any);
+
+    return {
+      redirect: {
+        destination: `/authors?${params.toString()}`,
+        statusCode: 301,
+      },
+    };
+  }
+
   const { data, headers } = await api.authors.listAuthors(
     MAX_AUTHORS_PER_VIEW,
     (+page - 1) * MAX_AUTHORS_PER_VIEW
@@ -109,7 +125,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+      ...(await serverSideTranslations("en", ["common"])),
       authors: data,
       totalPages,
     },
