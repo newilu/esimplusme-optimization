@@ -8,4 +8,4 @@ export enum SectionIDS {
   SearchYourDestination = "search_your_destination_section",
 }
 
-export const LANGS_LIST = ["ru", "en", "pl"];
+export const LANGS_LIST = ["ru", "en", "pl", "de", "es", "pt"];
