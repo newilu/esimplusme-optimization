@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import Head from "next/head.js";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 
 const Wrapper = styled.div`
   padding-top: 80px;
@@ -88,13 +89,9 @@ function TermsOfUse() {
             <br />
             <br />
             These Terms of Use (&quot;Terms&quot;) and the &nbsp;
-            <a
-              href="https://esimplus.me/en/page/privacy"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <Link locale="en" href="/privacy" target="_blank" rel="noreferrer">
               Privacy Policy
-            </a>
+            </Link>
             &nbsp; (collectively, &quot;Agreement&quot;) govern your
             relationship with UAB Appvillis, a company with registration number
             304930580 and its legal address: Šiaulių g. 10-56, Vilnius, 01134,

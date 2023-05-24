@@ -311,7 +311,11 @@ function Navbar({
                       </Link>
                     </NavMenuItem>{" "}
                     <NavMenuItem>
-                      <Link href="/blog" onClick={handleNavMenuItemCLick}>
+                      <Link
+                        locale="en"
+                        href="/blog"
+                        onClick={handleNavMenuItemCLick}
+                      >
                         <>{t("blog_page_title")}</>
                       </Link>
                     </NavMenuItem>
