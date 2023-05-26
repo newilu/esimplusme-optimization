@@ -32,7 +32,7 @@ function GetPlanButton({
         <a
           target="_blank"
           rel="noreferrer"
-          href={`https://dev-mobiledata.esimplus.me?${new URLSearchParams({
+          href={`https://mobiledata.esimplus.me?${new URLSearchParams({
             referrer: "esimplus.me",
             provider: providerType,
             countryISO: isoName2,
