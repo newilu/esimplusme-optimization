@@ -140,6 +140,15 @@ function LocalEsim({ countries }: { countries: Country[] }) {
     [activeCountry, countries, debouncedFilterText, i18n.language, router]
   );
 
+  React.useEffect(() => {
+    setActiveCountry(
+      (prev) =>
+        countries.find(
+          (el) => el.isoName2.toLowerCase() === router.query.region
+        ) ?? prev
+    );
+  }, [countries, router.query.region]);
+
   return (
     <>
       <CoverageCountriesModal

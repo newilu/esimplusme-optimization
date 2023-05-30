@@ -80,8 +80,14 @@ function RegionalEsim({
   const handleRegionChange = React.useCallback((region: Region | null) => {
     scrollToId(SectionIDS.SearchYourDestination, 65);
     setSelectedRegion(region);
+    const { region: _region, ...rest } = router.query;
     void router.push(
-      { query: { ...router.query, region: region?.name.toLowerCase() } },
+      {
+        query: {
+          ...rest,
+          ...(region ? { region: region.name.toLowerCase() } : {}),
+        },
+      },
       undefined,
       { scroll: false, shallow: true }
     );
@@ -118,6 +124,14 @@ function RegionalEsim({
 
     setFilteredRegions(newBundlesFilteredByCountries);
   }, [filteredCountries, handleRegionChange, regions, selectedRegion?.name]);
+
+  React.useEffect(() => {
+    setSelectedRegion(
+      (prev) =>
+        regions.find((el) => el.name.toLowerCase() === router.query.region) ??
+        prev
+    );
+  }, [regions, router.query.region]);
 
   return (
     <Wrapper>
