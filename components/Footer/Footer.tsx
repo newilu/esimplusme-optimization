@@ -95,7 +95,7 @@ function Footer({
                   <ListTitle>{t("services")}</ListTitle>
                   <List>
                     <ListItem>
-                      <Link href="/virtual-numbers">
+                      <Link href="/virtual-phone-number">
                         {t("virtual_numbers")}
                       </Link>
                     </ListItem>

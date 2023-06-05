@@ -11,12 +11,12 @@ function FAQSection() {
   const questionsList = React.useMemo(
     () =>
       Array.from(
-        Array(router.pathname.includes("virtual-numbers") ? 14 : 8).keys()
+        Array(router.pathname.includes("virtual-phone-number") ? 14 : 8).keys()
       ).map((el) => {
         return {
           question: t(
             `${
-              router.pathname.includes("virtual-numbers")
+              router.pathname.includes("virtual-phone-number")
                 ? "virtual_numbers"
                 : "mobile_data"
             }_faq_q_${el + 1}`
@@ -25,7 +25,7 @@ function FAQSection() {
             <Trans
               key={`faq_a_${el + 1}`}
               i18nKey={`${
-                router.pathname.includes("virtual-numbers")
+                router.pathname.includes("virtual-phone-number")
                   ? "virtual_numbers"
                   : "mobile_data"
               }_faq_a_${el + 1}`}
@@ -100,7 +100,7 @@ function FAQSection() {
       </div>
       <Wrapper
         id={`faq_section_${
-          router.pathname.includes("virtual-numbers")
+          router.pathname.includes("virtual-phone-number")
             ? "virtual_numbers"
             : "mobile_data"
         }`}

@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { LANGS_LIST } from "@/shared/constants";
 
-function VirtualNumbers() {
+function VirtualPhoneNumber() {
   const { pathname } = useRouter();
   const { t, i18n } = useTranslation();
   const [reviewsCount, setReviesCount] = React.useState("350000");
@@ -109,7 +109,7 @@ function VirtualNumbers() {
             i18n.language.startsWith("en")
               ? ""
               : `/${i18n.language.slice(0, 2)}`
-          }/virtual-numbers`}
+          }/virtual-phone-number`}
         />
         {LANGS_LIST.map((lng) => (
           <link
@@ -117,7 +117,7 @@ function VirtualNumbers() {
             rel="alternate"
             href={`https://esimplus.me${
               lng.startsWith("en") ? "" : `/${lng.slice(0, 2)}`
-            }/virtual-numbers`}
+            }/virtual-phone-number`}
             hrefLang={lng.toLowerCase()}
           />
         ))}
@@ -147,7 +147,7 @@ function VirtualNumbers() {
   );
 }
 
-export default VirtualNumbers;
+export default VirtualPhoneNumber;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {

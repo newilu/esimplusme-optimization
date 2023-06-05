@@ -1,6 +1,9 @@
 export const NAV_LINKS = [
   { href: "https://esimplus.me/", label: "mobile_data" },
-  { href: "https://esimplus.me/virtual-numbers", label: "virtual_numbers" },
+  {
+    href: "https://esimplus.me/virtual-phone-number",
+    label: "virtual_numbers",
+  },
 ];
 
 export const LANGUAGE_OPTIONS = [

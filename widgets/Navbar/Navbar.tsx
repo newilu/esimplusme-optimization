@@ -63,7 +63,7 @@ function Navbar({
   const handleSignInClick = () => {
     if (typeof window !== "undefined") {
       switch (true) {
-        case router.pathname.includes("virtual-numbers"):
+        case router.pathname.includes("virtual-phone-number"):
           window.gtag("event", "signin_virtualnumber_click");
           break;
         default:
@@ -116,7 +116,7 @@ function Navbar({
               <Link exact href="/">
                 {t("mobile_data")}
               </Link>
-              <Link href="/virtual-numbers">
+              <Link href="/virtual-phone-number">
                 <>
                   <div>{t("virtual_numbers")}</div>
                 </>
@@ -130,7 +130,7 @@ function Navbar({
             <ThemeSwitcher />
           </div>
           {(router.pathname === "/" ||
-            router.asPath.includes("virtual-numbers") ||
+            router.asPath.includes("virtual-phone-number") ||
             router.asPath.includes("esim-supported-devices")) && (
             <div>
               <LanguageMenu />
@@ -145,7 +145,7 @@ function Navbar({
                   target="_blank"
                   rel="noreferrer"
                   href={
-                    router.pathname.includes("virtual-numbers")
+                    router.pathname.includes("virtual-phone-number")
                       ? "https://sms.esimplus.me/"
                       : "https://mobiledata.esimplus.me/"
                   }
@@ -304,7 +304,7 @@ function Navbar({
                     </NavMenuItem>
                     <NavMenuItem>
                       <Link
-                        href="/virtual-numbers"
+                        href="/virtual-phone-number"
                         onClick={handleNavMenuItemCLick}
                       >
                         <>{t("virtual_numbers")}</>
@@ -330,7 +330,7 @@ function Navbar({
                     target="_blank"
                     rel="noreferrer"
                     href={
-                      router.pathname.includes("virtual-numbers")
+                      router.pathname.includes("virtual-phone-number")
                         ? "https://sms.esimplus.me/"
                         : "https://mobiledata.esimplus.me/"
                     }

@@ -29,7 +29,7 @@ function DownloadAppSection({
   const handleMarketClick = (market: string) => {
     typeof window !== "undefined" && window.fbq("track", "Lead");
     switch (true) {
-      case router.pathname.includes("virtual-numbers"):
+      case router.pathname.includes("virtual-phone-number"):
         typeof window !== "undefined" &&
           window.gtag("event", `virtualnumber_${market}_click`);
         break;
