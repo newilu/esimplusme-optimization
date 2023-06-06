@@ -40,7 +40,7 @@ function NotSelectedView({
   const [filteredRegions, setFilteredRegions] =
     React.useState<Region[]>(regions);
   const [isViewingAll, setIsViewingAll] = React.useState(false);
-  console.log(filteredRegions);
+
   useQuery(
     [
       "zxc-penis",

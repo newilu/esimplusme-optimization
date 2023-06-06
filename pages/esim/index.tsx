@@ -3,12 +3,7 @@ import Navbar from "@/widgets/Navbar";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
-import {
-  CountryByISO,
-  Region,
-  RegionById,
-  Country as CountryType,
-} from "@/utils/types";
+import { Region, RegionById, Country as CountryType } from "@/utils/types";
 import SetupGuide from "@/features/MobiledataSetupGuide";
 import Reviews from "@/features/Reviews";
 import { Trans, useTranslation } from "next-i18next";
