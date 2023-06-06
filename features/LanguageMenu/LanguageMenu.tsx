@@ -21,20 +21,14 @@ function LanguageMenu() {
   );
   const containerRef = React.useRef<HTMLUListElement>(null);
 
-  const handleOutsideClick = React.useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      if ((event as any).target?.id === "language") {
-        return;
-      }
-
-      setIsLanguageMenuOpen(false);
-    },
-    []
-  );
+  const handleOutsideClick = React.useCallback(() => {
+    setIsLanguageMenuOpen(false);
+  }, []);
 
   useOutsideClick(containerRef, handleOutsideClick);
 
   const onToggleLanguageClick = async (newLocale: string) => {
+    setIsLanguageMenuOpen(false);
     const { pathname, asPath, query } = router;
     await router.replace({ pathname, query }, asPath, {
       locale: newLocale,

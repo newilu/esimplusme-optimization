@@ -62,7 +62,7 @@ export const BundleCapability = styled.div`
 
 export const BundleCapabilities = styled.div`
   display: flex;
-  margin: 40px 0;
+  margin: 25px 0;
 `;
 
 export const BundleTitle = styled.div`

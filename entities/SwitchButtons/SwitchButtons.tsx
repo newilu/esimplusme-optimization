@@ -3,13 +3,16 @@ import ArrowIcon from "./assets/ArrowRight";
 import { useWindowSize } from "context/WindowSizeContext";
 import { uuid } from "utils/common";
 import { SwitchButton, Wrapper } from "./styled";
+import { CSSObject } from "styled-components";
 
 function SwitchButtons({
   options,
   value,
   onChange,
   styledAsDropdown,
+  style,
 }: {
+  style?: CSSObject;
   styledAsDropdown?: boolean;
   value?: { label: React.ReactNode; value: string };
   options: { label: React.ReactNode; value: string }[];
@@ -52,6 +55,7 @@ function SwitchButtons({
       id={id}
       isOpen={isDropdownOpen}
       isStyledAsDropdown={styledAsDropdown}
+      style={style}
     >
       {isMobile && styledAsDropdown && (
         <SwitchButton
