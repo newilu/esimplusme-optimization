@@ -27,7 +27,7 @@ export const LANGUAGE_OPTIONS = [
   },
   {
     img: "https://static.esimplus.net/storage/flags/de.svg",
-    label: "Dutch",
+    label: "Deutch",
     country: "Germany",
     value: "de",
   },
