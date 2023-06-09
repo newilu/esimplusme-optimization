@@ -40,7 +40,7 @@ function EsimAppBanner() {
           <Image width={38} height={32} src={logo} alt="app logo" />
         </div>
         <Title>
-          <div>eSIM+ Mobile Data & Cloud SIM</div>
+          <div>ESIM+ Mobile Data & Cloud SIM</div>
           <div>Virtual Number, Calls & Text</div>
         </Title>
         <button>
