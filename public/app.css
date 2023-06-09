@@ -15,6 +15,7 @@ html {
 html,
 * {
   box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 ul,
@@ -32,7 +33,7 @@ a {
 body {
   margin: 0;
   padding: 0;
-  font-family: "SF Pro Display", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden scroll;

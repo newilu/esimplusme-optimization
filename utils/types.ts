@@ -1,5 +1,59 @@
 import { ProviderTypes } from "./constants";
 
+export type State = {
+  abbreviation: string;
+  id: number;
+  name: string;
+  prefixes: { code: number; full: string }[];
+};
+
+export type Phone = {
+  autorenew: 1 | 0;
+  countryCode: string;
+  createdAt: string;
+  expiredAt: string;
+  id: number;
+  inSmsPrice: string;
+  isExpired: 1 | 0;
+  isTest: 1 | 0;
+  locality: string;
+  numberType: string;
+  phone: string;
+  price: number;
+  psid: string;
+  sms: 1 | 0;
+  smsStatus: 1 | 0;
+  social: 1 | 0;
+  status: 1 | 0;
+  unread: 0 | 1;
+  updatedAt: string;
+  userId: number;
+  voice: 1 | 0;
+  customTitle: string | null;
+};
+
+export type PhoneToBuy = {
+  addressRequirements: string;
+  numberType: string;
+  beta: boolean;
+  locality: string | null;
+  phoneNumber: string;
+  capabilities: {
+    voice: boolean;
+    SMS: boolean;
+    MMS: boolean;
+  };
+  price: number;
+  coinsPrice: number;
+  region: string;
+};
+
+export type SecondPhoneCountry = {
+  country: string;
+  code: string;
+  prefix: number;
+};
+
 export type Category = {
   id: number;
   name: string;

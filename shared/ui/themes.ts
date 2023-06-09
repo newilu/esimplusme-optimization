@@ -5,7 +5,7 @@ const themes = {
     primaryText: "#101010",
     secondaryText: "#6F6F6F",
     borderColor: "#f1f1f1",
-    bg: "#ffffff",
+    bg: "#FCFCFD",
     htmlBg: "#ffffff",
     benefitsBg: "#F7F7F7",
     cardsBg: "#ffffff",
@@ -30,6 +30,8 @@ const themes = {
       "radial-gradient(110.67% 411.15% at 5.33% -31.58%, #040D30 0%, #000006 100%)",
     seeAllBg: "rgba(0, 118, 255, 0.05)",
     howitworksSecondaryBg: "rgba(231,231,231,0.2)",
+    svgDisabledColor: "#E9ECF2",
+    tableBottomBlur: "linear-gradient(rgba(255, 255, 255, 0) 0%,#ffffff 100%)",
   },
   dark: {
     name: "dark",
@@ -62,6 +64,8 @@ const themes = {
       "radial-gradient(110.67% 411.15% at 5.33% -31.58%, #879CDE 0%, #0076FF 100%)",
     seeAllBg: "rgba(255, 255, 255, 0.1)",
     howitworksSecondaryBg: "rgba(255, 255, 255, 0.05)",
+    svgDisabledColor: "rgba(255, 255, 255, 0.1)",
+    tableBottomBlur: "linear-gradient(180deg, transparent 0%, #000006 100%)",
   },
 };
 

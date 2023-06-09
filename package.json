@@ -23,6 +23,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "framer-motion": "^10.9.2",
+    "libphonenumber-js": "^1.10.34",
     "next": "13.1.2",
     "next-i18next": "12.1.0",
     "nprogress": "^0.2.0",

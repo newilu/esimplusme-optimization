@@ -2,9 +2,9 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import { Trans, useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import user1 from "features/Reviews/assets/user1.jpeg";
-import user2 from "features/Reviews/assets/user2.jpeg";
-import user3 from "features/Reviews/assets/user3.jpeg";
+import user1 from "@/features/Reviews/assets/user1.jpeg";
+import user2 from "@/features/Reviews/assets/user2.jpeg";
+import user3 from "@/features/Reviews/assets/user3.jpeg";
 import { generateRandomReviewsCount } from "@/shared/lib";
 import Navbar from "@/widgets/Navbar";
 import VirtualNumbersHeader from "@/features/VirtualNumbersHeader";
@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { LANGS_LIST } from "@/shared/constants";
 
-function VirtualPhoneNumber() {
+function Index() {
   const { pathname } = useRouter();
   const { t, i18n } = useTranslation();
   const [reviewsCount, setReviesCount] = React.useState("350000");
@@ -147,7 +147,7 @@ function VirtualPhoneNumber() {
   );
 }
 
-export default VirtualPhoneNumber;
+export default Index;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {

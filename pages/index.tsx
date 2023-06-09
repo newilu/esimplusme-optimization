@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import Footer from "components/Footer";
 import Navbar from "widgets/Navbar";
 import { GetServerSideProps } from "next";
@@ -18,7 +19,6 @@ import FAQSection from "features/FAQSection";
 import SetupGuide from "features/MobiledataSetupGuide";
 import Header from "features/Header";
 import { LANGS_LIST } from "@/shared/constants";
-import { useRouter } from "next/router";
 
 type HomeProps = {
   countries: Country[];
@@ -152,11 +152,7 @@ export default function Home({
       />
       <DownloadAppSection sectionTitle="download_the_esimplus_app_mobile_data" />
       <FAQSection />
-      <Footer
-        countries={countries}
-        regions={regions}
-        worldwideRegion={worldwideRegion}
-      />
+      <Footer />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import * as articles from "./articles";
 import * as categories from "./categories";
 import * as authors from "./authors";
 import * as profiles from "./profiles";
+import * as secondPhone from "./secondPhone";
 import { BLOG_API_URL } from "@/utils/constants";
 
 type AuthTypes = {
@@ -44,7 +45,7 @@ function queryFetcher<T = unknown>(endpoint = "", options?: RequestInit) {
   });
 }
 
-const api = { articles, categories, authors, profiles };
+const api = { articles, categories, authors, profiles, secondPhone };
 
 export default api;
 export { queryFetcher };
