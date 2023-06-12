@@ -26,7 +26,7 @@ Router.events.on("routeChangeComplete", nProgress.done);
 
 const queryClient = new QueryClient();
 
-function App({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
@@ -46,5 +46,4 @@ function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
-
-export default appWithTranslation(App, nextI18NextConfig);
+export default appWithTranslation(MyApp, nextI18NextConfig);

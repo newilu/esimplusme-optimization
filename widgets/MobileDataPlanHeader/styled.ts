@@ -177,10 +177,10 @@ export const MobileDataBundleBanner = styled.div`
     background: url(${bestPrice.src}) no-repeat center center;
     background-size: cover;
     width: 65px;
-    height: 48px;
+    height: 54px;
     position: absolute;
     right: 10px;
-    top: -4px;
+    top: -7px;
   }
 
   &:before {
@@ -272,6 +272,7 @@ export const Wrapper = styled.div`
     background-size: cover;
   }
   h1 {
+    max-width: 700px;
     padding: 0 16px;
     margin: 0 auto 15px auto;
     font-weight: 700;
@@ -282,6 +283,7 @@ export const Wrapper = styled.div`
   }
 
   h2 {
+    max-width: 600px;
     padding: 0 16px;
     font-weight: 500;
     font-size: 18px;

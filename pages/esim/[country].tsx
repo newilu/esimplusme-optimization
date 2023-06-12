@@ -14,7 +14,6 @@ import SetupGuide from "@/features/MobiledataSetupGuide";
 import Reviews from "@/features/Reviews";
 import { Trans, useTranslation } from "next-i18next";
 import DownloadAppSection from "@/features/DownloadAppSection";
-import FAQSection from "@/features/FAQSection";
 import Footer from "@/components/Footer";
 import user5 from "@/features/Reviews/assets/user5.jpeg";
 import user4 from "@/features/Reviews/assets/user4.jpeg";
@@ -95,7 +94,14 @@ function Country({
   return (
     <div style={{ overflow: "hidden" }}>
       <Navbar />
-      <MobileDataPlanHeader region={region} country={country} />
+      <MobileDataPlanHeader
+        title={`Mobile data with eSIM for travelers in ${
+          (region as any)?.name ?? country.country
+        }`}
+        subtitle="Get a fast, secure, and stable Internet connection without overpaying mobile carriers!"
+        region={region}
+        country={country}
+      />
       <SetupGuide />
       <Reviews
         reviewsList={reviewsList}
@@ -109,7 +115,6 @@ function Country({
         }
       />
       <DownloadAppSection sectionTitle="download_the_esimplus_app_mobile_data" />
-      <FAQSection />
       <Footer
         countries={countries}
         regions={regions}

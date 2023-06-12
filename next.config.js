@@ -25,6 +25,10 @@ const nextConfig = {
         source: "/sitemap.xml",
         destination: "/api/sitemap",
       },
+      {
+        source: "/esim/regional",
+        destination: "/esim",
+      },
     ];
   },
 };

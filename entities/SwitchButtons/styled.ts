@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
 
-export const SwitchButton = styled.button<{ $isSelected?: boolean }>`
+export const SwitchButton = styled.button<{
+  $isSelected?: boolean;
+}>`
   white-space: nowrap;
   flex: 1;
   cursor: pointer;

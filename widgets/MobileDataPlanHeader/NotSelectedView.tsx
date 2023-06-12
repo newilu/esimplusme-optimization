@@ -28,7 +28,9 @@ function NotSelectedView({
 }) {
   const router = useRouter();
   const { t, i18n } = useTranslation();
-  const [selectedRegion, setSelectedRegion] = React.useState(Regions.Local);
+  const [selectedRegion] = React.useState(
+    router.asPath.includes("regional") ? Regions.Regional : Regions.Local
+  );
   const [searchForCountryInputValue, setSearchForCountryInputValue] =
     React.useState("");
   const [debouncedSearchForCountryInputValue] = useDebounce(
@@ -41,9 +43,11 @@ function NotSelectedView({
     React.useState<Region[]>(regions);
   const [isViewingAll, setIsViewingAll] = React.useState(false);
 
+  const pageId = React.useId();
+
   useQuery(
     [
-      "zxc-penis",
+      `countries-by-filter-text${pageId}`,
       { filter: debouncedSearchForCountryInputValue, lng: i18n.language },
     ] as const,
     ({ queryKey }) =>
@@ -66,11 +70,17 @@ function NotSelectedView({
     }
   );
 
-  const handleRegionSelect = async (_region: Regions) => {
-    if (_region === Regions.Global) {
-      await router.push("/esim/worldwide");
+  const getHrefDependingOnRegionType = (_region: Regions) => {
+    switch (_region) {
+      case Regions.Local:
+        return "/esim";
+      case Regions.Regional:
+        return "/esim/regional";
+      case Regions.Global:
+        return "/esim/worldwide";
+      default:
+        return "/esim";
     }
-    setSelectedRegion(_region);
   };
 
   return (
@@ -84,12 +94,28 @@ function NotSelectedView({
       <SwitchButtons
         styledAsDropdown
         style={{ width: "fit-content", margin: "50px auto 35px auto" }}
-        value={{ label: t(selectedRegion), value: selectedRegion }}
-        onChange={({ value }) => handleRegionSelect(value as Regions)}
+        value={{
+          label: t(selectedRegion),
+          value: selectedRegion,
+          href: getHrefDependingOnRegionType(selectedRegion),
+        }}
         options={Object.values(Regions).map((val) => ({
           label: t(val),
           value: val,
+          href: (() => {
+            switch (val) {
+              case Regions.Local:
+                return "/esim";
+              case Regions.Regional:
+                return "/esim/regional";
+              case Regions.Global:
+                return "/esim/worldwide";
+              default:
+                return "/esim";
+            }
+          })(),
         }))}
+        optionAs="a"
       />
       {selectedRegion === Regions.Local && (
         <CountriesCards>

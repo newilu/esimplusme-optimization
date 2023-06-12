@@ -1,35 +1,40 @@
 import React from "react";
 import ArrowIcon from "./assets/ArrowRight";
 import { useWindowSize } from "context/WindowSizeContext";
-import { uuid } from "utils/common";
 import { SwitchButton, Wrapper } from "./styled";
 import { CSSObject } from "styled-components";
 
-function SwitchButtons({
+function SwitchButtons<
+  Option extends {
+    label: React.ReactNode;
+    value: string;
+    href: OptionAs extends "a" ? Required<string> : never;
+  },
+  OptionAs extends string | undefined = undefined
+>({
   options,
+  optionAs = "button",
   value,
-  onChange,
+  onChange = () => {},
   styledAsDropdown,
   style,
 }: {
+  optionAs?: OptionAs;
   style?: CSSObject;
   styledAsDropdown?: boolean;
-  value?: { label: React.ReactNode; value: string };
-  options: { label: React.ReactNode; value: string }[];
-  onChange: (props: { label: React.ReactNode; value: string }) => void;
+  value?: Option;
+  options: Option[];
+  onChange?: (props: Option) => void;
 }) {
   const { isMobile } = useWindowSize();
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-  const [activeButton, setActiveButton] = React.useState<
-    { label: React.ReactNode; value: string } | undefined
-  >(value ?? options[0]);
+  const [activeButton, setActiveButton] = React.useState<Option | undefined>(
+    value ?? options[0]
+  );
 
-  const id = uuid();
+  const id = React.useId();
 
-  const handleSelectButton = (el: {
-    label: React.ReactNode;
-    value: string;
-  }) => {
+  const handleSelectButton = (el: Option) => {
     if (isMobile) setIsDropdownOpen(false);
     onChange(el);
     setActiveButton(el);
@@ -60,6 +65,7 @@ function SwitchButtons({
       {isMobile && styledAsDropdown && (
         <SwitchButton
           $isSelected
+          as={optionAs as OptionAs}
           onClick={() => setIsDropdownOpen((prev) => !prev)}
         >
           <div>{activeButton?.label}</div>
@@ -69,6 +75,8 @@ function SwitchButtons({
       {options.map((el, idx) => (
         <SwitchButton
           key={idx}
+          as={optionAs as OptionAs}
+          href={el.href}
           $isSelected={activeButton?.value === el.value}
           onClick={() => handleSelectButton(el)}
         >

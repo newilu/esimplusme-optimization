@@ -35,7 +35,7 @@ import {
 type MobileDataPlanHeaderProps<
   Country extends CountryByISO | undefined = undefined,
   _Region extends RegionById | undefined = undefined
-> = Country extends CountryByISO
+> = (Country extends CountryByISO
   ? {
       country: Country;
       countries?: never;
@@ -54,7 +54,7 @@ type MobileDataPlanHeaderProps<
       region?: never;
       regions: Region[];
       countries: CountryType[];
-    };
+    }) & { title: string; subtitle: string };
 
 function MobileDataPlanHeader<
   Country extends CountryByISO | undefined = undefined,
@@ -64,6 +64,8 @@ function MobileDataPlanHeader<
   countries,
   regions,
   region,
+  subtitle,
+  title,
 }: MobileDataPlanHeaderProps<Country, Region>) {
   const router = useRouter();
   const { t } = useTranslation();
@@ -84,6 +86,15 @@ function MobileDataPlanHeader<
     openModal: openCoverageCountriesModal,
   } = useModalControls(false, { disableBodyScroll: true });
 
+  const bestPricePlanBundle = React.useMemo(() => {
+    return region?.worldwide
+      ? Object.values(region.bundles).flat().at(-1)
+      : Object.values(country?.bundles ?? region?.bundles ?? {})
+          .flat()
+          .filter((el) => !el.worldwide)
+          .sort((a, b) => a.price / a.dataAmount - b.price / b.dataAmount)[0];
+  }, [country?.bundles, region?.bundles, region?.worldwide]);
+
   const handleSearchForCountryInputChange = (value: string) => {
     void router.push("/esim", undefined, {
       scroll: false,
@@ -100,11 +111,8 @@ function MobileDataPlanHeader<
         isOpen={isCoverageCountriesModalOpen}
         supportedCountries={coverageCountries}
       />
-      <h1>Mobile data with eSIM</h1>
-      <h2>
-        Get a fast, secure, and stable Internet connection without overpaying
-        mobile carriers!
-      </h2>
+      <h1>{title}</h1>
+      <h2>{subtitle}</h2>
       <Container>
         {typeof regions !== "undefined" && typeof countries !== "undefined" && (
           <NotSelectedView countries={countries} regions={regions} />
@@ -157,50 +165,54 @@ function MobileDataPlanHeader<
               ))}
             </AvailableDataSizes>
             <CardsWrapper>
-              <MobileDataBundleBanner>
-                <MobileDataBundleBannerHeader>
-                  <div>
-                    <CountryFlag
-                      width={40}
-                      height={40}
-                      name={country?.isoName2}
-                      src={
-                        region &&
-                        `${BASE_STORAGE_URL}130x80/${
-                          region.worldwide ? "Pay-as-you-go" : region.name
-                        }350.jpg`
-                      }
-                    />
-                  </div>
-                  Получи 5 GB
-                </MobileDataBundleBannerHeader>
-                <BundleCapabilities>
-                  <BundleCapability>
-                    <div>{formatDataSize(5000)}</div>
-                    <div>{t("traffic")}</div>
-                  </BundleCapability>{" "}
-                  <BundleCapability>
+              {bestPricePlanBundle && (
+                <MobileDataBundleBanner>
+                  <MobileDataBundleBannerHeader>
                     <div>
-                      <Trans
-                        i18nKey="duration_in_days"
-                        values={{
-                          days: 7,
-                        }}
+                      <CountryFlag
+                        width={40}
+                        height={40}
+                        name={country?.isoName2}
+                        src={
+                          region &&
+                          `${BASE_STORAGE_URL}130x80/${
+                            region.worldwide ? "Pay-as-you-go" : region.name
+                          }350.jpg`
+                        }
                       />
                     </div>
-                    <div>{t("duration")}</div>
-                  </BundleCapability>{" "}
-                  <BundleCapability>
-                    <div>11</div>
-                    <div>{t("countries")}</div>
-                  </BundleCapability>
-                </BundleCapabilities>
-                <Button
-                  label={`${t("buy_a_plan_for")} ${getCurrencySymbol(
-                    "USD"
-                  )}${66.99}`}
-                />
-              </MobileDataBundleBanner>
+                    Получи {formatDataSize(bestPricePlanBundle.dataAmount)}
+                  </MobileDataBundleBannerHeader>
+                  <BundleCapabilities>
+                    <BundleCapability>
+                      <div>
+                        {formatDataSize(bestPricePlanBundle.dataAmount)}
+                      </div>
+                      <div>{t("traffic")}</div>
+                    </BundleCapability>{" "}
+                    <BundleCapability>
+                      <div>
+                        <Trans
+                          i18nKey="duration_in_days"
+                          values={{
+                            days: bestPricePlanBundle.duration,
+                          }}
+                        />
+                      </div>
+                      <div>{t("duration")}</div>
+                    </BundleCapability>{" "}
+                    <BundleCapability>
+                      <div>{bestPricePlanBundle.countries.length}</div>
+                      <div>{t("countries")}</div>
+                    </BundleCapability>
+                  </BundleCapabilities>
+                  <Button
+                    label={`${t("buy_a_plan_for")} ${getCurrencySymbol("USD")}${
+                      bestPricePlanBundle.price
+                    }`}
+                  />
+                </MobileDataBundleBanner>
+              )}
               {(selectedDataAmount
                 ? Object.values(
                     (country?.bundles ?? region?.bundles)?.[
@@ -210,20 +222,20 @@ function MobileDataPlanHeader<
                 : Object.values(country?.bundles ?? region?.bundles ?? {})
               )
                 .flat()
+                .filter((el) =>
+                  router.asPath.includes("worldwide") ? true : !el.worldwide
+                )
                 .map(
-                  (
-                    {
-                      name,
-                      image,
-                      price,
-                      duration,
-                      worldwide,
-                      countries: supportedCountries,
-                      currency,
-                      ...rest
-                    },
-                    idx
-                  ) => (
+                  ({
+                    name,
+                    image,
+                    price,
+                    duration,
+                    worldwide,
+                    countries: supportedCountries,
+                    currency,
+                    ...rest
+                  }) => (
                     <MobileDataBundleCard
                       key={rest.paymentCode}
                       dataSize={rest.dataAmount}
@@ -249,7 +261,6 @@ function MobileDataPlanHeader<
                           price={price}
                           isoName2={rest.isoName2}
                           currency={currency}
-                          isBestPrice={!idx}
                         />
                       }
                     />
