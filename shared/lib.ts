@@ -1,4 +1,5 @@
 import { differenceInDays, getHours } from "date-fns";
+import { cities, countries, states } from "country-cities";
 
 function formatDataSize(dataSize: string | number) {
   return +dataSize >= 1000 ? `${+dataSize / 1000} GB` : `${dataSize} MB`;
@@ -132,7 +133,45 @@ function eraseCookie(name: string) {
   document.cookie = `${name}=; domain=.esimplus.me; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 }
 
+function formatAreaCode(areaCode: string | number) {
+  return typeof areaCode === "string" && areaCode.startsWith("+")
+    ? areaCode
+    : `+${areaCode}`;
+}
+
+function formatStringToKebabCase(string: string) {
+  return string
+    .toLowerCase()
+    .replaceAll(/[^a-zA-Z -]/gi, "")
+    .replaceAll(" ", "-");
+}
+
+function getCountryByIsoCode(isoCode: string) {
+  return countries.getByCode(isoCode);
+}
+
+function getStatesByCountryCode(countryIsoCode: string) {
+  return states.getByCountry(countryIsoCode);
+}
+
+function getStateByCode(stateCode: string, countryIsoCode: string) {
+  return states.getByCode(stateCode, countryIsoCode);
+}
+
+function getCitiesByStateCode(stateCode: string, countryIsoCode: string) {
+  return cities.getByState(stateCode, countryIsoCode);
+}
+
+function getCitiesByCountryCode(countryIsoCode: string) {
+  return cities.getByCountry(countryIsoCode);
+}
+
 export {
+  getCountryByIsoCode,
+  getStatesByCountryCode,
+  getStateByCode,
+  getCitiesByStateCode,
+  getCitiesByCountryCode,
   formatDataSize,
   scrollToId,
   getCurrencySymbol,
@@ -141,4 +180,6 @@ export {
   getCookie,
   setCookie,
   eraseCookie,
+  formatStringToKebabCase,
+  formatAreaCode,
 };

@@ -51,7 +51,7 @@ export type PhoneToBuy = {
 export type SecondPhoneCountry = {
   country: string;
   code: string;
-  prefix: number;
+  prefix: string | number;
 };
 
 export type Category = {

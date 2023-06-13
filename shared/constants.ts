@@ -1,3 +1,5 @@
+import { cities, countries, states } from "country-cities";
+
 export const DEFAULT_SELECTED_DATA_SIZE = 1000;
 
 export const ESIMGO_AVAILABLE_DATA_SIZES = [1000, 3000, 5000];
@@ -9,3 +11,5 @@ export enum SectionIDS {
 }
 
 export const LANGS_LIST = ["ru", "en", "pl", "de", "es", "pt", "it", "fr"];
+
+export const COUNTRY_LIST = countries.all();

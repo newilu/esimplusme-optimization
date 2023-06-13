@@ -1,10 +1,11 @@
 import React from "react";
-import PhoneNumbersRates from "@/widgets/PhoneNumbersRates";
+import PhoneNumbersRates from "@/widgets/PhoneNumberRates";
 import { GetServerSideProps } from "next";
 import api from "@/api";
 import { SecondPhoneCountry } from "@/utils/types";
 import Navbar from "@/widgets/Navbar";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { COUNTRY_LIST } from "@/shared/constants";
 
 function Pricing({
   popularSecondPhoneCountries,
@@ -25,15 +26,12 @@ function Pricing({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const [{ data: popularCountriesRaw }, { data: secondPhoneCountriesRaw }] =
-    await Promise.all([
-      api.secondPhone.getSecondPhonePopularCountries(),
-      api.secondPhone.listSecondPhoneCountries(),
-    ]);
+  const [{ data: popularCountriesRaw }] = await Promise.all([
+    api.secondPhone.listSecondPhoneCountries(),
+  ]);
   const popularSecondPhoneCountries = popularCountriesRaw?.data.countries;
-  const secondPhoneCountries = secondPhoneCountriesRaw?.data.countries;
 
-  if (!popularSecondPhoneCountries || !secondPhoneCountries) {
+  if (!popularSecondPhoneCountries) {
     return {
       redirect: {
         destination: "/virtual-phone-number",
@@ -45,11 +43,16 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
         "common",
-        "navbar",
-        "footer",
+        "virtual-phone-number",
       ])),
       popularSecondPhoneCountries,
-      secondPhoneCountries,
+      secondPhoneCountries: COUNTRY_LIST.map(
+        ({ name, isoCode, phonecode }) => ({
+          country: name,
+          code: isoCode,
+          prefix: phonecode,
+        })
+      ),
     },
   };
 };

@@ -24,14 +24,17 @@ export const Wrapper = styled.button<{
     padding: 0;
 
     > a {
+      color: inherit;
       padding: 1.125rem 2rem;
     }
   }
 
   &:disabled,
   &:disabled:active {
-    background: rgba(255, 255, 255, 0.25);
-    color: rgba(255, 255, 255, 0.35);
+    background: ${(props) => props.theme.primary};
+    filter: grayscale(1);
+    color: white;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 

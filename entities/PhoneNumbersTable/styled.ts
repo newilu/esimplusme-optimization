@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import BaseHeader from "@/shared/ui/BaseHeader";
 
 export const PhoneNumber = styled.div`
   font-weight: 500;
@@ -22,5 +21,3 @@ export const SvgWrapper = styled.div<{ active?: boolean }>`
   color: ${(props) =>
     props.active ? props.theme.primary : props.theme.svgDisabledColor};
 `;
-
-export const Wrapper = styled(BaseHeader)``;
