@@ -64,11 +64,13 @@ function PopularCountriesTable({
   const monthlyFeeColumn = React.useMemo(
     () =>
       columnHelper.accessor("prices.cheapest.price", {
-        header: () => t("monthly_fee"),
+        header: () => (
+          <div style={{ textAlign: "left" }}>{t("monthly_fee")}</div>
+        ),
         cell: (info) => (
-          <>
-            $<b>{info.getValue()}</b>/Month
-          </>
+          <div style={{ textAlign: "left" }}>
+            <b>${info.getValue()}</b> / Month
+          </div>
         ),
       }),
 
