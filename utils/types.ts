@@ -52,7 +52,7 @@ export type SecondPhoneCountry = {
   country: string;
   code: string;
   prefix: string | number;
-  prices?: {
+  prices: {
     cheapest: {
       price: number;
       currency: string;

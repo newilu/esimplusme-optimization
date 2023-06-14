@@ -63,9 +63,13 @@ function PopularCountriesTable({
   );
   const monthlyFeeColumn = React.useMemo(
     () =>
-      columnHelper.accessor("code", {
+      columnHelper.accessor("prices.cheapest.price", {
         header: () => t("monthly_fee"),
-        cell: () => "2$",
+        cell: (info) => (
+          <>
+            $<b>{info.getValue()}</b>/Month
+          </>
+        ),
       }),
 
     [t]
