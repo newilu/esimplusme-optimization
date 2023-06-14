@@ -58,6 +58,7 @@ function getPhonePrices<T>(phone: string) {
 function createTempUser<T>() {
   return queryFetcher<T>(`${MAIN_API_URL}${ENDPOINTS.createTempUser()}`, {
     method: "POST",
+    credentials: "include",
   });
 }
 
