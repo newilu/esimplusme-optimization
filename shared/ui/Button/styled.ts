@@ -117,9 +117,8 @@ export const Wrapper = styled.button<{
     switch (props.size) {
       case "small":
         return css`
+          height: 32px;
           padding: 6px 12px;
-          height: fit-content;
-          width: auto;
           font-weight: 400;
           font-size: 12px;
           line-height: 20px;

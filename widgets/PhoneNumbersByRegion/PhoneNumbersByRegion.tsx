@@ -1,7 +1,7 @@
 import React from "react";
 import { ICity, ICountry, IState } from "country-cities";
 import { PhoneToBuy } from "@/utils/types";
-import PhoneNumbersTable from "@/entities/PhoneNumbersTable";
+import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import { Section, SectionTitle } from "@/shared/ui/BaseHeader/styled";
 import { SectionsWrapper, Wrapper } from "./styled";

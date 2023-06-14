@@ -13,6 +13,9 @@ const ENDPOINTS = {
     `/v6/second-phone/usa/phone-numbers/state/${stateIso}`,
   secondPhoneCountries: () => `/v7/second-phone/countries`,
   secondPhonePopularCountries: () => `/v6/second-phone/countries/top`,
+  createTempUser: () => `/v6/auth/temp-user`,
+  signature: () => "/v7/second-phone/ecommpay-signature",
+  thedexTopUp: () => "/v6/payment-providers/thedex/top-up/second-phone",
 };
 
 function listSecondPhoneCountries() {
@@ -52,6 +55,35 @@ function getPhonesByCountry(country: string) {
 function getPhonePrices<T>(phone: string) {
   return queryFetcher<T>(`${MAIN_API_URL}${ENDPOINTS.getPhonePrices(phone)}`);
 }
+function createTempUser<T>() {
+  return queryFetcher<T>(`${MAIN_API_URL}${ENDPOINTS.createTempUser()}`, {
+    method: "POST",
+  });
+}
+
+function getSignature({
+  stringToSign,
+  price,
+}: {
+  stringToSign: string;
+  price: number;
+}) {
+  return queryFetcher(`${MAIN_API_URL}${ENDPOINTS.signature()}`, {
+    method: "POST",
+    body: JSON.stringify({ data: stringToSign, price }),
+    credentials: "include",
+  });
+}
+function thedexTopUp({ price }: { price: string | number }) {
+  return queryFetcher<{ payUrl: string }>(
+    `${MAIN_API_URL}${ENDPOINTS.thedexTopUp()}`,
+    {
+      method: "POST",
+      body: JSON.stringify({ amount: price }),
+      credentials: "include",
+    }
+  );
+}
 
 export {
   ENDPOINTS,
@@ -62,4 +94,7 @@ export {
   listSecondPhoneCountries,
   getSecondPhonePopularCountries,
   getAvailableNumbersByStateISO,
+  createTempUser,
+  getSignature,
+  thedexTopUp,
 };

@@ -11,8 +11,11 @@ class MyDocument extends Document {
       <Html lang={currentLocale}>
         <Head>
           <meta charSet="utf-8" />
-
           <link href="/app.css" rel="stylesheet" />
+          <link
+            rel="stylesheet"
+            href="https://paymentpage.ecommpay.com/shared/merchant.css"
+          />
         </Head>
         <body>
           <Main />
@@ -141,6 +144,7 @@ class MyDocument extends Document {
     `,
             }}
           ></script>
+          <script src="https://paymentpage.ecommpay.com/shared/merchant.js"></script>
         </body>
       </Html>
     );

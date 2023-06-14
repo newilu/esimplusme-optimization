@@ -22,6 +22,7 @@ declare module "react-i18next" {
 
 declare global {
   interface Window {
+    EPayWidget: { run: (config: any) => void };
     HelpCrunch: (method: string) => void;
     gtag: (event: string, action: string, params?: any) => void;
     fbq: (event: string, name: string, options?: any) => void;

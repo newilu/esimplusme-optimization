@@ -20,6 +20,7 @@ type BaseTableProps<TData extends {}> = {
   data: TData[];
   columns: ColumnDef<TData, any>[];
   onRowClick?: (props: TData) => void;
+  enableRowSelection?: boolean;
 } & React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
@@ -30,6 +31,7 @@ function BaseTable<TData extends {} = {}>({
   data,
   columns,
   onRowClick = () => {},
+  enableRowSelection = false,
   ...props
 }: BaseTableProps<TData>) {
   const [maxTableHeight, setMaxTableHeight] = React.useState(
@@ -57,7 +59,9 @@ function BaseTable<TData extends {} = {}>({
   const table = useReactTable({
     data,
     columns,
+    enableRowSelection,
     getCoreRowModel: getCoreRowModel(),
+    enableMultiRowSelection: false,
   });
 
   return (
@@ -90,8 +94,10 @@ function BaseTable<TData extends {} = {}>({
               <TableRow
                 key={row.id}
                 onClick={() => {
+                  row.toggleSelected();
                   onRowClick(row.original);
                 }}
+                selected={row.getIsSelected()}
               >
                 {row.getVisibleCells().map((cell) => (
                   <Td key={cell.id}>

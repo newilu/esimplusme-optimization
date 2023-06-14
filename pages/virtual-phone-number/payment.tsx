@@ -1,31 +1,26 @@
 import React from "react";
-import type { ICity, ICountry, IState } from "country-cities";
+import type { ICountry, IState } from "country-cities";
 import type { GetServerSideProps } from "next";
 import type { PhoneToBuy } from "@/utils/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
-import {
-  formatStringToKebabCase,
-  getCitiesByStateCode,
-  getStatesByCountryCode,
-} from "@/shared/lib";
-import PhoneNumbersByCity from "@/widgets/PhoneNumberPurchaseHeader";
+import { formatStringToKebabCase, getStatesByCountryCode } from "@/shared/lib";
+import PhoneNumberPurchaseHeader from "@/widgets/PhoneNumberPurchaseHeader";
 
 type PageProps = {
   phones: PhoneToBuy[];
   country: ICountry;
   state: IState;
-  city: ICity;
+  phone: PhoneToBuy;
 };
 
-function Index({ country, city, state, phones }: PageProps) {
+function Index({ country, state, phones, phone }: PageProps) {
   return (
     <>
       <Navbar />
-      <PhoneNumbersByCity
-        city={city}
+      <PhoneNumberPurchaseHeader
         state={state}
         phones={phones}
         country={country}
@@ -36,14 +31,14 @@ function Index({ country, city, state, phones }: PageProps) {
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   locale,
-  params,
+  query,
 }) => {
-  const { country, state, city } = params ?? {};
+  const { country, state, phone } = query;
 
   if (
     typeof country !== "string" ||
     typeof state !== "string" ||
-    typeof city !== "string"
+    typeof phone !== "string"
   ) {
     return {
       redirect: {
@@ -61,12 +56,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     currentCountry?.isoCode ?? ""
   ).find((el) => state.includes(formatStringToKebabCase(el.name)));
 
-  const currentCity = getCitiesByStateCode(
-    currentState?.isoCode ?? "",
-    currentCountry?.isoCode ?? ""
-  ).find((el) => city.includes(formatStringToKebabCase(el.name)));
-
-  if (!currentCountry || !currentState || !currentCity) {
+  if (!currentCountry || !currentState) {
     return {
       redirect: {
         destination: "/virtual-phone-number/pricing",
@@ -80,6 +70,19 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       currentState.isoCode
     );
 
+    const selectedPhone = data?.data.phones.find(
+      (_phone) => _phone.phoneNumber === phone
+    );
+
+    if (!selectedPhone) {
+      return {
+        redirect: {
+          destination: "/virtual-phone-number/pricing",
+          statusCode: 301,
+        },
+      };
+    }
+
     return {
       props: {
         ...(await serverSideTranslations(locale ?? "en", [
@@ -87,9 +90,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
           "virtual-phone-number",
         ])),
         phones: data?.data.phones ?? [],
+        phone: selectedPhone,
         country: currentCountry,
         state: currentState,
-        city: currentCity,
       },
     };
   }
@@ -97,6 +100,19 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   const { data } = await api.secondPhone.getPhonesByCountry(
     currentCountry.isoCode
   );
+
+  const selectedPhone =
+    data?.data.phones.find((_phone) => _phone.phoneNumber === phone) ??
+    data?.data.phones[0];
+
+  if (!selectedPhone) {
+    return {
+      redirect: {
+        destination: "/virtual-phone-number/pricing",
+        statusCode: 301,
+      },
+    };
+  }
 
   const countryPhones = data?.data.phones ?? [];
 
@@ -113,7 +129,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       phones: filteredPhones.length ? filteredPhones : countryPhones,
       country: currentCountry,
       state: currentState,
-      city: currentCity,
+      phone: selectedPhone,
     },
   };
 };

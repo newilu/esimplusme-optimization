@@ -2,6 +2,7 @@ import React from "react";
 import { ICity } from "country-cities";
 import { createColumnHelper } from "@tanstack/react-table";
 import {
+  formatAreaCode,
   formatStringToKebabCase,
   getCountryByIsoCode,
   getStateByCode,
@@ -20,7 +21,9 @@ function CitiesTable({ cities }: { cities: ICity[] }) {
       columnHelper.accessor("countryCode", {
         header: () => t("area_code"),
         cell: (info) =>
-          getCountryByIsoCode(info.row.original.countryCode)?.phonecode,
+          formatAreaCode(
+            getCountryByIsoCode(info.row.original.countryCode)?.phonecode ?? ""
+          ),
       }),
 
     [t]

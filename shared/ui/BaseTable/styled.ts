@@ -58,12 +58,18 @@ export const TableBody = styled.tbody`
     }
   }
 `;
-export const TableRow = styled.tr`
+export const TableRow = styled.tr<{ selected?: boolean }>`
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
 
   &:last-of-type {
     border: none;
   }
+
+  ${(props) =>
+    props.selected &&
+    css`
+      background: ${props.theme.borderColor};
+    `}
 `;
 export const TableHead = styled.thead`
   ${TableRow} {

@@ -5,25 +5,25 @@ import { SectionsWrapper, Wrapper } from "./styled";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Link from "next/link";
 import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
-import PhoneNumbersTable from "@/entities/PhoneNumbersTable";
+import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import { PhoneToBuy } from "@/utils/types";
 import { ICity, ICountry, IState } from "country-cities";
 import { useTranslation } from "next-i18next";
 import { NoDataWrapper } from "@/shared/ui/styled";
 
-type PhoneNumbersByCityProps = {
+type PhoneNumberPurchaseHeaderProps = {
   phones: PhoneToBuy[];
   state: IState;
-  city: ICity;
+  city?: ICity;
   country: ICountry;
 };
 
-function PhoneNumbersByCity({
+function PhoneNumberPurchaseHeader({
   phones,
   country,
   city,
   state,
-}: PhoneNumbersByCityProps) {
+}: PhoneNumberPurchaseHeaderProps) {
   const { t } = useTranslation("virtual-phone-number");
   const [selectedPhone, setSelectedPhone] = React.useState(
     phones.length ? phones[0] : null
@@ -33,7 +33,7 @@ function PhoneNumbersByCity({
     <Wrapper>
       <h1>{t("phone_numbers_by_city_title")}</h1>
       <h5>
-        {state.name}, {city.name}{" "}
+        {state.name} {city && `,${city.name}`}{" "}
         <CountryFlag
           name={country.isoCode}
           width={32}
@@ -84,4 +84,4 @@ function PhoneNumbersByCity({
   );
 }
 
-export { PhoneNumbersByCity, type PhoneNumbersByCityProps };
+export { PhoneNumberPurchaseHeader, type PhoneNumberPurchaseHeaderProps };
