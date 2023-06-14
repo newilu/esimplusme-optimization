@@ -16,7 +16,7 @@ type PageProps = {
   phone: PhoneToBuy;
 };
 
-function Index({ country, state, phones, phone }: PageProps) {
+function Index({ country, state, phones }: PageProps) {
   return (
     <>
       <Navbar />

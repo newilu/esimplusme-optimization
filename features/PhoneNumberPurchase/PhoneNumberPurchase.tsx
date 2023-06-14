@@ -66,7 +66,7 @@ function PhoneNumberPurchase({ phone, country }: PhoneNumberPurchaseProps) {
         };redirect_success_mode:parent_page;redirect_success_url:${redirectURL}`,
       });
 
-      window.N.run({
+      window.EPayWidget.run({
         customer_id: customerId,
         payment_amount: _phone.price * 100,
         payment_currency: "USD",
