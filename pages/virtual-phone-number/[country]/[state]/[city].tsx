@@ -74,6 +74,26 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       },
     };
   }
+
+  if (currentCountry.isoCode === "US") {
+    const { data } = await api.secondPhone.getAvailableNumbersByStateISO(
+      currentState.isoCode
+    );
+
+    return {
+      props: {
+        ...(await serverSideTranslations(locale ?? "en", [
+          "common",
+          "virtual-phone-number",
+        ])),
+        phones: data?.data.phones ?? [],
+        country: currentCountry,
+        state: currentState,
+        city: currentCity,
+      },
+    };
+  }
+
   const { data } = await api.secondPhone.getPhonesByCountry(
     currentCountry.isoCode
   );

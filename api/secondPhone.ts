@@ -9,6 +9,8 @@ const ENDPOINTS = {
   states: () => "/v6/second-phone/usa/states",
   numbersByStateCode: (code: number) =>
     `/v6/second-phone/usa/phone-numbers/code/${code}`,
+  numbersByStateISO: (stateIso: string) =>
+    `/v6/second-phone/usa/phone-numbers/state/${stateIso}`,
   secondPhoneCountries: () => `/v7/second-phone/countries`,
   secondPhonePopularCountries: () => `/v6/second-phone/countries/top`,
 };
@@ -27,6 +29,11 @@ function getSecondPhonePopularCountries() {
 function getAvailableStates() {
   return queryFetcher<{ states: State[] }>(
     `${MAIN_API_URL}${ENDPOINTS.states()}`
+  );
+}
+function getAvailableNumbersByStateISO(iso: string) {
+  return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(
+    `${MAIN_API_URL}${ENDPOINTS.numbersByStateISO(iso)}`
   );
 }
 
@@ -54,4 +61,5 @@ export {
   getAvailableNumbersByStateCode,
   listSecondPhoneCountries,
   getSecondPhonePopularCountries,
+  getAvailableNumbersByStateISO,
 };

@@ -1,6 +1,19 @@
 import styled from "styled-components";
 import ornament from "../assets/ornament.svg";
 
+export const NoDataWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: ${(props) => props.theme.secondaryText};
+`;
+
 export const NoMatchesText = styled.div`
   padding: 0 25px;
   font-weight: 400;

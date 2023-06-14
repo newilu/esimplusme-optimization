@@ -4,6 +4,10 @@ export const Agreement = styled.div`
   display: flex;
   align-items: center;
   grid-gap: 12px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: ${(props) => props.theme.secondaryText};
 `;
 export const Agreements = styled.div`
   margin-top: 30px;

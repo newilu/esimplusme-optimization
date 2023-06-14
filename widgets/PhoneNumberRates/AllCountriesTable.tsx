@@ -6,20 +6,20 @@ import {
 
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Link from "next/link";
-import { SecondPhoneCountry } from "@/utils/types";
 import BaseTable from "@/shared/ui/BaseTable";
 import { createColumnHelper } from "@tanstack/react-table";
-import { formatAreaCode } from "@/shared/lib";
+import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
 import { useTranslation } from "next-i18next";
+import { ICountry } from "country-cities";
 
-const columnHelper = createColumnHelper<SecondPhoneCountry>();
+const columnHelper = createColumnHelper<ICountry>();
 
-function CountriesTable({ countries }: { countries: SecondPhoneCountry[] }) {
+function PopularCountriesTable({ countries }: { countries: ICountry[] }) {
   const { t } = useTranslation("virtual-phone-number");
 
   const areaCodeColumn = React.useMemo(
     () =>
-      columnHelper.accessor("prefix", {
+      columnHelper.accessor("phonecode", {
         header: () => t("area_code"),
         cell: (info) => {
           const prefix = info.getValue();
@@ -31,7 +31,7 @@ function CountriesTable({ countries }: { countries: SecondPhoneCountry[] }) {
   );
   const countryNameColumn = React.useMemo(
     () =>
-      columnHelper.accessor("country", {
+      columnHelper.accessor("name", {
         header: () => t("destination"),
         cell: (info) => (
           <CountryNameWrapper>
@@ -39,15 +39,13 @@ function CountriesTable({ countries }: { countries: SecondPhoneCountry[] }) {
               <CountryFlag
                 width={28}
                 height={28}
-                name={info.row.original.code}
+                name={info.row.original.isoCode}
               />
             </CountryFlagWrapper>{" "}
             <Link
-              href={`/virtual-phone-number/${info
-                .getValue()
-                .toLowerCase()
-                .replaceAll(/[^a-zA-Z -]/gi, "")
-                .replaceAll(" ", "-")}`}
+              href={`/virtual-phone-number/${formatStringToKebabCase(
+                info.getValue()
+              )}`}
             >
               {info.getValue()}
             </Link>
@@ -57,23 +55,14 @@ function CountriesTable({ countries }: { countries: SecondPhoneCountry[] }) {
 
     [t]
   );
-  const monthlyFeeColumn = React.useMemo(
-    () =>
-      columnHelper.accessor("code", {
-        header: () => t("monthly_fee"),
-        cell: () => "2$",
-      }),
-
-    [t]
-  );
 
   return (
     <BaseTable
       maxVisibleElements={10}
       data={countries}
-      columns={[areaCodeColumn, countryNameColumn, monthlyFeeColumn]}
+      columns={[areaCodeColumn, countryNameColumn]}
     />
   );
 }
 
-export default CountriesTable;
+export default PopularCountriesTable;

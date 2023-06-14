@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import BaseHeader from "@/shared/ui/BaseHeader";
 import Link from "next/link";
-import { SectionTitle } from "@/shared/ui/BaseHeader/styled";
+import { Section, SectionTitle } from "@/shared/ui/BaseHeader/styled";
 
 export const StateNameWrapper = styled(Link)`
   display: flex;
@@ -14,6 +14,10 @@ export const StateNameWrapper = styled(Link)`
 `;
 
 export const Wrapper = styled(BaseHeader)`
+  ${Section} {
+    min-height: 400px;
+  }
+
   ${SectionTitle} {
     display: flex;
     align-items: center;

@@ -66,31 +66,54 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     };
   }
-  const { data } = await api.secondPhone.getPhonesByCountry(
-    currentCountry.isoCode
-  );
 
-  const countryPhones = data?.data.phones ?? [];
+  if (currentCountry.isoCode === "US") {
+    const { data } = await api.secondPhone.getAvailableNumbersByStateISO(
+      currentState.isoCode
+    );
 
-  const filteredPhones = countryPhones.filter(
-    (_phone) => _phone.region === currentState.isoCode
-  );
+    return {
+      props: {
+        ...(await serverSideTranslations(locale ?? "en", [
+          "common",
+          "virtual-phone-number",
+        ])),
+        phones: data?.data.phones ?? [],
+        country: currentCountry,
+        state: currentState,
+        cities: getCitiesByStateCode(
+          currentState.isoCode,
+          currentCountry.isoCode
+        ),
+      },
+    };
+  } else {
+    const { data } = await api.secondPhone.getPhonesByCountry(
+      currentCountry.isoCode
+    );
 
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "en", [
-        "common",
-        "virtual-phone-number",
-      ])),
-      phones: filteredPhones.length ? filteredPhones : countryPhones,
-      country: currentCountry,
-      state: currentState,
-      cities: getCitiesByStateCode(
-        currentState.isoCode,
-        currentCountry.isoCode
-      ),
-    },
-  };
+    const countryPhones = data?.data.phones ?? [];
+
+    const filteredPhones = countryPhones.filter(
+      (_phone) => _phone.region === currentState.isoCode
+    );
+
+    return {
+      props: {
+        ...(await serverSideTranslations(locale ?? "en", [
+          "common",
+          "virtual-phone-number",
+        ])),
+        phones: filteredPhones.length ? filteredPhones : countryPhones,
+        country: currentCountry,
+        state: currentState,
+        cities: getCitiesByStateCode(
+          currentState.isoCode,
+          currentCountry.isoCode
+        ),
+      },
+    };
+  }
 };
 
 export default Index;

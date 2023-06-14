@@ -8,10 +8,14 @@ export const SectionsWrapper = styled.div`
   grid-gap: 5px;
   max-width: 900px;
   margin: 0 auto;
+  min-height: 400px;
 
   ${Section} {
     &:first-of-type {
-      border-radius: 25px 5px 5px 25px;
+      &:not(&:only-of-type) {
+        border-radius: 25px 5px 5px 25px;
+      }
+
       display: flex;
       flex-direction: column;
       flex: 1 1 45%;
@@ -48,7 +52,10 @@ export const SectionsWrapper = styled.div`
     }
 
     &:last-of-type {
-      border-radius: 5px 25px 25px 5px;
+      &:not(&:only-of-type) {
+        border-radius: 5px 25px 25px 5px;
+      }
+
       flex: 1 1 55%;
     }
   }

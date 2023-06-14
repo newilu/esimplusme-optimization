@@ -9,6 +9,7 @@ import PhoneNumbersTable from "@/entities/PhoneNumbersTable";
 import { PhoneToBuy } from "@/utils/types";
 import { ICity, ICountry, IState } from "country-cities";
 import { useTranslation } from "next-i18next";
+import { NoDataWrapper } from "@/shared/ui/styled";
 
 type PhoneNumbersByCityProps = {
   phones: PhoneToBuy[];
@@ -24,7 +25,9 @@ function PhoneNumbersByCity({
   state,
 }: PhoneNumbersByCityProps) {
   const { t } = useTranslation("virtual-phone-number");
-  const [selectedPhone, setSelectedPhone] = React.useState(phones[0]);
+  const [selectedPhone, setSelectedPhone] = React.useState(
+    phones.length ? phones[0] : null
+  );
 
   return (
     <Wrapper>
@@ -59,15 +62,23 @@ function PhoneNumbersByCity({
               {t("change")}
             </Link>
           </SectionTitle>
-          <SectionTitle>{t("select_phone_number")}</SectionTitle>
-          <PhoneNumbersTable
-            onRowClick={(phone) => setSelectedPhone(phone)}
-            phones={phones}
-          />
+          {phones.length ? (
+            <>
+              <SectionTitle>{t("select_phone_number")}</SectionTitle>
+              <PhoneNumbersTable
+                onRowClick={(phone) => setSelectedPhone(phone)}
+                phones={phones}
+              />
+            </>
+          ) : (
+            <NoDataWrapper>{t("no_phones_for_this_region")}</NoDataWrapper>
+          )}
         </Section>{" "}
-        <Section>
-          <PhoneNumberPurchase country={country} phone={selectedPhone} />
-        </Section>
+        {selectedPhone && (
+          <Section>
+            <PhoneNumberPurchase country={country} phone={selectedPhone} />
+          </Section>
+        )}
       </SectionsWrapper>
     </Wrapper>
   );

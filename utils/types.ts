@@ -52,6 +52,12 @@ export type SecondPhoneCountry = {
   country: string;
   code: string;
   prefix: string | number;
+  prices?: {
+    cheapest: {
+      price: number;
+      currency: string;
+    };
+  };
 };
 
 export type Category = {

@@ -16,6 +16,8 @@ export const Section = styled.section`
   overflow: hidden;
   margin: 5px auto;
   max-width: 900px;
+  display: flex;
+  flex-direction: column;
 
   &:only-of-type {
     border-radius: 25px;

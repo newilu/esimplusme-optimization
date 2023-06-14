@@ -49,10 +49,7 @@ export const SectionsWrapper = styled.div`
   > ${Section}:last-child {
     border-radius: 5px 25px 25px 5px;
     flex: 1 1 60%;
-
-    &:has(${TableWrapper}):has(tbody:empty) {
-      min-height: 500px;
-    }
+    min-height: 400px;
   }
 `;
 

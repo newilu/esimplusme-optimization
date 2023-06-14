@@ -6,13 +6,14 @@ import { SecondPhoneCountry } from "@/utils/types";
 import Navbar from "@/widgets/Navbar";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { COUNTRY_LIST } from "@/shared/constants";
+import { ICountry } from "country-cities";
 
 function Pricing({
   popularSecondPhoneCountries,
   secondPhoneCountries,
 }: {
   popularSecondPhoneCountries: SecondPhoneCountry[];
-  secondPhoneCountries: SecondPhoneCountry[];
+  secondPhoneCountries: ICountry[];
 }) {
   return (
     <>
@@ -39,6 +40,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
       },
     };
   }
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
@@ -46,13 +48,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         "virtual-phone-number",
       ])),
       popularSecondPhoneCountries,
-      secondPhoneCountries: COUNTRY_LIST.map(
-        ({ name, isoCode, phonecode }) => ({
-          country: name,
-          code: isoCode,
-          prefix: phonecode,
-        })
-      ),
+      secondPhoneCountries: COUNTRY_LIST,
     },
   };
 };

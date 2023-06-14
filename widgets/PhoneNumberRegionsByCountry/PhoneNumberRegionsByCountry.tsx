@@ -8,6 +8,7 @@ import CountryFlag from "@/shared/ui/CountryFlag";
 import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
+import { NoDataWrapper } from "@/shared/ui/styled";
 
 type PhoneNumberRegionsByCountryProps = {
   states: IState[];
@@ -70,11 +71,15 @@ function PhoneNumberRegionsByCountry({
           {t("regions")}{" "}
           <Link href={`/virtual-phone-number/pricing`}>{t("change")}</Link>
         </SectionTitle>
-        <BaseTable
-          maxVisibleElements={8}
-          columns={[stateAreaCodeColumn, stateNameColumn]}
-          data={states}
-        />
+        {states.length ? (
+          <BaseTable
+            maxVisibleElements={8}
+            columns={[stateAreaCodeColumn, stateNameColumn]}
+            data={states}
+          />
+        ) : (
+          <NoDataWrapper>{t("no_states_for_this_country")}</NoDataWrapper>
+        )}
       </Section>
     </Wrapper>
   );

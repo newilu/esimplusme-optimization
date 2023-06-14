@@ -9,6 +9,7 @@ import CitiesTable from "@/widgets/PhoneNumbersByRegion/CitiesTable";
 import Link from "next/link";
 import { formatStringToKebabCase } from "@/shared/lib";
 import { useTranslation } from "next-i18next";
+import { NoDataWrapper } from "@/shared/ui/styled";
 
 type PhoneNumbersByCountryProps = {
   phones: PhoneToBuy[];
@@ -60,11 +61,19 @@ function PhoneNumbersByRegion({
           <SectionTitle style={{ padding: "15px 25px" }}>
             {t("cities")}
           </SectionTitle>
-          <CitiesTable cities={cities} />
+          {cities.length ? (
+            <CitiesTable cities={cities} />
+          ) : (
+            <NoDataWrapper>{t("no_cities_for_this_region")}</NoDataWrapper>
+          )}
         </Section>
         <Section>
           <SectionTitle>{t("all_numbers")}</SectionTitle>
-          <PhoneNumbersTable phones={phones} />
+          {phones.length ? (
+            <PhoneNumbersTable phones={phones} />
+          ) : (
+            <NoDataWrapper>{t("no_phones_for_this_region")}</NoDataWrapper>
+          )}
         </Section>
       </SectionsWrapper>
     </Wrapper>
