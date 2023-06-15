@@ -13,7 +13,7 @@ import gplay from "./assets/gplay.svg";
 import gplayDark from "./assets/gplay-black.svg";
 import appstore from "./assets/appstore.svg";
 import appstoreDark from "./assets/appstore-black.svg";
-import { SectionTitle } from "shared/ui/styled";
+import { PanelSectionTitle } from "shared/ui/styled";
 import { ButtonsWrapper, Content, ImageWrapper, Wrapper } from "./styled";
 import Image from "next/image";
 
@@ -45,7 +45,7 @@ function DownloadAppSection({
     <div style={{ overflow: "hidden" }}>
       <Wrapper id="mobile_app_section">
         <Content>
-          <SectionTitle as="div">{t(sectionTitle)}</SectionTitle>
+          <PanelSectionTitle as="div">{t(sectionTitle)}</PanelSectionTitle>
           <ul>
             <li>
               <Image width={24} height={24} src={phone} alt="phone call" />

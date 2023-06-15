@@ -3,13 +3,16 @@ import { ICity, ICountry, IState } from "country-cities";
 import { PhoneToBuy } from "@/utils/types";
 import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import CountryFlag from "@/shared/ui/CountryFlag";
-import { Section, SectionTitle } from "@/shared/ui/BaseHeader/styled";
+import {
+  PanelSection,
+  PanelSectionTitle,
+  NoDataWrapper,
+} from "@/shared/ui/styled";
 import { SectionsWrapper, Wrapper } from "./styled";
 import CitiesTable from "@/widgets/PhoneNumbersByRegion/CitiesTable";
 import Link from "next/link";
 import { formatStringToKebabCase } from "@/shared/lib";
 import { useTranslation } from "next-i18next";
-import { NoDataWrapper } from "@/shared/ui/styled";
 
 type PhoneNumbersByCountryProps = {
   phones: PhoneToBuy[];
@@ -39,8 +42,8 @@ function PhoneNumbersByRegion({
         {country.phonecode} {country.name}
       </h5>
       <SectionsWrapper>
-        <Section>
-          <SectionTitle>
+        <PanelSection>
+          <PanelSectionTitle>
             <div>
               <CountryFlag
                 name={country.isoCode}
@@ -57,24 +60,24 @@ function PhoneNumbersByRegion({
             >
               {t("change")}
             </Link>
-          </SectionTitle>
-          <SectionTitle style={{ padding: "15px 25px" }}>
+          </PanelSectionTitle>
+          <PanelSectionTitle style={{ padding: "15px 25px" }}>
             {t("cities")}
-          </SectionTitle>
+          </PanelSectionTitle>
           {cities.length ? (
             <CitiesTable cities={cities} />
           ) : (
             <NoDataWrapper>{t("no_cities_for_this_region")}</NoDataWrapper>
           )}
-        </Section>
-        <Section>
-          <SectionTitle>{t("all_numbers")}</SectionTitle>
+        </PanelSection>
+        <PanelSection>
+          <PanelSectionTitle>{t("all_numbers")}</PanelSectionTitle>
           {phones.length ? (
             <PhoneNumbersTable phones={phones} />
           ) : (
             <NoDataWrapper>{t("no_phones_for_this_region")}</NoDataWrapper>
           )}
-        </Section>
+        </PanelSection>
       </SectionsWrapper>
     </Wrapper>
   );

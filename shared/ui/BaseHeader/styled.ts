@@ -1,34 +1,10 @@
 import styled from "styled-components";
 import blur from "./assets/blur-min.png";
 
-export const SectionTitle = styled.div`
-  padding: 25px 25px 15px 25px;
-  color: ${(props) => props.theme.primaryText};
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 26px;
-`;
-
-export const Section = styled.section`
-  background: ${(props) => props.theme.translucentCardsBg};
-  border-radius: 5px;
-  flex: 1;
-  overflow: hidden;
-  margin: 5px auto;
-  max-width: 900px;
-  display: flex;
-  flex-direction: column;
-
-  &:only-of-type {
-    border-radius: 25px;
-  }
-`;
-
 export const Wrapper = styled.div`
   padding-bottom: 50px;
   position: relative;
   z-index: 2;
-  padding-top: 50px;
 
   &:before {
     content: "";
@@ -69,5 +45,24 @@ export const Wrapper = styled.div`
     font-size: 24px;
     line-height: 35px;
     color: ${(props) => props.theme.secondaryText};
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 32px;
+      line-height: 32px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 24px;
+      margin: 15px auto 25px auto;
+    }
+
+    h5 {
+      font-size: 18px;
+      line-height: 18px;
+      margin: 15px auto 25px auto;
+    }
   }
 `;

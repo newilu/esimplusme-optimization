@@ -108,21 +108,36 @@ export const PhoneNumberAlert = styled.div`
 `;
 export const PhoneNumberPrice = styled.div`
   font-weight: 700;
-  font-size: 16px;
+  font-size: 32px;
   line-height: 32px;
   color: ${(props) => props.theme.primary};
+  @media (max-width: 430px) {
+    padding-top: 24px;
+    border-top: 1px solid ${(props) => props.theme.borderColor};
+  }
 `;
 export const PhoneNumber = styled.div`
   font-weight: 700;
   font-size: 32px;
   line-height: 32px;
   color: ${(props) => props.theme.primaryText};
+  @media (max-width: 430px) {
+    padding-bottom: 24px;
+  }
 `;
 export const PhoneNumberAndPriceWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+
+  @media (max-width: 430px) {
+    flex-direction: column;
+    > * {
+      width: 100%;
+      text-align: center;
+    }
+  }
 `;
 export const NumberType = styled.div`
   font-weight: 600;
@@ -158,6 +173,10 @@ export const CountryNameAndNumberTypeWrapper = styled.div`
   align-items: center;
   grid-gap: 20px;
   margin-bottom: 5px;
+
+  @media (max-width: 430px) {
+    justify-content: center;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -165,5 +184,9 @@ export const Wrapper = styled.div`
 
   > button {
     margin: 30px 0;
+  }
+
+  @media (max-width: 900px) {
+    padding: 32px 16px;
   }
 `;

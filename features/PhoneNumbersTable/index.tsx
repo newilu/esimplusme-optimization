@@ -96,7 +96,9 @@ function PhoneNumbersTable({
       phoneNumberColumn,
       phoneNumberCallsCapabilityColumn,
       phoneNumberSMSCapabilityColumn,
-      ...(pathname.includes("/payment") || city ? [] : [purchaseButtonColumn]),
+      ...(pathname.includes("/payment") || pathname.includes("/mobile") || city
+        ? []
+        : [purchaseButtonColumn]),
     ];
   }, [
     city,

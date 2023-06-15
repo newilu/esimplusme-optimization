@@ -18,11 +18,16 @@ const themes = {
     notificationsBg:
       "linear-gradient(180deg, rgba(0, 0, 0, 0.05) 43.57%, rgba(0, 0, 0, 0) 100%)",
     secondaryBtnBg: "transparent",
+    btnSecondaryBg: "#F1F1F1",
+    btnSecondaryActiveBg: "#D9D9D9",
     secondaryBtnBorder: "#f1f1f1",
     howToUseCoverageBg:
       "linear-gradient(rgba(231, 231, 231, 0.3) 0%, rgba(231, 231, 231, 0) 100%)",
     cardsBorder: "rgba(0, 0, 0, 0.05)",
     translucentCardsBg: "#ffffff",
+    panelSectionBg:
+      "linear-gradient(180deg, #FFFFFF 84.66%, rgba(255, 255, 255, 0) 100%)",
+
     qrBlockBg: "rgba(233, 236, 242, 0.5)",
     userInitialsBg: "#0076FF",
     inputBg: "#ffffff",
@@ -53,10 +58,14 @@ const themes = {
       "linear-gradient(180deg, rgba(255, 255, 255, 0.05) 43.57%, rgba(255, 255, 255, 0) 100%)",
     secondaryBtnBg: "rgba(255,255,255,0.1)",
     secondaryBtnBorder: "transparent",
+    btnSecondaryBg: "rgba(255, 255, 255, 0.1)",
+    btnSecondaryActiveBg: "rgba(237, 240, 250, 0.05)",
     howToUseCoverageBg:
       "linear-gradient(rgba(255, 255, 255, 0.05) 47.42%, rgba(255, 255, 255, 0) 108.84%)",
     cardsBorder: "transparent",
     translucentCardsBg: "rgba(255, 255, 255, 0.07)",
+    panelSectionBg:
+      "linear-gradient(180deg, rgba(255, 255, 255, 0.07) 84.66%, rgba(255, 255, 255, 0) 100%)",
     qrBlockBg: "rgba(255, 255, 255, 0.05)",
     userInitialsBg: "rgba(237, 240, 250, 0.1)",
     inputBg: "#0c0f1e",

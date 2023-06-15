@@ -19,6 +19,7 @@ import FAQSection from "features/FAQSection";
 import SetupGuide from "features/MobiledataSetupGuide";
 import Header from "features/Header";
 import { LANGS_LIST } from "@/shared/constants";
+import Test from "@/shared/ui/Breadcrumbs/Test";
 
 type HomeProps = {
   countries: Country[];
@@ -134,6 +135,7 @@ export default function Home({
       <Navbar color="white" />
       <Header />
       <SetupGuide />
+      <Test />
       <AvailableMobileDataPlans
         countries={countries}
         regions={regions}

@@ -8,7 +8,7 @@ import cardSlash from "shared/assets/card-slash.svg";
 import wallet from "shared/assets/wallet-minus.svg";
 import support from "shared/assets/24-support.svg";
 import cpu from "shared/assets/cpu.svg";
-import { Container, SectionTitle } from "shared/ui/styled";
+import { Container, PanelSectionTitle } from "shared/ui/styled";
 import {
   Feature,
   FeatureIcon,
@@ -70,7 +70,7 @@ function EsimFeaturesSection() {
   return (
     <Wrapper>
       <Container>
-        <SectionTitle>{t("why_esim")}</SectionTitle>
+        <PanelSectionTitle>{t("why_esim")}</PanelSectionTitle>
         <FeaturesWrapper>
           {features.map(({ title, text, img }) => (
             <Feature key={title}>

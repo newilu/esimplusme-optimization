@@ -1,6 +1,28 @@
 import styled from "styled-components";
 import ornament from "../assets/ornament.svg";
 
+export const PanelSectionTitle = styled.div`
+  padding: 25px 25px 15px 25px;
+  color: ${(props) => props.theme.primaryText};
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+`;
+export const PanelSection = styled.div`
+  background: ${(props) => props.theme.panelSectionBg};
+  border-radius: 5px;
+  flex: 1;
+  overflow: hidden;
+  margin: 5px auto;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+
+  &:only-of-type {
+    border-radius: 25px;
+  }
+`;
+
 export const NoDataWrapper = styled.div`
   flex: 1;
   display: flex;

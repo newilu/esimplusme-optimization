@@ -92,12 +92,12 @@ export const Wrapper = styled.button<{
         `;
       case "dark":
         return css`
-          color: white;
-          background: rgba(237, 240, 250, 0.1);
+          color: ${props.theme.primaryText};
+          box-shadow: 0 0 0 1px ${props.theme.secondaryBtnBorder};
+          background: ${props.theme.secondaryBtnBg};
 
           &:active {
-            color: white;
-            background: rgba(237, 240, 250, 0.07);
+            background: ${props.theme.btnSecondaryActiveBg};
           }
         `;
       default:

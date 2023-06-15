@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import BaseHeader from "@/shared/ui/BaseHeader";
 import { Wrapper as TableWrapper } from "@/shared/ui/BaseTable/styled";
-import { Section } from "@/shared/ui/BaseHeader/styled";
+import { PanelSection } from "@/shared/ui/styled";
 
 export const CountryFlagWrapper = styled.div`
   flex: 0 0 28px;
@@ -35,9 +35,10 @@ export const CountryNameWrapper = styled.div`
 `;
 
 export const Wrapper = styled(BaseHeader)`
-  ${Section} {
+  ${PanelSection} {
     &:first-of-type {
       border-radius: 25px 25px 5px 5px;
+      background: ${(props) => props.theme.translucentCardsBg};
     }
 
     &:last-of-type {
@@ -66,10 +67,14 @@ export const Wrapper = styled(BaseHeader)`
       }
     }
 
-    @media (max-width: 430px) {
+    @media (max-width: 768px) {
       th {
         &:first-child {
           width: 70px;
+        }
+        &:nth-child(3),
+        &:nth-child(4) {
+          width: unset;
         }
       }
     }

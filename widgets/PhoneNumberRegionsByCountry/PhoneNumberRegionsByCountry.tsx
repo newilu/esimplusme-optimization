@@ -1,4 +1,4 @@
-import { Section, SectionTitle } from "@/shared/ui/BaseHeader/styled";
+import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
 import BaseTable from "@/shared/ui/BaseTable";
 import React from "react";
 import { StateNameWrapper, Wrapper } from "./styled";
@@ -21,7 +21,7 @@ function PhoneNumberRegionsByCountry({
   country,
   states,
 }: PhoneNumberRegionsByCountryProps) {
-  const { t } = useTranslation("virtual-phone-numbers");
+  const { t } = useTranslation("virtual-phone-number");
   const stateAreaCodeColumn = React.useMemo(
     () =>
       columnHelper.accessor("countryCode", {
@@ -66,11 +66,11 @@ function PhoneNumberRegionsByCountry({
         />{" "}
         {country.phonecode} {country.name}
       </h5>
-      <Section>
-        <SectionTitle>
+      <PanelSection>
+        <PanelSectionTitle>
           {t("regions")}{" "}
           <Link href={`/virtual-phone-number/pricing`}>{t("change")}</Link>
-        </SectionTitle>
+        </PanelSectionTitle>
         {states.length ? (
           <BaseTable
             maxVisibleElements={8}
@@ -80,7 +80,7 @@ function PhoneNumberRegionsByCountry({
         ) : (
           <NoDataWrapper>{t("no_states_for_this_country")}</NoDataWrapper>
         )}
-      </Section>
+      </PanelSection>
     </Wrapper>
   );
 }
