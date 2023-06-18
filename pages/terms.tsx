@@ -79,11 +79,11 @@ function TermsOfUse() {
         <Navbar />
         <Container>
           <h1>Terms of use</h1>
-          <p>
+          <div>
             <strong>Terms of Use</strong>
             <br />
             <br />
-            <strong>Last update: 04/02/2020</strong>
+            <strong>Last update: 18/06/2023</strong>
             <br />
             <br />
             <br />
@@ -240,6 +240,28 @@ function TermsOfUse() {
             </a>
             <br />
             <br />
+            <strong>No Refunds or Returns</strong>
+            <p>
+              Please note that once an eSIM or Virtual Phone Number is activated
+              and working, we cannot offer refunds or accept returns. All sales
+              are final. This is a change from our previous policy, and we ask
+              all users to take note of this update.
+            </p>
+            <strong>SMS Delivery</strong>
+            <p>
+              If you use our eSIM or Virtual Phone Number for registration or
+              authentication on online services, banks, etc., we cannot
+              guarantee the delivery of SMS messages. Delivery may be
+              interrupted on the sender's side, the mobile operator's side, or
+              any other side. We are not responsible for any such interruptions.
+              This is a new addition to our terms of service, and we ask all
+              users to be aware of this potential issue.
+            </p>
+            <strong>No Returns for Working Numbers</strong>
+            <p>
+              We will not accept returns for working numbers that can receive
+              SMS messages from another phone numb
+            </p>
             <strong>Data plan, Top-Ups and Payments:</strong>
             <br />
             <br />
@@ -711,7 +733,7 @@ function TermsOfUse() {
             Šiaulių g. 10-56, Vilnius, 01134, Lithiania
             <br />
             info@appvillis.com
-          </p>
+          </div>
         </Container>
         <Footer />
       </Wrapper>
