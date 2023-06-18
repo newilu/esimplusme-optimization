@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import Head from "next/head.js";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 
 const Wrapper = styled.div`
   padding-top: 80px;
@@ -216,7 +217,13 @@ function TermsOfUse() {
             <br />
             Šiaulių g. 10-56, Vilnius, 01134, Lithuania
             <br />
-            info@appvillis.com
+            <Link
+              target="_blank"
+              rel="noreferrer"
+              href="mailto:info@appvillis.com"
+            >
+              info@appvillis.com
+            </Link>
           </p>
           <p>
             By accessing the ESIM Plus Application, opening an Account, or
