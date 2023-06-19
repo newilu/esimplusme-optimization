@@ -10,6 +10,7 @@ import {
   Wrapper,
 } from "./styled";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
 
 function LanguageMenu() {
   const router = useRouter();
@@ -38,6 +39,15 @@ function LanguageMenu() {
     await i18n.changeLanguage(newLocale);
   };
 
+  const redirectedPathName = (newLoc: string) => {
+    const segments = router.pathname.split("/");
+    i18n.language === "en" ? (segments[0] = newLoc) : (segments[1] = newLoc);
+
+    return segments
+      .join("/")
+      .concat(new URLSearchParams(router.query as {}).toString());
+  };
+
   return (
     <Wrapper>
       <div>
@@ -58,9 +68,11 @@ function LanguageMenu() {
               key={lang.value}
               active={i18n.language.startsWith(lang.value)}
             >
-              <button
-                type="button"
-                onClick={() => {
+              <Link
+                locale={lang.value}
+                href={redirectedPathName(lang.value)}
+                onClick={(e) => {
+                  e.preventDefault();
                   setActiveLanguageOption(lang);
                   onToggleLanguageClick(lang.value);
                 }}
@@ -77,7 +89,7 @@ function LanguageMenu() {
                   <div>{lang.label}</div>
                   <div>{lang.country}</div>
                 </div>
-              </button>
+              </Link>
             </LanguageMenuItem>
           ))}
         </LanguageMenuList>
