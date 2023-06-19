@@ -130,8 +130,8 @@ function Navbar({
             <ThemeSwitcher />
           </div>
           {(router.pathname === "/" ||
-            router.asPath.includes("virtual-phone-number") ||
-            router.asPath.includes("esim-supported-devices")) && (
+            router.asPath.includes("/virtual-phone-number") ||
+            router.asPath.includes("/esim-supported-devices")) && (
             <div>
               <LanguageMenu />
             </div>
