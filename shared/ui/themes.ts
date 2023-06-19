@@ -37,6 +37,7 @@ const themes = {
     howitworksSecondaryBg: "rgba(231,231,231,0.2)",
     svgDisabledColor: "#E9ECF2",
     tableBottomBlur: "linear-gradient(rgba(255, 255, 255, 0) 0%,#ffffff 100%)",
+    tableItemHoverBg: "#E0EAFD",
   },
   dark: {
     name: "dark",
@@ -75,6 +76,7 @@ const themes = {
     howitworksSecondaryBg: "rgba(255, 255, 255, 0.05)",
     svgDisabledColor: "rgba(255, 255, 255, 0.1)",
     tableBottomBlur: "linear-gradient(180deg, transparent 0%, #000006 100%)",
+    tableItemHoverBg: "rgba(255, 255, 255, 0.1)",
   },
 };
 

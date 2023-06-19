@@ -12,15 +12,16 @@ import PhoneNumberPurchaseHeader from "@/widgets/PhoneNumberPurchaseHeader";
 type PageProps = {
   phones: PhoneToBuy[];
   country: ICountry;
-  state: IState;
-  phone: PhoneToBuy;
+  state: IState | null;
+  phone: PhoneToBuy | null;
 };
 
-function Index({ country, state, phones }: PageProps) {
+function Index({ country, state, phones, phone }: PageProps) {
   return (
     <>
       <Navbar />
       <PhoneNumberPurchaseHeader
+        phone={phone}
         state={state}
         phones={phones}
         country={country}
@@ -35,11 +36,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 }) => {
   const { country, state, phone } = query;
 
-  if (
-    typeof country !== "string" ||
-    typeof state !== "string" ||
-    typeof phone !== "string"
-  ) {
+  if (typeof country !== "string") {
     return {
       redirect: {
         destination: "/virtual-phone-number/pricing",
@@ -52,11 +49,12 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     country.includes(formatStringToKebabCase(el.name))
   );
 
-  const currentState = getStatesByCountryCode(
-    currentCountry?.isoCode ?? ""
-  ).find((el) => state.includes(formatStringToKebabCase(el.name)));
-
-  if (!currentCountry || !currentState) {
+  const currentState =
+    getStatesByCountryCode(currentCountry?.isoCode ?? "").find((el) =>
+      state?.includes(formatStringToKebabCase(el.name))
+    ) ?? null;
+  console.log(currentState);
+  if (!currentCountry) {
     return {
       redirect: {
         destination: "/virtual-phone-number/pricing",
@@ -65,7 +63,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  if (currentCountry.isoCode === "US") {
+  if (currentCountry.isoCode === "US" && currentState) {
     const { data } = await api.secondPhone.getAvailableNumbersByStateISO(
       currentState.isoCode
     );
@@ -103,22 +101,14 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 
   const selectedPhone =
     data?.data.phones.find((_phone) => _phone.phoneNumber === phone) ??
-    data?.data.phones[0];
-
-  if (!selectedPhone) {
-    return {
-      redirect: {
-        destination: "/virtual-phone-number/pricing",
-        statusCode: 301,
-      },
-    };
-  }
+    data?.data.phones[0] ??
+    null;
 
   const countryPhones = data?.data.phones ?? [];
 
-  const filteredPhones = countryPhones.filter(
-    (_phone) => _phone.region === currentState.isoCode
-  );
+  const filteredPhones = currentState
+    ? countryPhones.filter((_phone) => _phone.region === currentState.isoCode)
+    : countryPhones;
 
   return {
     props: {

@@ -1,17 +1,17 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import ornament from "../assets/ornament.svg";
 
 export const PanelSectionTitle = styled.div`
-  padding: 25px 25px 15px 25px;
+  padding: 15px 25px;
   color: ${(props) => props.theme.primaryText};
   font-weight: 700;
   font-size: 18px;
   line-height: 26px;
 `;
-export const PanelSection = styled.div`
+export const PanelSection = styled.div<{ flex?: string | number }>`
   background: ${(props) => props.theme.panelSectionBg};
   border-radius: 5px;
-  flex: 1;
+  flex: ${(props) => props.flex};
   overflow: hidden;
   margin: 5px auto;
   max-width: 900px;
@@ -22,6 +22,64 @@ export const PanelSection = styled.div`
     border-radius: 25px;
   }
 `;
+
+PanelSection.defaultProps = {
+  flex: 1,
+};
+
+export const PanelSectionsWrapper = styled.div<{
+  dir?: "column" | "row";
+  maxWidth?: number;
+}>`
+  display: flex;
+  grid-gap: 5px;
+  max-width: ${(props) => props.maxWidth}px;
+  margin: 50px auto;
+
+  ${PanelSection} {
+    margin: 0;
+  }
+
+  ${(props) => {
+    switch (props.dir) {
+      case "column":
+        return css`
+          flex-direction: column;
+          ${PanelSection} {
+            flex: 1;
+            &:first-of-type:not(&:only-of-type) {
+              background: ${props.theme.translucentCardsBg};
+              border-radius: 25px 25px 5px 5px;
+            }
+            &:last-of-type:not(&:only-of-type) {
+              background: ${props.theme.panelSectionBg};
+              border-radius: 5px 5px 25px 25px;
+            }
+          }
+        `;
+      case "row":
+        return css`
+          flex-direction: row;
+
+          ${PanelSection} {
+            &:first-of-type:not(&:only-of-type) {
+              border-radius: 25px 5px 5px 25px;
+            }
+            &:last-of-type:not(&:only-of-type) {
+              border-radius: 5px 25px 25px 5px;
+            }
+          }
+        `;
+      default:
+        return css``;
+    }
+  }}
+`;
+
+PanelSectionsWrapper.defaultProps = {
+  dir: "row",
+  maxWidth: 900,
+};
 
 export const NoDataWrapper = styled.div`
   flex: 1;

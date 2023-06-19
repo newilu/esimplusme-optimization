@@ -1,5 +1,7 @@
 import { differenceInDays, getHours } from "date-fns";
 import { cities, countries, states } from "country-cities";
+import { CountryCode, getExampleNumber, getPhoneCode } from "libphonenumber-js";
+import examples from "libphonenumber-js/examples.mobile.json";
 
 function formatDataSize(dataSize: string | number) {
   return +dataSize >= 1000 ? `${+dataSize / 1000} GB` : `${dataSize} MB`;
@@ -166,6 +168,23 @@ function getCitiesByCountryCode(countryIsoCode: string) {
   return cities.getByCountry(countryIsoCode);
 }
 
+const generateFakeNumber = (countryCode: string, areaCode: string) => {
+  const formattedAreaCode = areaCode.split(" ")[0].replaceAll(/\D/g, "");
+  const generatedNumber = getExampleNumber(
+    countryCode as CountryCode,
+    examples
+  );
+  if (!generatedNumber) return;
+
+  const nationalNumber = generatedNumber.number
+    .replace(`+${formattedAreaCode}`, "")
+    .replaceAll(/\S/g, () => {
+      return String(Math.floor(Math.random() * 10));
+    });
+
+  return `+${formattedAreaCode}`.concat(nationalNumber);
+};
+
 export {
   getCountryByIsoCode,
   getStatesByCountryCode,
@@ -182,4 +201,5 @@ export {
   eraseCookie,
   formatStringToKebabCase,
   formatAreaCode,
+  generateFakeNumber,
 };

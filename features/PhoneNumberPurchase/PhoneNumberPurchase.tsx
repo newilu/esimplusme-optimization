@@ -10,6 +10,10 @@ import PhoneSVG from "@/shared/assets/PhoneSVG";
 import SmsSVG from "@/shared/assets/SmsSVG";
 import CheckmarkSVG from "@/shared/assets/CheckmarkSVG";
 import cross from "@/shared/assets/red-cross.svg";
+import Checkbox from "@/shared/ui/Checkbox";
+import { Trans, useTranslation } from "next-i18next";
+import api from "@/api";
+import { v4 } from "uuid";
 import {
   CountryNameWrapper,
   CountryNameAndNumberTypeWrapper,
@@ -29,57 +33,23 @@ import {
   Agreement,
   PhoneNumberCapabilityAvailability,
 } from "./styled";
-import Checkbox from "@/shared/ui/Checkbox";
-import { Trans, useTranslation } from "next-i18next";
-import api from "@/api";
-import { createTempUser } from "@/api/secondPhone";
-import { v4 } from "uuid";
 
 type PhoneNumberPurchaseProps = {
   phone: PhoneToBuy;
   country: ICountry;
+  onSubmit?: () => void;
 };
 
-function PhoneNumberPurchase({ phone, country }: PhoneNumberPurchaseProps) {
+function PhoneNumberPurchase({
+  phone,
+  country,
+  onSubmit = () => {},
+}: PhoneNumberPurchaseProps) {
   const { t } = useTranslation("virtual-phone-number");
   const [checkedAgreements, setCheckedAgreements] = React.useState({
     first: false,
     second: false,
   });
-
-  const handleNumberPurchase = async (_phone: PhoneToBuy) => {
-    try {
-      const redirectURL = `${process.env.NEXT_PUBLIC_BASE_URL}?payment_amount:${
-        _phone.price * 100
-      }`;
-      await api.secondPhone.createTempUser();
-
-      const paymentId = v4();
-      const customerId = v4();
-
-      const { data } = await api.secondPhone.getSignature({
-        price: Number(_phone.price * 100),
-        stringToSign: `customer_id:${customerId};payment_amount:${
-          _phone.price * 100
-        };payment_currency:USD;payment_id:${paymentId};project_id:${
-          process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID
-        };redirect_success_mode:parent_page;redirect_success_url:${redirectURL}`,
-      });
-
-      window.EPayWidget.run({
-        customer_id: customerId,
-        payment_amount: _phone.price * 100,
-        payment_currency: "USD",
-        payment_id: paymentId,
-        project_id: process.env.REACT_APP_ECOMMPAY_PROJECT_ID,
-        redirect_success_mode: "parent_page",
-        redirect_success_url: redirectURL,
-        signature: (data as any)?.data?.data,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   return (
     <Wrapper>
@@ -150,7 +120,7 @@ function PhoneNumberPurchase({ phone, country }: PhoneNumberPurchaseProps) {
         fullWidth
         disabled={!checkedAgreements.first || !checkedAgreements.second}
         label={t("get_number")}
-        onClick={() => handleNumberPurchase(phone)}
+        onClick={onSubmit}
       />
       <Agreements>
         <Agreement>
