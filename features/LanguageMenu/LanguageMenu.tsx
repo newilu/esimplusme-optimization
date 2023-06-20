@@ -40,12 +40,7 @@ function LanguageMenu() {
   };
 
   const redirectedPathName = (newLoc: string) => {
-    const segments = router.pathname.split("/");
-    i18n.language === "en" ? (segments[0] = newLoc) : (segments[1] = newLoc);
-
-    return segments
-      .join("/")
-      .concat(new URLSearchParams(router.query as {}).toString());
+    return `${newLoc === "en" ? "" : `/${newLoc}`}${router.asPath}`;
   };
 
   return (
