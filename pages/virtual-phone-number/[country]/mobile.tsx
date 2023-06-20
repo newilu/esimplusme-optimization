@@ -18,6 +18,7 @@ import { Wrapper as TableWrapper } from "@/shared/ui/BaseTable/styled";
 import Button from "@/shared/ui/Button";
 import { useTranslation } from "next-i18next";
 import CountryFlag from "@/shared/ui/CountryFlag";
+import { useRouter } from "next/router";
 
 type PageProps = { country: ICountry; phones: PhoneToBuy[] };
 
@@ -87,6 +88,7 @@ const SectionsWrapper = styled.div`
 `;
 
 function Index({ country, phones }: PageProps) {
+  const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
   const [selectedPhone, setSelectedPhone] = React.useState(
     phones.length ? phones[0] : null
@@ -112,6 +114,20 @@ function Index({ country, phones }: PageProps) {
       ),
     [phones, selectedNumbersType]
   );
+
+  const handlePhoneNumberPurchase = async () => {
+    if (!selectedPhone) return;
+
+    const params = new URLSearchParams({
+      paymentAmount: String((selectedPhone.price + 1) * 100),
+      phoneNumber: selectedPhone.phoneNumber,
+      country: country.isoCode,
+    });
+
+    await router.push(
+      `/virtual-phone-number/payment/provider-select?${params.toString()}`
+    );
+  };
 
   return (
     <>
@@ -171,7 +187,11 @@ function Index({ country, phones }: PageProps) {
           </PanelSection>{" "}
           <PanelSection>
             {selectedPhone && (
-              <PhoneNumberPurchase country={country} phone={selectedPhone} />
+              <PhoneNumberPurchase
+                onSubmit={handlePhoneNumberPurchase}
+                country={country}
+                phone={selectedPhone}
+              />
             )}
           </PanelSection>
         </SectionsWrapper>

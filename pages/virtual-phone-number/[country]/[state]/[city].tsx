@@ -12,6 +12,8 @@ import {
   getStatesByCountryCode,
 } from "@/shared/lib";
 import PhoneNumbersByCity from "@/widgets/PhoneNumberPurchaseHeader";
+import DownloadAppSection from "@/features/DownloadAppSection";
+import Footer from "@/components/Footer";
 
 type PageProps = {
   phones: PhoneToBuy[];
@@ -30,6 +32,8 @@ function Index({ country, city, state, phones }: PageProps) {
         phones={phones}
         country={country}
       />
+      <DownloadAppSection />
+      <Footer />
     </>
   );
 }

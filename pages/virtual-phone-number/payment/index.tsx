@@ -8,6 +8,8 @@ import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
 import { formatStringToKebabCase, getStatesByCountryCode } from "@/shared/lib";
 import PhoneNumberPurchaseHeader from "@/widgets/PhoneNumberPurchaseHeader";
+import DownloadAppSection from "@/features/DownloadAppSection";
+import Footer from "@/components/Footer";
 
 type PageProps = {
   phones: PhoneToBuy[];
@@ -26,6 +28,8 @@ function Index({ country, state, phones, phone }: PageProps) {
         phones={phones}
         country={country}
       />
+      <DownloadAppSection />
+      <Footer />
     </>
   );
 }

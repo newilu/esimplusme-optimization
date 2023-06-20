@@ -1,11 +1,15 @@
 import React from "react";
-import { SecondPhoneCountry } from "@/utils/types";
-import PopularCountriesTable from "@/widgets/PhoneNumberRates/PopularCountriesTable";
-import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
-import { Wrapper } from "./styled";
+import type { ICountry } from "country-cities";
 import { useTranslation } from "next-i18next";
-import { ICountry } from "country-cities";
-import AllCountriesTable from "@/widgets/PhoneNumberRates/AllCountriesTable";
+import type { SecondPhoneCountry } from "@/utils/types";
+import {
+  PanelSection,
+  PanelSectionsWrapper,
+  PanelSectionTitle,
+} from "@/shared/ui/styled";
+import PopularCountriesTable from "./PopularCountriesTable";
+import AllCountriesTable from "./AllCountriesTable";
+import { Wrapper } from "./styled";
 
 type PhoneNumbersRatesProps = {
   secondPhoneCountries: ICountry[];
@@ -21,14 +25,16 @@ function PhoneNumbersRates({
     <Wrapper>
       <h1>{t("phone_number_rates_title")}</h1>
       <p>{t("phone_number_rates_text")}</p>
-      <PanelSection>
-        <PanelSectionTitle>{t("popular_countries")}</PanelSectionTitle>
-        <PopularCountriesTable countries={popularSecondPhoneCountries} />
-      </PanelSection>
-      <PanelSection>
-        <PanelSectionTitle>{t("all_countries")}</PanelSectionTitle>
-        <AllCountriesTable countries={secondPhoneCountries} />
-      </PanelSection>
+      <PanelSectionsWrapper dir="column">
+        <PanelSection>
+          <PanelSectionTitle>{t("popular_countries")}</PanelSectionTitle>
+          <PopularCountriesTable countries={popularSecondPhoneCountries} />
+        </PanelSection>
+        <PanelSection>
+          <PanelSectionTitle>{t("all_countries")}</PanelSectionTitle>
+          <AllCountriesTable countries={secondPhoneCountries} />
+        </PanelSection>
+      </PanelSectionsWrapper>
     </Wrapper>
   );
 }

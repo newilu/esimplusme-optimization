@@ -1,18 +1,19 @@
 import React from "react";
-import { ICity, ICountry, IState } from "country-cities";
-import { PhoneToBuy } from "@/utils/types";
+import type { ICity, ICountry, IState } from "country-cities";
+import { useTranslation } from "next-i18next";
+import Link from "next/link";
+import type { PhoneToBuy } from "@/utils/types";
 import PhoneNumbersTable from "@/features/PhoneNumbersTable";
+import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
 import CountryFlag from "@/shared/ui/CountryFlag";
+import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 import {
   PanelSection,
   PanelSectionTitle,
   NoDataWrapper,
 } from "@/shared/ui/styled";
+import CitiesTable from "./CitiesTable";
 import { SectionsWrapper, Wrapper } from "./styled";
-import CitiesTable from "@/widgets/PhoneNumbersByRegion/CitiesTable";
-import Link from "next/link";
-import { formatStringToKebabCase } from "@/shared/lib";
-import { useTranslation } from "next-i18next";
 
 type PhoneNumbersByCountryProps = {
   phones: PhoneToBuy[];
@@ -25,11 +26,29 @@ function PhoneNumbersByRegion({
   phones,
   country,
   cities,
+  state,
 }: PhoneNumbersByCountryProps) {
   const { t } = useTranslation("virtual-phone-number");
 
   return (
     <Wrapper>
+      <Breadcrumbs>
+        <Link href="/virtual-phone-number">{t("common:virtual_numbers")}</Link>
+        <Link
+          href={`/virtual-phone-number/${formatStringToKebabCase(
+            country.name
+          )}`}
+        >
+          {country.name}
+        </Link>
+        <Link
+          href={`/virtual-phone-number/${formatStringToKebabCase(
+            country.name
+          )}/${formatStringToKebabCase(state.name)}`}
+        >
+          {state.name}
+        </Link>
+      </Breadcrumbs>
       <h1>{t("phone_numbers_by_region_title")}</h1>
       <h5>
         in{" "}
@@ -39,7 +58,7 @@ function PhoneNumbersByRegion({
           height={24}
           borderRadius={5}
         />{" "}
-        {country.phonecode} {country.name}
+        {formatAreaCode(country.phonecode)} {country.name}
       </h5>
       <SectionsWrapper>
         <PanelSection>
@@ -51,7 +70,7 @@ function PhoneNumbersByRegion({
                 height={24}
                 borderRadius={5}
               />{" "}
-              {country.phonecode} {country.name}
+              {formatAreaCode(country.phonecode)} {country.name}
             </div>
             <Link
               href={`/virtual-phone-number/${formatStringToKebabCase(

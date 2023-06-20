@@ -1,12 +1,14 @@
 import React from "react";
-import PhoneNumbersRates from "@/widgets/PhoneNumberRates";
-import { GetServerSideProps } from "next";
-import api from "@/api";
-import { SecondPhoneCountry } from "@/utils/types";
-import Navbar from "@/widgets/Navbar";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { COUNTRY_LIST } from "@/shared/constants";
 import { ICountry } from "country-cities";
+import { GetServerSideProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import api from "@/api";
+import Footer from "@/components/Footer";
+import PhoneNumbersRates from "@/widgets/PhoneNumberRates";
+import Navbar from "@/widgets/Navbar";
+import DownloadAppSection from "@/features/DownloadAppSection";
+import { SecondPhoneCountry } from "@/utils/types";
+import { COUNTRY_LIST } from "@/shared/constants";
 
 function Pricing({
   popularSecondPhoneCountries,
@@ -22,6 +24,8 @@ function Pricing({
         popularSecondPhoneCountries={popularSecondPhoneCountries}
         secondPhoneCountries={secondPhoneCountries}
       />
+      <DownloadAppSection />
+      <Footer />
     </>
   );
 }

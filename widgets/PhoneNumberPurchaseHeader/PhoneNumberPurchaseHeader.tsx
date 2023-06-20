@@ -1,30 +1,22 @@
 import React from "react";
+import type { ICity, ICountry, IState } from "country-cities";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { useWindowSize } from "@/context/WindowSizeContext";
+import type { PhoneToBuy } from "@/utils/types";
 import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
+import PhoneNumbersTable from "@/features/PhoneNumbersTable";
+import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
+import CountryFlag from "@/shared/ui/CountryFlag";
+import Button from "@/shared/ui/Button";
+import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 import {
   PanelSection,
   PanelSectionTitle,
   NoDataWrapper,
 } from "@/shared/ui/styled";
-import CountryFlag from "@/shared/ui/CountryFlag";
-import Link from "next/link";
-import Image from "next/image";
-import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
-import PhoneNumbersTable from "@/features/PhoneNumbersTable";
-import { PhoneToBuy } from "@/utils/types";
-import { ICity, ICountry, IState } from "country-cities";
-import { useTranslation } from "next-i18next";
-import { useWindowSize } from "@/context/WindowSizeContext";
-import Button from "@/shared/ui/Button";
-import api from "@/api";
-import { v4 } from "uuid";
-import card from "./assets/card.svg";
-import usdt from "./assets/usdt.svg";
-import {
-  PaymentMethodCard,
-  PaymentMethodsWrapper,
-  SectionsWrapper,
-  Wrapper,
-} from "./styled";
+import { SectionsWrapper, Wrapper } from "./styled";
 
 type PhoneNumberPurchaseHeaderProps = {
   phones: PhoneToBuy[];
@@ -46,143 +38,124 @@ function PhoneNumberPurchaseHeader({
   state,
   phone = null,
 }: PhoneNumberPurchaseHeaderProps) {
+  const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
   const { isMobile } = useWindowSize();
   const [step, setStep] = React.useState(Steps.SelectNumber);
   const [selectedPhone, setSelectedPhone] = React.useState(
     phone ?? phones.length ? phones[0] : null
   );
-  const [showPaymentOptions, setShowPaymentOptions] = React.useState(false);
-
-  const handlePurchaseWithCrypto = async () => {
-    await api.secondPhone.createTempUser();
-  };
-
-  const handlePurchaseWithCard = async () => {
-    if (!selectedPhone) return;
-
-    const redirectURLSearchParams = new URLSearchParams({
-      payment_amount: String(selectedPhone.price * 100),
-      phone_number: selectedPhone.phoneNumber,
-      country: country.isoCode,
-      state: state?.isoCode ?? "",
-    });
-
-    const redirectURL = `${
-      process.env.NEXT_PUBLIC_BASE_URL
-    }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`;
-
-    await api.secondPhone.createTempUser();
-
-    const paymentId = v4();
-    const customerId = v4();
-    const price = (selectedPhone.price + 1) * 100;
-
-    const { data } = await api.secondPhone.getSignature({
-      price,
-      stringToSign: `customer_id:${customerId};payment_amount:${price};payment_currency:USD;payment_id:${paymentId};project_id:${process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID};redirect_success_mode:parent_page;redirect_success_url:${redirectURL}`,
-    });
-
-    window.EPayWidget.run({
-      customer_id: customerId,
-      payment_amount: price,
-      payment_currency: "USD",
-      payment_id: paymentId,
-      project_id: process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID,
-      redirect_success_mode: "parent_page",
-      redirect_success_url: redirectURL,
-      signature: (data as any)?.data.data,
-    });
-  };
 
   return (
     <Wrapper>
-      {showPaymentOptions ? (
-        <PaymentMethodsWrapper>
-          <PaymentMethodCard onClick={handlePurchaseWithCard}>
-            <Image width={64} height={64} src={card} alt="" />
-            {t("pay_with_card")}
-          </PaymentMethodCard>{" "}
-          <PaymentMethodCard onClick={handlePurchaseWithCrypto}>
-            <Image width={64} height={64} src={usdt} alt="" />
-            {t("pay_with_crypto")}
-          </PaymentMethodCard>
-        </PaymentMethodsWrapper>
-      ) : (
-        <>
-          <h1>{t("phone_numbers_by_city_title")}</h1>
-          <h5>
-            {state?.name} {city && `,${city.name}`}{" "}
-            <CountryFlag
-              name={country.isoCode}
-              width={32}
-              height={24}
-              borderRadius={5}
-            />{" "}
-            {formatAreaCode(country.phonecode)}
-          </h5>
-          <SectionsWrapper>
-            {(isMobile ? step === Steps.SelectNumber : true) && (
-              <PanelSection>
+      <Breadcrumbs>
+        <Link href="/virtual-phone-number">{t("common:virtual_numbers")}</Link>
+        <Link
+          href={`/virtual-phone-number/${formatStringToKebabCase(
+            country.name
+          )}`}
+        >
+          {country.name}
+        </Link>
+        {state && (
+          <Link
+            href={`/virtual-phone-number/${formatStringToKebabCase(
+              country.name
+            )}/${formatStringToKebabCase(state.name)}`}
+          >
+            {state.name}
+          </Link>
+        )}
+        {city && state && (
+          <Link
+            href={`/virtual-phone-number/${formatStringToKebabCase(
+              country.name
+            )}/${formatStringToKebabCase(state.name)}/${formatStringToKebabCase(
+              city.name
+            )}`}
+          >
+            {city.name}
+          </Link>
+        )}
+      </Breadcrumbs>
+
+      <h1>{t("phone_numbers_by_city_title")}</h1>
+      <h5>
+        {state?.name} {city && `,${city.name}`}{" "}
+        <CountryFlag
+          name={country.isoCode}
+          width={32}
+          height={24}
+          borderRadius={5}
+        />{" "}
+        {formatAreaCode(country.phonecode)}
+      </h5>
+      <SectionsWrapper>
+        {(isMobile ? step === Steps.SelectNumber : true) && (
+          <PanelSection>
+            <PanelSectionTitle>
+              <div>
+                <CountryFlag
+                  name={country.isoCode}
+                  width={32}
+                  height={24}
+                  borderRadius={5}
+                />{" "}
+                {formatAreaCode(country.phonecode)} {country.name}
+              </div>
+              <Link
+                href={`/virtual-phone-number/${formatStringToKebabCase(
+                  country.name
+                )}${state ? `/${formatStringToKebabCase(state.name)}` : ""}`}
+              >
+                {t("change")}
+              </Link>
+            </PanelSectionTitle>
+            {phones.length ? (
+              <>
                 <PanelSectionTitle>
-                  <div>
-                    <CountryFlag
-                      name={country.isoCode}
-                      width={32}
-                      height={24}
-                      borderRadius={5}
-                    />{" "}
-                    {formatAreaCode(country.phonecode)} {country.name}
-                  </div>
-                  <Link
-                    href={`/virtual-phone-number/${formatStringToKebabCase(
-                      country.name
-                    )}${
-                      state ? `/${formatStringToKebabCase(state.name)}` : ""
-                    }`}
-                  >
-                    {t("change")}
-                  </Link>
+                  {t("select_phone_number")}
                 </PanelSectionTitle>
-                {phones.length ? (
-                  <>
-                    <PanelSectionTitle>
-                      {t("select_phone_number")}
-                    </PanelSectionTitle>
-                    <PhoneNumbersTable
-                      onRowClick={setSelectedPhone}
-                      phones={phones}
-                    />
-                  </>
-                ) : (
-                  <NoDataWrapper>
-                    {t("no_phones_for_this_region")}
-                  </NoDataWrapper>
-                )}
-                {isMobile && (
-                  <Button
-                    label="next"
-                    onClick={() => {
-                      setStep(Steps.Purchase);
-                      if (typeof window !== "undefined")
-                        window.scroll({ top: 0 });
-                    }}
-                  />
-                )}
-              </PanelSection>
-            )}
-            {(isMobile ? step === Steps.Purchase : true) && selectedPhone && (
-              <PanelSection>
-                <PhoneNumberPurchase
-                  country={country}
-                  phone={selectedPhone}
-                  onSubmit={() => setShowPaymentOptions(true)}
+                <PhoneNumbersTable
+                  onRowClick={setSelectedPhone}
+                  phones={phones}
                 />
-              </PanelSection>
+              </>
+            ) : (
+              <NoDataWrapper>{t("no_phones_for_this_region")}</NoDataWrapper>
             )}
-          </SectionsWrapper>
-        </>
-      )}
+            {isMobile && (
+              <Button
+                label="next"
+                onClick={() => {
+                  setStep(Steps.Purchase);
+                  if (typeof window !== "undefined") window.scroll({ top: 0 });
+                }}
+              />
+            )}
+          </PanelSection>
+        )}
+        {(isMobile ? step === Steps.Purchase : true) && selectedPhone && (
+          <PanelSection>
+            <PhoneNumberPurchase
+              country={country}
+              phone={selectedPhone}
+              onSubmit={() => {
+                const params = new URLSearchParams({
+                  paymentAmount: String((selectedPhone.price + 1) * 100),
+                  phoneNumber: selectedPhone.phoneNumber,
+                  country: country.isoCode,
+                  state: state?.isoCode ?? "",
+                });
+
+                router.push(
+                  `/virtual-phone-number/payment/provider-select?${params.toString()}`
+                );
+              }}
+            />
+          </PanelSection>
+        )}
+      </SectionsWrapper>
     </Wrapper>
   );
 }

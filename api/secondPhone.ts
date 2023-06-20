@@ -68,7 +68,7 @@ function getSignature({
   price,
 }: {
   stringToSign: string;
-  price: number;
+  price: string | number;
 }) {
   return queryFetcher(`${MAIN_API_URL}${ENDPOINTS.signature()}`, {
     method: "POST",

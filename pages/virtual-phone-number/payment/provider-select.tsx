@@ -1,14 +1,14 @@
 import React from "react";
-import Footer from "@/components/Footer";
-import Navbar from "@/widgets/Navbar";
-import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
-import SuccessfulPurchaseHeader from "@/widgets/SuccessfulPurchaseHeader";
+import Navbar from "@/widgets/Navbar";
+import SelectProviderAndPurchaseHeader from "@/widgets/SelectProviderAndPurchaseHeader";
 import DownloadAppSection from "@/features/DownloadAppSection";
+import Footer from "@/components/Footer";
 
-function Success() {
+function ProviderSelect() {
   const { query } = useRouter();
 
   const { phone_number: phone, country } = query;
@@ -22,7 +22,7 @@ function Success() {
   return (
     <>
       <Navbar />
-      <SuccessfulPurchaseHeader />
+      <SelectProviderAndPurchaseHeader />
       <DownloadAppSection />
       <Footer />
     </>
@@ -33,10 +33,9 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale ?? "en", [
       "common",
-      "navbar",
-      "footer",
+      "virtual-phone-number",
     ])),
   },
 });
 
-export default Success;
+export default ProviderSelect;

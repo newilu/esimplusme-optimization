@@ -6,6 +6,8 @@ import type { ICountry, IState } from "country-cities";
 import { COUNTRY_LIST } from "@/shared/constants";
 import { getStatesByCountryCode } from "@/shared/lib";
 import PhoneNumberRegionsByCountry from "@/widgets/PhoneNumberRegionsByCountry";
+import DownloadAppSection from "@/features/DownloadAppSection";
+import Footer from "@/components/Footer";
 
 type PageProps = { country: ICountry; states: IState[] };
 
@@ -14,6 +16,8 @@ function Index({ country, states }: PageProps) {
     <>
       <Navbar />
       <PhoneNumberRegionsByCountry states={states} country={country} />
+      <DownloadAppSection />
+      <Footer />
     </>
   );
 }

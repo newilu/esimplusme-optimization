@@ -1,17 +1,19 @@
 import React from "react";
-import { GetServerSideProps } from "next";
-import { PhoneToBuy } from "@/utils/types";
-import Navbar from "@/widgets/Navbar";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import PhoneNumbersByRegion from "@/widgets/PhoneNumbersByRegion";
+import type { GetServerSideProps } from "next";
 import type { ICity, ICountry, IState } from "country-cities";
-import { COUNTRY_LIST } from "@/shared/constants";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import type { PhoneToBuy } from "@/utils/types";
+import api from "@/api";
+import Navbar from "@/widgets/Navbar";
+import PhoneNumbersByRegion from "@/widgets/PhoneNumbersByRegion";
 import {
   formatStringToKebabCase,
   getCitiesByStateCode,
   getStatesByCountryCode,
 } from "@/shared/lib";
-import api from "@/api";
+import { COUNTRY_LIST } from "@/shared/constants";
+import DownloadAppSection from "@/features/DownloadAppSection";
+import Footer from "@/components/Footer";
 
 function Index({
   phones,
@@ -33,6 +35,8 @@ function Index({
         country={country}
         state={state}
       />
+      <DownloadAppSection />
+      <Footer />
     </>
   );
 }

@@ -1,14 +1,19 @@
-import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
-import BaseTable from "@/shared/ui/BaseTable";
 import React from "react";
-import { StateNameWrapper, Wrapper } from "./styled";
-import { createColumnHelper } from "@tanstack/react-table";
-import { ICountry, IState } from "country-cities";
-import CountryFlag from "@/shared/ui/CountryFlag";
-import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
+import type { ICountry, IState } from "country-cities";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import { NoDataWrapper } from "@/shared/ui/styled";
+import { createColumnHelper } from "@tanstack/react-table";
+import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
+import BaseTable from "@/shared/ui/BaseTable";
+import CountryFlag from "@/shared/ui/CountryFlag";
+import Breadcrumbs from "@/shared/ui/Breadcrumbs";
+import {
+  PanelSection,
+  PanelSectionTitle,
+  NoDataWrapper,
+  PanelSectionsWrapper,
+} from "@/shared/ui/styled";
+import { StateNameWrapper, Wrapper } from "./styled";
 
 type PhoneNumberRegionsByCountryProps = {
   states: IState[];
@@ -55,6 +60,19 @@ function PhoneNumberRegionsByCountry({
   );
   return (
     <Wrapper>
+      <Breadcrumbs>
+        <Link href="/virtual-phone-number/pricing">
+          {t("common:virtual_numbers")}
+        </Link>
+        <Link
+          href={`/virtual-phone-number/${formatStringToKebabCase(
+            country.name
+          )}`}
+        >
+          {country.name}
+        </Link>
+      </Breadcrumbs>
+
       <h1>{t("phone_number_regions_by_country_title")}</h1>
       <h5>
         in{" "}
@@ -66,21 +84,23 @@ function PhoneNumberRegionsByCountry({
         />{" "}
         {country.phonecode} {country.name}
       </h5>
-      <PanelSection>
-        <PanelSectionTitle>
-          {t("regions")}{" "}
-          <Link href={`/virtual-phone-number/pricing`}>{t("change")}</Link>
-        </PanelSectionTitle>
-        {states.length ? (
-          <BaseTable
-            maxVisibleElements={8}
-            columns={[stateAreaCodeColumn, stateNameColumn]}
-            data={states}
-          />
-        ) : (
-          <NoDataWrapper>{t("no_states_for_this_country")}</NoDataWrapper>
-        )}
-      </PanelSection>
+      <PanelSectionsWrapper>
+        <PanelSection>
+          <PanelSectionTitle>
+            {t("regions")}{" "}
+            <Link href="/virtual-phone-number/pricing">{t("change")}</Link>
+          </PanelSectionTitle>
+          {states.length ? (
+            <BaseTable
+              maxVisibleElements={8}
+              columns={[stateAreaCodeColumn, stateNameColumn]}
+              data={states}
+            />
+          ) : (
+            <NoDataWrapper>{t("no_states_for_this_country")}</NoDataWrapper>
+          )}
+        </PanelSection>
+      </PanelSectionsWrapper>
     </Wrapper>
   );
 }

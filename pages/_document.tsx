@@ -110,6 +110,8 @@ class MyDocument extends Document {
           <noscript>
             <div>
               <Image
+                width={10}
+                height={10}
                 src="https://mc.yandex.ru/watch/79496440"
                 style={{ position: "absolute", left: -9999 }}
                 alt=""
