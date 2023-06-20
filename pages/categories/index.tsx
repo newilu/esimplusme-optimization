@@ -65,16 +65,14 @@ function Categories() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  return {
-    redirect: {
-      destination: "/",
-      statusCode: 301,
-    },
-    props: {
-      ...(await serverSideTranslations(locale ?? "en", ["common"])),
-    },
-  };
-};
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+  redirect: {
+    destination: "/",
+    statusCode: 301,
+  },
+  props: {
+    ...(await serverSideTranslations(locale ?? "en", ["common"])),
+  },
+});
 
 export default Categories;

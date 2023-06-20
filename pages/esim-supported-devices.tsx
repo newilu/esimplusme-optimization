@@ -7,7 +7,7 @@ import { Container as BaseContainer } from "shared/ui/styled";
 import Navbar from "widgets/Navbar";
 import { LANGS_LIST } from "shared/constants";
 import { useRouter } from "next/router";
-import Head from "next/head.js";
+import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -375,14 +375,12 @@ function SupportedDevices() {
 
 export default SupportedDevices;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "en", [
-        "common",
-        "navbar",
-        "footer",
-      ])),
-    },
-  };
-};
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? "en", [
+      "common",
+      "navbar",
+      "footer",
+    ])),
+  },
+});

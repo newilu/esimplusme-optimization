@@ -78,9 +78,9 @@ function Authors({
         <PaginatedGridView
           totalPages={totalPages}
           gap={6}
-          items={authors.map((el, id) => (
+          items={authors.map((el) => (
             <AuthorPreviewCard
-              key={id}
+              key={el.id}
               {...el}
               image={el.image ?? ph}
               description={`${el.articleCount} ${t("articles")}`}

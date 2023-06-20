@@ -31,7 +31,7 @@ export default function Pagination({ lastPage, maxLength }: Props) {
       <PrevPageButton
         disabled={currentPage === 1}
         onClick={() =>
-          void router.push({
+          router.push({
             query: { ...router.query, page: currentPage - 1 },
           })
         }
@@ -40,25 +40,25 @@ export default function Pagination({ lastPage, maxLength }: Props) {
         {t("prev_page")}
       </PrevPageButton>
       <PageSwitchButtonsWrapper>
-        {pageNums.map((pageNum, idx) => (
+        {pageNums.map((pageNum) => (
           <PageSwitchButton
-            key={idx}
+            key={pageNum}
             active={currentPage === pageNum}
-            disabled={isNaN(pageNum)}
+            disabled={Number.isNaN(pageNum)}
             onClick={() =>
-              void router.push({
+              router.push({
                 query: { ...router.query, page: pageNum },
               })
             }
           >
-            {isNaN(pageNum) ? "..." : pageNum}
+            {Number.isNaN(pageNum) ? "..." : pageNum}
           </PageSwitchButton>
         ))}
       </PageSwitchButtonsWrapper>
       <NextPageButton
         disabled={currentPage === lastPage}
         onClick={() =>
-          void router.push({
+          router.push({
             query: { ...router.query, page: currentPage + 1 },
           })
         }

@@ -28,7 +28,7 @@ type PhoneNumberPurchaseHeaderProps = {
   state: IState | null;
   city?: ICity;
   country: ICountry;
-  phone: PhoneToBuy | null;
+  phone?: PhoneToBuy | null;
 };
 
 enum Steps {
@@ -41,7 +41,7 @@ function PhoneNumberPurchaseHeader({
   country,
   city,
   state,
-  phone,
+  phone = null,
 }: PhoneNumberPurchaseHeaderProps) {
   const { t } = useTranslation("virtual-phone-number");
   const { isMobile } = useWindowSize();

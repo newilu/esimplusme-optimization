@@ -16,8 +16,8 @@ function ArticleCategories({ categories }: { categories: Category[] }) {
     <Wrapper>
       <h2>{t("article_categories")}</h2>
       <CategoriesGridWrapper>
-        {categories.map(({ name, articleCount }, i) => (
-          <CategoriesGridItem key={i}>
+        {categories.map(({ name, articleCount, id }) => (
+          <CategoriesGridItem key={id}>
             <Link href={`/categories/${name}`}>
               <CategoryTitle>{name}</CategoryTitle>
               <CategoryArticlesCount>

@@ -79,7 +79,7 @@ function Author({
         />
         <PaginatedGridView
           totalPages={totalPages}
-          items={articles.map(({ preview }, id) => (
+          items={articles.map(({ preview, id }) => (
             <BlogPreviewCard key={id} {...preview} />
           ))}
         />

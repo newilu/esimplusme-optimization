@@ -14,7 +14,7 @@ function Success() {
 
   React.useEffect(() => {
     if (typeof phone === "string" && typeof country === "string") {
-      void api.secondPhone.buyNumber({ phone, country_code: country });
+      api.secondPhone.buyNumber({ phone, country_code: country });
     }
   }, [country, phone]);
 
@@ -27,16 +27,14 @@ function Success() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "en", [
-        "common",
-        "navbar",
-        "footer",
-      ])),
-    },
-  };
-};
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? "en", [
+      "common",
+      "navbar",
+      "footer",
+    ])),
+  },
+});
 
 export default Success;

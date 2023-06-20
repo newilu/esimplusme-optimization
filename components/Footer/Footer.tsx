@@ -1,12 +1,14 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
+import Link from "next/link";
 import facebook from "public/staticfiles/Facebook.svg";
 import telegram from "public/staticfiles/Telegram.svg";
 import ln from "public/staticfiles/ln.svg";
 import whatWeAccept from "public/staticfiles/what-we-accept.svg";
+import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
 import { Container } from "utils/styled";
-import Logo from "../../entities/Logo";
+import Logo from "@/entities/Logo";
 import {
   ListItem,
   List,
@@ -18,8 +20,6 @@ import {
   TopSection,
   BottomSection,
 } from "./styled";
-import Link from "next/link";
-import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
 
 function Footer() {
   const { t, i18n } = useTranslation();
@@ -31,7 +31,7 @@ function Footer() {
           <div>
             <Logo color="white" />
             <SocialNetworksWrapper>
-              <button>
+              <button type="button">
                 <a
                   target="_blank"
                   rel="noreferrer"
@@ -40,7 +40,7 @@ function Footer() {
                   <Image src={facebook} alt="facebook" />
                 </a>
               </button>{" "}
-              <button>
+              <button type="button">
                 <Link
                   target="_blank"
                   rel="noreferrer"
@@ -49,7 +49,7 @@ function Footer() {
                   <Image src={telegram} alt="telegram" />
                 </Link>
               </button>{" "}
-              <button>
+              <button type="button">
                 <Link
                   target="_blank"
                   rel="noreferrer"

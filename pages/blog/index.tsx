@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import BlogList from "@/components/BlogList";
 import EsimAppBanner from "@/features/DownloadAppSection";
 import api from "@/api";
-import { Article, Category } from "@/utils/types";
+import { Article } from "@/utils/types";
 import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
 
 function Blog({
@@ -15,7 +15,6 @@ function Blog({
   totalPages,
 }: {
   articles: Article[];
-  categories: Category[];
   totalPages: number;
 }) {
   return (
@@ -96,12 +95,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
 
-  const [articles, categories] = await Promise.all([
+  const [articles] = await Promise.all([
     api.articles.listArticles(
       MAX_ELEMENTS_PER_VIEW,
       (+page - 1) * MAX_ELEMENTS_PER_VIEW
     ),
-    api.categories.listCategories(),
   ]);
 
   const totalArticlesCount =
@@ -111,7 +109,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     props: {
       ...(await serverSideTranslations("en", ["common"])),
       articles: articles.data,
-      categories: categories.data,
       totalPages,
     },
   };
