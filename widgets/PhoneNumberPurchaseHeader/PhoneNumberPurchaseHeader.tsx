@@ -1,6 +1,10 @@
 import React from "react";
 import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
-import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
+import {
+  PanelSection,
+  PanelSectionTitle,
+  NoDataWrapper,
+} from "@/shared/ui/styled";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,9 +13,10 @@ import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import { PhoneToBuy } from "@/utils/types";
 import { ICity, ICountry, IState } from "country-cities";
 import { useTranslation } from "next-i18next";
-import { NoDataWrapper } from "@/shared/ui/styled";
 import { useWindowSize } from "@/context/WindowSizeContext";
 import Button from "@/shared/ui/Button";
+import api from "@/api";
+import { v4 } from "uuid";
 import card from "./assets/card.svg";
 import usdt from "./assets/usdt.svg";
 import {
@@ -20,8 +25,6 @@ import {
   SectionsWrapper,
   Wrapper,
 } from "./styled";
-import api from "@/api";
-import { v4 } from "uuid";
 
 type PhoneNumberPurchaseHeaderProps = {
   phones: PhoneToBuy[];
@@ -73,19 +76,16 @@ function PhoneNumberPurchaseHeader({
 
     const paymentId = v4();
     const customerId = v4();
+    const price = (selectedPhone.price + 1) * 100;
 
     const { data } = await api.secondPhone.getSignature({
-      price: Number(selectedPhone.price * 100),
-      stringToSign: `customer_id:${customerId};payment_amount:${
-        selectedPhone.price * 100
-      };payment_currency:USD;payment_id:${paymentId};project_id:${
-        process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID
-      };redirect_success_mode:parent_page;redirect_success_url:${redirectURL}`,
+      price,
+      stringToSign: `customer_id:${customerId};payment_amount:${price};payment_currency:USD;payment_id:${paymentId};project_id:${process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID};redirect_success_mode:parent_page;redirect_success_url:${redirectURL}`,
     });
 
     window.EPayWidget.run({
       customer_id: customerId,
-      payment_amount: selectedPhone.price * 100,
+      payment_amount: price,
       payment_currency: "USD",
       payment_id: paymentId,
       project_id: process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID,
@@ -164,7 +164,7 @@ function PhoneNumberPurchaseHeader({
                     label="next"
                     onClick={() => {
                       setStep(Steps.Purchase);
-                      typeof window !== "undefined" &&
+                      if (typeof window !== "undefined")
                         window.scroll({ top: 0 });
                     }}
                   />

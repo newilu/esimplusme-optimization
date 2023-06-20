@@ -60,7 +60,7 @@ function PhoneNumberPurchase({
       </CountryNameAndNumberTypeWrapper>
       <PhoneNumberAndPriceWrapper>
         <PhoneNumber>{format(phone.phoneNumber, "INTERNATIONAL")}</PhoneNumber>
-        <PhoneNumberPrice>${phone.price}</PhoneNumberPrice>
+        <PhoneNumberPrice>${phone.price + 1}</PhoneNumberPrice>
       </PhoneNumberAndPriceWrapper>
       <PhoneNumberAlert>
         <PhoneNumberAlertTitle>{t("alert_title")}</PhoneNumberAlertTitle>
