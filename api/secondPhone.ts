@@ -16,6 +16,7 @@ const ENDPOINTS = {
   createTempUser: () => `/v6/auth/temp-user`,
   signature: () => "/v7/second-phone/ecommpay-signature",
   thedexTopUp: () => "/v6/payment-providers/thedex/top-up/second-phone",
+  buyNumber: () => `/v6/second-phone/buy-number`,
 };
 
 function listSecondPhoneCountries() {
@@ -86,6 +87,14 @@ function thedexTopUp({ price }: { price: string | number }) {
   );
 }
 
+function buyNumber(props: { phone: string; country_code: string }) {
+  return queryFetcher(`${MAIN_API_URL}${ENDPOINTS.buyNumber()}`, {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify(props),
+  });
+}
+
 export {
   ENDPOINTS,
   getPhonesByCountry,
@@ -98,4 +107,5 @@ export {
   createTempUser,
   getSignature,
   thedexTopUp,
+  buyNumber,
 };

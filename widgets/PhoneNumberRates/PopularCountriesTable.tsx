@@ -69,7 +69,7 @@ function PopularCountriesTable({
         ),
         cell: (info) => (
           <div style={{ textAlign: "left" }}>
-            <b>${info.getValue()}</b> / Month
+            <b>${info.getValue()}</b>
           </div>
         ),
       }),

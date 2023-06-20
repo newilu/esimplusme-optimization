@@ -12,8 +12,6 @@ import CheckmarkSVG from "@/shared/assets/CheckmarkSVG";
 import cross from "@/shared/assets/red-cross.svg";
 import Checkbox from "@/shared/ui/Checkbox";
 import { Trans, useTranslation } from "next-i18next";
-import api from "@/api";
-import { v4 } from "uuid";
 import {
   CountryNameWrapper,
   CountryNameAndNumberTypeWrapper,

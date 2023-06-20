@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   padding-bottom: 50px;
   position: relative;
   z-index: 2;
+  flex: 1;
 
   &:before {
     content: "";

@@ -58,9 +58,17 @@ function PhoneNumberPurchaseHeader({
   const handlePurchaseWithCard = async () => {
     if (!selectedPhone) return;
 
-    const redirectURL = `${process.env.NEXT_PUBLIC_BASE_URL}?payment_amount:${
-      selectedPhone.price * 100
-    }`;
+    const redirectURLSearchParams = new URLSearchParams({
+      payment_amount: String(selectedPhone.price * 100),
+      phone_number: selectedPhone.phoneNumber,
+      country: country.isoCode,
+      state: state?.isoCode ?? "",
+    });
+
+    const redirectURL = `${
+      process.env.NEXT_PUBLIC_BASE_URL
+    }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`;
+
     await api.secondPhone.createTempUser();
 
     const paymentId = v4();
@@ -89,82 +97,92 @@ function PhoneNumberPurchaseHeader({
 
   return (
     <Wrapper>
-      <PaymentMethodsWrapper>
-        <PaymentMethodCard onClick={handlePurchaseWithCard}>
-          <Image width={64} height={64} src={card} alt="" />
-          {t("pay_with_card")}
-        </PaymentMethodCard>{" "}
-        <PaymentMethodCard onClick={handlePurchaseWithCrypto}>
-          <Image width={64} height={64} src={usdt} alt="" />
-          {t("pay_with_crypto")}
-        </PaymentMethodCard>
-      </PaymentMethodsWrapper>
-      <h1>{t("phone_numbers_by_city_title")}</h1>
-      <h5>
-        {state?.name} {city && `,${city.name}`}{" "}
-        <CountryFlag
-          name={country.isoCode}
-          width={32}
-          height={24}
-          borderRadius={5}
-        />{" "}
-        {formatAreaCode(country.phonecode)}
-      </h5>
-      <SectionsWrapper>
-        {(isMobile ? step === Steps.SelectNumber : true) && (
-          <PanelSection>
-            <PanelSectionTitle>
-              <div>
-                <CountryFlag
-                  name={country.isoCode}
-                  width={32}
-                  height={24}
-                  borderRadius={5}
-                />{" "}
-                {formatAreaCode(country.phonecode)} {country.name}
-              </div>
-              <Link
-                href={`/virtual-phone-number/${formatStringToKebabCase(
-                  country.name
-                )}${state ? `/${formatStringToKebabCase(state.name)}` : ""}`}
-              >
-                {t("change")}
-              </Link>
-            </PanelSectionTitle>
-            {phones.length ? (
-              <>
+      {showPaymentOptions ? (
+        <PaymentMethodsWrapper>
+          <PaymentMethodCard onClick={handlePurchaseWithCard}>
+            <Image width={64} height={64} src={card} alt="" />
+            {t("pay_with_card")}
+          </PaymentMethodCard>{" "}
+          <PaymentMethodCard onClick={handlePurchaseWithCrypto}>
+            <Image width={64} height={64} src={usdt} alt="" />
+            {t("pay_with_crypto")}
+          </PaymentMethodCard>
+        </PaymentMethodsWrapper>
+      ) : (
+        <>
+          <h1>{t("phone_numbers_by_city_title")}</h1>
+          <h5>
+            {state?.name} {city && `,${city.name}`}{" "}
+            <CountryFlag
+              name={country.isoCode}
+              width={32}
+              height={24}
+              borderRadius={5}
+            />{" "}
+            {formatAreaCode(country.phonecode)}
+          </h5>
+          <SectionsWrapper>
+            {(isMobile ? step === Steps.SelectNumber : true) && (
+              <PanelSection>
                 <PanelSectionTitle>
-                  {t("select_phone_number")}
+                  <div>
+                    <CountryFlag
+                      name={country.isoCode}
+                      width={32}
+                      height={24}
+                      borderRadius={5}
+                    />{" "}
+                    {formatAreaCode(country.phonecode)} {country.name}
+                  </div>
+                  <Link
+                    href={`/virtual-phone-number/${formatStringToKebabCase(
+                      country.name
+                    )}${
+                      state ? `/${formatStringToKebabCase(state.name)}` : ""
+                    }`}
+                  >
+                    {t("change")}
+                  </Link>
                 </PanelSectionTitle>
-                <PhoneNumbersTable
-                  onRowClick={setSelectedPhone}
-                  phones={phones}
+                {phones.length ? (
+                  <>
+                    <PanelSectionTitle>
+                      {t("select_phone_number")}
+                    </PanelSectionTitle>
+                    <PhoneNumbersTable
+                      onRowClick={setSelectedPhone}
+                      phones={phones}
+                    />
+                  </>
+                ) : (
+                  <NoDataWrapper>
+                    {t("no_phones_for_this_region")}
+                  </NoDataWrapper>
+                )}
+                {isMobile && (
+                  <Button
+                    label="next"
+                    onClick={() => {
+                      setStep(Steps.Purchase);
+                      typeof window !== "undefined" &&
+                        window.scroll({ top: 0 });
+                    }}
+                  />
+                )}
+              </PanelSection>
+            )}
+            {(isMobile ? step === Steps.Purchase : true) && selectedPhone && (
+              <PanelSection>
+                <PhoneNumberPurchase
+                  country={country}
+                  phone={selectedPhone}
+                  onSubmit={() => setShowPaymentOptions(true)}
                 />
-              </>
-            ) : (
-              <NoDataWrapper>{t("no_phones_for_this_region")}</NoDataWrapper>
+              </PanelSection>
             )}
-            {isMobile && (
-              <Button
-                label="next"
-                onClick={() => {
-                  setStep(Steps.Purchase);
-                  typeof window !== "undefined" && window.scroll({ top: 0 });
-                }}
-              />
-            )}
-          </PanelSection>
-        )}
-        {(isMobile ? step === Steps.Purchase : true) && selectedPhone && (
-          <PanelSection>
-            <PhoneNumberPurchase
-              country={country}
-              phone={selectedPhone}
-              onSubmit={() => setShowPaymentOptions(true)}
-            />
-          </PanelSection>
-        )}
-      </SectionsWrapper>
+          </SectionsWrapper>
+        </>
+      )}
     </Wrapper>
   );
 }
