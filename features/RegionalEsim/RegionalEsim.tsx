@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { Bundle, Country, Region } from "utils/types";
 import { useModalControls } from "shared/hooks";
 import xmark from "shared/assets/xmark.svg";
-import { getErrorMessage, scrollToId } from "shared/lib";
+import { getErrorMessage, scrollToId } from "@/shared/lib";
 import { BASE_STORAGE_URL, SectionIDS } from "shared/constants";
 import Loader from "shared/ui/Loader";
 import SearchInput from "shared/ui/SearchInput";

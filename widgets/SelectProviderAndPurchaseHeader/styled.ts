@@ -26,12 +26,21 @@ export const PaymentMethodCard = styled.div`
   border-radius: 10px;
   background: ${(props) => props.theme.primary};
   flex: 1 1 200px;
+
+  @media (max-width: 768px) {
+    height: 150px;
+    grid-gap: 0;
+  }
 `;
 
 export const PaymentMethodsWrapper = styled.div`
-  margin: 50px 0;
+  margin: 50px 0 75px 0;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   grid-gap: 10px;
+
+  @media (max-width: 768px) {
+    margin: 25px 0 50px 0;
+  }
 `;

@@ -1,6 +1,6 @@
 import React from "react";
 import type { ICountry, IState } from "country-cities";
-import { useTranslation } from "next-i18next";
+import { Trans, useTranslation } from "next-i18next";
 import Link from "next/link";
 import { createColumnHelper } from "@tanstack/react-table";
 import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
@@ -58,9 +58,11 @@ function PhoneNumberRegionsByCountry({
 
     [country.name, t]
   );
+
   return (
     <Wrapper>
       <Breadcrumbs>
+        <Link href="/">{t("common:home")}</Link>
         <Link href="/virtual-phone-number/pricing">
           {t("common:virtual_numbers")}
         </Link>
@@ -69,21 +71,35 @@ function PhoneNumberRegionsByCountry({
             country.name
           )}`}
         >
-          {country.name}
+          {country.isoCode === "US" ? country.isoCode : country.name}
         </Link>
       </Breadcrumbs>
 
       <h1>{t("phone_number_regions_by_country_title")}</h1>
       <h5>
-        in{" "}
-        <CountryFlag
-          name={country.isoCode}
-          width={32}
-          height={24}
-          borderRadius={5}
-        />{" "}
-        {country.phonecode} {country.name}
+        <Trans
+          i18nKey="virtual-phone-number:phone_number_regions_by_country_subtitle"
+          components={{
+            flag: (
+              <CountryFlag
+                name={country.isoCode}
+                width={32}
+                height={24}
+                borderRadius={5}
+              />
+            ),
+          }}
+          values={{ country: `${country.phonecode} ${country.name}` }}
+        />
       </h5>
+      <p>
+        <Trans
+          i18nKey="virtual-phone-number:phone_number_regions_by_country_text"
+          values={{
+            country: country.name,
+          }}
+        />
+      </p>
       <PanelSectionsWrapper>
         <PanelSection>
           <PanelSectionTitle>

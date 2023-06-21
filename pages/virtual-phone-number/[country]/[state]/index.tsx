@@ -7,13 +7,19 @@ import api from "@/api";
 import Navbar from "@/widgets/Navbar";
 import PhoneNumbersByRegion from "@/widgets/PhoneNumbersByRegion";
 import {
+  formatAreaCode,
   formatStringToKebabCase,
+  generateMeta,
   getCitiesByStateCode,
   getStatesByCountryCode,
 } from "@/shared/lib";
 import { COUNTRY_LIST } from "@/shared/constants";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
+import { format } from "libphonenumber-js";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 function Index({
   phones,
@@ -26,8 +32,34 @@ function Index({
   state: IState;
   cities: ICity[];
 }) {
+  const { asPath } = useRouter();
+  const { t, i18n } = useTranslation("meta");
+
+  const areaCode =
+    (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
+      ? format(phones[0].phoneNumber, "INTERNATIONAL")
+          .slice(0, 6)
+          .replaceAll(" ", "-")
+      : formatAreaCode(country.phonecode);
+
+  const meta = generateMeta({
+    language: i18n.language,
+    description: t("virtual_numbers_by_state_description", {
+      country: country.name,
+      state: state.isoCode,
+      areaCode,
+    }),
+    title: t("virtual_numbers_by_state_title", {
+      country: country.name,
+      state: state.isoCode,
+      areaCode,
+    }),
+    asPath,
+  });
+
   return (
     <>
+      <Head>{meta}</Head>
       <Navbar />
       <PhoneNumbersByRegion
         phones={phones}
@@ -82,6 +114,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         ...(await serverSideTranslations(locale ?? "en", [
           "common",
           "virtual-phone-number",
+          "meta",
         ])),
         phones: data?.data.phones ?? [],
         country: currentCountry,
@@ -108,6 +141,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       ...(await serverSideTranslations(locale ?? "en", [
         "common",
         "virtual-phone-number",
+        "meta",
       ])),
       phones: filteredPhones.length ? filteredPhones : countryPhones,
       country: currentCountry,

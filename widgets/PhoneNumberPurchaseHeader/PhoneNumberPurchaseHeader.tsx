@@ -1,5 +1,6 @@
 import React from "react";
 import type { ICity, ICountry, IState } from "country-cities";
+import { format } from "libphonenumber-js";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -46,16 +47,26 @@ function PhoneNumberPurchaseHeader({
     phone ?? phones.length ? phones[0] : null
   );
 
+  const areaCode =
+    (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
+      ? format(phones[0].phoneNumber, "INTERNATIONAL")
+          .slice(0, 6)
+          .replaceAll(" ", "-")
+      : formatAreaCode(country.phonecode);
+
   return (
     <Wrapper>
       <Breadcrumbs>
-        <Link href="/virtual-phone-number">{t("common:virtual_numbers")}</Link>
+        <Link href="/">{t("common:home")}</Link>
+        <Link href="/virtual-phone-number/pricing">
+          {t("common:virtual_numbers")}
+        </Link>
         <Link
           href={`/virtual-phone-number/${formatStringToKebabCase(
             country.name
           )}`}
         >
-          {country.name}
+          {country.isoCode === "US" ? country.isoCode : country.name}
         </Link>
         {state && (
           <Link
@@ -88,7 +99,7 @@ function PhoneNumberPurchaseHeader({
           height={24}
           borderRadius={5}
         />{" "}
-        {formatAreaCode(country.phonecode)}
+        {areaCode}
       </h5>
       <SectionsWrapper>
         {(isMobile ? step === Steps.SelectNumber : true) && (
@@ -101,7 +112,7 @@ function PhoneNumberPurchaseHeader({
                   height={24}
                   borderRadius={5}
                 />{" "}
-                {formatAreaCode(country.phonecode)} {country.name}
+                {areaCode} {country.name}
               </div>
               <Link
                 href={`/virtual-phone-number/${formatStringToKebabCase(

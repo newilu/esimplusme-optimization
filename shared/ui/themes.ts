@@ -38,6 +38,8 @@ const themes = {
     svgDisabledColor: "#E9ECF2",
     tableBottomBlur: "linear-gradient(rgba(255, 255, 255, 0) 0%,#ffffff 100%)",
     tableItemHoverBg: "#E0EAFD",
+    specialDealsBg:
+      "linear-gradient(#FCFCFD 0%, #FCFCFD 40%, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.05) 100%)",
   },
   dark: {
     name: "dark",
@@ -77,6 +79,8 @@ const themes = {
     svgDisabledColor: "rgba(255, 255, 255, 0.1)",
     tableBottomBlur: "linear-gradient(180deg, transparent 0%, #000006 100%)",
     tableItemHoverBg: "rgba(255, 255, 255, 0.1)",
+    specialDealsBg:
+      "linear-gradient(#000006 0%, #000006 40%, rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.05) 100%)",
   },
 };
 

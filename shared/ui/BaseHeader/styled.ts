@@ -2,6 +2,7 @@ import styled from "styled-components";
 import blur from "./assets/blur-min.png";
 
 export const Wrapper = styled.div`
+  padding-top: 50px;
   padding-bottom: 50px;
   position: relative;
   z-index: 2;
@@ -37,10 +38,12 @@ export const Wrapper = styled.div`
 
     > * {
       display: inline-flex !important;
+      vertical-align: middle;
     }
   }
   p {
-    margin: 15px 0 50px 0;
+    max-width: 600px;
+    margin: 15px auto 50px auto;
     text-align: center;
     font-weight: 400;
     font-size: 24px;

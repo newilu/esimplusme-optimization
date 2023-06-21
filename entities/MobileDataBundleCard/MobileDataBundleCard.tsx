@@ -2,7 +2,7 @@ import React from "react";
 import type { CSSObject } from "styled-components";
 import { Trans, useTranslation } from "next-i18next";
 import { Bundle } from "utils/types";
-import { formatDataSize } from "shared/lib";
+import { formatDataSize } from "@/shared/lib";
 // import CoverageCountriesModal from "../CoverageCountriesModal";
 import {
   BundleCapabilities,

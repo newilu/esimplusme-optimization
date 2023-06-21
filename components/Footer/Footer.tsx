@@ -7,7 +7,7 @@ import telegram from "public/staticfiles/Telegram.svg";
 import ln from "public/staticfiles/ln.svg";
 import whatWeAccept from "public/staticfiles/what-we-accept.svg";
 import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
-import { Container } from "utils/styled";
+import { Container } from "shared/ui/styled";
 import Logo from "@/entities/Logo";
 import {
   ListItem,

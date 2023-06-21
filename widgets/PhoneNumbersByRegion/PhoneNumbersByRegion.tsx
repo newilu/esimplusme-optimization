@@ -1,6 +1,6 @@
 import React from "react";
 import type { ICity, ICountry, IState } from "country-cities";
-import { useTranslation } from "next-i18next";
+import { Trans, useTranslation } from "next-i18next";
 import Link from "next/link";
 import type { PhoneToBuy } from "@/utils/types";
 import PhoneNumbersTable from "@/features/PhoneNumbersTable";
@@ -33,13 +33,16 @@ function PhoneNumbersByRegion({
   return (
     <Wrapper>
       <Breadcrumbs>
-        <Link href="/virtual-phone-number">{t("common:virtual_numbers")}</Link>
+        <Link href="/">{t("common:home")}</Link>
+        <Link href="/virtual-phone-number/pricing">
+          {t("common:virtual_numbers")}
+        </Link>
         <Link
           href={`/virtual-phone-number/${formatStringToKebabCase(
             country.name
           )}`}
         >
-          {country.name}
+          {country.isoCode === "US" ? country.isoCode : country.name}
         </Link>
         <Link
           href={`/virtual-phone-number/${formatStringToKebabCase(
@@ -51,14 +54,23 @@ function PhoneNumbersByRegion({
       </Breadcrumbs>
       <h1>{t("phone_numbers_by_region_title")}</h1>
       <h5>
-        in{" "}
-        <CountryFlag
-          name={country.isoCode}
-          width={32}
-          height={24}
-          borderRadius={5}
-        />{" "}
-        {formatAreaCode(country.phonecode)} {country.name}
+        <Trans
+          i18nKey="virtual-phone-number:phone_numbers_by_region_subtitle"
+          components={{
+            flag: (
+              <CountryFlag
+                name={country.isoCode}
+                width={32}
+                height={24}
+                borderRadius={5}
+              />
+            ),
+          }}
+          values={{
+            country: `${formatAreaCode(country.phonecode)} ${country.name}`,
+            state: state.name,
+          }}
+        />
       </h5>
       <SectionsWrapper>
         <PanelSection>

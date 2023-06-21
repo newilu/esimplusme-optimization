@@ -13,7 +13,7 @@ import api from "api";
 import { Country, Region, RegionById } from "utils/types";
 import Reviews from "features/Reviews";
 import { Trans, useTranslation } from "next-i18next";
-import { generateRandomReviewsCount } from "shared/lib";
+import { generateRandomReviewsCount } from "@/shared/lib";
 import DownloadAppSection from "features/DownloadAppSection";
 import FAQSection from "features/FAQSection";
 import SetupGuide from "features/MobiledataSetupGuide";

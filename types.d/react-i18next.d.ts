@@ -8,9 +8,15 @@
 import "react-i18next";
 
 import type common from "../public/locales/en/common.json";
+import type meta from "../public/locales/en/meta.json";
+import type randomNumber from "../public/locales/en/random-number.json";
+import type virtualPhoneNumber from "../public/locales/en/virtual-phone-number.json";
 
 interface I18nNamespaces {
   common: typeof common;
+  meta: typeof meta;
+  randomNumber: typeof randomNumber;
+  virtualPhoneNumber: typeof virtualPhoneNumber;
 }
 
 declare module "react-i18next" {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Trans, useTranslation } from "next-i18next";
-import { scrollToId } from "shared/lib";
+import { scrollToId } from "@/shared/lib";
 import { Container, SectionTitle } from "shared/ui/styled";
 import { SectionIDS } from "shared/constants";
 import Button from "shared/ui/Button";

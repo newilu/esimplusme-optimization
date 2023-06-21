@@ -7,13 +7,19 @@ import api from "@/api";
 import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
 import {
+  formatAreaCode,
   formatStringToKebabCase,
+  generateMeta,
   getCitiesByStateCode,
   getStatesByCountryCode,
 } from "@/shared/lib";
 import PhoneNumbersByCity from "@/widgets/PhoneNumberPurchaseHeader";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
+import { format } from "libphonenumber-js";
 
 type PageProps = {
   phones: PhoneToBuy[];
@@ -23,8 +29,36 @@ type PageProps = {
 };
 
 function Index({ country, city, state, phones }: PageProps) {
+  const { asPath } = useRouter();
+  const { t, i18n } = useTranslation("meta");
+
+  const areaCode =
+    (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
+      ? format(phones[0].phoneNumber, "INTERNATIONAL")
+          .slice(0, 6)
+          .replaceAll(" ", "-")
+      : formatAreaCode(country.phonecode);
+
+  const meta = generateMeta({
+    language: i18n.language,
+    description: t("virtual_numbers_by_city_description", {
+      country: country.name,
+      state: state.isoCode,
+      city: city.name,
+      areaCode,
+    }),
+    title: t("virtual_numbers_by_city_title", {
+      country: country.name,
+      state: state.isoCode,
+      city: city.name,
+      areaCode,
+    }),
+    asPath,
+  });
+
   return (
     <>
+      <Head>{meta}</Head>
       <Navbar />
       <PhoneNumbersByCity
         city={city}
@@ -89,6 +123,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
         ...(await serverSideTranslations(locale ?? "en", [
           "common",
           "virtual-phone-number",
+          "meta",
         ])),
         phones: data?.data.phones ?? [],
         country: currentCountry,
@@ -113,6 +148,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       ...(await serverSideTranslations(locale ?? "en", [
         "common",
         "virtual-phone-number",
+        "meta",
       ])),
       phones: filteredPhones.length ? filteredPhones : countryPhones,
       country: currentCountry,

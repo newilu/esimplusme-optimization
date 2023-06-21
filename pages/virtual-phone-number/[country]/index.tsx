@@ -4,16 +4,38 @@ import Navbar from "@/widgets/Navbar";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import type { ICountry, IState } from "country-cities";
 import { COUNTRY_LIST } from "@/shared/constants";
-import { getStatesByCountryCode } from "@/shared/lib";
+import { generateMeta, getStatesByCountryCode } from "@/shared/lib";
 import PhoneNumberRegionsByCountry from "@/widgets/PhoneNumberRegionsByCountry";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
+import Head from "next/head";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
 type PageProps = { country: ICountry; states: IState[] };
 
 function Index({ country, states }: PageProps) {
+  const { asPath } = useRouter();
+  const { t, i18n } = useTranslation("meta");
+
+  const meta = React.useMemo(
+    () =>
+      generateMeta({
+        language: i18n.language,
+        description: t("virtual_numbers_by_country_description", {
+          country: country.name,
+        }),
+        title: t("virtual_numbers_by_country_title", {
+          country: country.name,
+        }),
+        asPath,
+      }),
+    [asPath, country.name, i18n.language, t]
+  );
+
   return (
     <>
+      <Head>{meta}</Head>
       <Navbar />
       <PhoneNumberRegionsByCountry states={states} country={country} />
       <DownloadAppSection />
@@ -59,6 +81,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       ...(await serverSideTranslations(locale ?? "en", [
         "common",
         "virtual-phone-number",
+        "meta",
       ])),
       country: currentCountry,
       states: getStatesByCountryCode(currentCountry.isoCode),

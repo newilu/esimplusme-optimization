@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import api from "api";
 import type { Bundle, Country } from "utils/types";
-import { formatDataSize, scrollToId } from "shared/lib";
+import { formatDataSize, scrollToId } from "@/shared/lib";
 import { DEFAULT_SELECTED_DATA_SIZE, SectionIDS } from "shared/constants";
 import CountryFlag from "shared/ui/CountryFlag";
 import Loader from "shared/ui/Loader";

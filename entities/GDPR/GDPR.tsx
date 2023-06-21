@@ -1,6 +1,6 @@
 import React from "react";
 import { useWindowSize } from "context/WindowSizeContext";
-import { getCookie, setCookie } from "shared/lib";
+import { getCookie, setCookie } from "@/shared/lib";
 import Button from "shared/ui/Button";
 import CookieIcon from "./assets/CookieIcon";
 import { ButtonsWrapper, Wrapper } from "./styled";

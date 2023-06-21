@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin: 30px 0;
+  margin: 0 0 30px 0;
 
   > a {
     font-weight: 500;

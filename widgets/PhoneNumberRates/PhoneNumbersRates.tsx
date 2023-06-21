@@ -24,7 +24,6 @@ function PhoneNumbersRates({
   return (
     <Wrapper>
       <h1>{t("phone_number_rates_title")}</h1>
-      <p>{t("phone_number_rates_text")}</p>
       <PanelSectionsWrapper dir="column">
         <PanelSection>
           <PanelSectionTitle>{t("popular_countries")}</PanelSectionTitle>

@@ -1,7 +1,9 @@
 import { differenceInDays, getHours } from "date-fns";
 import { cities, countries, states } from "country-cities";
-import { CountryCode, getExampleNumber, getPhoneCode } from "libphonenumber-js";
+import { CountryCode, getExampleNumber } from "libphonenumber-js";
 import examples from "libphonenumber-js/examples.mobile.json";
+import { LANGS_LIST } from "@/shared/constants";
+import React from "react";
 
 function formatDataSize(dataSize: string | number) {
   return +dataSize >= 1000 ? `${+dataSize / 1000} GB` : `${dataSize} MB`;
@@ -82,15 +84,14 @@ function generateRandomReviewsCount(setReviesCount: (props: string) => void) {
   const diffBetweenTodayAndStartDate =
     differenceInDays(new Date(), new Date(2022, 8, 15)) - 1;
 
-  const getAndFormatReviewsCount = (todaysIncrease: number) => {
-    return Math.round(
+  const getAndFormatReviewsCount = (todaysIncrease: number) =>
+    Math.round(
       diffBetweenTodayAndStartDate * randomReviewsIncrease +
         todaysIncrease +
         350000
     )
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  };
 
   const interval = setInterval(() => {
     const todaysIncrease = getHours(new Date()) * (randomReviewsIncrease / 24);
@@ -117,8 +118,8 @@ function setCookie(name: string, value: string, days: number) {
   document.cookie = `${name}=${value || ""}${expires};  Path=/;`;
 }
 
-function getCookie(name: string) {
-  if (typeof window === "undefined") return;
+function getCookie(name: string): string | null {
+  if (typeof window === "undefined") return null;
 
   const nameEQ = `${name}=`;
   const ca = document.cookie.split(";");
@@ -168,22 +169,75 @@ function getCitiesByCountryCode(countryIsoCode: string) {
   return cities.getByCountry(countryIsoCode);
 }
 
-const generateFakeNumber = (countryCode: string, areaCode: string) => {
+const generateFakeNumber = (countryCode: string, areaCode: string): string => {
   const formattedAreaCode = areaCode.split(" ")[0].replaceAll(/\D/g, "");
   const generatedNumber = getExampleNumber(
     countryCode as CountryCode,
     examples
   );
-  if (!generatedNumber) return;
+  if (!generatedNumber) return "";
 
   const nationalNumber = generatedNumber.number
     .replace(`+${formattedAreaCode}`, "")
-    .replaceAll(/\S/g, () => {
-      return String(Math.floor(Math.random() * 10));
-    });
+    .replaceAll(/\S/g, () => String(Math.floor(Math.random() * 10)));
 
   return `+${formattedAreaCode}`.concat(nationalNumber);
 };
+
+function generateMeta({
+  language,
+  asPath,
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+  language: string;
+  asPath: string;
+}) {
+  return (
+    <>
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <meta property="og:locale" content={language} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={`https://esimplus.me${asPath}`} />
+      <meta property="og:site_name" content="eSIM+" />
+      <meta
+        property="og:image"
+        content="https://static.esimplus.net/storage/logos/logo.png"
+      />
+      <meta property="og:image:width" content="112" />
+      <meta property="og:image:height" content="93" />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta name="twitter:card" content="app" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta
+        name="twitter:image"
+        content="https://static.esimplus.net/storage/logos/logo.png"
+      />
+      <meta property="article:modified_time" content="2023-06-15" />
+      <link
+        rel="canonical"
+        href={`https://esimplus.me${
+          language.startsWith("en") ? "" : `/${language.slice(0, 2)}`
+        }${asPath}`}
+      />
+      {LANGS_LIST.map((lng) => (
+        <link
+          key={lng.concat("2")}
+          rel="alternate"
+          href={`https://esimplus.me${
+            lng.startsWith("en") ? "" : `/${lng.slice(0, 2)}`
+          }${asPath}`}
+          hrefLang={lng.toLowerCase()}
+        />
+      ))}
+    </>
+  );
+}
 
 export {
   getCountryByIsoCode,
@@ -202,4 +256,5 @@ export {
   formatStringToKebabCase,
   formatAreaCode,
   generateFakeNumber,
+  generateMeta,
 };

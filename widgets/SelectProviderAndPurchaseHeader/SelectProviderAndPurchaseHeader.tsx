@@ -18,9 +18,9 @@ function SelectProviderAndPurchaseHeader() {
   const { paymentAmount, phoneNumber, country, state } = query;
   const { t } = useTranslation("virtual-phone-number");
 
-  const handlePurchaseWithCrypto = async () => {
-    await api.secondPhone.createTempUser();
-  };
+  // const handlePurchaseWithCrypto = async () => {
+  //   await api.secondPhone.createTempUser();
+  // };
 
   const handlePurchaseWithCard = async () => {
     if (
@@ -71,10 +71,10 @@ function SelectProviderAndPurchaseHeader() {
           <Image width={64} height={64} src={card} alt="" />
           {t("pay_with_card")}
         </PaymentMethodCard>{" "}
-        <PaymentMethodCard onClick={handlePurchaseWithCrypto}>
-          <Image width={64} height={64} src={usdt} alt="" />
-          {t("pay_with_crypto")}
-        </PaymentMethodCard>
+        {/*<PaymentMethodCard onClick={handlePurchaseWithCrypto}>*/}
+        {/*  <Image width={64} height={64} src={usdt} alt="" />*/}
+        {/*  {t("pay_with_crypto")}*/}
+        {/*</PaymentMethodCard>*/}
       </PaymentMethodsWrapper>
       <CancelPaymentTypeSelection onClick={back}>
         {t("go_back_one_step")}

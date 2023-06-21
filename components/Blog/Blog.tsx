@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Article } from "@/utils/types";
-import { SectionTitle, Text } from "@/utils/styled";
+import { SectionTitle, Text } from "@/shared/ui/styled";
 import {
   CardCategories,
   CardCategory,

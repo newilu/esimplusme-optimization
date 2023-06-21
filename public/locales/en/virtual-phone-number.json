@@ -1,11 +1,15 @@
 {
+  "choose_payment_method": "Choose\na payment method",
+  "go_back_one_step": "Вернуться на шаг назад",
   "pay_with_card": "Pay with card",
   "pay_with_crypto": "Pay with crypto",
-  "phone_number_rates_title": "zxc",
-  "phone_number_rates_text": "zxc",
-  "phone_number_regions_by_country_title": "zxc",
-  "phone_numbers_by_city_title": "zxc",
-  "phone_numbers_by_region_title": "zxcqe",
+  "phone_number_rates_title": "Phone Number Rates",
+  "phone_number_regions_by_country_title": "Phone Numbers",
+  "phone_number_regions_by_country_subtitle": "in <flag/> {{country}}",
+  "phone_number_regions_by_country_text": "Stay connected anywhere using a virtual phone number in {{country}} . Call and receive SMS in any place in {{country}}",
+  "phone_numbers_by_city_title": "Phone Numbers",
+  "phone_numbers_by_region_title": "Phone Numbers",
+  "phone_numbers_by_region_subtitle": "in <flag/> {{country}}, {{state}}",
   "popular_countries": "popular countries",
   "all_countries": "all countries",
   "area_code": "area code",
@@ -30,5 +34,8 @@
   "unavailable": "Не доступны",
   "get_number": "Получить номер",
   "phone_purchase_agreement_first": "<a>Моё устройство поддерживает технологию eSIM</a>",
-  "phone_purchase_agreement_second": "Я принимаю условия <1>Пользовательского соглашения</1> и <2>Политики конфиденциальности</2>"
+  "phone_purchase_agreement_second": "Я принимаю условия <1>Пользовательского соглашения</1> и <2>Политики конфиденциальности</2>",
+  "success": "success",
+  "you_have_successfully_purchased_number": "You have successfully purchased a number. Continue with your ESIM Plus account to start using your \u2028virtual phone number!",
+  "create_account": "Create ESIM Plus Account"
 }

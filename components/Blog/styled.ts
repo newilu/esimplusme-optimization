@@ -3,7 +3,7 @@ import {
   CardCategories,
   CardCategory,
 } from "@/components/BlogPreviewCard/styled";
-import { Text } from "@/utils/styled";
+import { Text } from "@/shared/ui/styled";
 
 export const BlogInfoWrapper = styled.div`
   display: flex;

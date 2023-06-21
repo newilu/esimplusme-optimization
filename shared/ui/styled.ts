@@ -118,6 +118,14 @@ export const Container = styled.div`
   height: 100%;
 `;
 
+export const Text = styled.div`
+  text-align: left;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 26px;
+  color: ${(props) => props.theme.secondaryText};
+`;
+
 export const SectionTitle = styled.h2`
   position: relative;
   white-space: pre-line;

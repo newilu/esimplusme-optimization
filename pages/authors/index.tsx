@@ -6,7 +6,7 @@ import ph from "public/staticfiles/author-placeholder.svg";
 import api from "@/api";
 import { Author } from "@/utils/types";
 import { MAX_AUTHORS_PER_VIEW } from "@/utils/constants";
-import { SectionTitle, Text } from "@/utils/styled";
+import { SectionTitle, Text } from "@/shared/ui/styled";
 import Navbar from "@/widgets/Navbar";
 import EsimAppBanner from "features/DownloadAppSection";
 import Footer from "@/components/Footer";
