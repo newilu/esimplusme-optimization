@@ -1,5 +1,17 @@
 {
-  "choose_payment_method": "Choose\na payment method",
+  "how_to_get_phone_number": "How to get <br /> a phone number",
+  "to_get_number_follow_steps": "To get a phone number, just follow the steps:",
+  "visit_website_to_get_app": "Visit our website or install the ESIM Plus app.",
+  "setup_account": "Set up your account.",
+  "purchase_phone_number_in_country": "Purchase a phone number in {{country}} and adjust the needed settings for your convenience.",
+  "contact_support_if_you_have_any_questions": "If you have any questions or difficulties, our support team is always ready to help you. Feel free to contact our tech support team at support.esim@appvillis.com.",
+  "how_to_get_number_capability_1": "Телефонный номер дает возможность приобретать неограниченное количество звонков и получать SMS в {{country}} на телефон, планшет или любое устройство, поддерживающее ESIM.",
+  "how_to_get_number_capability_2": "A number is available up to 30 days from the date of purchase. It will automatically renewed for the next month, provided you have enough funds on your balance. You can disable the automatic renewal in the “Settings” section under the selected phone number.",
+  "how_to_get_number_capability_3": "Our phone numbers in {{country}} will work perfectly fine with smartphones of any model, regardless of whether them supporting ESIM or not.",
+  "number_in": "number in",
+  "more_info": "more info",
+  "special_deals": "special deals",
+  "choose_payment_method": "Choose a payment method",
   "go_back_one_step": "Вернуться на шаг назад",
   "pay_with_card": "Pay with card",
   "pay_with_crypto": "Pay with crypto",
@@ -37,5 +49,12 @@
   "phone_purchase_agreement_second": "Я принимаю условия <1>Пользовательского соглашения</1> и <2>Политики конфиденциальности</2>",
   "success": "success",
   "you_have_successfully_purchased_number": "You have successfully purchased a number. Continue with your ESIM Plus account to start using your \u2028virtual phone number!",
-  "create_account": "Create ESIM Plus Account"
+  "create_account": "Create ESIM Plus Account",
+  "special_deals_services_info_item_1": "The phone number is an online phone number that can be used without a physical SIM card.",
+  "special_deals_services_info_item_2": "The purchased phone number gives you the right to make both mobile calls and send SMS, and to use unlimited Internet.",
+  "special_deals_services_info_item_3": "To get a phone number just visit our website or install the ESIM Plus app.",
+  "special_deals_services_info_item_4": "For payments, you should use the funds on your balance or to use the balance on your credit card.",
+  "special_deals_services_info_item_5": "After all phone number configurations, select the needed country or a list of countries where you want to use a virtual number.",
+  "special_deals_services_info_item_6": "The purchase of a number is possible only for one device. When using a new device, you will need to subscribe to a phone number again.",
+  "special_deals_services_info_item_7": "The subscription to the number is automatically renewed every month. At the same time, a phone number subscription can be canceled at any time."
 }

@@ -47,12 +47,11 @@ export const PanelSectionsWrapper = styled.div<{
           flex-direction: column;
           ${PanelSection} {
             flex: 1;
+
             &:first-of-type:not(&:only-of-type) {
-              background: ${props.theme.translucentCardsBg};
               border-radius: 25px 25px 5px 5px;
             }
             &:last-of-type:not(&:only-of-type) {
-              background: ${props.theme.panelSectionBg};
               border-radius: 5px 5px 25px 25px;
             }
           }
@@ -77,7 +76,6 @@ export const PanelSectionsWrapper = styled.div<{
 `;
 
 PanelSectionsWrapper.defaultProps = {
-  dir: "row",
   maxWidth: 900,
 };
 
@@ -118,7 +116,41 @@ export const Container = styled.div`
   height: 100%;
 `;
 
-export const Text = styled.div`
+export const OrderedListItem = styled.li`
+  position: relative;
+  padding-left: 40px;
+  counter-increment: counter;
+  font-size: 16px;
+  line-height: 26px;
+  color: ${(props) => props.theme.secondaryText};
+
+  &:before {
+    content: counter(counter);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 100vmax;
+    color: white;
+    background: ${(props) => props.theme.primary};
+    font-size: 12px;
+    line-height: 26px;
+  }
+`;
+export const OrderedList = styled.ol`
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+`;
+
+export const Paragraph = styled.p`
   text-align: left;
   font-weight: 300;
   font-size: 16px;

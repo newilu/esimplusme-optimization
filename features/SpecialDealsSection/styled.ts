@@ -1,5 +1,31 @@
 import styled from "styled-components";
 import { Card, SectionTitle } from "@/shared/ui/styled";
+import checkmark from "./assets/checkmark.svg";
+
+export const VirtualPhoneNumberServicesInformationItem = styled.li`
+  display: flex;
+  align-items: flex-start;
+  grid-gap: 15px;
+  font-size: 16px;
+  line-height: 26px;
+  color: ${(props) => props.theme.secondaryText};
+
+  &:before {
+    content: "";
+    background: url(${checkmark.src}) center center;
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+`;
+export const VirtualPhoneNumberServicesInformationList = styled.ul`
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 25px 50px;
+`;
 
 export const SpecialDealCardSubtitle = styled.div`
   font-weight: 600;

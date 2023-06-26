@@ -4,7 +4,7 @@ import Image from "next/image";
 import card from "./assets/card.svg";
 import busd from "./assets/busd.png";
 import usdt from "./assets/tether.png";
-import { Container, PanelSectionTitle } from "shared/ui/styled";
+import { Container, SectionTitle } from "shared/ui/styled";
 import Button from "shared/ui/Button";
 import {
   Card,
@@ -23,7 +23,7 @@ function HowToGetSms() {
   return (
     <Container>
       <Wrapper>
-        <PanelSectionTitle>{t("how_to_get_sms")}</PanelSectionTitle>
+        <SectionTitle>{t("how_to_get_sms")}</SectionTitle>
         <Subtitle>{t("three_steps_to_receive_sms")}</Subtitle>
         <CardsWrapper>
           <Card>

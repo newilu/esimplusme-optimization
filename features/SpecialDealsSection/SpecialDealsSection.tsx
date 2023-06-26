@@ -9,25 +9,24 @@ import {
   SpecialDealCardSubtitle,
   SpecialDealCardTitle,
   SpecialDealsWrapper,
+  VirtualPhoneNumberServicesInformationItem,
+  VirtualPhoneNumberServicesInformationList,
   Wrapper,
 } from "./styled";
 
-type SpecialDealsSectionProps = {
-  children?: React.ReactNode;
-};
-
-function SpecialDealsSection({ children }: SpecialDealsSectionProps) {
+function SpecialDealsSection() {
   const { t } = useTranslation("virtual-phone-number");
 
   return (
     <Wrapper>
       <Container>
-        <SectionTitle>special deals</SectionTitle>
+        <SectionTitle>{t("special_deals")}</SectionTitle>
         <SpecialDealsWrapper>
           <SpecialDealCard>
-            <SpecialDealCardTitle>800 numbers</SpecialDealCardTitle>
+            <SpecialDealCardTitle>{t("number_in")}</SpecialDealCardTitle>
             <SpecialDealCardSubtitle>
-              in Unites States <CountryFlag width={32} height={24} name="US" />
+              New York, United States{" "}
+              <CountryFlag width={32} height={24} name="US" />
             </SpecialDealCardSubtitle>
             <Button
               size="small"
@@ -40,9 +39,10 @@ function SpecialDealsSection({ children }: SpecialDealsSectionProps) {
             />
           </SpecialDealCard>{" "}
           <SpecialDealCard>
-            <SpecialDealCardTitle>800 numbers</SpecialDealCardTitle>
+            <SpecialDealCardTitle>{t("number_in")}</SpecialDealCardTitle>
             <SpecialDealCardSubtitle>
-              in Unites States <CountryFlag width={32} height={24} name="US" />
+              London, United Kingdom
+              <CountryFlag width={32} height={24} name="GB" />
             </SpecialDealCardSubtitle>
             <Button
               size="small"
@@ -55,9 +55,9 @@ function SpecialDealsSection({ children }: SpecialDealsSectionProps) {
             />
           </SpecialDealCard>{" "}
           <SpecialDealCard>
-            <SpecialDealCardTitle>800 numbers</SpecialDealCardTitle>
+            <SpecialDealCardTitle>{t("number_in")}</SpecialDealCardTitle>
             <SpecialDealCardSubtitle>
-              in Unites States <CountryFlag width={32} height={24} name="US" />
+              Madrid, Spain <CountryFlag width={32} height={24} name="ES" />
             </SpecialDealCardSubtitle>
             <Button
               size="small"
@@ -70,10 +70,32 @@ function SpecialDealsSection({ children }: SpecialDealsSectionProps) {
             />
           </SpecialDealCard>
         </SpecialDealsWrapper>
-        {children}
+        <VirtualPhoneNumberServicesInformationList>
+          <VirtualPhoneNumberServicesInformationItem>
+            {t("special_deals_services_info_item_1")}
+          </VirtualPhoneNumberServicesInformationItem>
+          <VirtualPhoneNumberServicesInformationItem>
+            {t("special_deals_services_info_item_2")}
+          </VirtualPhoneNumberServicesInformationItem>
+          <VirtualPhoneNumberServicesInformationItem>
+            {t("special_deals_services_info_item_3")}
+          </VirtualPhoneNumberServicesInformationItem>
+          <VirtualPhoneNumberServicesInformationItem>
+            {t("special_deals_services_info_item_4")}
+          </VirtualPhoneNumberServicesInformationItem>
+          <VirtualPhoneNumberServicesInformationItem>
+            {t("special_deals_services_info_item_5")}
+          </VirtualPhoneNumberServicesInformationItem>
+          <VirtualPhoneNumberServicesInformationItem>
+            {t("special_deals_services_info_item_6")}
+          </VirtualPhoneNumberServicesInformationItem>
+          <VirtualPhoneNumberServicesInformationItem>
+            {t("special_deals_services_info_item_7")}
+          </VirtualPhoneNumberServicesInformationItem>
+        </VirtualPhoneNumberServicesInformationList>
       </Container>
     </Wrapper>
   );
 }
 
-export { SpecialDealsSection, type SpecialDealsSectionProps };
+export { SpecialDealsSection };

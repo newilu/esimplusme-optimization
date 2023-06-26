@@ -16,7 +16,7 @@ const themes = {
     cardBaseBg: "rgba(128, 141, 158, 0.05)",
     downloadAppBg: "rgba(233, 236, 242, 0.5)",
     notificationsBg:
-      "linear-gradient(180deg, rgba(0, 0, 0, 0.05) 43.57%, rgba(0, 0, 0, 0) 100%)",
+      "linear-gradient(180deg, #F8F8F9 43.57%, rgba(0, 0, 0, 0) 100%)",
     secondaryBtnBg: "transparent",
     btnSecondaryBg: "#F1F1F1",
     btnSecondaryActiveBg: "#D9D9D9",
@@ -39,7 +39,8 @@ const themes = {
     tableBottomBlur: "linear-gradient(rgba(255, 255, 255, 0) 0%,#ffffff 100%)",
     tableItemHoverBg: "#E0EAFD",
     specialDealsBg:
-      "linear-gradient(#FCFCFD 0%, #FCFCFD 40%, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.05) 100%)",
+      "linear-gradient(#FCFCFD 0%, #FCFCFD 200px, rgba(0, 0, 0, 0.05) 200px, rgba(0, 0, 0, 0.05) 100%)",
+    howToGetNumberBg: "#F8F8F9",
   },
   dark: {
     name: "dark",
@@ -63,8 +64,6 @@ const themes = {
     secondaryBtnBorder: "transparent",
     btnSecondaryBg: "rgba(255, 255, 255, 0.1)",
     btnSecondaryActiveBg: "rgba(237, 240, 250, 0.05)",
-    howToUseCoverageBg:
-      "linear-gradient(rgba(255, 255, 255, 0.05) 47.42%, rgba(255, 255, 255, 0) 108.84%)",
     cardsBorder: "transparent",
     translucentCardsBg: "rgba(255, 255, 255, 0.07)",
     panelSectionBg:
@@ -80,7 +79,8 @@ const themes = {
     tableBottomBlur: "linear-gradient(180deg, transparent 0%, #000006 100%)",
     tableItemHoverBg: "rgba(255, 255, 255, 0.1)",
     specialDealsBg:
-      "linear-gradient(#000006 0%, #000006 40%, rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.05) 100%)",
+      "linear-gradient(#000006 0%, #000006 200px, rgba(255, 255, 255, 0.05) 200px, rgba(255, 255, 255, 0.05) 100%)",
+    howToGetNumberBg: "rgba(255, 255, 255, 0.05)",
   },
 };
 

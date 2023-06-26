@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Article } from "@/utils/types";
-import { SectionTitle, Text } from "@/shared/ui/styled";
+import { SectionTitle, Paragraph } from "@/shared/ui/styled";
 import {
   CardCategories,
   CardCategory,
@@ -66,7 +66,7 @@ function Blog({
             <BlogReadingTime>{readingTime}</BlogReadingTime>
           </div>
         </BlogInfoWrapper>
-        <Text
+        <Paragraph
           dangerouslySetInnerHTML={{ __html: Object.values(content).join("") }}
         />
       </LeftSide>

@@ -20,6 +20,7 @@ import { format } from "libphonenumber-js";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
 
 function Index({
   phones,
@@ -66,7 +67,9 @@ function Index({
         cities={cities}
         country={country}
         state={state}
+        areaCode={areaCode}
       />
+      <HowToGetPhoneNumber />
       <DownloadAppSection />
       <Footer />
     </>
@@ -104,10 +107,22 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
 
+  const cities = getCitiesByStateCode(
+    currentState.isoCode,
+    currentCountry.isoCode
+  );
+
   if (currentCountry.isoCode === "US") {
-    const { data } = await api.secondPhone.getAvailableNumbersByStateISO(
-      currentState.isoCode
-    );
+    let phones: PhoneToBuy[];
+    const { data: phonesByStateUS } =
+      await api.secondPhone.getAvailableNumbersByStateISO(currentState.isoCode);
+
+    phones = phonesByStateUS?.data.phones ?? [];
+
+    if (!phones.length) {
+      const { data } = await api.secondPhone.getPhonesByCountry("US");
+      phones = data?.data.phones ?? [];
+    }
 
     return {
       props: {
@@ -116,13 +131,10 @@ export const getServerSideProps: GetServerSideProps = async ({
           "virtual-phone-number",
           "meta",
         ])),
-        phones: data?.data.phones ?? [],
+        phones,
         country: currentCountry,
         state: currentState,
-        cities: getCitiesByStateCode(
-          currentState.isoCode,
-          currentCountry.isoCode
-        ),
+        cities,
       },
     };
   }
@@ -146,10 +158,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       phones: filteredPhones.length ? filteredPhones : countryPhones,
       country: currentCountry,
       state: currentState,
-      cities: getCitiesByStateCode(
-        currentState.isoCode,
-        currentCountry.isoCode
-      ),
+      cities,
     },
   };
 };

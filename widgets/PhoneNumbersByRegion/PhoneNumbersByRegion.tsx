@@ -20,6 +20,7 @@ type PhoneNumbersByCountryProps = {
   country: ICountry;
   state: IState;
   cities: ICity[];
+  areaCode?: string;
 };
 
 function PhoneNumbersByRegion({
@@ -27,6 +28,7 @@ function PhoneNumbersByRegion({
   country,
   cities,
   state,
+  areaCode,
 }: PhoneNumbersByCountryProps) {
   const { t } = useTranslation("virtual-phone-number");
 
@@ -67,7 +69,9 @@ function PhoneNumbersByRegion({
             ),
           }}
           values={{
-            country: `${formatAreaCode(country.phonecode)} ${country.name}`,
+            country: `${areaCode ?? formatAreaCode(country.phonecode)} ${
+              country.name
+            }`,
             state: state.name,
           }}
         />
@@ -82,7 +86,7 @@ function PhoneNumbersByRegion({
                 height={24}
                 borderRadius={5}
               />{" "}
-              {formatAreaCode(country.phonecode)} {country.name}
+              {areaCode ?? formatAreaCode(country.phonecode)} {country.name}
             </div>
             <Link
               href={`/virtual-phone-number/${formatStringToKebabCase(
