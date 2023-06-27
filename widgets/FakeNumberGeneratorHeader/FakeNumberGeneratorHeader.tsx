@@ -111,7 +111,7 @@ function FakeNumberGeneratorHeader() {
           <GetNumberButton
             href={`/virtual-phone-number/payment?country=${formatStringToKebabCase(
               selectedCountry.name
-            )}`}
+            )}&phone=${generatedNumber}`}
           >
             {t("get_number")}
           </GetNumberButton>

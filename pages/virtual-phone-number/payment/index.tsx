@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     getStatesByCountryCode(currentCountry?.isoCode ?? "").find((el) =>
       state?.includes(formatStringToKebabCase(el.name))
     ) ?? null;
-  console.log(currentState);
+
   if (!currentCountry) {
     return {
       redirect: {
