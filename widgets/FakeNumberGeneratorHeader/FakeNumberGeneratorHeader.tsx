@@ -15,6 +15,7 @@ import {
   formatStringToKebabCase,
   generateFakeNumber,
 } from "@/shared/lib";
+import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import repeat from "./assets/repeat.svg";
 import {
@@ -26,7 +27,6 @@ import {
   SelectedCountryNameWrapper,
   Wrapper,
 } from "./styled";
-import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 
 function FakeNumberGeneratorHeader() {
   const { t } = useTranslation("random-number");
@@ -38,7 +38,7 @@ function FakeNumberGeneratorHeader() {
   const handleRegenerateNumber = (iso: string, areaCode: string) => {
     const newFakePhoneNumber = generateFakeNumber(iso, areaCode);
 
-    newFakePhoneNumber && setGeneratedNumber(newFakePhoneNumber);
+    setGeneratedNumber(newFakePhoneNumber);
   };
   const handleCountrySelect = (country: ICountry) => {
     setSelectedCountry(country);
@@ -61,7 +61,7 @@ function FakeNumberGeneratorHeader() {
         </Link>
       </Breadcrumbs>
       <h1>{t("generate_random_number")}</h1>
-      <PanelSectionsWrapper>
+      <PanelSectionsWrapper dir="row">
         <PanelSection flex="1 1 45%">
           <PanelSectionTitle>{t("select_country")}</PanelSectionTitle>
           <CountryListWrapper>
