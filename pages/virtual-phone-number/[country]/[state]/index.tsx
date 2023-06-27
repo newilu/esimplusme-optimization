@@ -69,7 +69,7 @@ function Index({
         state={state}
         areaCode={areaCode}
       />
-      <HowToGetPhoneNumber />
+      <HowToGetPhoneNumber countryName={country.name} />
       <DownloadAppSection />
       <Footer />
     </>

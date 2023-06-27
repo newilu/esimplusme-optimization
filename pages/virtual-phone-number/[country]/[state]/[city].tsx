@@ -6,6 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
+import WhyDoYouNeedPhoneNumber from "@/features/WhyDoYouNeedPhoneNumber";
 import {
   formatAreaCode,
   formatStringToKebabCase,
@@ -66,6 +67,7 @@ function Index({ country, city, state, phones }: PageProps) {
         phones={phones}
         country={country}
       />
+      <WhyDoYouNeedPhoneNumber cityName={city.name} />
       <DownloadAppSection />
       <Footer />
     </>

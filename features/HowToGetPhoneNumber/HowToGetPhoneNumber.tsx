@@ -17,9 +17,8 @@ import {
   Wrapper,
 } from "./styled";
 
-function HowToGetPhoneNumber() {
+function HowToGetPhoneNumber({ countryName }: { countryName: string }) {
   const { t } = useTranslation("virtual-phone-number");
-  const { query } = useRouter();
 
   return (
     <Wrapper>
@@ -35,7 +34,7 @@ function HowToGetPhoneNumber() {
           <OrderedListItem>{t("to_get_number_follow_steps")}</OrderedListItem>
           <OrderedListItem>{t("setup_account")}</OrderedListItem>
           <OrderedListItem>
-            {t("purchase_phone_number_in_country", { country: query.country })}
+            {t("purchase_phone_number_in_country", { country: countryName })}
           </OrderedListItem>
         </OrderedList>
         <Paragraph>{t("contact_support_if_you_have_any_questions")}</Paragraph>
@@ -44,15 +43,15 @@ function HowToGetPhoneNumber() {
         <PhoneNumberCapabilities>
           <PhoneNumberCapability>
             <Image src={phone} alt="" />
-            {t("how_to_get_number_capability_1", { country: query.country })}
+            {t("how_to_get_number_capability_1", { country: countryName })}
           </PhoneNumberCapability>
           <PhoneNumberCapability>
             <Image src={calendar} alt="" />{" "}
-            {t("how_to_get_number_capability_2", { country: query.country })}
+            {t("how_to_get_number_capability_2", { country: countryName })}
           </PhoneNumberCapability>
           <PhoneNumberCapability>
             <Image src={smartphone} alt="" />
-            {t("how_to_get_number_capability_3", { country: query.country })}
+            {t("how_to_get_number_capability_3", { country: countryName })}
           </PhoneNumberCapability>
         </PhoneNumberCapabilities>
       </div>

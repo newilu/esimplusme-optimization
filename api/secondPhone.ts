@@ -1,6 +1,6 @@
-import { queryFetcher } from "./index";
 import { PhoneToBuy, SecondPhoneCountry, State } from "@/utils/types";
 import { MAIN_API_URL } from "@/utils/constants";
+import { queryFetcher } from "./index";
 
 const ENDPOINTS = {
   getPhonesByCountry: (countryCode: string) =>
@@ -76,12 +76,24 @@ function getSignature({
     credentials: "include",
   });
 }
-function thedexTopUp({ price }: { price: string | number }) {
-  return queryFetcher<{ payUrl: string }>(
+function thedexTopUp({
+  price,
+  successUrl,
+  failureUrl,
+}: {
+  price: string | number;
+  successUrl: string;
+  failureUrl: string;
+}) {
+  return queryFetcher<{ data: { payUrl: string } }>(
     `${MAIN_API_URL}${ENDPOINTS.thedexTopUp()}`,
     {
       method: "POST",
-      body: JSON.stringify({ amount: price }),
+      body: JSON.stringify({
+        amount: price,
+        successUrl,
+        failureUrl,
+      }),
       credentials: "include",
     }
   );

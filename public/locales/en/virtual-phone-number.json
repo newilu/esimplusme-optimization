@@ -1,4 +1,8 @@
 {
+  "why_do_you_need_number_in_city": "Why do you need a virtual phone number in {{city}}?",
+  "why_do_you_need_number_in_city_text": "A virtual phone number opens a great opportunity for your business development. Using it, you can open a virtual office in {{city}} in seconds. Your potential clients and colleagues can connect you from their local landlines, while you can receive all calls on your new virtual phone number.",
+  "stay_tuned_up_in_city": "Stay tuned with your clients using a virtual phone number in {{city}}.",
+  "make_and_receive_calls": "Make and receive calls using an app for iOS/Android/Windows. Appreciate the accessibility and versatility outside your country. Level up your business and make it virtual right now!",
   "how_to_get_phone_number": "How to get <br /> a phone number",
   "to_get_number_follow_steps": "To get a phone number, just follow the steps:",
   "visit_website_to_get_app": "Visit our website or install the ESIM Plus app.",
@@ -10,6 +14,7 @@
   "how_to_get_number_capability_3": "Our phone numbers in {{country}} will work perfectly fine with smartphones of any model, regardless of whether them supporting ESIM or not.",
   "number_in": "number in",
   "more_info": "more info",
+  "no_phones_for_this_region": "no phones for selected region",
   "special_deals": "special deals",
   "choose_payment_method": "Choose a payment method",
   "go_back_one_step": "Вернуться на шаг назад",
