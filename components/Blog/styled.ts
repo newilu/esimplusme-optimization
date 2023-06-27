@@ -3,7 +3,7 @@ import {
   CardCategories,
   CardCategory,
 } from "@/components/BlogPreviewCard/styled";
-import { Text } from "@/shared/ui/styled";
+import { Paragraph } from "@/shared/ui/styled";
 
 export const BlogInfoWrapper = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ export const BlogReadingTime = styled.div`
 export const LeftSide = styled.div`
   grid-area: main;
 
-  ${Text} {
+  ${Paragraph} {
     a {
       color: inherit;
       font-weight: bold;
