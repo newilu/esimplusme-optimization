@@ -11,7 +11,7 @@ function Logo({ color, ...props }: { color?: string }) {
         <Image width={36} height={30} src={logo} alt="logo" />
         <div>
           <div>
-            <div>eSIM</div>
+            <div>ESIM</div>
             <div>Plus</div>
           </div>
         </div>

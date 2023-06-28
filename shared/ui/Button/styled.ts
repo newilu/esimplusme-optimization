@@ -14,10 +14,9 @@ export const Wrapper = styled.button<{
   padding: 1.125rem 2rem;
   height: 55px;
   cursor: pointer;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 19px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
   border-radius: 16px;
 
   &:has(> a) {
