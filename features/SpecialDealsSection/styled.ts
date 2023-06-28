@@ -25,6 +25,12 @@ export const VirtualPhoneNumberServicesInformationList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 25px 50px;
+
+  @media (max-width: 900px) {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+  }
 `;
 
 export const SpecialDealCardSubtitle = styled.div`
@@ -32,11 +38,13 @@ export const SpecialDealCardSubtitle = styled.div`
   font-size: 18px;
   line-height: 24px;
   color: ${(props) => props.theme.primaryText};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  grid-gap: 8px;
   margin-bottom: 25px;
+  text-align: center;
+
+  > * {
+    display: inline-flex !important;
+    vertical-align: middle;
+  }
 `;
 export const SpecialDealCardTitle = styled.div`
   font-weight: 700;
@@ -54,12 +62,21 @@ export const SpecialDealCard = styled(Card)`
   button {
     margin: 0 auto;
   }
+
+  @media (max-width: 900px) {
+    flex: 1 1 300px;
+  }
 `;
 export const SpecialDealsWrapper = styled.div`
   padding: 60px 0;
   display: flex;
   grid-gap: 45px;
   flex-wrap: wrap;
+
+  @media (max-width: 1024px) {
+    grid-gap: 20px;
+    padding: 40px 0;
+  }
 `;
 
 export const Wrapper = styled.div`

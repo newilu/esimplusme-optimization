@@ -41,7 +41,7 @@ function SpecialDealsSection() {
           <SpecialDealCard>
             <SpecialDealCardTitle>{t("number_in")}</SpecialDealCardTitle>
             <SpecialDealCardSubtitle>
-              London, United Kingdom
+              London, United Kingdom{" "}
               <CountryFlag width={32} height={24} name="GB" />
             </SpecialDealCardSubtitle>
             <Button
