@@ -6,8 +6,8 @@ import RegionalEsim from "features/RegionalEsim";
 import LocalEsim from "features/LocalEsim";
 import GlobalEsim from "features/GlobalEsim";
 import SwitchButtons from "entities/SwitchButtons";
-import { Title, Wrapper } from "./styled";
 import { Country, Region, RegionById } from "@/utils/types";
+import { Title, Wrapper } from "./styled";
 
 enum Regions {
   Local = "local_esim",
@@ -36,13 +36,13 @@ function AvailableMobileDataPlans({
           setSelectedRegion(Regions.Global);
           return;
         }
-        //search for regional plan
+        // search for regional plan
         const existingRegion = regions.find(
           ({ name }) => name.toLowerCase() === region
         );
 
         if (existingRegion) {
-          //switch buttons depending on plan type
+          // switch buttons depending on plan type
           setSelectedRegion(Regions.Regional);
         } else {
           // lookup country if neither regional nor global plan found
@@ -74,7 +74,7 @@ function AvailableMobileDataPlans({
           styledAsDropdown
           value={{ label: t(selectedRegion), value: selectedRegion }}
           onChange={({ value }) => {
-            setSelectedRegion(value as Regions);
+            setSelectedRegion(value);
             const { region, ...routerQuery } = router.query;
             void router.replace({ query: routerQuery }, undefined, {
               shallow: true,

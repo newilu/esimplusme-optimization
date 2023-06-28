@@ -8,8 +8,7 @@ function SwitchButtons<
   Option extends {
     label: React.ReactNode;
     value: string;
-    href: OptionAs extends "a" ? Required<string> : never;
-  },
+  } & (OptionAs extends "a" ? { href: string } : { href?: never }),
   OptionAs extends string | undefined = undefined
 >({
   options,
