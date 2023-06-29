@@ -133,12 +133,13 @@ function Index({ country, phones }: PageProps) {
     <>
       <Navbar />
       <BaseHeader>
+        <h1>{t("phone_numbers_by_country_mobile_title")}</h1>
         <Breadcrumbs style={{ margin: "20px 0" }}>
           <Link href="/virtual-phone-number">
             {t("common:virtual_numbers")}
           </Link>
           <Link href="/virtual-phone-number/pricing">
-            {t("phone_number_rates")}
+            {t("phone_number_rates_title")}
           </Link>
           <Link
             href={`/virtual-phone-number/${formatStringToKebabCase(
@@ -148,16 +149,6 @@ function Index({ country, phones }: PageProps) {
             {country.isoCode}
           </Link>
         </Breadcrumbs>
-        <h1>{t("sometitle")}</h1>
-        <h5>
-          <CountryFlag
-            name={country.isoCode}
-            width={32}
-            height={24}
-            borderRadius={5}
-          />{" "}
-          {country.name} {formatAreaCode(country.phonecode)}
-        </h5>
         <SectionsWrapper>
           <PanelSection>
             <PanelSectionTitle>{t("select_phone_number")}</PanelSectionTitle>
@@ -236,6 +227,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       ...(await serverSideTranslations(locale ?? "en", [
         "common",
         "virtual-phone-number",
+        "meta",
       ])),
       country: currentCountry,
       phones: data?.data.phones ?? [],

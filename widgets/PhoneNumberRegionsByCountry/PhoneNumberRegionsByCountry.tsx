@@ -3,10 +3,15 @@ import type { ICountry, IState } from "country-cities";
 import { Trans, useTranslation } from "next-i18next";
 import Link from "next/link";
 import { createColumnHelper } from "@tanstack/react-table";
-import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
+import {
+  formatAreaCode,
+  formatStringToKebabCase,
+  getCountryByIsoCode,
+} from "@/shared/lib";
 import BaseTable from "@/shared/ui/BaseTable";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
+import Button from "@/shared/ui/Button";
 import {
   PanelSection,
   PanelSectionTitle,
@@ -59,8 +64,43 @@ function PhoneNumberRegionsByCountry({
     [country.name, t]
   );
 
+  const purchaseButtonColumn = React.useMemo(
+    () =>
+      columnHelper.accessor("isoCode", {
+        header: () => t("buy"),
+        cell: (info) => {
+          const countryName =
+            getCountryByIsoCode(info.row.original.countryCode)?.name ?? "";
+
+          return (
+            <Button
+              style={{ margin: "0 auto" }}
+              as="a"
+              href={`/virtual-phone-number/${formatStringToKebabCase(
+                countryName
+              )}/mobile`}
+              label={t("buy")}
+              size="small"
+            />
+          );
+        },
+      }),
+    [country, t]
+  );
+
   return (
     <Wrapper>
+      <h1>
+        {t("phone_number_regions_by_country_title", { country: country.name })}
+      </h1>
+      <p>
+        <Trans
+          i18nKey="virtual-phone-number:phone_number_regions_by_country_text"
+          values={{
+            country: country.name,
+          }}
+        />
+      </p>
       <Breadcrumbs>
         <Link href="/">{t("common:home")}</Link>
         <Link href="/virtual-phone-number/pricing">
@@ -74,18 +114,6 @@ function PhoneNumberRegionsByCountry({
           {country.name}
         </Link>
       </Breadcrumbs>
-
-      <h1>
-        {t("phone_number_regions_by_country_title", { country: country.name })}
-      </h1>
-      <p>
-        <Trans
-          i18nKey="virtual-phone-number:phone_number_regions_by_country_text"
-          values={{
-            country: country.name,
-          }}
-        />
-      </p>
       <PanelSectionsWrapper>
         <PanelSection>
           <PanelSectionTitle>
@@ -94,8 +122,12 @@ function PhoneNumberRegionsByCountry({
           </PanelSectionTitle>
           {states.length ? (
             <BaseTable
-              maxVisibleElements={8}
-              columns={[stateAreaCodeColumn, stateNameColumn]}
+              maxVisibleElements={null}
+              columns={[
+                stateAreaCodeColumn,
+                stateNameColumn,
+                purchaseButtonColumn,
+              ]}
               data={states}
             />
           ) : (

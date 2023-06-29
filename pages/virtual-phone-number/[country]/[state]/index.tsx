@@ -46,13 +46,14 @@ function Index({
   const meta = generateMeta({
     language: i18n.language,
     description: t("virtual_numbers_by_state_description", {
-      country: country.name,
-      state: state.isoCode,
+      state: state.name,
+      stateIso: state.isoCode,
       areaCode,
     }),
     title: t("virtual_numbers_by_state_title", {
       country: country.name,
-      state: state.isoCode,
+      state: state.name,
+      stateIso: state.isoCode,
       areaCode,
     }),
     asPath,

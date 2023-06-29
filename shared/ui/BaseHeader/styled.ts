@@ -21,7 +21,8 @@ export const Wrapper = styled.div`
   }
 
   h1 {
-    margin: 0;
+    white-space: pre-line;
+    margin: 0 0 50px 0;
     text-align: center;
     font-weight: 700;
     font-size: 64px;

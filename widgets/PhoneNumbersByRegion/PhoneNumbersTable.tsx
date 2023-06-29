@@ -12,7 +12,7 @@ import {
   SvgWrapper,
   PurchasePhoneNumberButton,
   StyledBaseTable,
-} from "./styled";
+} from "@/features/PhoneNumbersTable/styled";
 
 const columnHelper = createColumnHelper<PhoneToBuy>();
 
@@ -31,7 +31,7 @@ function PhoneNumbersTable({
   const phoneNumberColumn = React.useMemo(
     () =>
       columnHelper.accessor("phoneNumber", {
-        header: () => t("all_numbers"),
+        header: "",
         cell: (info) => (
           <div>
             <PhoneNumberType>{info.row.original.numberType}</PhoneNumberType>
@@ -72,7 +72,7 @@ function PhoneNumbersTable({
   const purchaseButtonColumn = React.useMemo(
     () =>
       columnHelper.accessor("region", {
-        header: () => t("buy"),
+        header: "",
         cell: (info) => {
           const search = new URLSearchParams();
           if (typeof country === "string") search.append("country", country);
@@ -91,23 +91,24 @@ function PhoneNumbersTable({
     [country, state, t]
   );
 
-  const columns = React.useMemo(() => {
-    return [
+  const columns = React.useMemo(
+    () => [
       phoneNumberColumn,
       phoneNumberCallsCapabilityColumn,
       phoneNumberSMSCapabilityColumn,
       ...(pathname.includes("/payment") || pathname.includes("/mobile") || city
         ? []
         : [purchaseButtonColumn]),
-    ];
-  }, [
-    city,
-    pathname,
-    phoneNumberCallsCapabilityColumn,
-    phoneNumberColumn,
-    phoneNumberSMSCapabilityColumn,
-    purchaseButtonColumn,
-  ]);
+    ],
+    [
+      city,
+      pathname,
+      phoneNumberCallsCapabilityColumn,
+      phoneNumberColumn,
+      phoneNumberSMSCapabilityColumn,
+      purchaseButtonColumn,
+    ]
+  );
 
   const handleRowClick = async (_phone: PhoneToBuy) => {
     onRowClick(_phone);

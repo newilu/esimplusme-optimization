@@ -23,12 +23,7 @@ function HowToGetPhoneNumber({ countryName }: { countryName: string }) {
   return (
     <Wrapper>
       <div>
-        <SectionTitle>
-          <Trans
-            i18nKey="virtual-phone-number:how_to_get_phone_number"
-            components={{ br: <br /> }}
-          />
-        </SectionTitle>
+        <SectionTitle>{t("how_to_get_phone_number")}</SectionTitle>
         <Paragraph>{t("to_get_number_follow_steps")}</Paragraph>
         <OrderedList>
           <OrderedListItem>{t("to_get_number_follow_steps")}</OrderedListItem>

@@ -8,7 +8,7 @@ export const SectionsWrapper = styled.div`
   display: flex;
   grid-gap: 5px;
   max-width: 900px;
-  margin: 0 auto;
+  margin: 50px auto;
 
   > ${PanelSection}:first-child {
     border-radius: 25px 5px 5px 25px;

@@ -15,7 +15,6 @@ import {
   getStatesByCountryCode,
 } from "@/shared/lib";
 import PhoneNumbersByCity from "@/widgets/PhoneNumberPurchaseHeader";
-import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -43,14 +42,12 @@ function Index({ country, city, state, phones }: PageProps) {
   const meta = generateMeta({
     language: i18n.language,
     description: t("virtual_numbers_by_city_description", {
-      country: country.name,
-      state: state.isoCode,
+      stateIso: state.isoCode,
       city: city.name,
       areaCode,
     }),
     title: t("virtual_numbers_by_city_title", {
-      country: country.name,
-      state: state.isoCode,
+      stateIso: state.isoCode,
       city: city.name,
       areaCode,
     }),
@@ -68,7 +65,6 @@ function Index({ country, city, state, phones }: PageProps) {
         country={country}
       />
       <WhyDoYouNeedPhoneNumber cityName={city.name} />
-      <DownloadAppSection />
       <Footer />
     </>
   );

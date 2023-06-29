@@ -56,6 +56,14 @@ function PhoneNumberPurchaseHeader({
 
   return (
     <Wrapper>
+      <h1>
+        {t("phone_numbers_by_city_title", {
+          stateIso: state?.isoCode,
+          city: city?.name,
+          areaCode,
+          country: country.name,
+        })}
+      </h1>
       <Breadcrumbs>
         <Link href="/">{t("common:home")}</Link>
         <Link href="/virtual-phone-number/pricing">
@@ -66,7 +74,7 @@ function PhoneNumberPurchaseHeader({
             country.name
           )}`}
         >
-          {country.isoCode === "US" ? country.isoCode : country.name}
+          {country.name}
         </Link>
         {state && (
           <Link
@@ -89,18 +97,6 @@ function PhoneNumberPurchaseHeader({
           </Link>
         )}
       </Breadcrumbs>
-
-      <h1>{t("phone_numbers_by_city_title")}</h1>
-      <h5>
-        {state?.name} {city && `,${city.name}`}{" "}
-        <CountryFlag
-          name={country.isoCode}
-          width={32}
-          height={24}
-          borderRadius={5}
-        />{" "}
-        {areaCode}
-      </h5>
       <SectionsWrapper>
         {(isMobile ? step === Steps.SelectNumber : true) && (
           <PanelSection>

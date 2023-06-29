@@ -3,8 +3,8 @@
   "virtual_numbers_pricing_description": "Affordable virtual phone numbers all over the world: 168 countries, unlimited calls, and Internet. Select a country, make the payment, and enjoy the advantages of ESIM Plus.\n",
   "virtual_numbers_by_country_title": "Virtual Phone Number in {{country}} | ESIM Plus",
   "virtual_numbers_by_country_description": "Choose the best virtual phone numbers in {{country}} and use them everywhere. Make calls & send SMS to different states. Fast activation",
-  "virtual_numbers_by_state_title": "Virtual Phone Numbers in {{state}} | {{country}} {{areaCode}}",
-  "virtual_numbers_by_state_description": "Get virtual number in {{state}} | {{country}} {{areaCode}} . Make calls & receive SMS in your specified city. Keep in touch with people around you. Activation process is fast and easy.",
-  "virtual_numbers_by_city_title": "Virtual Phone Numbers in {{city}} | {{state}} {{country}} {{areaCode}}",
-  "virtual_numbers_by_city_description": "Get virtual number in {{city}} | {{state}} {{country}} {{areaCode}} . Make calls & receive SMS in your specified city. Keep in touch with people around you. Activation process is fast and easy."
+  "virtual_numbers_by_state_title": "Virtual Phone Numbers in {{state}} | {{stateIso}} {{country}} {{areaCode}}",
+  "virtual_numbers_by_state_description": "Get virtual number in {{state}}, {{stateIso}} {{areaCode}} . Make calls & receive SMS in your specified city. Keep in touch with people around you. Activation process is fast and easy.",
+  "virtual_numbers_by_city_title": "Virtual Phone Numbers in {{city}}, {{stateISO}} {{areaCode}}",
+  "virtual_numbers_by_city_description": "Get virtual number in {{city}}, {{stateISO}} {{areaCode}} . Make calls & receive SMS in your specified city. Keep in touch with people around you. Activation process is fast and easy."
 }

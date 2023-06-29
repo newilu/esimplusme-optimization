@@ -1,9 +1,8 @@
 import React from "react";
 import type { ICity, ICountry, IState } from "country-cities";
-import { Trans, useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import type { PhoneToBuy } from "@/utils/types";
-import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
@@ -13,6 +12,7 @@ import {
   NoDataWrapper,
 } from "@/shared/ui/styled";
 import CitiesTable from "./CitiesTable";
+import PhoneNumbersTable from "./PhoneNumbersTable";
 import { SectionsWrapper, Wrapper } from "./styled";
 
 type PhoneNumbersByCountryProps = {
@@ -34,6 +34,14 @@ function PhoneNumbersByRegion({
 
   return (
     <Wrapper>
+      <h1>
+        {t("phone_numbers_by_region_title", {
+          country: country.name,
+          state: state.name,
+          stateIso: state.isoCode,
+          areaCode,
+        })}
+      </h1>
       <Breadcrumbs>
         <Link href="/">{t("common:home")}</Link>
         <Link href="/virtual-phone-number/pricing">
@@ -44,7 +52,7 @@ function PhoneNumbersByRegion({
             country.name
           )}`}
         >
-          {country.isoCode === "US" ? country.isoCode : country.name}
+          {country.name}
         </Link>
         <Link
           href={`/virtual-phone-number/${formatStringToKebabCase(
@@ -54,28 +62,6 @@ function PhoneNumbersByRegion({
           {state.name}
         </Link>
       </Breadcrumbs>
-      <h1>{t("phone_numbers_by_region_title")}</h1>
-      <h5>
-        <Trans
-          i18nKey="virtual-phone-number:phone_numbers_by_region_subtitle"
-          components={{
-            flag: (
-              <CountryFlag
-                name={country.isoCode}
-                width={32}
-                height={24}
-                borderRadius={5}
-              />
-            ),
-          }}
-          values={{
-            country: `${areaCode ?? formatAreaCode(country.phonecode)} ${
-              country.name
-            }`,
-            state: state.name,
-          }}
-        />
-      </h5>
       <SectionsWrapper>
         <PanelSection>
           <PanelSectionTitle>
