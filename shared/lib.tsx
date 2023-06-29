@@ -1,6 +1,10 @@
 import { differenceInDays, getHours } from "date-fns";
 import { cities, countries, states } from "country-cities";
-import { CountryCode, getExampleNumber } from "libphonenumber-js";
+import {
+  CountryCode,
+  getExampleNumber,
+  isValidPhoneNumber,
+} from "libphonenumber-js";
 import examples from "libphonenumber-js/examples.mobile.json";
 import { LANGS_LIST } from "@/shared/constants";
 import React from "react";
@@ -177,11 +181,23 @@ const generateFakeNumber = (countryCode: string, areaCode: string): string => {
   );
   if (!generatedNumber) return "";
 
-  const nationalNumber = generatedNumber.number
-    .replace(`+${formattedAreaCode}`, "")
-    .replaceAll(/\S/g, () => String(Math.floor(Math.random() * 10)));
+  let number = generatedNumber.number.slice(formattedAreaCode.length + 1);
 
-  return `+${formattedAreaCode}`.concat(nationalNumber);
+  let isValid = false;
+
+  while (!isValid) {
+    const nationalNumber = number.replaceAll(/\S/g, () =>
+      String(Math.floor(Math.random() * 10))
+    );
+
+    if (isValidPhoneNumber(`+${formattedAreaCode}`.concat(nationalNumber))) {
+      number = nationalNumber;
+      isValid = true;
+      break;
+    }
+  }
+
+  return `+${formattedAreaCode}`.concat(number);
 };
 
 function generateMeta({
