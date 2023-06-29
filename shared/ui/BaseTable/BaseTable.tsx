@@ -68,7 +68,7 @@ function BaseTable<TData extends {} = {}>({
     <Wrapper
       id={tableId}
       ref={props.ref as any}
-      scrollable={maxVisibleElements && data.length >= maxVisibleElements}
+      scrollable={!!maxVisibleElements && data.length >= maxVisibleElements}
       {...props}
     >
       <div style={{ maxHeight: maxTableHeight }}>

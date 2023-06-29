@@ -6,7 +6,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
-import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
+import { formatStringToKebabCase } from "@/shared/lib";
 import { PhoneToBuy } from "@/utils/types";
 import api from "@/api";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
@@ -17,7 +17,6 @@ import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import { Wrapper as TableWrapper } from "@/shared/ui/BaseTable/styled";
 import Button from "@/shared/ui/Button";
 import { useTranslation } from "next-i18next";
-import CountryFlag from "@/shared/ui/CountryFlag";
 import { useRouter } from "next/router";
 
 type PageProps = { country: ICountry; phones: PhoneToBuy[] };
