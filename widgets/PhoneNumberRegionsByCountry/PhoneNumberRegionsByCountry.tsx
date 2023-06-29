@@ -71,27 +71,13 @@ function PhoneNumberRegionsByCountry({
             country.name
           )}`}
         >
-          {country.isoCode === "US" ? country.isoCode : country.name}
+          {country.name}
         </Link>
       </Breadcrumbs>
 
-      <h1>{t("phone_number_regions_by_country_title")}</h1>
-      <h5>
-        <Trans
-          i18nKey="virtual-phone-number:phone_number_regions_by_country_subtitle"
-          components={{
-            flag: (
-              <CountryFlag
-                name={country.isoCode}
-                width={32}
-                height={24}
-                borderRadius={5}
-              />
-            ),
-          }}
-          values={{ country: `${country.phonecode} ${country.name}` }}
-        />
-      </h5>
+      <h1>
+        {t("phone_number_regions_by_country_title", { country: country.name })}
+      </h1>
       <p>
         <Trans
           i18nKey="virtual-phone-number:phone_number_regions_by_country_text"

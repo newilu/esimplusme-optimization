@@ -55,7 +55,9 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   const [{ data: popularCountriesRaw }] = await Promise.all([
     api.secondPhone.listSecondPhoneCountries(),
   ]);
-  const popularSecondPhoneCountries = popularCountriesRaw?.data.countries;
+  const popularSecondPhoneCountries = popularCountriesRaw?.data.countries
+    .sort((_, b) => (b.code === "US" ? 1 : -1))
+    .filter((el) => el.code !== "PH");
 
   if (!popularSecondPhoneCountries) {
     return {
