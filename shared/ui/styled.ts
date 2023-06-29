@@ -77,7 +77,6 @@ export const PanelSectionsWrapper = styled.div<{
 
 PanelSectionsWrapper.defaultProps = {
   maxWidth: 900,
-  dir: "row",
 };
 
 export const NoDataWrapper = styled.div`

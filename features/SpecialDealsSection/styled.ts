@@ -59,7 +59,7 @@ export const SpecialDealCard = styled(Card)`
   padding: 25px;
   background: ${(props) => props.theme.cardsBg};
 
-  button {
+  a {
     margin: 0 auto;
   }
 

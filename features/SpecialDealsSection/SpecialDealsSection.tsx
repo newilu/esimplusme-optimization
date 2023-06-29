@@ -29,13 +29,11 @@ function SpecialDealsSection() {
               <CountryFlag width={32} height={24} name="US" />
             </SpecialDealCardSubtitle>
             <Button
+              as="a"
+              href="/virtual-phone-number/united-states/new-york"
               size="small"
-              variant="outlined"
-              label={
-                <Link href="/virtual-phone-number/united-states/new-york">
-                  {t("more_info")}
-                </Link>
-              }
+              variant="secondary"
+              label={t("more_info")}
             />
           </SpecialDealCard>{" "}
           <SpecialDealCard>
@@ -45,13 +43,11 @@ function SpecialDealsSection() {
               <CountryFlag width={32} height={24} name="GB" />
             </SpecialDealCardSubtitle>
             <Button
+              as="a"
+              href="/virtual-phone-number/united-kingdom/london-borough-of-barking-and-dagenham"
               size="small"
-              variant="outlined"
-              label={
-                <Link href="/virtual-phone-number/united-kingdom/london-borough-of-barking-and-dagenham">
-                  {t("more_info")}
-                </Link>
-              }
+              variant="secondary"
+              label={t("more_info")}
             />
           </SpecialDealCard>{" "}
           <SpecialDealCard>
@@ -60,13 +56,11 @@ function SpecialDealsSection() {
               Madrid, Spain <CountryFlag width={32} height={24} name="ES" />
             </SpecialDealCardSubtitle>
             <Button
+              as="a"
+              href="/virtual-phone-number/spain/madrid"
               size="small"
-              variant="outlined"
-              label={
-                <Link href="/virtual-phone-number/spain/madrid">
-                  {t("more_info")}
-                </Link>
-              }
+              variant="secondary"
+              label={t("more_info")}
             />
           </SpecialDealCard>
         </SpecialDealsWrapper>

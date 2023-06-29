@@ -1,8 +1,8 @@
 import React from "react";
-import ArrowIcon from "./assets/ArrowRight";
-import { useWindowSize } from "context/WindowSizeContext";
-import { SwitchButton, Wrapper } from "./styled";
 import { CSSObject } from "styled-components";
+import { useWindowSize } from "context/WindowSizeContext";
+import ArrowIcon from "./assets/ArrowRight";
+import { SwitchButton, Wrapper } from "./styled";
 
 function SwitchButtons<
   Option extends {

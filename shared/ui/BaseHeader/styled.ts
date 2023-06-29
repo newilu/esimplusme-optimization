@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
     position: absolute;
     top: -65px;
     width: 100%;
-    height: 100%;
+    height: 500px;
     background: url(${blur.src}) bottom center no-repeat;
     background-size: cover;
   }

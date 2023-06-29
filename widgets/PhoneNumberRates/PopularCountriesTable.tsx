@@ -9,8 +9,9 @@ import Link from "next/link";
 import { SecondPhoneCountry } from "@/utils/types";
 import BaseTable from "@/shared/ui/BaseTable";
 import { createColumnHelper } from "@tanstack/react-table";
-import { formatAreaCode } from "@/shared/lib";
+import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
 const columnHelper = createColumnHelper<SecondPhoneCountry>();
 
@@ -19,6 +20,7 @@ function PopularCountriesTable({
 }: {
   countries: SecondPhoneCountry[];
 }) {
+  const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
 
   const areaCodeColumn = React.useMemo(
@@ -47,11 +49,9 @@ function PopularCountriesTable({
               />
             </CountryFlagWrapper>{" "}
             <Link
-              href={`/virtual-phone-number/${info
-                .getValue()
-                .toLowerCase()
-                .replaceAll(/[^a-zA-Z -]/gi, "")
-                .replaceAll(" ", "-")}`}
+              href={`/virtual-phone-number/${formatStringToKebabCase(
+                info.getValue()
+              )}`}
             >
               {info.getValue()}
             </Link>
@@ -79,6 +79,9 @@ function PopularCountriesTable({
 
   return (
     <BaseTable
+      onRowClick={({ country }) =>
+        router.push(`/virtual-phone-number/${formatStringToKebabCase(country)}`)
+      }
       maxVisibleElements={10}
       data={countries}
       columns={[areaCodeColumn, countryNameColumn, monthlyFeeColumn]}

@@ -11,10 +11,12 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
 import { useTranslation } from "next-i18next";
 import { ICountry } from "country-cities";
+import { useRouter } from "next/router";
 
 const columnHelper = createColumnHelper<ICountry>();
 
 function PopularCountriesTable({ countries }: { countries: ICountry[] }) {
+  const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
 
   const areaCodeColumn = React.useMemo(
@@ -58,7 +60,10 @@ function PopularCountriesTable({ countries }: { countries: ICountry[] }) {
 
   return (
     <BaseTable
-      maxVisibleElements={10}
+      onRowClick={({ name }) =>
+        router.push(`/virtual-phone-number/${formatStringToKebabCase(name)}`)
+      }
+      maxVisibleElements={null}
       data={countries}
       columns={[areaCodeColumn, countryNameColumn]}
     />

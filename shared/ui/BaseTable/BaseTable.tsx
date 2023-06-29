@@ -16,7 +16,7 @@ import {
 } from "./styled";
 
 type BaseTableProps<TData extends {}> = {
-  maxVisibleElements?: number;
+  maxVisibleElements?: number | null;
   data: TData[];
   columns: ColumnDef<TData, any>[];
   onRowClick?: (props: TData) => void;
@@ -35,13 +35,13 @@ function BaseTable<TData extends {} = {}>({
   ...props
 }: BaseTableProps<TData>) {
   const [maxTableHeight, setMaxTableHeight] = React.useState(
-    maxVisibleElements * 50
+    maxVisibleElements ? maxVisibleElements * 50 : "unset"
   );
 
   const tableId = React.useId();
 
   React.useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && maxVisibleElements) {
       const tableRowNodeList = document
         .getElementById(tableId)
         ?.getElementsByTagName("tr");
@@ -68,7 +68,7 @@ function BaseTable<TData extends {} = {}>({
     <Wrapper
       id={tableId}
       ref={props.ref as any}
-      scrollable={data.length >= maxVisibleElements}
+      scrollable={maxVisibleElements && data.length >= maxVisibleElements}
       {...props}
     >
       <div style={{ maxHeight: maxTableHeight }}>
@@ -106,7 +106,7 @@ function BaseTable<TData extends {} = {}>({
                 ))}
               </TableRow>
             ))}
-            {data.length >= maxVisibleElements && (
+            {maxVisibleElements && data.length >= maxVisibleElements && (
               <TableRow>
                 <Td />
               </TableRow>
