@@ -4,13 +4,18 @@ import Navbar from "@/widgets/Navbar";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import type { ICountry, IState } from "country-cities";
 import { COUNTRY_LIST } from "@/shared/constants";
-import { generateMeta, getStatesByCountryCode } from "@/shared/lib";
+import {
+  formatStringToKebabCase,
+  generateMeta,
+  getStatesByCountryCode,
+} from "@/shared/lib";
 import PhoneNumberRegionsByCountry from "@/widgets/PhoneNumberRegionsByCountry";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
 
 type PageProps = { country: ICountry; states: IState[] };
 
@@ -38,6 +43,7 @@ function Index({ country, states }: PageProps) {
       <Head>{meta}</Head>
       <Navbar />
       <PhoneNumberRegionsByCountry states={states} country={country} />
+      <HowToGetPhoneNumber countryName={country.name} />
       <DownloadAppSection />
       <Footer />
     </>
@@ -59,12 +65,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   }
 
   const currentCountry = COUNTRY_LIST.find((el) =>
-    country.includes(
-      el.name
-        .toLowerCase()
-        .replaceAll(/[^a-zA-Z -]/gi, "")
-        .replaceAll(" ", "-")
-    )
+    country.includes(formatStringToKebabCase(el.name))
   );
 
   if (!currentCountry) {

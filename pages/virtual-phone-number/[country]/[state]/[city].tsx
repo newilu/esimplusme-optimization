@@ -2,6 +2,7 @@ import React from "react";
 import type { ICity, ICountry, IState } from "country-cities";
 import type { GetServerSideProps } from "next";
 import type { PhoneToBuy } from "@/utils/types";
+import { format } from "libphonenumber-js";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
@@ -19,7 +20,6 @@ import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import { format } from "libphonenumber-js";
 
 type PageProps = {
   phones: PhoneToBuy[];
@@ -42,12 +42,12 @@ function Index({ country, city, state, phones }: PageProps) {
   const meta = generateMeta({
     language: i18n.language,
     description: t("virtual_numbers_by_city_description", {
-      stateIso: state.isoCode,
+      stateISO: state.isoCode,
       city: city.name,
       areaCode,
     }),
     title: t("virtual_numbers_by_city_title", {
-      stateIso: state.isoCode,
+      stateISO: state.isoCode,
       city: city.name,
       areaCode,
     }),

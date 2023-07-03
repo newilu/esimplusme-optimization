@@ -35,6 +35,10 @@ export const CountryNameWrapper = styled.div`
 `;
 
 export const Wrapper = styled(BaseHeader)`
+  td {
+    cursor: pointer;
+  }
+
   ${PanelSection} {
     &:first-of-type {
       border-radius: 25px 25px 5px 5px;

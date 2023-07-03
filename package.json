@@ -25,6 +25,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "framer-motion": "^10.9.2",
+    "latinize": "^0.5.0",
     "libphonenumber-js": "^1.10.34",
     "next": "13.1.2",
     "next-i18next": "12.1.0",
@@ -42,6 +43,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/latinize": "^0.2.15",
     "@types/nprogress": "^0.2.0",
     "@types/styled-components": "^5.1.26",
     "@types/uuid": "^9.0.0",

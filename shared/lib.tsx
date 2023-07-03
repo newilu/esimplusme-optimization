@@ -1,3 +1,5 @@
+import React from "react";
+import latinize from "latinize";
 import { differenceInDays, getHours } from "date-fns";
 import { cities, countries, states } from "country-cities";
 import {
@@ -7,7 +9,6 @@ import {
 } from "libphonenumber-js";
 import examples from "libphonenumber-js/examples.mobile.json";
 import { LANGS_LIST } from "@/shared/constants";
-import React from "react";
 
 function formatDataSize(dataSize: string | number) {
   return +dataSize >= 1000 ? `${+dataSize / 1000} GB` : `${dataSize} MB`;
@@ -147,7 +148,7 @@ function formatAreaCode(areaCode: string | number) {
 }
 
 function formatStringToKebabCase(string: string) {
-  return string
+  return latinize(string)
     .toLowerCase()
     .replaceAll(/[^a-zA-Z -]/gi, "")
     .replaceAll(" ", "-");

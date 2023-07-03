@@ -55,7 +55,7 @@ function FakeNumberGeneratorHeader() {
   return (
     <Wrapper>
       <Breadcrumbs>
-        <Link href="/virtual-phone-number">{t("common:virtual_numbers")}</Link>
+        <Link href="/virtual-phone-number">{t("common:phone_number")}</Link>
         <Link href="/random-phone-number-generator">
           {t("common:generate_random_number")}
         </Link>

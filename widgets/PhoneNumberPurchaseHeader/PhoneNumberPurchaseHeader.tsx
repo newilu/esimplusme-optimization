@@ -67,7 +67,7 @@ function PhoneNumberPurchaseHeader({
       <Breadcrumbs>
         <Link href="/">{t("common:home")}</Link>
         <Link href="/virtual-phone-number/pricing">
-          {t("common:virtual_numbers")}
+          {t("common:phone_number")}
         </Link>
         <Link
           href={`/virtual-phone-number/${formatStringToKebabCase(

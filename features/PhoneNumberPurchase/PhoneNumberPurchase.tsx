@@ -54,7 +54,7 @@ function PhoneNumberPurchase({
       <CountryNameAndNumberTypeWrapper>
         <CountryNameWrapper>
           <CountryFlag width={24} height={18} name={country.isoCode} />
-          {country.name}
+          {country.isoCode === "US" ? "US" : country.name}
         </CountryNameWrapper>
         <NumberType>{phone.numberType}</NumberType>
       </CountryNameAndNumberTypeWrapper>

@@ -134,9 +134,7 @@ function Index({ country, phones }: PageProps) {
       <BaseHeader>
         <h1>{t("phone_numbers_by_country_mobile_title")}</h1>
         <Breadcrumbs style={{ margin: "20px 0" }}>
-          <Link href="/virtual-phone-number">
-            {t("common:virtual_numbers")}
-          </Link>
+          <Link href="/virtual-phone-number">{t("common:phone_number")}</Link>
           <Link href="/virtual-phone-number/pricing">
             {t("phone_number_rates_title")}
           </Link>

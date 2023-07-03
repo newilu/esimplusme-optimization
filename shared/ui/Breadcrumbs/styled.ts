@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
   margin: 0 0 30px 0;
 
   > a {
+    text-transform: capitalize;
     font-weight: 500;
     font-size: 13px;
     line-height: 16px;
