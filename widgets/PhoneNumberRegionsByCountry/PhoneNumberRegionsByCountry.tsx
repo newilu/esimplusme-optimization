@@ -23,6 +23,7 @@ import { StateNameWrapper, Wrapper } from "./styled";
 type PhoneNumberRegionsByCountryProps = {
   states: IState[];
   country: ICountry;
+  phoneNumberStartingPrice: number | null;
 };
 
 const columnHelper = createColumnHelper<IState>();
@@ -30,6 +31,7 @@ const columnHelper = createColumnHelper<IState>();
 function PhoneNumberRegionsByCountry({
   country,
   states,
+  phoneNumberStartingPrice,
 }: PhoneNumberRegionsByCountryProps) {
   const { t } = useTranslation("virtual-phone-number");
   const stateAreaCodeColumn = React.useMemo(
@@ -64,6 +66,27 @@ function PhoneNumberRegionsByCountry({
     [country.name, t]
   );
 
+  const phoneNumberPriceColumn = React.useMemo(
+    () =>
+      columnHelper.accessor("latitude", {
+        header: () => t("monthly_fee"),
+        cell: () =>
+          phoneNumberStartingPrice
+            ? t("from_amount_month", { price: phoneNumberStartingPrice })
+            : "-",
+      }),
+    [phoneNumberStartingPrice, t]
+  );
+
+  const stateISOColumn = React.useMemo(
+    () =>
+      columnHelper.accessor("isoCode", {
+        header: () => t("iso_code"),
+        cell: (info) => info.getValue(),
+      }),
+    [t]
+  );
+
   const purchaseButtonColumn = React.useMemo(
     () =>
       columnHelper.accessor("isoCode", {
@@ -85,7 +108,7 @@ function PhoneNumberRegionsByCountry({
           );
         },
       }),
-    [country, t]
+    [t]
   );
 
   return (
@@ -126,6 +149,8 @@ function PhoneNumberRegionsByCountry({
               columns={[
                 stateAreaCodeColumn,
                 stateNameColumn,
+                stateISOColumn,
+                phoneNumberPriceColumn,
                 purchaseButtonColumn,
               ]}
               data={states}

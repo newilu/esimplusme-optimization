@@ -33,6 +33,8 @@
   "area_code": "area code",
   "destination": "destination",
   "monthly_fee": "monthly fee",
+  "from_amount_month": "from {{price}}$/mo",
+  "iso_code": "ISO Code",
   "cities": "cities",
   "state": "state",
   "regions": "regions",
