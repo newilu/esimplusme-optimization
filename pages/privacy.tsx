@@ -597,7 +597,7 @@ function Privacy() {
             <br />
             13. DELETION OF THE USER&apos;S PERSONAL INFORMATION AND
             DISCONNECTION OF THE USER&apos;S ACCOUNT FROM THE PROVISION OF
-            SERVICES BY THE ESIM + SERVICE.
+            SERVICES BY THE ESIM Plus SERVICE.
             <br />
             <br />
             The user&apos;s personal data can be deleted at the request of the
