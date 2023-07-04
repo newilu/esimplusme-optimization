@@ -6,7 +6,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
-import { formatStringToKebabCase } from "@/shared/lib";
+import { formatStringToKebabCase, generateMeta } from "@/shared/lib";
 import { PhoneToBuy } from "@/utils/types";
 import api from "@/api";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
@@ -18,6 +18,7 @@ import { Wrapper as TableWrapper } from "@/shared/ui/BaseTable/styled";
 import Button from "@/shared/ui/Button";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 type PageProps = { country: ICountry; phones: PhoneToBuy[] };
 
@@ -88,7 +89,7 @@ const SectionsWrapper = styled.div`
 
 function Index({ country, phones }: PageProps) {
   const router = useRouter();
-  const { t } = useTranslation("virtual-phone-number");
+  const { t, i18n } = useTranslation("virtual-phone-number");
   const [selectedPhone, setSelectedPhone] = React.useState(
     phones.length ? phones[0] : null
   );
@@ -128,15 +129,35 @@ function Index({ country, phones }: PageProps) {
     );
   };
 
+  const meta = React.useMemo(
+    () =>
+      generateMeta({
+        language: i18n.language,
+        description: t("meta:virtual_numbers_by_country_description", {
+          country: country.name,
+        }),
+        title: t("meta:virtual_numbers_by_country_title", {
+          country: country.name,
+        }),
+        asPath: router.asPath,
+      }),
+    [router.asPath, country.name, i18n.language, t]
+  );
+
   return (
     <>
+      <Head>{meta}</Head>
       <Navbar />
       <BaseHeader>
-        <h1>{t("phone_numbers_by_country_mobile_title")}</h1>
+        <h1>
+          {t("phone_numbers_by_country_mobile_title", {
+            country: country.name,
+          })}
+        </h1>
         <Breadcrumbs style={{ margin: "20px 0" }}>
           <Link href="/virtual-phone-number">{t("common:phone_number")}</Link>
           <Link href="/virtual-phone-number/pricing">
-            {t("phone_number_rates_title")}
+            {t("common:phone_number")}
           </Link>
           <Link
             href={`/virtual-phone-number/${formatStringToKebabCase(

@@ -68,13 +68,23 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   }
 
   if (currentCountry.isoCode === "US" && currentState) {
-    const { data } = await api.secondPhone.getAvailableNumbersByStateISO(
-      currentState.isoCode
-    );
+    let selectedPhone: PhoneToBuy | null = null;
+    let phones: PhoneToBuy[] = [];
 
-    const selectedPhone = data?.data.phones.find(
+    const { data: phonesByStateDataRaw } =
+      await api.secondPhone.getAvailableNumbersByStateISO(currentState.isoCode);
+
+    phones = phonesByStateDataRaw?.data.phones ?? [];
+
+    const selectedPhoneFromStatePhones = phones.find(
       (_phone) => _phone.phoneNumber === phone
     );
+
+    if (!selectedPhoneFromStatePhones) {
+      const { data } = await api.secondPhone.getPhonesByCountry("US");
+      selectedPhone = data?.data.phones[0] ?? null;
+      phones = data?.data.phones ?? [];
+    }
 
     if (!selectedPhone) {
       return {
@@ -91,7 +101,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
           "common",
           "virtual-phone-number",
         ])),
-        phones: data?.data.phones ?? [],
+        phones,
         phone: selectedPhone,
         country: currentCountry,
         state: currentState,
