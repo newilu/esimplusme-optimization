@@ -63,5 +63,7 @@
   "special_deals_services_info_item_4": "For payments, you may use the funds available in your balance or credit card.",
   "special_deals_services_info_item_5": "After completing all configurations, choose the desired country from the provided list of countries to select the virtual number's location.",
   "special_deals_services_info_item_6": "The purchase of a number is limited to a single account. If you switch to a new account, you will need to subscribe to a new phone number.",
-  "special_deals_services_info_item_7": "The subscription is set to renew automatically each month, while retaining the flexibility to cancel anytime."
+  "special_deals_services_info_item_7": "The subscription is set to renew automatically each month, while retaining the flexibility to cancel anytime.",
+  "iso_code": "ISO Code",
+  "from_amount_month": "from {{price}}$/mo"
 }
