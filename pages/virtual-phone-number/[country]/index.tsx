@@ -1,23 +1,23 @@
 import React from "react";
-import { GetServerSideProps } from "next";
-import Navbar from "@/widgets/Navbar";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import type { ICountry, IState } from "country-cities";
+import { GetServerSideProps } from "next";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import api from "@/api";
+import Navbar from "@/widgets/Navbar";
+import PhoneNumberRegionsByCountry from "@/widgets/PhoneNumberRegionsByCountry";
+import DownloadAppSection from "@/features/DownloadAppSection";
+import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
+import type { PhoneToBuy } from "@/utils/types";
 import { COUNTRY_LIST } from "@/shared/constants";
 import {
   formatStringToKebabCase,
   generateMeta,
   getStatesByCountryCode,
 } from "@/shared/lib";
-import PhoneNumberRegionsByCountry from "@/widgets/PhoneNumberRegionsByCountry";
-import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
-import Head from "next/head";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
-import api from "@/api";
-import { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
 
 type PageProps = {
   country: ICountry;
