@@ -1,8 +1,9 @@
 import React from "react";
 import type { GetServerSideProps } from "next";
 import type { ICity, ICountry, IState } from "country-cities";
+import { format } from "libphonenumber-js";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import type { PhoneToBuy } from "@/utils/types";
+import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
 import PhoneNumbersByRegion from "@/widgets/PhoneNumbersByRegion";
@@ -16,7 +17,6 @@ import {
 import { COUNTRY_LIST } from "@/shared/constants";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
-import { format } from "libphonenumber-js";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
@@ -27,11 +27,13 @@ function Index({
   country,
   state,
   cities,
+  popularCountries,
 }: {
   phones: PhoneToBuy[];
   country: ICountry;
   state: IState;
   cities: ICity[];
+  popularCountries: SecondPhoneCountry[];
 }) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
@@ -69,6 +71,7 @@ function Index({
         country={country}
         state={state}
         areaCode={areaCode}
+        popularCountries={popularCountries}
       />
       <HowToGetPhoneNumber countryName={country.name} />
       <DownloadAppSection />
@@ -121,8 +124,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     phones = phonesByStateUS?.data.phones ?? [];
 
     if (!phones.length) {
-      const { data } = await api.secondPhone.getPhonesByCountry("US");
-      phones = data?.data.phones ?? [];
+      const { data: phonesByCountryDataRaw } =
+        await api.secondPhone.getPhonesByCountry("US");
+      phones = phonesByCountryDataRaw?.data.phones ?? [];
     }
 
     return {
@@ -139,15 +143,40 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     };
   }
-  const { data } = await api.secondPhone.getPhonesByCountry(
-    currentCountry.isoCode
-  );
 
-  const countryPhones = data?.data.phones ?? [];
+  const { data: phonesByCountryDataRaw } =
+    await api.secondPhone.getPhonesByCountry(currentCountry.isoCode);
+
+  const countryPhones = phonesByCountryDataRaw?.data.phones ?? [];
 
   const filteredPhones = countryPhones.filter(
     (_phone) => _phone.region === currentState.isoCode
   );
+
+  const phones = filteredPhones.length ? filteredPhones : countryPhones;
+
+  if (!phones.length) {
+    const { data: secondPhoneCountriesDataRaw } =
+      await api.secondPhone.listSecondPhoneCountries();
+
+    return {
+      props: {
+        ...(await serverSideTranslations(locale ?? "en", [
+          "common",
+          "virtual-phone-number",
+          "meta",
+        ])),
+        phones,
+        popularCountries:
+          secondPhoneCountriesDataRaw?.data.countries
+            .sort((_, b) => (b.code === "US" ? 1 : -1))
+            .filter((el) => el.code !== "PH") ?? [],
+        country: currentCountry,
+        state: currentState,
+        cities,
+      },
+    };
+  }
 
   return {
     props: {
@@ -156,7 +185,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         "virtual-phone-number",
         "meta",
       ])),
-      phones: filteredPhones.length ? filteredPhones : countryPhones,
+      phones,
       country: currentCountry,
       state: currentState,
       cities,

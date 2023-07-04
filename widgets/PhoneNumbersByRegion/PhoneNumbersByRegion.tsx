@@ -14,6 +14,8 @@ import {
 import CitiesTable from "./CitiesTable";
 import PhoneNumbersTable from "./PhoneNumbersTable";
 import { SectionsWrapper, Wrapper } from "./styled";
+import { NoNumbersAvailableView } from "../../features/NoNumbersAvailableView/NoNumbersAvailableView";
+import { SecondPhoneCountry } from "@/utils/types";
 
 type PhoneNumbersByCountryProps = {
   phones: PhoneToBuy[];
@@ -21,6 +23,7 @@ type PhoneNumbersByCountryProps = {
   state: IState;
   cities: ICity[];
   areaCode?: string;
+  popularCountries: SecondPhoneCountry[];
 };
 
 function PhoneNumbersByRegion({
@@ -29,6 +32,7 @@ function PhoneNumbersByRegion({
   cities,
   state,
   areaCode,
+  popularCountries,
 }: PhoneNumbersByCountryProps) {
   const { t } = useTranslation("virtual-phone-number");
 
@@ -96,7 +100,7 @@ function PhoneNumbersByRegion({
           {phones.length ? (
             <PhoneNumbersTable phones={phones} />
           ) : (
-            <NoDataWrapper>{t("no_phones_for_this_region")}</NoDataWrapper>
+            <NoNumbersAvailableView countries={popularCountries} />
           )}
         </PanelSection>
       </SectionsWrapper>

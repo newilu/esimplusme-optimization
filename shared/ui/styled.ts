@@ -156,6 +156,11 @@ export const Paragraph = styled.p`
   font-size: 16px;
   line-height: 26px;
   color: ${(props) => props.theme.secondaryText};
+
+  a {
+    text-decoration: underline;
+    color: ${(props) => props.theme.primary};
+  }
 `;
 
 export const SectionTitle = styled.h2`

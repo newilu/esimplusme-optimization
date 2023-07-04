@@ -131,7 +131,7 @@ function PhoneNumberPurchase({
           <div>
             <Trans
               i18nKey="virtual-phone-number:phone_purchase_agreement_first"
-              components={{ a: <Link href="/" /> }}
+              components={{ a: <Link href="/esim-supported-devices" /> }}
             />
           </div>
         </Agreement>{" "}
@@ -148,7 +148,10 @@ function PhoneNumberPurchase({
           <div>
             <Trans
               i18nKey="virtual-phone-number:phone_purchase_agreement_second"
-              components={{ 1: <Link href="/" />, 2: <Link href="/" /> }}
+              components={{
+                1: <Link href="/privacy" />,
+                2: <Link href="/terms" />,
+              }}
             />
           </div>
         </Agreement>

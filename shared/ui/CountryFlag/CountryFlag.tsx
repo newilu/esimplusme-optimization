@@ -27,6 +27,7 @@ function CountryFlag({
         overflow: "hidden",
         width,
         height,
+        flex: `0 0 ${width}px`,
       }}
     >
       <Image

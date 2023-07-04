@@ -10,6 +10,10 @@ export const SectionsWrapper = styled.div`
   max-width: 900px;
   margin: 50px auto;
 
+  ${PanelSection} {
+    min-height: 400px;
+  }
+
   > ${PanelSection}:first-child {
     border-radius: 25px 5px 5px 25px;
     flex: 1 1 40%;
@@ -39,7 +43,6 @@ export const SectionsWrapper = styled.div`
   > ${PanelSection}:last-child {
     border-radius: 5px 25px 25px 5px;
     flex: 1 1 60%;
-    min-height: 400px;
   }
 
   @media (min-width: 769px) {

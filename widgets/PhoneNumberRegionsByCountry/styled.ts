@@ -1,17 +1,7 @@
 import styled from "styled-components";
 import BaseHeader from "@/shared/ui/BaseHeader";
-import Link from "next/link";
+import { Wrapper as TableWrapper } from "@/shared/ui/BaseTable/styled";
 import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
-
-export const StateNameWrapper = styled(Link)`
-  display: flex;
-  align-items: center;
-  grid-gap: 8px;
-  color: ${(props) => props.theme.primary};
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
-`;
 
 export const Wrapper = styled(BaseHeader)`
   ${PanelSection} {
@@ -27,5 +17,19 @@ export const Wrapper = styled(BaseHeader)`
 
   th:nth-child(2) {
     text-align: left;
+  }
+
+  @media (min-width: 769px) {
+    ${PanelSection}:first-child {
+      ${TableWrapper} {
+        height: 100%;
+        > div {
+          max-height: unset !important;
+          position: absolute;
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
   }
 `;

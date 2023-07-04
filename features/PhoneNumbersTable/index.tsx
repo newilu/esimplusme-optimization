@@ -18,10 +18,12 @@ const columnHelper = createColumnHelper<PhoneToBuy>();
 
 function PhoneNumbersTable({
   phones,
+  maxVisibleElements = 5,
   onRowClick = () => {},
 }: {
   phones: PhoneToBuy[];
   onRowClick?: (props: PhoneToBuy) => void;
+  maxVisibleElements?: number | null;
 }) {
   const { query, pathname, replace } = useRouter();
   const { t } = useTranslation("virtual-phone-number");
@@ -126,6 +128,7 @@ function PhoneNumbersTable({
 
   return (
     <StyledBaseTable
+      maxVisibleElements={maxVisibleElements}
       enableRowSelection
       onRowClick={handleRowClick}
       data={phones}

@@ -1,8 +1,6 @@
-import { cities, countries, states } from "country-cities";
+import { countries } from "country-cities";
 
 export const DEFAULT_SELECTED_DATA_SIZE = 1000;
-
-export const ESIMGO_AVAILABLE_DATA_SIZES = [1000, 3000, 5000];
 
 export const BASE_STORAGE_URL = "https://static.esimplus.net/storage/plans/";
 
@@ -19,3 +17,15 @@ export const APPSTORE_LINK =
 
 export const GPLAY_LINK =
   "https://play.google.com/store/apps/details?id=com.appvillis.esim&hl=ru&gl=US";
+
+export const STATE_NAME_DEPRECATED_WORDS = [
+  "Region",
+  "Voivodeship",
+  "Islands",
+  "Island",
+  "Department",
+  "Province",
+  "Parish",
+  "Unit",
+  "County",
+];

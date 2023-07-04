@@ -256,7 +256,15 @@ function generateMeta({
   );
 }
 
+const removeExcludedWords = (str: string, words: string[]) => {
+  let sentence = "";
+  const regex = new RegExp(`(${words.join("|")})`, "gi");
+  sentence = str.replaceAll(regex, "");
+  return sentence;
+};
+
 export {
+  removeExcludedWords,
   getCountryByIsoCode,
   getStatesByCountryCode,
   getStateByCode,

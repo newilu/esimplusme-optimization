@@ -7,7 +7,7 @@ import {
   PanelSectionsWrapper,
   PanelSectionTitle,
 } from "@/shared/ui/styled";
-import PopularCountriesTable from "./PopularCountriesTable";
+import PopularCountriesTable from "@/entities/PopularCountriesTable";
 import AllCountriesTable from "./AllCountriesTable";
 import { Wrapper } from "./styled";
 

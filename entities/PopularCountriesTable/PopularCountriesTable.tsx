@@ -7,11 +7,11 @@ import {
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Link from "next/link";
 import { SecondPhoneCountry } from "@/utils/types";
-import BaseTable from "@/shared/ui/BaseTable";
 import { createColumnHelper } from "@tanstack/react-table";
 import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { Wrapper } from "./styled";
 
 const columnHelper = createColumnHelper<SecondPhoneCountry>();
 
@@ -78,7 +78,7 @@ function PopularCountriesTable({
   );
 
   return (
-    <BaseTable
+    <Wrapper
       onRowClick={({ country }) =>
         router.push(`/virtual-phone-number/${formatStringToKebabCase(country)}`)
       }
@@ -89,4 +89,4 @@ function PopularCountriesTable({
   );
 }
 
-export default PopularCountriesTable;
+export { PopularCountriesTable };

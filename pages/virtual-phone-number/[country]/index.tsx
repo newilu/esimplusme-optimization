@@ -17,14 +17,21 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
 import api from "@/api";
+import { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
 
 type PageProps = {
   country: ICountry;
   states: IState[];
+  phones: PhoneToBuy[];
   phoneNumberStartingPrice: number | null;
 };
 
-function Index({ country, states, phoneNumberStartingPrice }: PageProps) {
+function Index({
+  country,
+  states,
+  phoneNumberStartingPrice,
+  phones,
+}: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
 
@@ -51,6 +58,7 @@ function Index({ country, states, phoneNumberStartingPrice }: PageProps) {
         phoneNumberStartingPrice={phoneNumberStartingPrice}
         states={states}
         country={country}
+        phones={phones}
       />
       <HowToGetPhoneNumber countryName={country.name} />
       <DownloadAppSection />
@@ -86,12 +94,16 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
+  const regions = getStatesByCountryCode(currentCountry.isoCode);
+
   const { data } = await api.secondPhone.getPhonesByCountry(
     currentCountry.isoCode
   );
 
+  const phoneNumbers = data?.data.phones ?? [];
+
   const phoneNumberStartingPrice =
-    data?.data.phones.sort((a, b) => a.price - b.price)[0]?.price ?? null;
+    phoneNumbers.sort((a, b) => a.price - b.price)[0]?.price ?? null;
 
   return {
     props: {
@@ -101,8 +113,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
         "meta",
       ])),
       phoneNumberStartingPrice,
+      phones: phoneNumbers,
       country: currentCountry,
-      states: getStatesByCountryCode(currentCountry.isoCode),
+      states: regions,
     },
   };
 };

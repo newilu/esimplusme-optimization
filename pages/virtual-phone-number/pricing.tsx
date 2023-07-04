@@ -1,6 +1,6 @@
 import React from "react";
-import { ICountry } from "country-cities";
-import { GetServerSideProps } from "next";
+import type { ICountry } from "country-cities";
+import type { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Footer from "@/components/Footer";
