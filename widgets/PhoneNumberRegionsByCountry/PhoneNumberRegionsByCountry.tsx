@@ -1,6 +1,7 @@
 import React from "react";
 import type { ICountry, IState } from "country-cities";
 import { Trans, useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { formatStringToKebabCase } from "@/shared/lib";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
@@ -14,7 +15,6 @@ import { PhoneToBuy } from "@/utils/types";
 import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
 import { Wrapper } from "./styled";
-import { useRouter } from "next/router";
 
 type PhoneNumberRegionsByCountryProps = {
   states: IState[];
