@@ -17,9 +17,16 @@ function SuccessfulPurchaseHeader() {
   React.useEffect(() => {
     if (typeof phone === "string" && typeof country === "string") {
       setIsLoading(true);
-      api.secondPhone
-        .buyNumber({ phone, country_code: country })
-        .finally(() => setIsLoading(false));
+      let attempt = 0;
+      const interval = setInterval(async () => {
+        if (attempt >= 2) {
+          clearInterval(interval);
+          setIsLoading(false);
+          return;
+        }
+        attempt += 1;
+        await api.secondPhone.buyNumber({ phone, country_code: country });
+      }, 1000);
     }
   }, [country, phone]);
 
