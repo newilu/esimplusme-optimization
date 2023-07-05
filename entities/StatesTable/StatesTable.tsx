@@ -80,7 +80,7 @@ function StatesTable({
         header: () => t("monthly_fee"),
         cell: () =>
           phoneNumberStartingPrice
-            ? t("from_amount_month", { price: phoneNumberStartingPrice })
+            ? t("from_amount_month", { price: phoneNumberStartingPrice + 1 })
             : "-",
       }),
     [phoneNumberStartingPrice, t]
