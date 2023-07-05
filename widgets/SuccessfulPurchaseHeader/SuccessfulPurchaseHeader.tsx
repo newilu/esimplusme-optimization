@@ -38,7 +38,7 @@ function SuccessfulPurchaseHeader() {
       <Button
         disabled={isLoading}
         fullWidth
-        onClick={() => router.push("https://sms.esimplus.me")}
+        onClick={() => router.push("https://dev-sms.esimplus.me")}
         label={t("create_account")}
       />
     </Wrapper>
