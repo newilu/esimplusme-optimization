@@ -1,7 +1,7 @@
 import { PhoneToBuy, SecondPhoneCountry, State } from "@/utils/types";
 import { MAIN_API_URL } from "@/utils/constants";
-import { queryFetcher } from "./index";
 import { getCookie } from "@/shared/lib";
+import { queryFetcher } from "./index";
 
 const ENDPOINTS = {
   getPhonesByCountry: (countryCode: string) =>
