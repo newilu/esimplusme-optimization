@@ -14,6 +14,7 @@ import { PhoneToBuy } from "@/utils/types";
 import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
 import { Wrapper } from "./styled";
+import { useRouter } from "next/router";
 
 type PhoneNumberRegionsByCountryProps = {
   states: IState[];
@@ -28,7 +29,25 @@ function PhoneNumberRegionsByCountry({
   phones,
   phoneNumberStartingPrice,
 }: PhoneNumberRegionsByCountryProps) {
+  const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
+  const [selectedPhone, setSelectedPhone] = React.useState(
+    phones.length ? phones[0] : null
+  );
+
+  const handlePhoneNumberPurchase = async () => {
+    if (!selectedPhone) return;
+
+    const params = new URLSearchParams({
+      paymentAmount: String((selectedPhone.price + 1) * 100),
+      phoneNumber: selectedPhone.phoneNumber,
+      country: country.isoCode,
+    });
+
+    await router.push(
+      `/virtual-phone-number/payment/provider-select?${params.toString()}`
+    );
+  };
 
   return (
     <Wrapper>
@@ -76,14 +95,19 @@ function PhoneNumberRegionsByCountry({
                 {t("select_phone_number")}{" "}
                 <Link href="/virtual-phone-number/pricing">{t("change")}</Link>
               </PanelSectionTitle>
-              <PhoneNumbersTable phones={phones} />
+              <PhoneNumbersTable
+                phones={phones}
+                onRowClick={setSelectedPhone}
+              />
             </PanelSection>
             <PanelSection>
-              <PhoneNumberPurchase
-                country={country}
-                phone={phones[0]}
-                onSubmit={() => {}}
-              />
+              {selectedPhone && (
+                <PhoneNumberPurchase
+                  country={country}
+                  phone={selectedPhone}
+                  onSubmit={handlePhoneNumberPurchase}
+                />
+              )}
             </PanelSection>
           </>
         )}
