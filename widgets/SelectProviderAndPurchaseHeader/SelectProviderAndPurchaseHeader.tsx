@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import api from "@/api";
-import { getErrorMessage } from "@/shared/lib";
+import { getErrorMessage, setCookie } from "@/shared/lib";
 import BaseHeader from "@/shared/ui/BaseHeader";
 import card from "./assets/card.svg";
 import usdt from "./assets/usdt.svg";
@@ -42,7 +42,12 @@ function SelectProviderAndPurchaseHeader() {
   }, [country, paymentAmount, phoneNumber, state]);
 
   const handlePurchaseWithCrypto = async () => {
-    await api.secondPhone.createTempUser();
+    const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
+    const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
+
+    if (systemAuthToken) {
+      setCookie("session", systemAuthToken, 30);
+    }
 
     const { data, error } = await api.secondPhone.thedexTopUp({
       price: paymentAmount as string,
@@ -52,7 +57,7 @@ function SelectProviderAndPurchaseHeader() {
     if (error) {
       toast.error(getErrorMessage(error));
     } else if (data?.data.payUrl) {
-      push(data?.data.payUrl);
+      // push(data?.data.payUrl);
     }
   };
 
@@ -64,7 +69,12 @@ function SelectProviderAndPurchaseHeader() {
     )
       return;
 
-    await api.secondPhone.createTempUser();
+    const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
+    const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
+
+    if (systemAuthToken) {
+      setCookie("session", systemAuthToken, 30);
+    }
 
     const paymentId = v4();
     const customerId = v4();

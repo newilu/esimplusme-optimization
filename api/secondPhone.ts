@@ -1,6 +1,7 @@
 import { PhoneToBuy, SecondPhoneCountry, State } from "@/utils/types";
 import { MAIN_API_URL } from "@/utils/constants";
 import { queryFetcher } from "./index";
+import { getCookie } from "@/shared/lib";
 
 const ENDPOINTS = {
   getPhonesByCountry: (countryCode: string) =>
@@ -56,11 +57,14 @@ function getPhonesByCountry(country: string) {
 function getPhonePrices<T>(phone: string) {
   return queryFetcher<T>(`${MAIN_API_URL}${ENDPOINTS.getPhonePrices(phone)}`);
 }
-function createTempUser<T>() {
-  return queryFetcher<T>(`${MAIN_API_URL}${ENDPOINTS.createTempUser()}`, {
-    method: "POST",
-    credentials: "include",
-  });
+function createTempUser() {
+  return queryFetcher<{ data: { systemAuthToken: string } }>(
+    `${MAIN_API_URL}${ENDPOINTS.createTempUser()}`,
+    {
+      method: "POST",
+      credentials: "include",
+    }
+  );
 }
 
 function getSignature({
@@ -74,6 +78,9 @@ function getSignature({
     method: "POST",
     body: JSON.stringify({ data: stringToSign, price }),
     credentials: "include",
+    headers: {
+      "x-system-auth-token": getCookie("session") ?? "",
+    },
   });
 }
 function thedexTopUp({
@@ -95,6 +102,9 @@ function thedexTopUp({
         failureUrl,
       }),
       credentials: "include",
+      headers: {
+        "x-system-auth-token": getCookie("session") ?? "",
+      },
     }
   );
 }
@@ -104,6 +114,9 @@ function buyNumber(props: { phone: string; country_code: string }) {
     method: "POST",
     credentials: "include",
     body: JSON.stringify(props),
+    headers: {
+      "x-system-auth-token": getCookie("session") ?? "",
+    },
   });
 }
 
