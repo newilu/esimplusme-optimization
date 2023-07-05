@@ -20,7 +20,7 @@ import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
+import WhyDoYouNeedPhoneNumberInRegion from "@/features/WhyDoYouNeedPhoneNumberInRegion";
 
 function Index({
   phones,
@@ -73,7 +73,7 @@ function Index({
         areaCode={areaCode}
         popularCountries={popularCountries}
       />
-      <HowToGetPhoneNumber countryName={country.name} />
+      <WhyDoYouNeedPhoneNumberInRegion regionName={state.name} />
       <DownloadAppSection />
       <Footer />
     </>
@@ -100,7 +100,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   );
   const currentState = getStatesByCountryCode(
     currentCountry?.isoCode ?? ""
-  ).find((el) => state.includes(formatStringToKebabCase(el.name)));
+  ).find((el) => formatStringToKebabCase(el.name).includes(state));
 
   if (!currentCountry || !currentState) {
     return {

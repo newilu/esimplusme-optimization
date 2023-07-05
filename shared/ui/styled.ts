@@ -156,6 +156,7 @@ export const Paragraph = styled.p`
   font-size: 16px;
   line-height: 26px;
   color: ${(props) => props.theme.secondaryText};
+  white-space: pre-line;
 
   a {
     text-decoration: underline;

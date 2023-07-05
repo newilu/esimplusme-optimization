@@ -21,12 +21,13 @@ export const Wrapper = styled.div`
   }
 
   h1 {
+    max-width: 750px;
     white-space: pre-line;
-    margin: 0 0 50px 0;
+    margin: 0 auto 50px auto;
     text-align: center;
     font-weight: 700;
-    font-size: 64px;
-    line-height: 64px;
+    font-size: 48px;
+    line-height: 52px;
     color: ${(props) => props.theme.primaryText};
   }
   h5 {
@@ -47,8 +48,8 @@ export const Wrapper = styled.div`
     margin: 15px auto 50px auto;
     text-align: center;
     font-weight: 400;
-    font-size: 24px;
-    line-height: 35px;
+    font-size: 18px;
+    line-height: 22px;
     color: ${(props) => props.theme.secondaryText};
   }
 
@@ -59,8 +60,8 @@ export const Wrapper = styled.div`
     }
 
     p {
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 16px;
+      line-height: 20px;
       margin: 15px auto 25px auto;
     }
 

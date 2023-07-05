@@ -14,14 +14,17 @@ export const Wrapper = styled.div`
     line-height: 16px;
     color: ${(props) => props.theme.secondaryText};
     display: inline-flex;
+    position: relative;
+    padding-right: 24px;
+    text-decoration: underline;
 
     &:after {
       content: "/";
-      padding: 0 10px;
+      position: absolute;
+      right: 10px;
     }
 
     &:last-child {
-      pointer-events: none;
       color: ${(props) => props.theme.primary};
 
       &:after {

@@ -1,15 +1,17 @@
 import React from "react";
 import { ICity } from "country-cities";
+import { useTranslation } from "next-i18next";
 import { createColumnHelper } from "@tanstack/react-table";
+import Link from "next/link";
 import {
   formatAreaCode,
   formatStringToKebabCase,
   getCountryByIsoCode,
   getStateByCode,
+  removeExcludedWords,
 } from "@/shared/lib";
-import Link from "next/link";
+import { STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
 import { StyledCitiesTable } from "./styled";
-import { useTranslation } from "next-i18next";
 
 const columnHelper = createColumnHelper<ICity>();
 
@@ -42,7 +44,7 @@ function CitiesTable({ cities }: { cities: ICity[] }) {
           const href = `/virtual-phone-number/${formatStringToKebabCase(
             country?.name ?? ""
           )}/${formatStringToKebabCase(
-            state?.name ?? ""
+            removeExcludedWords(state?.name ?? "", STATE_NAME_DEPRECATED_WORDS)
           )}/${formatStringToKebabCase(info.getValue())}`;
 
           return <Link href={href}>{info.getValue()}</Link>;

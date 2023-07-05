@@ -152,6 +152,7 @@ function formatAreaCode(areaCode: string | number) {
 function formatStringToKebabCase(string: string) {
   return latinize(string)
     .toLowerCase()
+    .trim()
     .replaceAll(/[^a-zA-Z -]/gi, "")
     .replaceAll(" ", "-");
 }

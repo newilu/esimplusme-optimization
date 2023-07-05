@@ -7,7 +7,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
-import WhyDoYouNeedPhoneNumber from "@/features/WhyDoYouNeedPhoneNumber";
+import WhyDoYouNeedPhoneNumber from "@/features/WhyDoYouNeedPhoneNumberInCity";
 import {
   formatAreaCode,
   formatStringToKebabCase,
@@ -95,7 +95,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 
   const currentState = getStatesByCountryCode(
     currentCountry?.isoCode ?? ""
-  ).find((el) => state.includes(formatStringToKebabCase(el.name)));
+  ).find((el) => formatStringToKebabCase(el.name).includes(state));
 
   const currentCity = getCitiesByStateCode(
     currentState?.isoCode ?? "",

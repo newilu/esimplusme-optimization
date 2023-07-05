@@ -8,7 +8,11 @@ import { useWindowSize } from "@/context/WindowSizeContext";
 import type { PhoneToBuy } from "@/utils/types";
 import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
 import PhoneNumbersTable from "@/features/PhoneNumbersTable";
-import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
+import {
+  formatAreaCode,
+  formatStringToKebabCase,
+  removeExcludedWords,
+} from "@/shared/lib";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Button from "@/shared/ui/Button";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
@@ -18,6 +22,7 @@ import {
   NoDataWrapper,
 } from "@/shared/ui/styled";
 import { SectionsWrapper, Wrapper } from "./styled";
+import { STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
 
 type PhoneNumberPurchaseHeaderProps = {
   phones: PhoneToBuy[];
@@ -80,18 +85,20 @@ function PhoneNumberPurchaseHeader({
           <Link
             href={`/virtual-phone-number/${formatStringToKebabCase(
               country.name
-            )}/${formatStringToKebabCase(state.name)}`}
+            )}/${formatStringToKebabCase(
+              removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)
+            )}`}
           >
-            {state.name}
+            {removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)}
           </Link>
         )}
         {city && state && (
           <Link
             href={`/virtual-phone-number/${formatStringToKebabCase(
               country.name
-            )}/${formatStringToKebabCase(state.name)}/${formatStringToKebabCase(
-              city.name
-            )}`}
+            )}/${formatStringToKebabCase(
+              removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)
+            )}/${formatStringToKebabCase(city.name)}`}
           >
             {city.name}
           </Link>

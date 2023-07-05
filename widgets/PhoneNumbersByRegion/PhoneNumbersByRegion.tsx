@@ -3,7 +3,11 @@ import type { ICity, ICountry, IState } from "country-cities";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import type { PhoneToBuy } from "@/utils/types";
-import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
+import {
+  formatAreaCode,
+  formatStringToKebabCase,
+  removeExcludedWords,
+} from "@/shared/lib";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 import {
@@ -16,6 +20,7 @@ import PhoneNumbersTable from "./PhoneNumbersTable";
 import { SectionsWrapper, Wrapper } from "./styled";
 import { NoNumbersAvailableView } from "../../features/NoNumbersAvailableView/NoNumbersAvailableView";
 import { SecondPhoneCountry } from "@/utils/types";
+import { STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
 
 type PhoneNumbersByCountryProps = {
   phones: PhoneToBuy[];
@@ -61,9 +66,11 @@ function PhoneNumbersByRegion({
         <Link
           href={`/virtual-phone-number/${formatStringToKebabCase(
             country.name
-          )}/${formatStringToKebabCase(state.name)}`}
+          )}/${formatStringToKebabCase(
+            removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)
+          )}`}
         >
-          {state.name}
+          {removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)}
         </Link>
       </Breadcrumbs>
       <SectionsWrapper>

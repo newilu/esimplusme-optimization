@@ -58,7 +58,9 @@ function StatesTable({
           <StateNameWrapper
             href={`/virtual-phone-number/${formatStringToKebabCase(
               country.name
-            )}/${formatStringToKebabCase(info.getValue())}`}
+            )}/${formatStringToKebabCase(
+              removeExcludedWords(info.getValue(), STATE_NAME_DEPRECATED_WORDS)
+            )}`}
           >
             <CountryFlag
               width={28}

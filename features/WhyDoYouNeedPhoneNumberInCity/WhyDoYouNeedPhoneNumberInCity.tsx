@@ -6,9 +6,11 @@ import { Paragraph, SectionTitle } from "@/shared/ui/styled";
 import AppstoreDownloadAppButton from "@/entities/AppstoreDownloadAppButton";
 import GplayDownloadAppButton from "@/entities/GplayDownloadAppButton";
 import globe from "@/shared/assets/globe.svg";
+import clock from "./assets/clock.svg";
+import note from "./assets/note.svg";
 import { AppBlockWrapper, AppButtonsWrapper, Wrapper } from "./styled";
 
-function WhyDoYouNeedPhoneNumber({ cityName }: { cityName: string }) {
+function WhyDoYouNeedPhoneNumberInCity({ cityName }: { cityName: string }) {
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
 
@@ -34,17 +36,25 @@ function WhyDoYouNeedPhoneNumber({ cityName }: { cityName: string }) {
           {t("why_do_you_need_number_in_city", { city: cityName })}
         </SectionTitle>
         <Paragraph>
-          {t("why_do_you_need_number_in_city_text", {
+          {t("why_do_you_need_number_in_city_text_1", {
             city: cityName,
           })}
         </Paragraph>
         <Paragraph>
-          <Image width={20} height={20} src={globe} alt="" />
-          {t("stay_tuned_up_in_city", { city: cityName })}
+          <ul>
+            <li>
+              <Image width={20} height={20} src={note} alt="" />
+              {t("why_do_you_need_number_in_city_text_2", { city: cityName })}
+            </li>
+            <li>
+              <Image width={20} height={20} src={clock} alt="" />
+              {t("why_do_you_need_number_in_city_text_3", { city: cityName })}
+            </li>
+          </ul>
         </Paragraph>
       </div>
       <AppBlockWrapper>
-        <div>{t("make_and_receive_calls")}</div>
+        <div>{t("download_an_app", { city: cityName })}</div>
         <AppButtonsWrapper>
           <AppstoreDownloadAppButton
             onClick={() => handleMarketClick("appstore")}
@@ -53,9 +63,10 @@ function WhyDoYouNeedPhoneNumber({ cityName }: { cityName: string }) {
             onClick={() => handleMarketClick("googleplay")}
           />
         </AppButtonsWrapper>
+        <div>{t("level_up_business", { city: cityName })}</div>
       </AppBlockWrapper>
     </Wrapper>
   );
 }
 
-export { WhyDoYouNeedPhoneNumber };
+export { WhyDoYouNeedPhoneNumberInCity };

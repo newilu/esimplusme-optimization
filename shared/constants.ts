@@ -28,4 +28,5 @@ export const STATE_NAME_DEPRECATED_WORDS = [
   "Parish",
   "Unit",
   "County",
+  "District",
 ];
