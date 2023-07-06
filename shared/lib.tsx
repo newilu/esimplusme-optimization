@@ -177,8 +177,13 @@ function getCitiesByCountryCode(countryIsoCode: string) {
   return cities.getByCountry(countryIsoCode);
 }
 
-const generateFakeNumber = (countryCode: string, areaCode: string): string => {
-  const formattedAreaCode = areaCode.split(" ")[0].replaceAll(/\D/g, "");
+const generateFakeNumber = (
+  countryCode: string,
+  areaCode: string | number
+): string => {
+  const formattedAreaCode = String(areaCode)
+    .split(" ")[0]
+    .replaceAll(/\D/g, "");
   const generatedNumber = getExampleNumber(
     countryCode as CountryCode,
     examples
@@ -266,7 +271,15 @@ const removeExcludedWords = (str: string, words: string[]) => {
   return sentence;
 };
 
+function getRandomInt(min: number, max: number) {
+  return (
+    Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1)) +
+    Math.ceil(min)
+  );
+}
+
 export {
+  getRandomInt,
   removeExcludedWords,
   getCountryByIsoCode,
   getStatesByCountryCode,

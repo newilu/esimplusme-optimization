@@ -8,7 +8,10 @@ import PhoneNumbersRates from "@/widgets/PhoneNumberRates";
 import Navbar from "@/widgets/Navbar";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import { SecondPhoneCountry } from "@/utils/types";
-import { COUNTRY_LIST } from "@/shared/constants";
+import {
+  COUNTRY_LIST,
+  SECOND_PHONE_SUPPORTED_COUNTRIES,
+} from "@/shared/constants";
 import SpecialDealsSection from "@/features/SpecialDealsSection";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
@@ -56,8 +59,12 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     api.secondPhone.listSecondPhoneCountries(),
   ]);
   const popularSecondPhoneCountries = popularCountriesRaw?.data.countries
-    .sort((_, b) => (b.code === "US" ? 1 : -1))
-    .filter((el) => el.code !== "PH");
+    .filter(({ code }) => SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code))
+    .sort(
+      (a, b) =>
+        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
+        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
+    );
 
   if (!popularSecondPhoneCountries) {
     return {

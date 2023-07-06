@@ -30,3 +30,13 @@ export const STATE_NAME_DEPRECATED_WORDS = [
   "County",
   "District",
 ];
+
+export const SECOND_PHONE_SUPPORTED_COUNTRIES = [
+  "US",
+  "GB",
+  "SE",
+  "PR",
+  "PL",
+  "IL",
+  "CA",
+];

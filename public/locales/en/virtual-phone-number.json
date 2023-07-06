@@ -72,5 +72,7 @@
   "special_deals_services_info_item_6": "The purchase of a number is limited to a single account. If you switch to a new account, you will need to subscribe to a new phone number.",
   "special_deals_services_info_item_7": "The subscription is set to renew automatically each month, while retaining the flexibility to cancel anytime.",
   "iso_code": "ISO Code",
-  "from_amount_month": "from {{price}}$/mo"
+  "from_amount_month": "from {{price}}$/mo",
+  "numbers": "numbers",
+  "connection_monthly_fee": "connection monthly fee"
 }

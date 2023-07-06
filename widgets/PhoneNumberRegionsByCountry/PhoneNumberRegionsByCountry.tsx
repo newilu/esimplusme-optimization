@@ -11,15 +11,17 @@ import {
   PanelSectionTitle,
   PanelSectionsWrapper,
 } from "@/shared/ui/styled";
-import { PhoneToBuy } from "@/utils/types";
+import { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
 import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
+import NoNumbersAvailableView from "@/features/NoNumbersAvailableView";
 import { Wrapper } from "./styled";
 
 type PhoneNumberRegionsByCountryProps = {
   states: IState[];
   country: ICountry;
-  phones: PhoneToBuy[];
+  phones: PhoneToBuy[] | null;
+  popularCountries: SecondPhoneCountry[];
   phoneNumberStartingPrice: number | null;
 };
 
@@ -28,11 +30,12 @@ function PhoneNumberRegionsByCountry({
   states,
   phones,
   phoneNumberStartingPrice,
+  popularCountries,
 }: PhoneNumberRegionsByCountryProps) {
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
   const [selectedPhone, setSelectedPhone] = React.useState(
-    phones.length ? phones[0] : null
+    phones?.length ? phones[0] : null
   );
 
   const handlePhoneNumberPurchase = async () => {
@@ -76,7 +79,7 @@ function PhoneNumberRegionsByCountry({
         </Link>
       </Breadcrumbs>
       <PanelSectionsWrapper dir="row">
-        {states.length ? (
+        {!!states.length && (
           <PanelSection>
             <PanelSectionTitle>
               {t("regions")}{" "}
@@ -88,7 +91,8 @@ function PhoneNumberRegionsByCountry({
               phoneNumberStartingPrice={phoneNumberStartingPrice}
             />
           </PanelSection>
-        ) : (
+        )}
+        {!!phones?.length && (
           <>
             <PanelSection>
               <PanelSectionTitle>
@@ -101,15 +105,20 @@ function PhoneNumberRegionsByCountry({
               />
             </PanelSection>
             <PanelSection>
-              {selectedPhone && (
-                <PhoneNumberPurchase
-                  country={country}
-                  phone={selectedPhone}
-                  onSubmit={handlePhoneNumberPurchase}
-                />
-              )}
+              <PhoneNumberPurchase
+                country={country}
+                phone={selectedPhone as PhoneToBuy}
+                onSubmit={handlePhoneNumberPurchase}
+              />
             </PanelSection>
           </>
+        )}
+        {popularCountries && !phones?.length && !states.length && (
+          <PanelSection>
+            <NoNumbersAvailableView
+              countries={popularCountries as SecondPhoneCountry[]}
+            />
+          </PanelSection>
         )}
       </PanelSectionsWrapper>
     </Wrapper>

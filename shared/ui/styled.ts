@@ -48,10 +48,10 @@ export const PanelSectionsWrapper = styled.div<{
           ${PanelSection} {
             flex: 1;
 
-            &:first-of-type:not(&:only-of-type) {
+            &:first-of-type:not(:only-of-type) {
               border-radius: 25px 25px 5px 5px;
             }
-            &:last-of-type:not(&:only-of-type) {
+            &:last-of-type:not(:only-of-type) {
               border-radius: 5px 5px 25px 25px;
             }
           }
@@ -61,10 +61,10 @@ export const PanelSectionsWrapper = styled.div<{
           flex-direction: row;
 
           ${PanelSection} {
-            &:first-of-type:not(&:only-of-type) {
+            &:first-of-type:not(:only-of-type) {
               border-radius: 25px 5px 5px 25px;
             }
-            &:last-of-type:not(&:only-of-type) {
+            &:last-of-type:not(:only-of-type) {
               border-radius: 5px 25px 25px 5px;
             }
           }
@@ -77,6 +77,7 @@ export const PanelSectionsWrapper = styled.div<{
 
 PanelSectionsWrapper.defaultProps = {
   maxWidth: 900,
+  dir: "row",
 };
 
 export const NoDataWrapper = styled.div`

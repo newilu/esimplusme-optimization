@@ -10,8 +10,11 @@ import Navbar from "@/widgets/Navbar";
 import PhoneNumberRegionsByCountry from "@/widgets/PhoneNumberRegionsByCountry";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
-import type { PhoneToBuy } from "@/utils/types";
-import { COUNTRY_LIST } from "@/shared/constants";
+import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
+import {
+  COUNTRY_LIST,
+  SECOND_PHONE_SUPPORTED_COUNTRIES,
+} from "@/shared/constants";
 import {
   formatStringToKebabCase,
   generateMeta,
@@ -22,8 +25,9 @@ import Footer from "@/components/Footer";
 type PageProps = {
   country: ICountry;
   states: IState[];
-  phones: PhoneToBuy[];
+  phones: PhoneToBuy[] | null;
   phoneNumberStartingPrice: number | null;
+  popularCountries: SecondPhoneCountry[];
 };
 
 function Index({
@@ -31,6 +35,7 @@ function Index({
   states,
   phoneNumberStartingPrice,
   phones,
+  popularCountries,
 }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
@@ -59,6 +64,7 @@ function Index({
         states={states}
         country={country}
         phones={phones}
+        popularCountries={popularCountries}
       />
       <HowToGetPhoneNumber countryName={country.name} />
       <DownloadAppSection />
@@ -72,6 +78,10 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   params,
 }) => {
   const { country } = params ?? {};
+
+  let phoneNumberStartingPrice: number | null = null;
+  let phoneNumbers: PhoneToBuy[] | null = null;
+
   if (typeof country !== "string") {
     return {
       redirect: {
@@ -96,14 +106,28 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 
   const regions = getStatesByCountryCode(currentCountry.isoCode);
 
-  const { data } = await api.secondPhone.getPhonesByCountry(
-    currentCountry.isoCode
-  );
+  if (!regions.length) {
+    const { data } = await api.secondPhone.getPhonesByCountry(
+      currentCountry.isoCode
+    );
 
-  const phoneNumbers = data?.data.phones ?? [];
+    phoneNumbers = data?.data.phones ?? [];
+  }
 
-  const phoneNumberStartingPrice =
-    phoneNumbers.sort((a, b) => a.price - b.price)[0]?.price ?? null;
+  const { data } = await api.secondPhone.listSecondPhoneCountries();
+
+  const popularCountries =
+    data?.data.countries
+      .filter(({ code }) => SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code))
+      .sort(
+        (a, b) =>
+          SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
+          SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
+      ) ?? [];
+
+  phoneNumberStartingPrice =
+    popularCountries.find((el) => el.code === currentCountry.isoCode)?.prices
+      .cheapest.price ?? null;
 
   return {
     props: {
@@ -112,6 +136,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
         "virtual-phone-number",
         "meta",
       ])),
+      popularCountries,
       phoneNumberStartingPrice,
       phones: phoneNumbers,
       country: currentCountry,

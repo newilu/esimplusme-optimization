@@ -20,7 +20,7 @@ export const Wrapper = styled(BaseHeader)`
   }
 
   @media (min-width: 769px) {
-    ${PanelSection}:first-child {
+    ${PanelSection}:first-child:not(:only-child) {
       ${TableWrapper} {
         height: 100%;
         > div {

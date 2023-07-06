@@ -14,7 +14,10 @@ import {
   getCitiesByStateCode,
   getStatesByCountryCode,
 } from "@/shared/lib";
-import { COUNTRY_LIST } from "@/shared/constants";
+import {
+  COUNTRY_LIST,
+  SECOND_PHONE_SUPPORTED_COUNTRIES,
+} from "@/shared/constants";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
@@ -116,6 +119,15 @@ export const getServerSideProps: GetServerSideProps = async ({
     currentCountry.isoCode
   );
 
+  if (!cities.length) {
+    return {
+      redirect: {
+        destination: `/virtual-phone-number/payment?country=${country}&state=${state}`,
+        statusCode: 301,
+      },
+    };
+  }
+
   if (currentCountry.isoCode === "US") {
     let phones: PhoneToBuy[];
     const { data: phonesByStateUS } =
@@ -168,9 +180,11 @@ export const getServerSideProps: GetServerSideProps = async ({
         ])),
         phones,
         popularCountries:
-          secondPhoneCountriesDataRaw?.data.countries
-            .sort((_, b) => (b.code === "US" ? 1 : -1))
-            .filter((el) => el.code !== "PH") ?? [],
+          secondPhoneCountriesDataRaw?.data.countries.sort(
+            (a, b) =>
+              SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
+              SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
+          ) ?? [],
         country: currentCountry,
         state: currentState,
         cities,
