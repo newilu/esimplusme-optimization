@@ -33,7 +33,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
   const phoneNumbersList = React.useMemo(
     () =>
       Array.from(Array(20))
-        .map((_) => {
+        .map(() => {
           const randCountryIso =
             SECOND_PHONE_SUPPORTED_COUNTRIES[
               getRandomInt(0, SECOND_PHONE_SUPPORTED_COUNTRIES.length - 1)
@@ -90,7 +90,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
 
       router.push(`/virtual-phone-number/payment?${search.toString()}`);
     },
-    []
+    [router]
   );
 
   return (

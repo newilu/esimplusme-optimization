@@ -14,6 +14,10 @@ export const Wrapper = styled.div`
   height: 100%;
   flex: 1;
 
+  th:not(:first-child) {
+    text-align: center !important;
+  }
+
   td {
     font-size: 14px;
     font-weight: 600;
