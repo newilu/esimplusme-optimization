@@ -1,6 +1,5 @@
 import React from "react";
 import SwitchButtons from "@/entities/SwitchButtons";
-import { CountriesCards, CountryCard, SeeAllCard } from "./styled";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import SeeAllIcon from "@/features/LocalEsim/assets/SeeAll";
 import SearchInput from "@/shared/ui/SearchInput";
@@ -12,6 +11,7 @@ import { Country, Region } from "@/utils/types";
 import { useRouter } from "next/router";
 import { BASE_STORAGE_URL } from "@/shared/constants";
 import { NoMatchesText } from "@/shared/ui/styled";
+import { CountriesCards, CountryCard, SeeAllCard } from "./styled";
 
 enum Regions {
   Local = "local_esim",
@@ -134,7 +134,6 @@ function NotSelectedView({
                   <CountryFlag
                     height={58}
                     width={58}
-                    alt={isoName}
                     src={`https://static.esimplus.net/storage/flags/${isoName2.toLowerCase()}.svg`}
                   />
                 </div>
@@ -164,7 +163,6 @@ function NotSelectedView({
                 <CountryFlag
                   height={58}
                   width={58}
-                  alt={name}
                   src={`${BASE_STORAGE_URL}130x80/${name}350.jpg`}
                 />
               </div>

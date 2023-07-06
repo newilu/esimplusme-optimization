@@ -106,7 +106,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
   const handleActiveCountryChange = (country: Country | null) => {
     scrollToId(SectionIDS.SearchYourDestination, 65);
     setActiveCountry(country);
-    void router.push(
+    router.push(
       { query: { ...router.query, region: country?.isoName2.toLowerCase() } },
       undefined,
       { scroll: false, shallow: true }
@@ -116,7 +116,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
   React.useEffect(
     function searchForCountriesByFilterText() {
       if (debouncedFilterText) {
-        void api.profiles
+        api.profiles
           .getCountriesByFilterText(debouncedFilterText, i18n.language)
           .then(({ data }) => {
             setFilteredCountries(data?.data ?? []);
@@ -130,7 +130,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
               debouncedFilterText
             ) {
               setActiveCountry(null);
-              void router.push("/");
+              router.push("/");
             }
           });
       } else {
@@ -176,7 +176,10 @@ function LocalEsim({ countries }: { countries: Country[] }) {
                 <div>{activeCountry.isoName2}</div>
               </SelectedCountryNameWrapper>
             </div>
-            <button onClick={() => handleActiveCountryChange(null)}>
+            <button
+              type="button"
+              onClick={() => handleActiveCountryChange(null)}
+            >
               <Image width={14} height={14} src={xmark} alt="x mark" />
             </button>
           </SelectedCountry>
@@ -267,7 +270,6 @@ function LocalEsim({ countries }: { countries: Country[] }) {
                 <CountryFlag
                   height={58}
                   width={58}
-                  alt={isoName}
                   src={`https://static.esimplus.net/storage/flags/${isoName2.toLowerCase()}.svg`}
                 />
               </div>
