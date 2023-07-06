@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { Paragraph, SectionTitle } from "@/shared/ui/styled";
 import AppstoreDownloadAppButton from "@/entities/AppstoreDownloadAppButton";
 import GplayDownloadAppButton from "@/entities/GplayDownloadAppButton";
-import globe from "@/shared/assets/globe.svg";
 import clock from "./assets/clock.svg";
 import note from "./assets/note.svg";
 import { AppBlockWrapper, AppButtonsWrapper, Wrapper } from "./styled";
