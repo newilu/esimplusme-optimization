@@ -36,7 +36,7 @@ export default function Home({
   const { pathname } = useRouter();
   const { t, i18n } = useTranslation();
   const [reviewsCount, setReviesCount] = React.useState("350000");
-  console.log(countryCode);
+
   const reviewsList = React.useMemo(
     () => [
       {
