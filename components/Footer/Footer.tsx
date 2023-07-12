@@ -59,7 +59,7 @@ function Footer({
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
-    setCountryCode((window as any).geoplugin_countryCode() as string);
+    setCountryCode("");
   }, []);
 
   return (
