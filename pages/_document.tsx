@@ -141,6 +141,10 @@ class MyDocument extends Document {
     `,
             }}
           ></script>
+          <script
+            src="http://www.geoplugin.net/javascript.gp"
+            type="text/javascript"
+          ></script>
         </body>
       </Html>
     );

@@ -56,6 +56,8 @@ function Footer({
     void router.push({ query: { region } }, undefined, { shallow: true });
   };
 
+  const countryCode = (window as any).geoplugin_countryCode();
+
   return (
     <Wrapper>
       <TopSection>
@@ -326,10 +328,14 @@ function Footer({
               src={whatWeAccept}
               alt="what we accept"
             />{" "}
-            <Image width={48} height={24} src={belkal1} alt="" />
-            <Image width={72} height={24} src={belkal2} alt="" />
-            <Image width={72} height={16} src={mir1} alt="" />
-            <Image width={70} height={24} src={mir2} alt="" />
+            {(countryCode === "RU" || countryCode === "BY") && (
+              <>
+                <Image width={48} height={24} src={belkal1} alt="" />
+                <Image width={72} height={24} src={belkal2} alt="" />
+                <Image width={72} height={16} src={mir1} alt="" />
+                <Image width={70} height={24} src={mir2} alt="" />
+              </>
+            )}
           </div>
         </Container>
       </BottomSection>
