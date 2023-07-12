@@ -59,7 +59,16 @@ function Footer({
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
-    setCountryCode("");
+    const script = document.createElement("script");
+    script.src = "http://www.geoplugin.net/javascript.gp";
+    script.type = "text/javascript";
+    document.head.appendChild(script);
+
+    const timeout = setTimeout(() => {
+      setCountryCode((window as any).geoplugin_countryCode() as string);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
