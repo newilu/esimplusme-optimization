@@ -27,20 +27,20 @@ function Author({
   return (
     <>
       <Head>
-        <title>eSIM Plus: {author.name} Blogs</title>
+        <title>ESIM Plus: {author.name} Blogs</title>
         <meta
           name="description"
           content={`Look for a useful blog from ${author.name}`}
         />
         <link rel="canonical" href="https://esimplus.me/categories" />
-        <meta property="og:title" content={`eSIM Plus: ${author.name} Blogs`} />
+        <meta property="og:title" content={`ESIM Plus: ${author.name} Blogs`} />
         <meta
           property="og:description"
           content={`Look for a useful blog from ${author.name}`}
         />
         <meta
           property="twitter:title"
-          content={`eSIM Plus: ${author.name} Blogs`}
+          content={`ESIM Plus: ${author.name} Blogs`}
         />
         <meta
           property="twitter:description"

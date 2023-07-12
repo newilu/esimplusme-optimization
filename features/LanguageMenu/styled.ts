@@ -95,7 +95,7 @@ export const LanguageMenuList = styled.ul<{ show: boolean }>`
 export const LanguageMenuItem = styled.li<{ active?: boolean }>`
   width: 100%;
 
-  button {
+  a {
     cursor: pointer;
     width: 100%;
     height: auto;

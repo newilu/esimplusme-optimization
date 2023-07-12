@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ButtonsWrapper = styled.div`
   width: 100%;
@@ -22,10 +22,10 @@ export const Wrapper = styled.div`
   border-radius: 10px;
   overflow: hidden;
   max-width: 400px;
-  background: rgba(0, 0, 0, 0.75);
+  background: ${(props) => props.theme.cardsBg};
   backdrop-filter: blur(85px);
   position: fixed;
-  bottom: 16px;
+  bottom: 8px;
   left: 16px;
   z-index: 167770000;
   color: white;
@@ -35,44 +35,25 @@ export const Wrapper = styled.div`
     overflow: hidden;
     width: 100%;
     position: absolute;
-    background: ${(props) => props.theme.primary};
+    display: ${(props) => (props.theme.name === "light" ? "none" : "block")};
+    background: #0077ff;
     opacity: 0.25;
     z-index: 1;
     height: 100%;
   }
 
   > div:last-child {
-    padding: 16px;
+    padding: 5px 16px;
     position: relative;
     z-index: 2;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     grid-gap: 20px;
-    font-size: 14px;
-
-    h2 {
-      margin: 0;
-    }
-
-    > div {
-      display: flex;
-
-      &:first-child {
-        grid-gap: 20px;
-        align-items: flex-start;
-        svg {
-          flex: 0 0 50px;
-          height: 50px;
-          width: 50px;
-        }
-
-        @media (max-width: 500px) {
-          grid-gap: 10px;
-        }
-      }
-    }
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: ${(props) => props.theme.secondaryText};
 
     @media (max-width: 500px) {
       grid-gap: 20px;
@@ -80,25 +61,23 @@ export const Wrapper = styled.div`
   }
 
   a {
+    display: inline-flex;
     text-decoration: none;
-    color: ${(props) => props.theme.primary};
+    color: ${(props) => props.theme.secondaryText};
   }
 
   button {
-    width: 100%;
-    color: white !important;
-    font-size: 14px;
-    height: 40px;
-    border-radius: 8px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: invert(${(props) => Number(props.theme.name === "light")});
   }
 
   @media (max-width: 430px) {
     width: calc(100% - 32px);
-  }
-
-  @media (max-width: 375px) {
-    svg {
-      display: none;
-    }
   }
 `;

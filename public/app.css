@@ -76,3 +76,10 @@ body > * ::-webkit-scrollbar-thumb {
     padding: 40px 8px;
   }
 }
+
+.hidden {
+  visibility: hidden !important;
+}
+.hidden > * {
+  visibility: hidden !important;
+}
