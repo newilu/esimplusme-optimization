@@ -57,20 +57,6 @@ function Footer({
     void router.push({ query: { region } }, undefined, { shallow: true });
   };
 
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const script = document.createElement("script");
-    script.src = "http://www.geoplugin.net/javascript.gp";
-    script.type = "text/javascript";
-    document.head.appendChild(script);
-
-    const timeout = setTimeout(() => {
-      setCountryCode((window as any).geoplugin_countryCode() as string);
-    }, 2000);
-
-    return () => clearTimeout(timeout);
-  }, []);
-
   return (
     <Wrapper>
       <TopSection>

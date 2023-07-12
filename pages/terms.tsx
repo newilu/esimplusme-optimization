@@ -17,9 +17,11 @@ const Wrapper = styled.div`
   color: ${(props) => props.theme.primaryText};
 `;
 
-function TermsOfUse() {
+function TermsOfUse({ countryCode }: { countryCode: any }) {
   const { t, i18n } = useTranslation();
   const { pathname } = useRouter();
+
+  console.log(countryCode);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -240,7 +242,11 @@ function TermsOfUse() {
 
 export default TermsOfUse;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  req,
+}) => {
+  const countryCode = req.headers["cf-ipcountry"];
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
@@ -248,6 +254,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         "navbar",
         "footer",
       ])),
+      countryCode,
     },
   };
 };
