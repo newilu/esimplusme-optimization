@@ -135,14 +135,25 @@ export const BottomSection = styled.div`
     padding: 26px 16px;
     border-top: 1px solid rgba(111, 111, 111, 0.15);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
     color: #6f6f6f;
 
+    > div:last-child {
+      width: min-content;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      grid-gap: 5px;
+    }
+
     ul {
+      justify-content: center;
+      flex: 1;
       list-style: none;
       display: flex;
       margin: 0;

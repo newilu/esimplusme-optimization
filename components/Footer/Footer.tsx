@@ -27,6 +27,10 @@ import { scrollToId } from "@/shared/lib";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
+import belkal1 from "./assets/belkal-1.svg";
+import belkal2 from "./assets/belkal-2.svg";
+import mir1 from "./assets/mir-1.svg";
+import mir2 from "./assets/mir-2.svg";
 
 function Footer({
   countries = [],
@@ -101,11 +105,6 @@ function Footer({
                     </ListItem>
                     <ListItem>
                       <Link href="/">{t("mobile_data")}</Link>
-                    </ListItem>
-                    <ListItem>
-                      <Link href="/blog" locale="en">
-                        {t("blog_page_title")}
-                      </Link>
                     </ListItem>
                   </List>
                 </ListWrapper>
@@ -326,7 +325,11 @@ function Footer({
               height={24}
               src={whatWeAccept}
               alt="what we accept"
-            />
+            />{" "}
+            <Image width={48} height={24} src={belkal1} alt="" />
+            <Image width={72} height={24} src={belkal2} alt="" />
+            <Image width={72} height={16} src={mir1} alt="" />
+            <Image width={70} height={24} src={mir2} alt="" />
           </div>
         </Container>
       </BottomSection>

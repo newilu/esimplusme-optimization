@@ -12,7 +12,7 @@ function Question({
   text: React.ReactNode;
 }) {
   const { isMobile } = useWindowSize();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
 
   React.useEffect(() => {
     const el = document.getElementById(id);

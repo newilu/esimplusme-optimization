@@ -121,9 +121,6 @@ function Navbar({
                   <div>{t("virtual_numbers")}</div>
                 </>
               </Link>
-              <Link href="/blog" locale="en">
-                {t("blog_page_title")}
-              </Link>
             </LinksWrapper>
           </div>
           <div>
@@ -310,15 +307,6 @@ function Navbar({
                         <>{t("virtual_numbers")}</>
                       </Link>
                     </NavMenuItem>{" "}
-                    <NavMenuItem>
-                      <Link
-                        locale="en"
-                        href="/blog"
-                        onClick={handleNavMenuItemCLick}
-                      >
-                        <>{t("blog_page_title")}</>
-                      </Link>
-                    </NavMenuItem>
                   </ul>
                 )}
               </>
