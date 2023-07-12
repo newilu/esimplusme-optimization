@@ -12,7 +12,13 @@ import RelatedArticles from "@/components/RelatedArticles";
 
 const Blog = dynamic(() => import("components/Blog"), { ssr: false });
 
-function BlogById({ article }: { article: Article }) {
+function BlogById({
+  article,
+  countryCode,
+}: {
+  article: Article;
+  countryCode: string;
+}) {
   return (
     <>
       <Head>
