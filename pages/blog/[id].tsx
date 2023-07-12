@@ -60,7 +60,7 @@ function BlogById({ article }: { article: Article }) {
           <RelatedArticles articles={article.relatedArticles} />
         )}
       </main>
-      <Footer />
+      <Footer countryCode={countryCode} />
     </>
   );
 }

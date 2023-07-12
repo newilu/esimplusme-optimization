@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   color: ${(props) => props.theme.primaryText};
 `;
 
-function Privacy() {
+function Privacy({ countryCode }: { countryCode: string }) {
   const { pathname } = useRouter();
   const { t, i18n } = useTranslation();
 
@@ -667,7 +667,7 @@ function Privacy() {
             Vilnius, 01134, Lithiania
           </p>
         </Container>
-        <Footer />
+        <Footer countryCode={countryCode} />
       </Wrapper>
     </>
   );
@@ -675,7 +675,12 @@ function Privacy() {
 
 export default Privacy;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  req,
+}) => {
+  const countryCode = req.headers["cf-ipcountry"];
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
@@ -683,6 +688,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         "navbar",
         "footer",
       ])),
+      countryCode,
     },
   };
 };

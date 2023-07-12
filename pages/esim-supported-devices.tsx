@@ -64,7 +64,7 @@ const Container = styled(BaseContainer)`
   }
 `;
 
-function SupportedDevices() {
+function SupportedDevices({ countryCode }: { countryCode: string }) {
   const { t, i18n } = useTranslation();
   const { pathname } = useRouter();
 
@@ -367,7 +367,7 @@ function SupportedDevices() {
           </div>
           <ManageYourNumbers sectionTitle="download_the_esimplus_app_virtual_numbers" />
         </Container>
-        <Footer />
+        <Footer countryCode={countryCode} />
       </Wrapper>
     </>
   );
@@ -375,7 +375,12 @@ function SupportedDevices() {
 
 export default SupportedDevices;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  req,
+}) => {
+  const countryCode = req.headers["cf-ipcountry"];
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
@@ -383,6 +388,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         "navbar",
         "footer",
       ])),
+      countryCode,
     },
   };
 };

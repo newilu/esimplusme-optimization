@@ -17,10 +17,12 @@ function Author({
   articles,
   author,
   totalPages,
+  countryCode,
 }: {
   articles: Article[];
   author: AuthorType;
   totalPages: number;
+  countryCode: string;
 }) {
   const { t } = useTranslation();
 
@@ -85,7 +87,7 @@ function Author({
         />
         <EsimAppBanner />
       </main>
-      <Footer />
+      <Footer countryCode={countryCode} />
     </>
   );
 }
@@ -94,7 +96,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   locale,
   params,
   query,
+  req,
 }) => {
+  const countryCode = req.headers["cf-ipcountry"];
+
   const { page = 1, ...rest } = query;
   const authorId = params?.id as string | undefined;
 
@@ -141,6 +146,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       articles,
       author,
       totalPages,
+      countryCode,
     },
   };
 };

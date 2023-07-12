@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import EsimAppBanner from "features/DownloadAppSection";
 import Head from "next/head";
 
-function Categories() {
+function Categories({ countryCode }: { countryCode: string }) {
   return (
     <>
       <Head>
@@ -60,12 +60,17 @@ function Categories() {
       <main>
         <EsimAppBanner />
       </main>
-      <Footer />
+      <Footer countryCode={countryCode} />
     </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  req,
+}) => {
+  const countryCode = req.headers["cf-ipcountry"];
+
   return {
     redirect: {
       destination: "/",
@@ -73,6 +78,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     },
     props: {
       ...(await serverSideTranslations(locale ?? "en", ["common"])),
+      countryCode,
     },
   };
 };

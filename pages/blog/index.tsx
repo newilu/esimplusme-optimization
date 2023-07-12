@@ -13,10 +13,12 @@ import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
 function Blog({
   articles,
   totalPages,
+  countryCode,
 }: {
   articles: Article[];
   categories: Category[];
   totalPages: number;
+  countryCode: string;
 }) {
   return (
     <>
@@ -71,7 +73,7 @@ function Blog({
         <BlogList articles={articles} totalPages={totalPages} />
         <EsimAppBanner />
       </main>
-      <Footer />
+      <Footer countryCode={countryCode} />
     </>
   );
 }
@@ -79,7 +81,10 @@ function Blog({
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   query,
+  req,
 }) => {
+  const countryCode = req.headers["cf-ipcountry"];
+
   const { page = 1, ...rest } = query;
   if (locale !== "en") {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -113,6 +118,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       articles: articles.data,
       categories: categories.data,
       totalPages,
+      countryCode,
     },
   };
 };

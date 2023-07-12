@@ -17,9 +17,11 @@ import Head from "next/head";
 function Authors({
   authors,
   totalPages,
+  countryCode,
 }: {
   authors: Author[];
   totalPages: number;
+  countryCode: string;
 }) {
   const { t } = useTranslation();
   return (
@@ -89,7 +91,7 @@ function Authors({
         />
         <EsimAppBanner />
       </main>
-      <Footer />
+      <Footer countryCode={countryCode} />
     </>
   );
 }
@@ -97,7 +99,10 @@ function Authors({
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   query,
+  req,
 }) => {
+  const countryCode = req.headers["cf-ipcountry"];
+
   const { page = 1, ...rest } = query;
 
   if (locale !== "en") {
@@ -128,6 +133,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       ...(await serverSideTranslations("en", ["common"])),
       authors: data,
       totalPages,
+      countryCode,
     },
   };
 };

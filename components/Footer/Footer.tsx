@@ -36,16 +36,17 @@ function Footer({
   countries = [],
   regions = [],
   worldwideRegion,
+  countryCode = "",
 }: {
   countries?: Country[];
   regions?: Region[];
   worldwideRegion?: RegionById;
+  countryCode?: string;
 }) {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const [isShowingAllCountries, setIsShowingAllCountries] =
     React.useState(false);
-  const [countryCode] = React.useState("");
 
   const countryList = React.useMemo(
     () => (isShowingAllCountries ? countries : countries.slice(0, 9)),

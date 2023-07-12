@@ -17,10 +17,12 @@ function Category({
   articles,
   categoryName,
   totalPages,
+  countryCode,
 }: {
   articles: Article[];
   categoryName: string;
   totalPages: number;
+  countryCode: string;
 }) {
   const { t } = useTranslation();
 
@@ -68,7 +70,7 @@ function Category({
         />
         <EsimAppBanner />
       </main>
-      <Footer />
+      <Footer countryCode={countryCode} />
     </>
   );
 }
@@ -77,7 +79,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   locale,
   params,
   query,
+  req,
 }) => {
+  const countryCode = req.headers["cf-ipcountry"];
+
   const { page = 1 } = query;
 
   const categoryId = params?.id as string;
@@ -128,6 +133,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       articles: articles.data,
       categoryName,
       totalPages,
+      countryCode,
     },
   };
 };

@@ -17,11 +17,9 @@ const Wrapper = styled.div`
   color: ${(props) => props.theme.primaryText};
 `;
 
-function TermsOfUse({ countryCode }: { countryCode: any }) {
+function TermsOfUse({ countryCode }: { countryCode: string }) {
   const { t, i18n } = useTranslation();
   const { pathname } = useRouter();
-
-  console.log(countryCode);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -234,7 +232,7 @@ function TermsOfUse({ countryCode }: { countryCode: any }) {
             or Services.
           </p>
         </Container>
-        <Footer />
+        <Footer countryCode={countryCode} />
       </Wrapper>
     </>
   );
