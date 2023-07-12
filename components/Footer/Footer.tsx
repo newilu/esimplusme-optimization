@@ -42,9 +42,10 @@ function Footer({
   worldwideRegion?: RegionById;
 }) {
   const router = useRouter();
+  const { t, i18n } = useTranslation();
   const [isShowingAllCountries, setIsShowingAllCountries] =
     React.useState(false);
-  const { t, i18n } = useTranslation();
+  const [countryCode, setCountryCode] = React.useState("");
 
   const countryList = React.useMemo(
     () => (isShowingAllCountries ? countries : countries.slice(0, 9)),
@@ -56,7 +57,10 @@ function Footer({
     void router.push({ query: { region } }, undefined, { shallow: true });
   };
 
-  const countryCode = (window as any).geoplugin_countryCode();
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    setCountryCode((window as any).geoplugin_countryCode() as string);
+  }, []);
 
   return (
     <Wrapper>
