@@ -45,7 +45,7 @@ function Footer({
   const { t, i18n } = useTranslation();
   const [isShowingAllCountries, setIsShowingAllCountries] =
     React.useState(false);
-  const [countryCode, setCountryCode] = React.useState("");
+  const [countryCode] = React.useState("");
 
   const countryList = React.useMemo(
     () => (isShowingAllCountries ? countries : countries.slice(0, 9)),
