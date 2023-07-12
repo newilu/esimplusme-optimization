@@ -8,7 +8,8 @@ pipelines:
             - IMAGE_NAME="esimplus-blog"
             - VERSION="0.1.${BITBUCKET_BUILD_NUMBER}"
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-            - docker build . -t "${IMAGE_NAME}-${VERSION}"
+            - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
+            - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
             - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
           services:
             - docker
