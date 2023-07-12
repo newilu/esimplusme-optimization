@@ -39,7 +39,7 @@ function WhyDoYouNeedPhoneNumberInCity({ cityName }: { cityName: string }) {
             city: cityName,
           })}
         </Paragraph>
-        <Paragraph>
+        <Paragraph as="div">
           <ul>
             <li>
               <Image width={20} height={20} src={note} alt="" />

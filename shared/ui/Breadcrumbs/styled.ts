@@ -7,19 +7,28 @@ export const Wrapper = styled.div`
   flex-wrap: wrap;
   margin: 0 0 30px 0;
 
+  > div {
+    color: ${(props) => props.theme.secondaryText};
+    text-transform: capitalize;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    display: inline-flex;
+    padding-right: 24px;
+  }
+
   > a {
     text-transform: capitalize;
     font-weight: 500;
     font-size: 13px;
     line-height: 16px;
-    color: ${(props) => props.theme.secondaryText};
     display: inline-flex;
     position: relative;
     padding-right: 24px;
-    text-decoration: underline;
 
     &:after {
       content: "/";
+      color: ${(props) => props.theme.secondaryText};
       position: absolute;
       right: 10px;
     }

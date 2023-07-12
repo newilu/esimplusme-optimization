@@ -2,10 +2,6 @@ import styled from "styled-components";
 import BaseTable from "@/shared/ui/BaseTable";
 
 export const Wrapper = styled(BaseTable)`
-  td {
-    cursor: pointer;
-  }
-
   th {
     &:first-child {
       width: 105px;

@@ -57,7 +57,7 @@ export const SectionsWrapper = styled.div`
 
   @media (min-width: 769px) {
     ${PanelSection}:first-child {
-      ${TableWrapper} {
+      ${TableWrapper}:not(:only-child) {
         height: 100%;
         > div {
           max-height: unset !important;

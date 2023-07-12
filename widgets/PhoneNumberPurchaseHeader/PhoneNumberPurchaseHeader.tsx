@@ -5,24 +5,20 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useWindowSize } from "@/context/WindowSizeContext";
-import type { PhoneToBuy } from "@/utils/types";
+import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
 import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
 import PhoneNumbersTable from "@/features/PhoneNumbersTable";
+import NoNumbersAvailableView from "@/features/NoNumbersAvailableView";
 import {
   formatAreaCode,
   formatStringToKebabCase,
   removeExcludedWords,
 } from "@/shared/lib";
 import CountryFlag from "@/shared/ui/CountryFlag";
-import Button from "@/shared/ui/Button";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
-import {
-  PanelSection,
-  PanelSectionTitle,
-  NoDataWrapper,
-} from "@/shared/ui/styled";
-import { SectionsWrapper, Wrapper } from "./styled";
 import { STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
+import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
+import { SectionsWrapper, Wrapper } from "./styled";
 
 type PhoneNumberPurchaseHeaderProps = {
   phones: PhoneToBuy[];
@@ -30,6 +26,7 @@ type PhoneNumberPurchaseHeaderProps = {
   city?: ICity;
   country: ICountry;
   phone?: PhoneToBuy | null;
+  countries: SecondPhoneCountry[];
 };
 
 enum Steps {
@@ -43,6 +40,7 @@ function PhoneNumberPurchaseHeader({
   city,
   state,
   phone = null,
+  countries,
 }: PhoneNumberPurchaseHeaderProps) {
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
@@ -58,6 +56,17 @@ function PhoneNumberPurchaseHeader({
           .slice(0, 6)
           .replaceAll(" ", "-")
       : formatAreaCode(country.phonecode);
+
+  const handlePhoneNumberSelect = React.useCallback(
+    (_phone: PhoneToBuy) => {
+      setSelectedPhone(_phone);
+      if (isMobile) {
+        setStep(Steps.Purchase);
+        if (typeof window !== "undefined") window.scroll({ top: 0 });
+      }
+    },
+    [isMobile]
+  );
 
   return (
     <Wrapper>
@@ -131,21 +140,12 @@ function PhoneNumberPurchaseHeader({
                   {t("select_phone_number")}
                 </PanelSectionTitle>
                 <PhoneNumbersTable
-                  onRowClick={setSelectedPhone}
+                  onRowClick={handlePhoneNumberSelect}
                   phones={phones}
                 />
               </>
             ) : (
-              <NoDataWrapper>{t("no_phones_for_this_region")}</NoDataWrapper>
-            )}
-            {isMobile && (
-              <Button
-                label="next"
-                onClick={() => {
-                  setStep(Steps.Purchase);
-                  if (typeof window !== "undefined") window.scroll({ top: 0 });
-                }}
-              />
+              <NoNumbersAvailableView countries={countries} />
             )}
           </PanelSection>
         )}

@@ -33,26 +33,19 @@ export const VirtualPhoneNumberServicesInformationList = styled.ul`
   }
 `;
 
-export const SpecialDealCardSubtitle = styled.div`
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
+export const SpecialDealCardTitle = styled.div`
   color: ${(props) => props.theme.primaryText};
-  margin-bottom: 25px;
   text-align: center;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 25px;
 
   > * {
-    display: inline-flex !important;
+    display: inline-flex;
     vertical-align: middle;
   }
-`;
-export const SpecialDealCardTitle = styled.div`
-  font-weight: 700;
-  font-size: 32px;
-  line-height: 40px;
-  color: ${(props) => props.theme.primaryText};
-  margin-bottom: 8px;
-  text-align: center;
 `;
 export const SpecialDealCard = styled(Card)`
   flex: 1;

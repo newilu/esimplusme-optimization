@@ -1,12 +1,10 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
 import Button from "@/shared/ui/Button";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import { Container, SectionTitle } from "@/shared/ui/styled";
 import {
   SpecialDealCard,
-  SpecialDealCardSubtitle,
   SpecialDealCardTitle,
   SpecialDealsWrapper,
   VirtualPhoneNumberServicesInformationItem,
@@ -23,11 +21,10 @@ function SpecialDealsSection() {
         <SectionTitle>{t("special_deals")}</SectionTitle>
         <SpecialDealsWrapper>
           <SpecialDealCard>
-            <SpecialDealCardTitle>{t("number_in")}</SpecialDealCardTitle>
-            <SpecialDealCardSubtitle>
-              New York, United States{" "}
+            <SpecialDealCardTitle>
+              {t("number_in")} New York, United States{" "}
               <CountryFlag width={32} height={24} name="US" />
-            </SpecialDealCardSubtitle>
+            </SpecialDealCardTitle>
             <Button
               as="a"
               href="/virtual-phone-number/united-states/new-york"
@@ -37,11 +34,10 @@ function SpecialDealsSection() {
             />
           </SpecialDealCard>{" "}
           <SpecialDealCard>
-            <SpecialDealCardTitle>{t("number_in")}</SpecialDealCardTitle>
-            <SpecialDealCardSubtitle>
-              London, United Kingdom{" "}
+            <SpecialDealCardTitle>
+              {t("number_in")} London, United Kingdom{" "}
               <CountryFlag width={32} height={24} name="GB" />
-            </SpecialDealCardSubtitle>
+            </SpecialDealCardTitle>
             <Button
               as="a"
               href="/virtual-phone-number/united-kingdom/london-borough-of-barking-and-dagenham"
@@ -51,10 +47,10 @@ function SpecialDealsSection() {
             />
           </SpecialDealCard>{" "}
           <SpecialDealCard>
-            <SpecialDealCardTitle>{t("number_in")}</SpecialDealCardTitle>
-            <SpecialDealCardSubtitle>
-              Madrid, Spain <CountryFlag width={32} height={24} name="ES" />
-            </SpecialDealCardSubtitle>
+            <SpecialDealCardTitle>
+              {t("number_in")} Madrid, Spain{" "}
+              <CountryFlag width={32} height={24} name="ES" />
+            </SpecialDealCardTitle>
             <Button
               as="a"
               href="/virtual-phone-number/spain/madrid"

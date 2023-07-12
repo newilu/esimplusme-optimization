@@ -1,7 +1,7 @@
 import React from "react";
 import type { ICity, ICountry, IState } from "country-cities";
 import type { GetServerSideProps } from "next";
-import type { PhoneToBuy } from "@/utils/types";
+import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
 import { format } from "libphonenumber-js";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
@@ -26,9 +26,10 @@ type PageProps = {
   country: ICountry;
   state: IState;
   city: ICity;
+  countries: SecondPhoneCountry[];
 };
 
-function Index({ country, city, state, phones }: PageProps) {
+function Index({ country, city, state, phones, countries }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
 
@@ -63,6 +64,7 @@ function Index({ country, city, state, phones }: PageProps) {
         state={state}
         phones={phones}
         country={country}
+        countries={countries}
       />
       <WhyDoYouNeedPhoneNumber cityName={city.name} />
       <Footer />
@@ -111,6 +113,11 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
+  const { data: secondPhoneCountriesDataRaw } =
+    await api.secondPhone.listSecondPhoneCountries();
+
+  const countries = secondPhoneCountriesDataRaw?.data.countries ?? [];
+
   if (currentCountry.isoCode === "US") {
     const { data } = await api.secondPhone.getAvailableNumbersByStateISO(
       currentState.isoCode
@@ -127,6 +134,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
         country: currentCountry,
         state: currentState,
         city: currentCity,
+        countries,
       },
     };
   }
@@ -152,6 +160,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       country: currentCountry,
       state: currentState,
       city: currentCity,
+      countries,
     },
   };
 };

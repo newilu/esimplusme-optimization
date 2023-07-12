@@ -29,30 +29,9 @@ type NoNumbersAvailableViewProps = {
 function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
-
-  const phoneNumbersList = React.useMemo(
-    () =>
-      Array.from(Array(20))
-        .map(() => {
-          const randCountryIso =
-            SECOND_PHONE_SUPPORTED_COUNTRIES[
-              getRandomInt(0, SECOND_PHONE_SUPPORTED_COUNTRIES.length - 1)
-            ];
-
-          const country = countries.find(({ code }) => code === randCountryIso);
-          if (!country) return null;
-
-          return {
-            ...country,
-            phoneNumber: generateFakeNumber(country.code, country.prefix),
-          };
-        })
-        .filter(
-          (i): i is SecondPhoneCountry & { phoneNumber: string } =>
-            typeof i !== null
-        ),
-    [countries]
-  );
+  const [phoneNumbersList, setPhoneNumbersList] = React.useState<
+    (SecondPhoneCountry & { phoneNumber: string })[]
+  >([]);
 
   const phoneNumberColumn = React.useMemo(
     () =>
@@ -92,6 +71,30 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
     },
     [router]
   );
+
+  React.useEffect(() => {
+    setPhoneNumbersList(
+      Array.from(Array(20))
+        .map(() => {
+          const randCountryIso =
+            SECOND_PHONE_SUPPORTED_COUNTRIES[
+              getRandomInt(0, SECOND_PHONE_SUPPORTED_COUNTRIES.length - 1)
+            ];
+
+          const country = countries.find(({ code }) => code === randCountryIso);
+          if (!country) return null;
+
+          return {
+            ...country,
+            phoneNumber: generateFakeNumber(country.code, country.prefix),
+          };
+        })
+        .filter(
+          (i): i is SecondPhoneCountry & { phoneNumber: string } =>
+            typeof i !== null
+        )
+    );
+  }, [countries]);
 
   return (
     <Wrapper>

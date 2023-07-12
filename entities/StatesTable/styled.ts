@@ -12,10 +12,4 @@ export const StateNameWrapper = styled(Link)`
   line-height: 20px;
 `;
 
-export const Wrapper = styled(BaseTable)`
-  overflow: auto;
-  table {
-    min-width: 100%;
-    width: max-content;
-  }
-` as typeof BaseTable;
+export const Wrapper = styled(BaseTable)`` as typeof BaseTable;

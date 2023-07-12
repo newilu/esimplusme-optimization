@@ -1,7 +1,7 @@
 import React from "react";
 import type { ICountry, IState } from "country-cities";
 import type { GetServerSideProps } from "next";
-import type { PhoneToBuy } from "@/utils/types";
+import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
@@ -16,9 +16,10 @@ type PageProps = {
   country: ICountry;
   state: IState | null;
   phone: PhoneToBuy | null;
+  countries: SecondPhoneCountry[];
 };
 
-function Index({ country, state, phones, phone }: PageProps) {
+function Index({ country, state, phones, phone, countries }: PageProps) {
   return (
     <>
       <Navbar />
@@ -27,6 +28,7 @@ function Index({ country, state, phones, phone }: PageProps) {
         state={state}
         phones={phones}
         country={country}
+        countries={countries}
       />
       <DownloadAppSection />
       <Footer />
@@ -67,6 +69,11 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
+  const { data: secondPhoneCountriesDataRaw } =
+    await api.secondPhone.listSecondPhoneCountries();
+
+  const countries = secondPhoneCountriesDataRaw?.data.countries ?? [];
+
   if (currentCountry.isoCode === "US" && currentState) {
     let selectedPhone: PhoneToBuy | null = null;
     let phones: PhoneToBuy[] = [];
@@ -105,6 +112,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
         phone: selectedPhone,
         country: currentCountry,
         state: currentState,
+        countries,
       },
     };
   }
@@ -134,6 +142,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       country: currentCountry,
       state: currentState,
       phone: selectedPhone,
+      countries,
     },
   };
 };

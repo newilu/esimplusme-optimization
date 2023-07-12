@@ -112,8 +112,13 @@ function StatesTable({
               style={{ margin: "0 auto" }}
               as="a"
               href={`/virtual-phone-number/${formatStringToKebabCase(
-                countryName
-              )}/mobile`}
+                country.name
+              )}/${formatStringToKebabCase(
+                removeExcludedWords(
+                  info.row.original.name,
+                  STATE_NAME_DEPRECATED_WORDS
+                )
+              )}`}
               label={t("buy")}
               size="small"
             />

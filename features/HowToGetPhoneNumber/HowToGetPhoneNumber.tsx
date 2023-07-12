@@ -25,7 +25,7 @@ function HowToGetPhoneNumber({ countryName }: { countryName: string }) {
         <SectionTitle>{t("how_to_get_phone_number")}</SectionTitle>
         <Paragraph>{t("to_get_number_follow_steps")}</Paragraph>
         <OrderedList>
-          <OrderedListItem>{t("to_get_number_follow_steps")}</OrderedListItem>
+          <OrderedListItem>{t("visit_website_to_get_app")}</OrderedListItem>
           <OrderedListItem>{t("setup_account")}</OrderedListItem>
           <OrderedListItem>
             {t("purchase_phone_number_in_country", { country: countryName })}
