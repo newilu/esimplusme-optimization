@@ -20,3 +20,5 @@ pipelines:
             - sed 's/IMAGE_NAME_VALUE/${IMAGE_NAME}/g' ./deploy-dev.sh
             - sed 's/VERSION_VALUE/${VERSION}/g' ./deploy-dev.sh
             - cat ./deploy-dev.sh | ssh -T ${DEPLOY_USER}"@"${DEPLOY_HOST}
+          services:
+            - docker
