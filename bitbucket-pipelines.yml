@@ -18,6 +18,6 @@ pipelines:
           script:
             - sed -i 's/DOCKERHUB_PASSWORD_VALUE/${DOCKERHUB_PASSWORD}/g' ./deploy-dev.sh
             - sed -i 's/DOCKERHUB_USER_VALUE/${DOCKERHUB_USER_VALUE}/g' ./deploy-dev.sh
-            - sed -i 's/IMAGE_NAME_VALUE/${IMAGE_NAME}/g' ./deploy-dev.sh
-            - sed -i 's/VERSION_VALUE/${VERSION}/g' ./deploy-dev.sh
-            - cat ./deploy-dev.sh #| ssh -T ${DEPLOY_USER}@${DEPLOY_HOST}
+            - sed -i 's/IMAGE_NAME_VALUE/esimplus-blog/g' ./deploy-dev.sh
+            - sed -i 's/VERSION_VALUE/0.1.13/g' ./deploy-dev.sh
+            - ssh ${DEPLOY_USER}@${DEPLOY_HOST} 'bash -s' < ./deploy-dev.sh
