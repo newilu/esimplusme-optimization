@@ -1,23 +1,33 @@
 import React from "react";
-import Image, { ImageProps } from "next/image";
+import { Wrapper } from "./styled";
 
 type CountryImageProps = {
   name?: string;
   src?: string;
-  alt?: string;
-} & Omit<ImageProps, "src" | "alt">;
+  width?: string | number;
+  height?: string | number;
+  borderRadius?: number;
+};
 
-function CountryFlag({ name, src, alt = "", ...props }: CountryImageProps) {
+function CountryFlag({
+  name,
+  src,
+  width = 48,
+  height = 30,
+  borderRadius = 5,
+}: CountryImageProps) {
   return (
-    <Image
-      width={48}
-      height={48}
+    <Wrapper
+      style={{
+        borderRadius,
+        width,
+        height,
+        flex: `0 0 ${width}px`,
+      }}
       src={
         src ??
         `https://static.esimplus.net/storage/flags/${name?.toLowerCase()}.svg`
       }
-      {...props}
-      alt={alt}
     />
   );
 }

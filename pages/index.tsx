@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import Footer from "components/Footer";
 import Navbar from "widgets/Navbar";
 import { GetServerSideProps } from "next";
@@ -12,13 +13,12 @@ import api from "api";
 import { Country, Region, RegionById } from "utils/types";
 import Reviews from "features/Reviews";
 import { Trans, useTranslation } from "next-i18next";
-import { generateRandomReviewsCount } from "shared/lib";
+import { generateRandomReviewsCount } from "@/shared/lib";
 import DownloadAppSection from "features/DownloadAppSection";
 import FAQSection from "features/FAQSection";
 import SetupGuide from "features/MobiledataSetupGuide";
 import Header from "features/Header";
 import { LANGS_LIST } from "@/shared/constants";
-import { useRouter } from "next/router";
 
 type HomeProps = {
   countries: Country[];
@@ -156,9 +156,6 @@ export default function Home({
       <FAQSection />
       <Footer
         countryCode={countryCode}
-        countries={countries}
-        regions={regions}
-        worldwideRegion={worldwideRegion}
       />
     </div>
   );

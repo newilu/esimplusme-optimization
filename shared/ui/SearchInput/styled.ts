@@ -1,13 +1,23 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Label = styled.label`
   margin-bottom: 30px;
   padding: 16px;
   border-radius: 12px;
-  border: 1px solid ${(props) => props.theme.borderColor};
+  border: 1px solid ${(props) => props.theme.searchInputBorderColor};
   height: 60px;
   display: flex;
   grid-gap: 10px;
+  position: relative;
+
+  > svg {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    fill: ${(props) => props.theme.primaryText};
+    cursor: pointer;
+  }
 
   input {
     text-overflow: ellipsis;

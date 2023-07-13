@@ -1,12 +1,16 @@
-import React from 'react';
-import { Label } from './styled';
+import React from "react";
+import ClearSVG from "./assets/ClearSVG";
+import { Label } from "./styled";
 
 function SearchInput({
   onChange = () => {},
+  onClear,
   placeholder,
+  value,
   ...props
 }: {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onClear?: () => void;
   placeholder?: string;
 } & React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -30,8 +34,10 @@ function SearchInput({
         onChange={onChange}
         type="text"
         placeholder={placeholder}
+        value={value}
         {...props}
       />
+      {value && onClear && <ClearSVG onClick={onClear} />}
     </Label>
   );
 }

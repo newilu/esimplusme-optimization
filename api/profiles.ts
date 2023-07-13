@@ -1,4 +1,10 @@
-import { Country, CountryByISO, Region, RegionById } from "utils/types";
+import {
+  Country,
+  CountryByISO,
+  Region,
+  RegionById,
+  SecondPhoneCountry,
+} from "utils/types";
 import { MAIN_API_URL } from "@/utils/constants";
 import { queryFetcher } from "./index";
 

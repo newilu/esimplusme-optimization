@@ -6,7 +6,7 @@ import ph from "public/staticfiles/author-placeholder.svg";
 import api from "@/api";
 import { Author } from "@/utils/types";
 import { MAX_AUTHORS_PER_VIEW } from "@/utils/constants";
-import { SectionTitle, Text } from "@/utils/styled";
+import { SectionTitle, Paragraph } from "@/shared/ui/styled";
 import Navbar from "@/widgets/Navbar";
 import EsimAppBanner from "features/DownloadAppSection";
 import Footer from "@/components/Footer";
@@ -75,14 +75,14 @@ function Authors({
 
       <Navbar />
       <main>
-        <Text>{t("catalog")}</Text>
+        <Paragraph>{t("catalog")}</Paragraph>
         <SectionTitle>{t("authors_list")}</SectionTitle>
         <PaginatedGridView
           totalPages={totalPages}
           gap={6}
-          items={authors.map((el, id) => (
+          items={authors.map((el) => (
             <AuthorPreviewCard
-              key={id}
+              key={el.id}
               {...el}
               image={el.image ?? ph}
               description={`${el.articleCount} ${t("articles")}`}

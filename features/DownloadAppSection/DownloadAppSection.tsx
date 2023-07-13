@@ -2,6 +2,9 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import { useTheme } from "styled-components";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import { APPSTORE_LINK, GPLAY_LINK } from "@/shared/constants";
+import { SectionTitle } from "shared/ui/styled";
 import cloudConnection from "shared/assets/cloud-connection.svg";
 import phone from "shared/assets/call-calling.svg";
 import sms from "shared/assets/sms.svg";
@@ -13,9 +16,7 @@ import gplay from "./assets/gplay.svg";
 import gplayDark from "./assets/gplay-black.svg";
 import appstore from "./assets/appstore.svg";
 import appstoreDark from "./assets/appstore-black.svg";
-import { SectionTitle } from "shared/ui/styled";
 import { ButtonsWrapper, Content, ImageWrapper, Wrapper } from "./styled";
-import Image from "next/image";
 
 function DownloadAppSection({
   sectionTitle = "download_the_esimplus_app",
@@ -27,15 +28,15 @@ function DownloadAppSection({
   const theme = useTheme();
 
   const handleMarketClick = (market: string) => {
-    typeof window !== "undefined" && window.fbq("track", "Lead");
+    if (typeof window !== "undefined") window.fbq("track", "Lead");
     switch (true) {
       case router.pathname.includes("virtual-phone-number"):
-        typeof window !== "undefined" &&
+        if (typeof window !== "undefined")
           window.gtag("event", `virtualnumber_${market}_click`);
         break;
 
       default:
-        typeof window !== "undefined" &&
+        if (typeof window !== "undefined")
           window.gtag("event", `mobiledata_${market}_click`);
         break;
     }
@@ -80,12 +81,11 @@ function DownloadAppSection({
           <ButtonsWrapper>
             <div>{t("download_an_app")}</div>
             <div>
-              <button onClick={() => handleMarketClick("appstore")}>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://apps.apple.com/by/app/esim-mobile-data-cloud-sim/id1482736281"
-                >
+              <button
+                type="button"
+                onClick={() => handleMarketClick("appstore")}
+              >
+                <a target="_blank" rel="noreferrer" href={APPSTORE_LINK}>
                   <Image
                     width={120}
                     height={40}
@@ -96,12 +96,11 @@ function DownloadAppSection({
                   />
                 </a>
               </button>
-              <button onClick={() => handleMarketClick("googleplay")}>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://play.google.com/store/apps/details?id=com.appvillis.esim&hl=ru&gl=US"
-                >
+              <button
+                type="button"
+                onClick={() => handleMarketClick("googleplay")}
+              >
+                <a target="_blank" rel="noreferrer" href={GPLAY_LINK}>
                   <Image
                     width={140}
                     height={40}

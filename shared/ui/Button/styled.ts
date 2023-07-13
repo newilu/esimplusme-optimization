@@ -14,24 +14,26 @@ export const Wrapper = styled.button<{
   padding: 1.125rem 2rem;
   height: 55px;
   cursor: pointer;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 19px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
   border-radius: 16px;
 
   &:has(> a) {
     padding: 0;
 
     > a {
+      color: inherit;
       padding: 1.125rem 2rem;
     }
   }
 
   &:disabled,
   &:disabled:active {
-    background: rgba(255, 255, 255, 0.25);
-    color: rgba(255, 255, 255, 0.35);
+    background: ${(props) => props.theme.primary};
+    filter: grayscale(1);
+    color: white;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 
@@ -89,12 +91,12 @@ export const Wrapper = styled.button<{
         `;
       case "dark":
         return css`
-          color: white;
-          background: rgba(237, 240, 250, 0.1);
+          color: ${props.theme.primaryText};
+          box-shadow: 0 0 0 1px ${props.theme.secondaryBtnBorder};
+          background: ${props.theme.secondaryBtnBg};
 
           &:active {
-            color: white;
-            background: rgba(237, 240, 250, 0.07);
+            background: ${props.theme.btnSecondaryActiveBg};
           }
         `;
       default:
@@ -114,9 +116,8 @@ export const Wrapper = styled.button<{
     switch (props.size) {
       case "small":
         return css`
+          height: 32px;
           padding: 6px 12px;
-          height: fit-content;
-          width: auto;
           font-weight: 400;
           font-size: 12px;
           line-height: 20px;

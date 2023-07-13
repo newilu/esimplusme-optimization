@@ -1,18 +1,23 @@
 import React from "react";
+import Image from "next/image";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import i18nextConfig from "../next-i18next.config";
 import { ServerStyleSheet } from "styled-components";
+import i18nextConfig from "../next-i18next.config";
 
 class MyDocument extends Document {
   render() {
     const currentLocale =
+      // eslint-disable-next-line no-underscore-dangle
       this.props.__NEXT_DATA__.locale ?? i18nextConfig.i18n.defaultLocale;
     return (
       <Html lang={currentLocale}>
         <Head>
           <meta charSet="utf-8" />
-
           <link href="/app.css" rel="stylesheet" />
+          <link
+            rel="stylesheet"
+            href="https://paymentpage.ecommpay.com/shared/merchant.css"
+          />
         </Head>
         <body>
           <Main />
@@ -50,7 +55,7 @@ class MyDocument extends Document {
           <script
             async
             src="https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW"
-          ></script>
+          />
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -63,7 +68,7 @@ class MyDocument extends Document {
             gtag('config', 'G-RQ66T6FFRW');
           `,
             }}
-          ></script>
+          />
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -101,10 +106,12 @@ class MyDocument extends Document {
       });
     `,
             }}
-          ></script>
+          />
           <noscript>
             <div>
-              <img
+              <Image
+                width={10}
+                height={10}
                 src="https://mc.yandex.ru/watch/79496440"
                 style={{ position: "absolute", left: -9999 }}
                 alt=""
@@ -140,7 +147,8 @@ class MyDocument extends Document {
       fbq('init', 578800919804138);
     `,
             }}
-          ></script>
+          />
+          <script src="https://paymentpage.ecommpay.com/shared/merchant.js" />
         </body>
       </Html>
     );

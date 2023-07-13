@@ -14,8 +14,8 @@ function RelatedArticles({
     <Wrapper>
       <Title>{t("related_articles")}</Title>
       <GridWrapper>
-        {articles.map((el, i) => (
-          <BlogPreviewCard key={i} {...el} />
+        {articles.map((el) => (
+          <BlogPreviewCard key={el.id} {...el} />
         ))}
       </GridWrapper>
     </Wrapper>

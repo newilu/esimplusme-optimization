@@ -17,7 +17,7 @@ const nextConfig = {
     tsconfigPath,
   },
   images: {
-    domains: ["static.esimplus.net", "admin-blog.esimplus.me"],
+    domains: ["static.esimplus.net", "admin-blog.esimplus.me", "mc.yandex.ru"],
     minimumCacheTTL: 999999,
   },
   async rewrites() {
@@ -25,6 +25,10 @@ const nextConfig = {
       {
         source: "/sitemap.xml",
         destination: "/api/sitemap",
+      },
+      {
+        source: "/esim/regional",
+        destination: "/esim",
       },
     ];
   },

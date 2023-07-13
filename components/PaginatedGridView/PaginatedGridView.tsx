@@ -1,8 +1,8 @@
 import React from "react";
 import { v4 } from "uuid";
-import { GridItem, GridWrapper, Wrapper } from "./styled";
-import Pagination from "./Pagination";
 import { useWindowSize } from "@/context/WindowSizeContext";
+import Pagination from "./Pagination";
+import { GridItem, GridWrapper, Wrapper } from "./styled";
 
 function PaginatedGridView({
   items = [],

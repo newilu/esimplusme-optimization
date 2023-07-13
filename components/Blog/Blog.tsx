@@ -1,15 +1,16 @@
 import React from "react";
+import { useTranslation } from "next-i18next";
+import { format } from "date-fns";
 import Link from "next/link";
-import { SectionTitle, Text } from "@/utils/styled";
+import { useRouter } from "next/router";
 import { Article } from "@/utils/types";
-import AuthorComponent from "../AuthorComponent";
+import { SectionTitle, Paragraph } from "@/shared/ui/styled";
 import {
   CardCategories,
   CardCategory,
 } from "@/components/BlogPreviewCard/styled";
-import { useTranslation } from "next-i18next";
-import { format } from "date-fns";
-import { useRouter } from "next/router";
+import { scrollToId } from "@/utils/common";
+import AuthorComponent from "../AuthorComponent";
 import {
   BlogInfoWrapper,
   BlogReadingTime,
@@ -21,7 +22,6 @@ import {
   RightSide,
   Wrapper,
 } from "./styled";
-import { scrollToId } from "@/utils/common";
 
 function Blog({
   categories,
@@ -66,7 +66,7 @@ function Blog({
             <BlogReadingTime>{readingTime}</BlogReadingTime>
           </div>
         </BlogInfoWrapper>
-        <Text
+        <Paragraph
           dangerouslySetInnerHTML={{ __html: Object.values(content).join("") }}
         />
       </LeftSide>
@@ -74,12 +74,12 @@ function Blog({
         <DocumentToc>
           <DocumentTocHeading>{t("table_of_content")}</DocumentTocHeading>
           <DocumentTocList>
-            {tableOfContent.map((el, i) => {
+            {tableOfContent.map((el) => {
               const name = el.match(/name="(.*?)"/)?.[1];
 
               return (
                 <DocumentTocItem
-                  key={i}
+                  key={el}
                   $active={decodeURIComponent(router.asPath).includes(
                     name ?? ""
                   )}
