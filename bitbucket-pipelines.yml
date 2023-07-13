@@ -16,6 +16,8 @@ pipelines:
       - step:
           name: Deploy dev
           script:
+            - IMAGE_NAME=esimplus-blog
+            - VERSION=0.1.${BITBUCKET_BUILD_NUMBER}
             - sed -i 's/IMAGE_NAME_VALUE/'"$IMAGE_NAME"'/g' ./deploy-dev.sh
             - sed -i 's/VERSION_VALUE/'"$VERSION"'/g' ./deploy-dev.sh
             - cat ./deploy-dev.sh
@@ -24,6 +26,8 @@ pipelines:
           name: Deploy prod
           trigger: manual
           script:
+            - IMAGE_NAME=esimplus-blog
+            - VERSION=0.1.${BITBUCKET_BUILD_NUMBER}
             - sed -i 's/IMAGE_NAME_VALUE/'"$IMAGE_NAME"'/g' ./deploy-dev.sh
             - sed -i 's/VERSION_VALUE/'"$VERSION"'/g' ./deploy-dev.sh
             - cat ./deploy-prod.sh
