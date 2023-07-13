@@ -69,7 +69,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   locale,
   req,
 }) => {
-  const countryCode = req.headers["cf-ipcountry"];
+  const countryCode = req.headers["cf-ipcountry"] ?? "";
 
   return {
     redirect: {

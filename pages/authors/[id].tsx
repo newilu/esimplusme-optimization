@@ -98,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
   req,
 }) => {
-  const countryCode = req.headers["cf-ipcountry"];
+  const countryCode = req.headers["cf-ipcountry"] ?? "";
 
   const { page = 1, ...rest } = query;
   const authorId = params?.id as string | undefined;

@@ -168,7 +168,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
   locale,
   req,
 }) => {
-  const countryCode = req.headers["cf-ipcountry"] as string;
+  const countryCode = (req.headers["cf-ipcountry"] ?? "") as string;
 
   const [countries, regions, worldwideRegion] = await Promise.all([
     api.profiles.listCountries(),
