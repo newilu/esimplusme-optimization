@@ -16,8 +16,7 @@ pipelines:
       - step:
           name: Deploy dev
           script:
-            - sed 's/DOCKERHUB_PASSWORD_VALUE/${DOCKERHUB_PASSWORD}/g' ./deploy-dev.sh
-            - sed 's/DOCKERHUB_USER_VALUE/${DOCKERHUB_USER_VALUE}/g' ./deploy-dev.sh
+            - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - sed 's/IMAGE_NAME_VALUE/${IMAGE_NAME}/g' ./deploy-dev.sh
             - sed 's/VERSION_VALUE/${VERSION}/g' ./deploy-dev.sh
             - cat ./deploy-dev.sh | ssh -T ${DEPLOY_USER}"@"${DEPLOY_HOST}
