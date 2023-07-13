@@ -1,3 +1,4 @@
+#!/bin/bash
 docker login --username DOCKERHUB_USER_VALUE --password DOCKERHUB_PASSWORD_VALUE
 docker pull appvillisdocker/landings:IMAGE_NAME_VALUE-VERSION_VALUE
 docker rm -f pipeline-esim-dev

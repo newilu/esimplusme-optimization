@@ -20,4 +20,10 @@ pipelines:
             - sed -i 's/DOCKERHUB_USER_VALUE/${DOCKERHUB_USER_VALUE}/g' ./deploy-dev.sh
             - sed -i 's/IMAGE_NAME_VALUE/esimplus-blog/g' ./deploy-dev.sh
             - sed -i 's/VERSION_VALUE/0.1.13/g' ./deploy-dev.sh
-            - ssh -t ${DEPLOY_USER}@${DEPLOY_HOST} 'bash -s' < ./deploy-dev.sh
+            # - cat ./deploy-dev.sh | ssh ${DEPLOY_USER}@${DEPLOY_HOST}
+            - pipe: atlassian/ssh-run:0.4.2
+              variables:
+                SSH_USER: ${DEPLOY_USER}
+                SERVER: ${DEPLOY_HOST}
+                MODE: 'script'
+                COMMAND: 'deploy-dev.sh' # path to a script in your repository
