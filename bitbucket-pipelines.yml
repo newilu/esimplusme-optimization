@@ -2,17 +2,17 @@ image: atlassian/default-image:3
 pipelines:
   custom:
     build-docker:
-      - step:
-          name: Build and push images
-          script:
-            - IMAGE_NAME="esimplus-blog"
-            - VERSION="0.1.${BITBUCKET_BUILD_NUMBER}"
-            - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-            - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
-            - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
-            - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
-          services:
-            - docker
+      # - step:
+      #     name: Build and push images
+      #     script:
+      #       - IMAGE_NAME="esimplus-blog"
+      #       - VERSION="0.1.${BITBUCKET_BUILD_NUMBER}"
+      #       - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+      #       - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
+      #       - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
+      #       - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
+      #     services:
+      #       - docker
       - step:
           name: Deploy dev
           script:
@@ -20,4 +20,4 @@ pipelines:
             - sed -i 's/DOCKERHUB_USER_VALUE/${DOCKERHUB_USER_VALUE}/g' ./deploy-dev.sh
             - sed -i 's/IMAGE_NAME_VALUE/${IMAGE_NAME}/g' ./deploy-dev.sh
             - sed -i 's/VERSION_VALUE/${VERSION}/g' ./deploy-dev.sh
-            - cat ./deploy-dev.sh | ssh -T ${DEPLOY_USER}@${DEPLOY_HOST}
+            - cat ./deploy-dev.sh #| ssh -T ${DEPLOY_USER}@${DEPLOY_HOST}
