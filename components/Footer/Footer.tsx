@@ -9,6 +9,10 @@ import whatWeAccept from "public/staticfiles/what-we-accept.svg";
 import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
 import { Container } from "shared/ui/styled";
 import Logo from "@/entities/Logo";
+import belkal1 from "./assets/belkal-1.svg";
+import belkal2 from "./assets/belkal-2.svg";
+import mir1 from "./assets/mir-1.svg";
+import mir2 from "./assets/mir-2.svg";
 import {
   ListItem,
   List,
@@ -20,24 +24,8 @@ import {
   TopSection,
   BottomSection,
 } from "./styled";
-import { Country, Region, RegionById } from "@/utils/types";
-import NavLink from "@/shared/ui/NavLink";
-import CountryFlag from "@/shared/ui/CountryFlag";
-import { BASE_STORAGE_URL, SectionIDS } from "@/shared/constants";
-import { scrollToId } from "@/shared/lib";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
-import belkal1 from "./assets/belkal-1.svg";
-import belkal2 from "./assets/belkal-2.svg";
-import mir1 from "./assets/mir-1.svg";
-import mir2 from "./assets/mir-2.svg";
 
-function Footer({
-  countryCode = "",
-}: {
-  countryCode?: string;
-}) {
+function Footer({ countryCode = "" }: { countryCode?: string }) {
   const { t, i18n } = useTranslation();
 
   return (
