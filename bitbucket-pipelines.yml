@@ -13,7 +13,6 @@ pipelines:
             - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
           services:
             - docker
-              memory: 1024
       - step:
           name: Deploy dev
           script:
@@ -33,3 +32,7 @@ pipelines:
             - sed -i 's/VERSION_VALUE/'"$VERSION"'/g' ./deploy-prod.sh
             - cat ./deploy-prod.sh
             - cat ./deploy-prod.sh | ssh ${DEPLOY_USER}@${DEPLOY_HOST}      
+  definitions:
+    services:
+      docker:
+        memory: 1024
