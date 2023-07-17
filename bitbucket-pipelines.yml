@@ -3,6 +3,7 @@ pipelines:
   custom:
     build-and-deploy:
       - step:
+          size: 2x
           name: Build and push image
           script:
             - IMAGE_NAME=esimplus-blog
