@@ -247,6 +247,11 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
 }) => {
   const countryCode = req.headers["cf-ipcountry"] ?? "";
+
+  if (locale !== "en") {
+    return { redirect: { destination: "/terms", statusCode: 301 } };
+  }
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
