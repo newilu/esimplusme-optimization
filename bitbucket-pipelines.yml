@@ -13,6 +13,7 @@ pipelines:
             - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
           services:
             - docker
+              memory: 1024
       - step:
           name: Deploy dev
           script:
