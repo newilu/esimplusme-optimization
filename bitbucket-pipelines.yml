@@ -3,6 +3,7 @@ pipelines:
   custom:
     build-and-deploy:
       - step:
+          size: 2x
           name: Build and push image
           script:
             - IMAGE_NAME=esimplus-blog
@@ -32,3 +33,7 @@ pipelines:
             - sed -i 's/VERSION_VALUE/'"$VERSION"'/g' ./deploy-prod.sh
             - cat ./deploy-prod.sh
             - cat ./deploy-prod.sh | ssh ${DEPLOY_USER}@${DEPLOY_HOST}      
+  definitions:
+    services:
+      docker:
+        memory: 4096 
