@@ -26,7 +26,7 @@ function GDPR({ onSubmit = () => {} }: { onSubmit?: () => void }) {
       <div>
         <div>
           By using this site you agree to our{" "}
-          <Link href="/privacy">
+          <Link locale="en" href="/privacy">
             <b>Cookie Policy.</b>
           </Link>
         </div>

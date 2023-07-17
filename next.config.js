@@ -20,6 +20,25 @@ const nextConfig = {
     domains: ["static.esimplus.net", "admin-blog.esimplus.me", "mc.yandex.ru"],
     minimumCacheTTL: 999999,
   },
+  async redirects() {
+    return [
+      {
+        source: "/authors/:path*",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/blog/:path*",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/categories/:path*",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
