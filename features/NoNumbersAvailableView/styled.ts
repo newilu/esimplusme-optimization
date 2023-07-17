@@ -36,4 +36,10 @@ export const Wrapper = styled.div`
       }
     }
   }
+
+  @media (max-width: 430px) {
+    td {
+      font-size: 12px;
+    }
+  }
 `;

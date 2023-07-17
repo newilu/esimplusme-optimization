@@ -129,7 +129,16 @@ function PhoneNumberPurchaseHeader({
               <Link
                 href={`/virtual-phone-number/${formatStringToKebabCase(
                   country.name
-                )}${state ? `/${formatStringToKebabCase(state.name)}` : ""}`}
+                )}${
+                  state
+                    ? `/${formatStringToKebabCase(
+                        removeExcludedWords(
+                          state.name,
+                          STATE_NAME_DEPRECATED_WORDS
+                        )
+                      )}`
+                    : ""
+                }`}
               >
                 {t("change")}
               </Link>

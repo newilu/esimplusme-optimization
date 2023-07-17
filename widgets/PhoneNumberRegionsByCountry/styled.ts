@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import BaseHeader from "@/shared/ui/BaseHeader";
 import { Wrapper as TableWrapper } from "@/shared/ui/BaseTable/styled";
-import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
+import {
+  PanelSection,
+  PanelSectionsWrapper,
+  PanelSectionTitle,
+} from "@/shared/ui/styled";
 
 export const Wrapper = styled(BaseHeader)`
   ${PanelSection} {
@@ -17,6 +21,12 @@ export const Wrapper = styled(BaseHeader)`
 
   th:nth-child(2) {
     text-align: left;
+  }
+
+  @media (max-width: 768px) {
+    ${PanelSectionsWrapper} {
+      flex-direction: column;
+    }
   }
 
   @media (min-width: 769px) {

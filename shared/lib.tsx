@@ -153,6 +153,7 @@ function formatStringToKebabCase(string: string) {
   return latinize(string)
     .toLowerCase()
     .trim()
+    .replaceAll(/  +/g, " ")
     .replaceAll(/[^a-zA-Z -]/gi, "")
     .replaceAll(" ", "-");
 }

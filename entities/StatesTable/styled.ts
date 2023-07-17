@@ -12,4 +12,10 @@ export const StateNameWrapper = styled(Link)`
   line-height: 20px;
 `;
 
-export const Wrapper = styled(BaseTable)`` as typeof BaseTable;
+export const Wrapper = styled(BaseTable)`
+  @media (max-width: 430px) {
+    * {
+      font-size: 12px;
+    }
+  }
+` as typeof BaseTable;

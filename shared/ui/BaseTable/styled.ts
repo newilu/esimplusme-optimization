@@ -85,10 +85,6 @@ export const Table = styled.table`
 export const Wrapper = styled.div<{
   scrollable?: boolean;
 }>`
-  > div {
-    overflow: auto;
-  }
-
   position: relative;
 
   ${(props) =>
