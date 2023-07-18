@@ -1,9 +1,8 @@
-image: node:18-alpine
+image: atlassian/default-image:3
 pipelines:
   custom:
     build-and-deploy:
       - step:
-          size: 2x
           name: Build and push image
           script:
             - IMAGE_NAME=esimplus-blog
@@ -36,4 +35,4 @@ pipelines:
 definitions:
   services:
     docker:
-      memory: 4096 
+      memory: 3072 
