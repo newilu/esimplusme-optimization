@@ -33,7 +33,7 @@ pipelines:
             - sed -i 's/VERSION_VALUE/'"$VERSION"'/g' ./deploy-prod.sh
             - cat ./deploy-prod.sh
             - cat ./deploy-prod.sh | ssh ${DEPLOY_USER}@${DEPLOY_HOST}      
-  definitions:
-    services:
-      docker:
-        memory: 4096 
+definitions:
+  services:
+    docker:
+      memory: 7192 
