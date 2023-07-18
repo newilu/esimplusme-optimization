@@ -26,7 +26,8 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
-
+ARG NODE_OPTIONS "--max-old-space-size=2048"
+ENV NODE_OPTIONS "--max-old-space-size=2048"
 RUN yarn build
 
 # If using npm comment out above and use below instead
