@@ -1,4 +1,4 @@
-image: atlassian/default-image:3
+image: node:18-alpine
 pipelines:
   custom:
     build-and-deploy:
