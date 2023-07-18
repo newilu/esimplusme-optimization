@@ -8,6 +8,7 @@ const { esmExternals = false, tsconfigPath } = loadCustomBuildParams();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
+  staticPageGenerationTimeout: 120000,
   experimental: {
     esmExternals, // https://nextjs.org/blog/next-11-1#es-modules-support
   },
