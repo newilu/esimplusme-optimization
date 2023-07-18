@@ -15,16 +15,14 @@ function ErrorPage() {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "en", [
-        "common",
-        "navbar",
-        "footer",
-      ])),
-    },
-  };
-};
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? "en", [
+      "common",
+      "navbar",
+      "footer",
+    ])),
+  },
+});
 
 export default ErrorPage;
