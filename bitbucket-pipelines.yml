@@ -13,7 +13,7 @@ pipelines:
             - VERSION=0.1.${BITBUCKET_BUILD_NUMBER}
             - export NODE_OPTIONS="--max-old-space-size=8192"
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-            - docker build . -t "landings:${IMAGE_NAME}-${VERSION}" --build-arg NODE_OPTIONS="--max-old-space-size=2048"
+            - docker build . -t "landings:${IMAGE_NAME}-${VERSION}" --build-arg NODE_OPTIONS="--max-old-space-size=8192"
             - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
             - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
           services:
