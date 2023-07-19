@@ -1,19 +1,14 @@
 image: atlassian/default-image:3
-options:
-  docker: true
-  size: 2x
 pipelines:
   custom:
     build-and-deploy:
       - step:
-          size: 2x
           name: Build and push image
           script:
             - IMAGE_NAME=esimplus-blog
             - VERSION=0.1.${BITBUCKET_BUILD_NUMBER}
-            - export NODE_OPTIONS="--max-old-space-size=4098"
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-            - docker build . -t "landings:${IMAGE_NAME}-${VERSION}" --build-arg NODE_OPTIONS="--max-old-space-size=4098"
+            - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
             - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
             - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
           services:
@@ -36,8 +31,8 @@ pipelines:
             - sed -i 's/IMAGE_NAME_VALUE/'"$IMAGE_NAME"'/g' ./deploy-prod.sh
             - sed -i 's/VERSION_VALUE/'"$VERSION"'/g' ./deploy-prod.sh
             - cat ./deploy-prod.sh
-            - cat ./deploy-prod.sh | ssh ${DEPLOY_USER}@${DEPLOY_HOST}
-  definitions:
-    services:
-      docker:
-        memory: 4096
+            - cat ./deploy-prod.sh | ssh ${DEPLOY_USER}@${DEPLOY_HOST}      
+definitions:
+  services:
+    docker:
+      memory: 3072 
