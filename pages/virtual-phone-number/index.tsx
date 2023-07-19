@@ -102,7 +102,6 @@ function VirtualPhoneNumber({ countryCode }: { countryCode: string }) {
           name="twitter:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
         />
-        <meta property="article:modified_time" content="2023-06-15" />
         <link
           rel="canonical"
           href={`https://esimplus.me${

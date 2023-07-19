@@ -51,6 +51,7 @@ function Index({
           country: country.name,
         }),
         asPath,
+        supportedLangs: ["en"],
       }),
     [asPath, country.name, i18n.language, t]
   );

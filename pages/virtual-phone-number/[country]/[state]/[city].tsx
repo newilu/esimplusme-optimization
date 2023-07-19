@@ -6,7 +6,7 @@ import { format } from "libphonenumber-js";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
-import { COUNTRY_LIST } from "@/shared/constants";
+import { COUNTRY_LIST, STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
 import WhyDoYouNeedPhoneNumber from "@/features/WhyDoYouNeedPhoneNumberInCity";
 import {
   formatAreaCode,
@@ -14,6 +14,7 @@ import {
   generateMeta,
   getCitiesByStateCode,
   getStatesByCountryCode,
+  removeExcludedWords,
 } from "@/shared/lib";
 import PhoneNumbersByCity from "@/widgets/PhoneNumberPurchaseHeader";
 import Footer from "@/components/Footer";
@@ -53,6 +54,7 @@ function Index({ country, city, state, phones, countries }: PageProps) {
       areaCode,
     }),
     asPath,
+    supportedLangs: ["en"],
   });
 
   return (
@@ -97,7 +99,11 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 
   const currentState = getStatesByCountryCode(
     currentCountry?.isoCode ?? ""
-  ).find((el) => formatStringToKebabCase(el.name).includes(state));
+  ).find((el) =>
+    formatStringToKebabCase(
+      removeExcludedWords(el.name, STATE_NAME_DEPRECATED_WORDS)
+    ).includes(state)
+  );
 
   const currentCity = getCitiesByStateCode(
     currentState?.isoCode ?? "",

@@ -13,10 +13,12 @@ import {
   generateMeta,
   getCitiesByStateCode,
   getStatesByCountryCode,
+  removeExcludedWords,
 } from "@/shared/lib";
 import {
   COUNTRY_LIST,
   SECOND_PHONE_SUPPORTED_COUNTRIES,
+  STATE_NAME_DEPRECATED_WORDS,
 } from "@/shared/constants";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
@@ -25,19 +27,23 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import WhyDoYouNeedPhoneNumberInRegion from "@/features/WhyDoYouNeedPhoneNumberInRegion";
 
+type PhoneNumberStatePageProps = {
+  phones: PhoneToBuy[];
+  country: ICountry;
+  state: IState;
+  cities: ICity[];
+  popularCountries: SecondPhoneCountry[];
+  phoneNumber: PhoneToBuy | null;
+};
+
 function Index({
   phones,
   country,
   state,
   cities,
   popularCountries,
-}: {
-  phones: PhoneToBuy[];
-  country: ICountry;
-  state: IState;
-  cities: ICity[];
-  popularCountries: SecondPhoneCountry[];
-}) {
+  phoneNumber,
+}: PhoneNumberStatePageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
 
@@ -62,6 +68,7 @@ function Index({
       areaCode,
     }),
     asPath,
+    supportedLangs: ["en"],
   });
 
   return (
@@ -75,6 +82,7 @@ function Index({
         state={state}
         areaCode={areaCode}
         popularCountries={popularCountries}
+        phoneNumber={phoneNumber}
       />
       <WhyDoYouNeedPhoneNumberInRegion regionName={state.name} />
       <DownloadAppSection />
@@ -83,11 +91,11 @@ function Index({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  params,
-}) => {
+export const getServerSideProps: GetServerSideProps<
+  PhoneNumberStatePageProps
+> = async ({ locale, params, query }) => {
   const { country, state } = params ?? {};
+  const { phone } = query;
 
   if (typeof country !== "string" || typeof state !== "string") {
     return {
@@ -101,9 +109,14 @@ export const getServerSideProps: GetServerSideProps = async ({
   const currentCountry = COUNTRY_LIST.find((el) =>
     country.includes(formatStringToKebabCase(el.name))
   );
+
   const currentState = getStatesByCountryCode(
     currentCountry?.isoCode ?? ""
-  ).find((el) => formatStringToKebabCase(el.name).includes(state));
+  ).find((el) =>
+    formatStringToKebabCase(
+      removeExcludedWords(el.name, STATE_NAME_DEPRECATED_WORDS)
+    ).includes(state)
+  );
 
   if (!currentCountry || !currentState) {
     return {
@@ -128,6 +141,16 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
 
+  const { data: secondPhoneCountriesDataRaw } =
+    await api.secondPhone.listSecondPhoneCountries();
+
+  const popularCountries =
+    secondPhoneCountriesDataRaw?.data.countries.sort(
+      (a, b) =>
+        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
+        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
+    ) ?? [];
+
   if (currentCountry.isoCode === "US") {
     let phones: PhoneToBuy[];
     const { data: phonesByStateUS } =
@@ -141,6 +164,10 @@ export const getServerSideProps: GetServerSideProps = async ({
       phones = phonesByCountryDataRaw?.data.phones ?? [];
     }
 
+    const phoneNumber = phone
+      ? phones.find((el) => el.phoneNumber === phone) ?? phones[0] ?? null
+      : null;
+
     return {
       props: {
         ...(await serverSideTranslations(locale ?? "en", [
@@ -152,6 +179,8 @@ export const getServerSideProps: GetServerSideProps = async ({
         country: currentCountry,
         state: currentState,
         cities,
+        phoneNumber,
+        popularCountries,
       },
     };
   }
@@ -167,10 +196,11 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const phones = filteredPhones.length ? filteredPhones : countryPhones;
 
-  if (!phones.length) {
-    const { data: secondPhoneCountriesDataRaw } =
-      await api.secondPhone.listSecondPhoneCountries();
+  const phoneNumber = phone
+    ? phones.find((el) => el.phoneNumber === phone) ?? phones[0] ?? null
+    : null;
 
+  if (!phones.length) {
     return {
       props: {
         ...(await serverSideTranslations(locale ?? "en", [
@@ -179,15 +209,11 @@ export const getServerSideProps: GetServerSideProps = async ({
           "meta",
         ])),
         phones,
-        popularCountries:
-          secondPhoneCountriesDataRaw?.data.countries.sort(
-            (a, b) =>
-              SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
-              SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
-          ) ?? [],
+        popularCountries,
         country: currentCountry,
         state: currentState,
         cities,
+        phoneNumber,
       },
     };
   }
@@ -203,6 +229,8 @@ export const getServerSideProps: GetServerSideProps = async ({
       country: currentCountry,
       state: currentState,
       cities,
+      phoneNumber,
+      popularCountries,
     },
   };
 };

@@ -113,7 +113,6 @@ export default function Home({
           name="twitter:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
         />
-        <meta property="article:modified_time" content="2023-06-15" />
         <link
           rel="canonical"
           href={`https://esimplus.me${
@@ -154,9 +153,7 @@ export default function Home({
       />
       <DownloadAppSection sectionTitle="download_the_esimplus_app_mobile_data" />
       <FAQSection />
-      <Footer
-        countryCode={countryCode}
-      />
+      <Footer countryCode={countryCode} />
     </div>
   );
 }

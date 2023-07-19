@@ -8,7 +8,6 @@ import {
   isValidPhoneNumber,
 } from "libphonenumber-js";
 import examples from "libphonenumber-js/examples.mobile.json";
-import { LANGS_LIST } from "@/shared/constants";
 
 function formatDataSize(dataSize: string | number) {
   return +dataSize >= 1000 ? `${+dataSize / 1000} GB` : `${dataSize} MB`;
@@ -212,6 +211,7 @@ const generateFakeNumber = (
 
 function generateMeta({
   language,
+  supportedLangs,
   asPath,
   title,
   description,
@@ -220,6 +220,7 @@ function generateMeta({
   description: string;
   language: string;
   asPath: string;
+  supportedLangs: string[];
 }) {
   return (
     <>
@@ -244,14 +245,13 @@ function generateMeta({
         name="twitter:image"
         content="https://static.esimplus.net/storage/logos/logo.png"
       />
-      <meta property="article:modified_time" content="2023-06-15" />
       <link
         rel="canonical"
         href={`https://esimplus.me${
           language.startsWith("en") ? "" : `/${language.slice(0, 2)}`
         }${asPath}`}
       />
-      {LANGS_LIST.map((lng) => (
+      {supportedLangs.map((lng) => (
         <link
           key={lng.concat("2")}
           rel="alternate"

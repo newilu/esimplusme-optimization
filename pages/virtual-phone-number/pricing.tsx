@@ -35,6 +35,7 @@ function Pricing({
         description: t("virtual_numbers_pricing_description"),
         title: t("virtual_numbers_pricing_title"),
         asPath,
+        supportedLangs: ["en"],
       }),
     [asPath, i18n.language, t]
   );

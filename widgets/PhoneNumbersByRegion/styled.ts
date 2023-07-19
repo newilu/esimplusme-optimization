@@ -14,35 +14,39 @@ export const SectionsWrapper = styled.div`
     min-height: 400px;
   }
 
-  > ${PanelSection}:first-child {
-    border-radius: 25px 5px 5px 25px;
-    flex: 1 1 40%;
-    display: flex;
-    flex-direction: column;
-
-    ${PanelSectionTitle}:first-child {
-      border-bottom: 1px solid ${(props) => props.theme.borderColor};
+  > ${PanelSection} {
+    &:first-child {
+      &:not(:only-child) {
+        border-radius: 25px 5px 5px 25px;
+        flex: 1 1 40%;
+      }
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
 
-      > div {
+      ${PanelSectionTitle}:first-child {
+        border-bottom: 1px solid ${(props) => props.theme.borderColor};
         display: flex;
         align-items: center;
-        grid-gap: 10px;
-      }
+        justify-content: space-between;
 
-      a {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 26px;
+        > div {
+          display: flex;
+          align-items: center;
+          grid-gap: 10px;
+        }
+
+        a {
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 26px;
+        }
       }
     }
-  }
 
-  > ${PanelSection}:last-child {
-    border-radius: 5px 25px 25px 5px;
-    flex: 1 1 60%;
+    &:last-child:not(:only-child) {
+      border-radius: 5px 25px 25px 5px;
+      flex: 1 1 60%;
+    }
   }
 
   @media (min-width: 769px) {

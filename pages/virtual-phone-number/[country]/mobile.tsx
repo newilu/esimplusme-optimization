@@ -140,6 +140,7 @@ function Index({ country, phones }: PageProps) {
           country: country.name,
         }),
         asPath: router.asPath,
+        supportedLangs: ["en"],
       }),
     [router.asPath, country.name, i18n.language, t]
   );

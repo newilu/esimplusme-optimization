@@ -86,6 +86,7 @@ export const Wrapper = styled.div<{
   scrollable?: boolean;
 }>`
   position: relative;
+  overflow: hidden auto;
 
   ${(props) =>
     props.scrollable &&

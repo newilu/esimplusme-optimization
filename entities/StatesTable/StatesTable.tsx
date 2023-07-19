@@ -104,9 +104,6 @@ function StatesTable({
         id: TableIDS.Purchase,
         header: () => t("buy"),
         cell: (info) => {
-          const countryName =
-            getCountryByIsoCode(info.row.original.countryCode)?.name ?? "";
-
           return (
             <Button
               style={{ margin: "0 auto" }}

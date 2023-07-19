@@ -2,7 +2,11 @@ import React from "react";
 import type { ICity, ICountry, IState } from "country-cities";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import type { PhoneToBuy } from "@/utils/types";
+import { useRouter } from "next/router";
+import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
+import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
+import { NoNumbersAvailableView } from "@/features/NoNumbersAvailableView/NoNumbersAvailableView";
+import { STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
 import {
   formatAreaCode,
   formatStringToKebabCase,
@@ -18,9 +22,6 @@ import {
 import CitiesTable from "./CitiesTable";
 import PhoneNumbersTable from "./PhoneNumbersTable";
 import { SectionsWrapper, Wrapper } from "./styled";
-import { NoNumbersAvailableView } from "../../features/NoNumbersAvailableView/NoNumbersAvailableView";
-import { SecondPhoneCountry } from "@/utils/types";
-import { STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
 
 type PhoneNumbersByCountryProps = {
   phones: PhoneToBuy[];
@@ -29,6 +30,7 @@ type PhoneNumbersByCountryProps = {
   cities: ICity[];
   areaCode?: string;
   popularCountries: SecondPhoneCountry[];
+  phoneNumber?: PhoneToBuy | null;
 };
 
 function PhoneNumbersByRegion({
@@ -38,8 +40,40 @@ function PhoneNumbersByRegion({
   state,
   areaCode,
   popularCountries,
+  phoneNumber = null,
 }: PhoneNumbersByCountryProps) {
+  const { asPath, query, push, replace } = useRouter();
   const { t } = useTranslation("virtual-phone-number");
+
+  const { phone, ...restOfQuery } = query;
+
+  const handlePhoneNumberPurchase = async () => {
+    if (!phoneNumber) return;
+
+    const params = new URLSearchParams({
+      paymentAmount: String((phoneNumber.price + 1) * 100),
+      phoneNumber: phoneNumber.phoneNumber,
+      country: country.isoCode,
+    });
+
+    await push(
+      `/virtual-phone-number/payment/provider-select?${params.toString()}`
+    );
+  };
+
+  React.useEffect(() => {
+    if (
+      typeof phone === "string" &&
+      phoneNumber !== null &&
+      phoneNumber.phoneNumber !== phone
+    ) {
+      replace(
+        { query: { ...restOfQuery, phone: phoneNumber?.phoneNumber } },
+        undefined,
+        { shallow: true }
+      );
+    }
+  }, [phoneNumber, phone, restOfQuery]);
 
   return (
     <Wrapper>
@@ -74,42 +108,66 @@ function PhoneNumbersByRegion({
         </Link>
       </Breadcrumbs>
       <SectionsWrapper>
-        <PanelSection>
-          <PanelSectionTitle>
-            <div>
-              <CountryFlag
-                name={country.isoCode}
-                width={32}
-                height={24}
-                borderRadius={5}
-              />{" "}
-              {areaCode ?? formatAreaCode(country.phonecode)} {country.name}
-            </div>
-            <Link
-              href={`/virtual-phone-number/${formatStringToKebabCase(
-                country.name
-              )}`}
-            >
-              {t("change")}
-            </Link>
-          </PanelSectionTitle>
-          <PanelSectionTitle style={{ padding: "15px 25px" }}>
-            {t("cities")}
-          </PanelSectionTitle>
-          {cities.length ? (
-            <CitiesTable cities={cities} />
-          ) : (
-            <NoDataWrapper>{t("no_cities_for_this_region")}</NoDataWrapper>
-          )}
-        </PanelSection>
-        <PanelSection>
-          <PanelSectionTitle>{t("all_numbers")}</PanelSectionTitle>
-          {phones.length ? (
-            <PhoneNumbersTable phones={phones} />
-          ) : (
-            <NoNumbersAvailableView countries={popularCountries} />
-          )}
-        </PanelSection>
+        {phoneNumber ? (
+          <PanelSection>
+            <PanelSectionTitle>
+              <div>
+                <CountryFlag
+                  name={country.isoCode}
+                  width={32}
+                  height={24}
+                  borderRadius={5}
+                />{" "}
+                {areaCode ?? formatAreaCode(country.phonecode)} {country.name}
+              </div>
+              <Link href={asPath.split("?")[0]}>{t("change")}</Link>
+            </PanelSectionTitle>
+            <PhoneNumberPurchase
+              phone={phoneNumber}
+              country={country}
+              onSubmit={handlePhoneNumberPurchase}
+            />
+          </PanelSection>
+        ) : (
+          <>
+            <PanelSection>
+              <PanelSectionTitle>
+                <div>
+                  <CountryFlag
+                    name={country.isoCode}
+                    width={32}
+                    height={24}
+                    borderRadius={5}
+                  />{" "}
+                  {areaCode ?? formatAreaCode(country.phonecode)} {country.name}
+                </div>
+                <Link
+                  href={`/virtual-phone-number/${formatStringToKebabCase(
+                    country.name
+                  )}`}
+                >
+                  {t("change")}
+                </Link>
+              </PanelSectionTitle>
+              <PanelSectionTitle style={{ padding: "15px 25px" }}>
+                {t("cities")}
+              </PanelSectionTitle>
+              {cities.length ? (
+                <CitiesTable cities={cities} />
+              ) : (
+                <NoDataWrapper>{t("no_cities_for_this_region")}</NoDataWrapper>
+              )}
+            </PanelSection>
+            <PanelSection>
+              <PanelSectionTitle>{t("all_numbers")}</PanelSectionTitle>
+              {phones.length ? (
+                <PhoneNumbersTable phones={phones} />
+              ) : (
+                <NoNumbersAvailableView countries={popularCountries} />
+              )}
+            </PanelSection>
+          </>
+        )}
       </SectionsWrapper>
     </Wrapper>
   );

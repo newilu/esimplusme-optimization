@@ -6,7 +6,6 @@ import styled from "styled-components";
 import Footer from "components/Footer";
 import { Container } from "shared/ui/styled";
 import Navbar from "widgets/Navbar";
-import { LANGS_LIST } from "shared/constants";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
@@ -57,7 +56,6 @@ function TermsOfUse({ countryCode }: { countryCode: string }) {
           name="twitter:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
         />
-        <meta property="article:modified_time" content="2023-06-15" />
         <link
           rel="canonical"
           href={`https://esimplus.me${
@@ -66,16 +64,7 @@ function TermsOfUse({ countryCode }: { countryCode: string }) {
               : `/${i18n.language.slice(0, 2)}`
           }/terms`}
         />
-        {LANGS_LIST.map((lng) => (
-          <link
-            key={lng.concat("2")}
-            rel="alternate"
-            href={`https://esimplus.me${
-              lng.startsWith("en") ? "" : `/${lng.slice(0, 2)}`
-            }/terms`}
-            hrefLang={lng.toLowerCase()}
-          />
-        ))}
+        <link rel="alternate" href="https://esimplus.me/terms" hrefLang="en" />
       </Head>
       <Wrapper>
         <Navbar />
