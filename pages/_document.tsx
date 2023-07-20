@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 import { ServerStyleSheet } from "styled-components";
 import i18nextConfig from "../next-i18next.config";
 
@@ -21,10 +22,9 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <NextScript />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `  (function (w, d) {
+          <Script id="help-crunch-script">
+            {`
+                (function (w, d) {
         w.HelpCrunch = function () {
           w.HelpCrunch.q.push(arguments);
         };
@@ -49,16 +49,10 @@ class MyDocument extends Document {
           '3GoaIg0gOa0vzfNaISDSDL+vJPSCEKYtC8tGIGA+y3z5rgJmfVQ+vFlHOiXJOPAAkKQYw2oheLOO4AJKMV6umA==',
       });
 
-      HelpCrunch('showChatWidget');`,
-            }}
-          />
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW"
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+      HelpCrunch('showChatWidget');
+              `}
+          </Script>
+          <Script id="gtag-script">{`
             window.dataLayer = window.dataLayer || [];
             function gtag() {
             dataLayer.push(arguments);
@@ -66,12 +60,8 @@ class MyDocument extends Document {
             gtag('js', new Date());
 
             gtag('config', 'G-RQ66T6FFRW');
-          `,
-            }}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+          `}</Script>
+          <Script id="metrika-script">{`
       (function (m, e, t, r, i, k, a) {
         m[i] =
           m[i] ||
@@ -104,8 +94,10 @@ class MyDocument extends Document {
         webvisor: true,
         ecommerce: 'dataLayer',
       });
-    `,
-            }}
+    `}</Script>
+          <Script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW"
           />
           <noscript>
             <div>
@@ -118,9 +110,7 @@ class MyDocument extends Document {
               />
             </div>
           </noscript>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+          <Script id="fb-script">{`
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
@@ -145,10 +135,9 @@ class MyDocument extends Document {
         'https://connect.facebook.net/en_US/fbevents.js',
       );
       fbq('init', 578800919804138);
-    `,
-            }}
-          />
-          <script src="https://paymentpage.ecommpay.com/shared/merchant.js" />
+    `}</Script>
+          <Script src="https://paymentpage.ecommpay.com/shared/merchant.js" />
+          <NextScript />
         </body>
       </Html>
     );

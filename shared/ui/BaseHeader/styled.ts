@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import blur from "./assets/blur-min.png";
+import blur from "./assets/blur-min.webp";
 
 export const Wrapper = styled.div`
   padding-top: 50px;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import blur from "./assets/blur-min.png";
 import bannerBlur from "./assets/banner-blur-min.png";
 import bestPrice from "./assets/best-price.svg";
+import blur from "@/shared/ui/BaseHeader/assets/blur-min.webp";
 import { Card } from "@/shared/ui/styled";
 
 export const CountryCard = styled(Card)`
