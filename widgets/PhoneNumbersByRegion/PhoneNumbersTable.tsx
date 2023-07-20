@@ -125,6 +125,7 @@ function PhoneNumbersTable({
 
   return (
     <StyledBaseTable
+      maxVisibleElements={null}
       enableRowSelection
       onRowClick={handleRowClick}
       data={phones}

@@ -132,15 +132,6 @@ export const getServerSideProps: GetServerSideProps<
     currentCountry.isoCode
   );
 
-  if (!cities.length) {
-    return {
-      redirect: {
-        destination: `/virtual-phone-number/payment?country=${country}&state=${state}`,
-        statusCode: 301,
-      },
-    };
-  }
-
   const { data: secondPhoneCountriesDataRaw } =
     await api.secondPhone.listSecondPhoneCountries();
 

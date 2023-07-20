@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import BaseTable from "@/shared/ui/BaseTable";
 import Link from "next/link";
 

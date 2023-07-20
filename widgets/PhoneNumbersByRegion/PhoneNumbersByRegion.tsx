@@ -150,22 +150,34 @@ function PhoneNumbersByRegion({
                 </Link>
               </PanelSectionTitle>
               <PanelSectionTitle style={{ padding: "15px 25px" }}>
-                {t("cities")}
+                {cities.length ? t("cities") : t("all_numbers")}
               </PanelSectionTitle>
-              {cities.length ? (
-                <CitiesTable cities={cities} />
-              ) : (
-                <NoDataWrapper>{t("no_cities_for_this_region")}</NoDataWrapper>
-              )}
+              {!!cities.length && <CitiesTable cities={cities} />}
+              {!cities.length &&
+                (phones.length ? (
+                  <PhoneNumbersTable
+                    onRowClick={(phone) => {
+                      const search = new URLSearchParams();
+                      search.append("phone", phone.phoneNumber);
+
+                      push(`${asPath.split("?")[0]}?${search.toString()}`);
+                    }}
+                    phones={phones}
+                  />
+                ) : (
+                  <NoNumbersAvailableView countries={popularCountries} />
+                ))}
             </PanelSection>
-            <PanelSection>
-              <PanelSectionTitle>{t("all_numbers")}</PanelSectionTitle>
-              {phones.length ? (
-                <PhoneNumbersTable phones={phones} />
-              ) : (
-                <NoNumbersAvailableView countries={popularCountries} />
-              )}
-            </PanelSection>
+            {!!cities.length && (
+              <PanelSection>
+                <PanelSectionTitle>{t("all_numbers")}</PanelSectionTitle>
+                {phones.length ? (
+                  <PhoneNumbersTable phones={phones} />
+                ) : (
+                  <NoNumbersAvailableView countries={popularCountries} />
+                )}
+              </PanelSection>
+            )}
           </>
         )}
       </SectionsWrapper>
