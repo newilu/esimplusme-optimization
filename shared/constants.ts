@@ -13,7 +13,7 @@ export const LANGS_LIST = ["ru", "en", "pl", "de", "es", "pt", "it", "fr"];
 export const COUNTRY_LIST = countries.all();
 
 export const APPSTORE_LINK =
-  "https://apps.apple.com/by/app/esim-mobile-data-cloud-sim/id1482736281";
+  "https://apps.apple.com/app/esim-mobile-data-cloud-sim/id1482736281";
 
 export const GPLAY_LINK =
   "https://play.google.com/store/apps/details?id=com.appvillis.esim&hl=ru&gl=US";
