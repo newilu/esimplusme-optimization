@@ -2,11 +2,18 @@ import React from "react";
 import type { ICountry, IState } from "country-cities";
 import type { GetServerSideProps } from "next";
 import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
-import { formatStringToKebabCase, getStatesByCountryCode } from "@/shared/lib";
+import {
+  formatStringToKebabCase,
+  generateMeta,
+  getStatesByCountryCode,
+} from "@/shared/lib";
 import PhoneNumberPurchaseHeader from "@/widgets/PhoneNumberPurchaseHeader";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
@@ -20,8 +27,20 @@ type PageProps = {
 };
 
 function Index({ country, state, phones, phone, countries }: PageProps) {
+  const { asPath } = useRouter();
+  const { t, i18n } = useTranslation();
+
+  const meta = generateMeta({
+    language: i18n.language,
+    title: t("payment_title"),
+    description: t("payment_description"),
+    asPath,
+    supportedLangs: ["en"],
+  });
+
   return (
     <>
+      <Head>{meta}</Head>
       <Navbar />
       <PhoneNumberPurchaseHeader
         phone={phone}
