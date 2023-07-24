@@ -20,7 +20,6 @@ import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
 import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
 import PhoneNumbersTable from "@/features/PhoneNumbersTable";
 import { Wrapper as TableWrapper } from "@/shared/ui/BaseTable/styled";
-import Button from "@/shared/ui/Button";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -28,19 +27,6 @@ import { format } from "libphonenumber-js";
 import { useWindowSize } from "@/context/WindowSizeContext";
 
 type PageProps = { country: ICountry; phones: PhoneToBuy[] };
-
-const PhoneNumberTypesWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  grid-gap: 10px;
-  padding: 0 20px 20px 20px;
-  justify-content: center;
-
-  button {
-    max-width: 80px;
-    flex: 1 1 80px;
-  }
-`;
 
 const SectionsWrapper = styled.div`
   display: grid;
@@ -125,7 +111,7 @@ function Index({ country, phones }: PageProps) {
         asPath: router.asPath,
         supportedLangs: ["en"],
       }),
-    [router.asPath, country.name, i18n.language, t]
+    [router.asPath, country.name, i18n.language, t, areaCode]
   );
 
   const handlePhoneNumberPurchase = async () => {
