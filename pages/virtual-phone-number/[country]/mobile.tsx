@@ -6,7 +6,12 @@ import Link from "next/link";
 import styled from "styled-components";
 import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
-import { formatStringToKebabCase, generateMeta } from "@/shared/lib";
+import {
+  formatAreaCode,
+  formatStringToKebabCase,
+  generateMeta,
+  scrollToId,
+} from "@/shared/lib";
 import { PhoneToBuy } from "@/utils/types";
 import api from "@/api";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
@@ -19,6 +24,8 @@ import Button from "@/shared/ui/Button";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { format } from "libphonenumber-js";
+import { useWindowSize } from "@/context/WindowSizeContext";
 
 type PageProps = { country: ICountry; phones: PhoneToBuy[] };
 
@@ -90,29 +97,35 @@ const SectionsWrapper = styled.div`
 function Index({ country, phones }: PageProps) {
   const router = useRouter();
   const { t, i18n } = useTranslation("virtual-phone-number");
+  const { isMobile } = useWindowSize();
   const [selectedPhone, setSelectedPhone] = React.useState(
     phones.length ? phones[0] : null
   );
-  const [selectedNumbersType, setSelectedNumbersType] = React.useState<
-    string | null
-  >(null);
 
-  const phoneNumberTypes = React.useMemo(
-    () =>
-      phones.reduce<string[]>(
-        (acc, cur) =>
-          acc.includes(cur.numberType) ? acc : [...acc, cur.numberType],
-        []
-      ),
-    [phones]
-  );
+  const areaCode =
+    (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
+      ? format(phones[0].phoneNumber, "INTERNATIONAL")
+          .slice(0, 6)
+          .replaceAll(" ", "-")
+      : formatAreaCode(country.phonecode);
 
-  const filteredNumbers = React.useMemo(
+  const purchaseSectionId = React.useId();
+
+  const meta = React.useMemo(
     () =>
-      phones.filter(({ numberType }) =>
-        selectedNumbersType ? numberType === selectedNumbersType : true
-      ),
-    [phones, selectedNumbersType]
+      generateMeta({
+        language: i18n.language,
+        description: t("meta:virtual_numbers_by_country_mobile_description", {
+          country: country.name,
+        }),
+        title: t("meta:virtual_numbers_by_country_mobile_title", {
+          country: country.name,
+          areaCode,
+        }),
+        asPath: router.asPath,
+        supportedLangs: ["en"],
+      }),
+    [router.asPath, country.name, i18n.language, t]
   );
 
   const handlePhoneNumberPurchase = async () => {
@@ -129,22 +142,6 @@ function Index({ country, phones }: PageProps) {
     );
   };
 
-  const meta = React.useMemo(
-    () =>
-      generateMeta({
-        language: i18n.language,
-        description: t("meta:virtual_numbers_by_country_description", {
-          country: country.name,
-        }),
-        title: t("meta:virtual_numbers_by_country_title", {
-          country: country.name,
-        }),
-        asPath: router.asPath,
-        supportedLangs: ["en"],
-      }),
-    [router.asPath, country.name, i18n.language, t]
-  );
-
   return (
     <>
       <Head>{meta}</Head>
@@ -156,7 +153,7 @@ function Index({ country, phones }: PageProps) {
           })}
         </h1>
         <Breadcrumbs style={{ margin: "20px 0" }}>
-          <Link href="/virtual-phone-number">{t("common:phone_number")}</Link>
+          <Link href="/">{t("common:home")}</Link>
           <Link href="/virtual-phone-number/pricing">
             {t("common:phone_number")}
           </Link>
@@ -165,39 +162,29 @@ function Index({ country, phones }: PageProps) {
               country.name
             )}`}
           >
-            {country.isoCode}
+            {country.name}
           </Link>
+          <Link href="/mock">Mobile</Link>
         </Breadcrumbs>
         <SectionsWrapper>
           <PanelSection>
             <PanelSectionTitle>{t("select_phone_number")}</PanelSectionTitle>
-            <PhoneNumberTypesWrapper>
-              <Button
-                size="small"
-                label="All"
-                variant={selectedNumbersType === null ? "secondary" : "dark"}
-                onClick={() => setSelectedNumbersType(null)}
-              />
-              {phoneNumberTypes.map((el) => (
-                <Button
-                  key={el}
-                  size="small"
-                  label={el}
-                  variant={selectedNumbersType === el ? "secondary" : "dark"}
-                  onClick={() => setSelectedNumbersType(el)}
-                />
-              ))}
-            </PhoneNumberTypesWrapper>
           </PanelSection>{" "}
           <PanelSection style={{ paddingTop: 25 }}>
             <PhoneNumbersTable
-              phones={filteredNumbers}
-              onRowClick={setSelectedPhone}
+              phones={phones}
+              onRowClick={(phone) => {
+                if (isMobile) {
+                  scrollToId(purchaseSectionId, 80);
+                }
+                setSelectedPhone(phone);
+              }}
             />
           </PanelSection>{" "}
-          <PanelSection>
+          <PanelSection id={purchaseSectionId}>
             {selectedPhone && (
               <PhoneNumberPurchase
+                isNumberOfMobileType
                 onSubmit={handlePhoneNumberPurchase}
                 country={country}
                 phone={selectedPhone}

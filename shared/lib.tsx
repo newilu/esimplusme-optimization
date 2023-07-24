@@ -14,6 +14,7 @@ function formatDataSize(dataSize: string | number) {
 }
 
 function scrollToId(id: string, offsetY = 0) {
+  if (typeof window === "undefined") return;
   const el = document.getElementById(id);
   if (el) {
     window.scrollTo({

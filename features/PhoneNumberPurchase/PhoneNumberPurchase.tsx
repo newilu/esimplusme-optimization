@@ -36,12 +36,14 @@ type PhoneNumberPurchaseProps = {
   phone: PhoneToBuy;
   country: ICountry;
   onSubmit?: () => void;
+  isNumberOfMobileType?: boolean;
 };
 
 function PhoneNumberPurchase({
   phone,
   country,
   onSubmit = () => {},
+  isNumberOfMobileType = false,
 }: PhoneNumberPurchaseProps) {
   const { t } = useTranslation("virtual-phone-number");
   const [checkedAgreements, setCheckedAgreements] = React.useState({
@@ -54,9 +56,13 @@ function PhoneNumberPurchase({
       <CountryNameAndNumberTypeWrapper>
         <CountryNameWrapper>
           <CountryFlag width={24} height={18} name={country.isoCode} />
-          {country.isoCode === "US" ? "US" : country.name}
+          {!isNumberOfMobileType &&
+            (country.isoCode === "US" ? "US" : country.name)}
+          {isNumberOfMobileType && country.name}
         </CountryNameWrapper>
-        <NumberType>{phone.numberType}</NumberType>
+        <NumberType>
+          {isNumberOfMobileType ? "Mobile" : phone.numberType}
+        </NumberType>
       </CountryNameAndNumberTypeWrapper>
       <PhoneNumberAndPriceWrapper>
         <PhoneNumber>{format(phone.phoneNumber, "INTERNATIONAL")}</PhoneNumber>
