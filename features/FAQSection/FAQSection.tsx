@@ -15,20 +15,18 @@ function FAQSection() {
       ).map((el) => {
         return {
           question: t(
-            `${
-              router.pathname.includes("virtual-phone-number")
-                ? "virtual_numbers"
-                : "mobile_data"
+            `${router.pathname.includes("virtual-phone-number")
+              ? "virtual_numbers"
+              : "mobile_data"
             }_faq_q_${el + 1}`
           ),
           answer: (
             <Trans
               key={`faq_a_${el + 1}`}
-              i18nKey={`${
-                router.pathname.includes("virtual-phone-number")
+              i18nKey={`${router.pathname.includes("virtual-phone-number")
                   ? "virtual_numbers"
                   : "mobile_data"
-              }_faq_a_${el + 1}`}
+                }_faq_a_${el + 1}`}
               components={{
                 1: <a href="mailto:support.esim@appvillis.com" />,
                 2: <a href="https://esimplus.me/esim-supported-devices" />,
@@ -46,6 +44,7 @@ function FAQSection() {
                     href="https://www.youtube.com/watch?v=KFbObq6ytPc"
                   />
                 ),
+                5: <a href="appesim://support" />,
                 title: (
                   <div
                     style={{
@@ -57,6 +56,8 @@ function FAQSection() {
                 ),
                 ul: <ul />,
                 li: <li />,
+                b: <b />,
+                br: <br />
               }}
             />
           ),
@@ -99,11 +100,10 @@ function FAQSection() {
         </div>
       </div>
       <Wrapper
-        id={`faq_section_${
-          router.pathname.includes("virtual-phone-number")
+        id={`faq_section_${router.pathname.includes("virtual-phone-number")
             ? "virtual_numbers"
             : "mobile_data"
-        }`}
+          }`}
       >
         <h3>{t("faq")}</h3>
         <QuestionsWrapper>
