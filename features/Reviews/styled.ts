@@ -108,7 +108,7 @@ export const SliderButtonsWrapper = styled.div`
     filter: drop-shadow(0px 4px 15px rgba(0, 0, 0, 0.05));
     border: none;
 
-    &.disabled {
+    :disabled {
       img {
         opacity: 0.5;
       }
@@ -179,14 +179,7 @@ export const Wrapper = styled.div`
   .slick-slider {
     overflow: visible;
     position: unset;
-    padding-top: 50px;
-    padding-left: calc(50% - 617px);
-  }
-
-  .slick-prev,
-  .slick-next {
-    opacity: 0;
-    visibility: hidden;
+    padding: 50px 16px 0 calc(50% - 617px);
   }
 
   .slick-slide {
@@ -203,7 +196,7 @@ export const Wrapper = styled.div`
 
   @media (max-width: 1272px) {
     .slick-slider {
-      padding: 50px 16px 0 16px;
+      padding: 50px 16px 0;
     }
   }
 

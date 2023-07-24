@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination, Navigation } from "swiper";
+import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper as SwiperClass } from "swiper/types";
 import Image, { StaticImageData } from "next/image";
 import UserImagePlaceholder from "./assets/UserImagePlaceholder";
 import arrow from "./assets/arrow-right.svg";
@@ -40,47 +41,21 @@ function Reviews({
   }[];
 }) {
   const { isMobile, isTablet } = useWindowSize();
-
-  React.useEffect(() => {
-    const oldPrevButton =
-      document.querySelector<HTMLButtonElement>("#btn-prev");
-    const oldNextButton =
-      document.querySelector<HTMLButtonElement>("#btn-next");
-    const customPrevButton = document.getElementById("prev_slide_btn");
-    const customNextButton = document.getElementById("next_slide_btn");
-    const customMobileNextButton = document.getElementById(
-      "next_slide_btn_mobile"
-    );
-    const customMobilePrevButton = document.getElementById(
-      "prev_slide_btn_mobile"
-    );
-
-    if (oldPrevButton && oldNextButton) {
-      if (customNextButton && customPrevButton) {
-        customNextButton.onclick = () => oldNextButton.click();
-        customPrevButton.onclick = () => oldPrevButton.click();
-      }
-
-      if (customMobilePrevButton && customMobileNextButton) {
-        customMobileNextButton.onclick = () => oldNextButton.click();
-        customMobilePrevButton.onclick = () => oldPrevButton.click();
-      }
-    }
-  }, [isMobile]);
+  const [swiperApi, setSwiperApi] = useState<SwiperClass | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const slidesPerView = isMobile ? 1 : isTablet ? 3 : 4;
 
   return (
     <Wrapper>
       <Container>
         <Title>
           <SectionTitle>{sectionTitle}</SectionTitle>
-          <button id="btn-prev">prev</button>
-          <button id="btn-next">next</button>
           {!isMobile && (
             <SliderButtonsWrapper>
-              <button id="prev_slide_btn">
+              <button onClick={() => swiperApi?.slidePrev()} disabled={activeIndex === 0}>
                 <Image width={18} height={18} src={arrow} alt="arrow" />
               </button>
-              <button id="next_slide_btn">
+              <button onClick={() => swiperApi?.slideNext()} disabled={activeIndex === reviewsList.length - slidesPerView}>
                 <Image width={18} height={18} src={arrow} alt="arrow" />
               </button>
             </SliderButtonsWrapper>
@@ -88,19 +63,15 @@ function Reviews({
         </Title>
       </Container>
       <Swiper
-        slidesPerView={isMobile ? 1 : isTablet ? 3 : 4}
+        slidesPerView={slidesPerView}
         spaceBetween={20}
         pagination={{
           clickable: true,
         }}
-        navigation={{
-          enabled: true,
-          nextEl: "#btn-next",
-          prevEl: "#btn-prev",
-          disabledClass: "disabled",
-        }}
-        modules={[Pagination, Navigation]}
+        modules={[Pagination]}
         className="slick-slider"
+        onSwiper={setSwiperApi}
+        onSlideChange={(s) => setActiveIndex(s.activeIndex)}
       >
         {reviewsList.map(({ icon, name, rating, text, title }) => (
           <SwiperSlide key={name}>
@@ -144,10 +115,10 @@ function Reviews({
       </Swiper>
       {isMobile && (
         <SliderButtonsWrapper style={{ justifyContent: "center" }}>
-          <button id="prev_slide_btn">
+          <button onClick={() => swiperApi?.slidePrev()} disabled={activeIndex === 0}>
             <Image width={18} height={18} src={arrow} alt="arrow" />
           </button>
-          <button id="next_slide_btn">
+          <button onClick={() => swiperApi?.slideNext()} disabled={activeIndex === reviewsList.length - slidesPerView}>
             <Image width={18} height={18} src={arrow} alt="arrow" />
           </button>
         </SliderButtonsWrapper>
