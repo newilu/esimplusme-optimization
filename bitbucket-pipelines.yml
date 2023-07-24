@@ -11,6 +11,7 @@ pipelines:
             - echo DEV_NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL} >> .env
             - echo DEV_NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL} >> .env
             - echo DEV_NEXT_PUBLIC_ECOMMPAY_PROJECT_ID=${NEXT_PUBLIC_ECOMMPAY_PROJECT_ID} >> .env
+            - cat .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
             - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
