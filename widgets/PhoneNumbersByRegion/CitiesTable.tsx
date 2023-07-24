@@ -55,6 +55,7 @@ function CitiesTable({ cities }: { cities: ICity[] }) {
   );
   return (
     <StyledCitiesTable
+      maxVisibleElements={null}
       columns={[areaCodeColumn, cityNameColumn]}
       data={cities}
     />

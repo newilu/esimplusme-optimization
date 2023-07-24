@@ -30,7 +30,7 @@ function BaseTable<TData extends {} = {}>({
   maxVisibleElements = 5,
   data,
   columns,
-  onRowClick = () => {},
+  onRowClick,
   enableRowSelection = false,
   ...props
 }: BaseTableProps<TData>) {
@@ -95,12 +95,17 @@ function BaseTable<TData extends {} = {}>({
                 key={row.id}
                 onClick={() => {
                   row.toggleSelected();
-                  onRowClick(row.original);
+                  if (onRowClick) {
+                    onRowClick(row.original);
+                  }
                 }}
                 selected={row.getIsSelected()}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <Td key={cell.id}>
+                  <Td
+                    style={{ cursor: onRowClick ? "pointer" : "default" }}
+                    key={cell.id}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>
                 ))}

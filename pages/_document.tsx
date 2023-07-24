@@ -22,7 +22,7 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <Script id="help-crunch-script">
+          <Script strategy="beforeInteractive" id="help-crunch-script">
             {`
                 (function (w, d) {
         w.HelpCrunch = function () {
@@ -52,7 +52,7 @@ class MyDocument extends Document {
       HelpCrunch('showChatWidget');
               `}
           </Script>
-          <Script id="gtag-script">{`
+          <Script strategy="beforeInteractive" id="gtag-script">{`
             window.dataLayer = window.dataLayer || [];
             function gtag() {
             dataLayer.push(arguments);
@@ -61,7 +61,7 @@ class MyDocument extends Document {
 
             gtag('config', 'G-RQ66T6FFRW');
           `}</Script>
-          <Script id="metrika-script">{`
+          <Script strategy="beforeInteractive" id="metrika-script">{`
       (function (m, e, t, r, i, k, a) {
         m[i] =
           m[i] ||
@@ -96,6 +96,7 @@ class MyDocument extends Document {
       });
     `}</Script>
           <Script
+            strategy="beforeInteractive"
             async
             src="https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW"
           />
@@ -110,7 +111,7 @@ class MyDocument extends Document {
               />
             </div>
           </noscript>
-          <Script id="fb-script">{`
+          <Script strategy="beforeInteractive" id="fb-script">{`
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
@@ -136,7 +137,10 @@ class MyDocument extends Document {
       );
       fbq('init', 578800919804138);
     `}</Script>
-          <Script src="https://paymentpage.ecommpay.com/shared/merchant.js" />
+          <Script
+            strategy="beforeInteractive"
+            src="https://paymentpage.ecommpay.com/shared/merchant.js"
+          />
           <NextScript />
         </body>
       </Html>
