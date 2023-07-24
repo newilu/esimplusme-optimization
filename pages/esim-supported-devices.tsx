@@ -110,7 +110,7 @@ function SupportedDevices({ countryCode }: { countryCode: string }) {
         <meta property="og:locale" content={i18n.language} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://esimplus.me${pathname}`} />
-        <meta property="og:site_name" content="ESIM+" />
+        <meta property="og:site_name" content="ESIM Plus" />
         <meta
           property="og:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
@@ -119,13 +119,13 @@ function SupportedDevices({ countryCode }: { countryCode: string }) {
         <meta property="og:image:height" content="93" />
         <meta
           property="og:title"
-          content={`ESIM+ | ${t("esim_supported_devices")}`}
+          content={`ESIM Plus | ${t("esim_supported_devices")}`}
         />
         <meta property="og:description" content={pageDescription} />
         <meta name="twitter:card" content="app" />
         <meta
           name="twitter:title"
-          content={`ESIM+ | ${t("esim_supported_devices")}`}
+          content={`ESIM Plus| ${t("esim_supported_devices")}`}
         />
         <meta name="twitter:description" content={pageDescription} />
         <meta
