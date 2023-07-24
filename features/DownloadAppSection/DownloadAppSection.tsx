@@ -84,7 +84,7 @@ function DownloadAppSection({
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href="https://apps.apple.com/by/app/esim-mobile-data-cloud-sim/id1482736281"
+                  href="https://apps.apple.com/app/esim-mobile-data-cloud-sim/id1482736281"
                 >
                   <Image
                     width={120}

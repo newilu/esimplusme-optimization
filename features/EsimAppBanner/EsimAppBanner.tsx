@@ -49,7 +49,7 @@ function EsimAppBanner() {
             rel="noreferrer"
             href={
               isIOS
-                ? "https://apps.apple.com/by/app/esim-mobile-data-cloud-sim/id1482736281"
+                ? "https://apps.apple.com/app/esim-mobile-data-cloud-sim/id1482736281"
                 : "https://play.google.com/store/apps/details?id=com.appvillis.esim&hl=ru&gl=US"
             }
           >
