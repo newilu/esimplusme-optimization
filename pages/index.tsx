@@ -91,7 +91,7 @@ export default function Home({
         <meta property="og:locale" content={i18n.language} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://esimplus.me${pathname}`} />
-        <meta property="og:site_name" content="ESIM+" />
+        <meta property="og:site_name" content="ESIM Plus" />
         <meta
           property="og:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
