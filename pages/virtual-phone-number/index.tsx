@@ -92,7 +92,7 @@ function VirtualPhoneNumber({ countryCode }: { countryCode: string }) {
           property="og:description"
           content={t("virtual_numbers_page_description")}
         />
-        <meta name="twitter:card" content="app" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={t("virtual_numbers_title")} />
         <meta
           name="twitter:description"

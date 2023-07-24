@@ -46,7 +46,7 @@ function TermsOfUse({ countryCode }: { countryCode: string }) {
           property="og:description"
           content={t("terms_of_use_page_description")}
         />
-        <meta name="twitter:card" content="app" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={`ESIM+ | ${t("terms_of_use")}`} />
         <meta
           name="twitter:description"

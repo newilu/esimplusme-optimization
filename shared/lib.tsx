@@ -228,7 +228,10 @@ function generateMeta({
       <meta name="description" content={description} />
       <meta property="og:locale" content={language} />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={`https://esimplus.me${asPath}`} />
+      <meta
+        property="og:url"
+        content={`https://esimplus.me${asPath.split("?")[0]}`}
+      />
       <meta property="og:site_name" content="eSIM+" />
       <meta
         property="og:image"
@@ -238,7 +241,7 @@ function generateMeta({
       <meta property="og:image:height" content="93" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta name="twitter:card" content="app" />
+      <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta
@@ -249,18 +252,19 @@ function generateMeta({
         rel="canonical"
         href={`https://esimplus.me${
           language.startsWith("en") ? "" : `/${language.slice(0, 2)}`
-        }${asPath}`}
+        }${asPath.split("?")[0]}`}
       />
-      {supportedLangs.map((lng) => (
-        <link
-          key={lng.concat("2")}
-          rel="alternate"
-          href={`https://esimplus.me${
-            lng.startsWith("en") ? "" : `/${lng.slice(0, 2)}`
-          }${asPath}`}
-          hrefLang={lng.toLowerCase()}
-        />
-      ))}
+      {supportedLangs.length > 1 &&
+        supportedLangs.map((lng) => (
+          <link
+            key={lng.concat("2")}
+            rel="alternate"
+            href={`https://esimplus.me${
+              lng.startsWith("en") ? "" : `/${lng.slice(0, 2)}`
+            }${asPath.split("?")[0]}`}
+            hrefLang={lng.toLowerCase()}
+          />
+        ))}
     </>
   );
 }

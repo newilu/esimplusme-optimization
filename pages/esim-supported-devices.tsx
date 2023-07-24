@@ -122,7 +122,7 @@ function SupportedDevices({ countryCode }: { countryCode: string }) {
           content={`ESIM+ | ${t("esim_supported_devices")}`}
         />
         <meta property="og:description" content={pageDescription} />
-        <meta name="twitter:card" content="app" />
+        <meta name="twitter:card" content="summary" />
         <meta
           name="twitter:title"
           content={`ESIM+ | ${t("esim_supported_devices")}`}

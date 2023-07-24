@@ -42,7 +42,7 @@ function Privacy({ countryCode }: { countryCode: string }) {
           property="og:description"
           content={t("privacy_policy_page_description")}
         />
-        <meta name="twitter:card" content="app" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={`ESIM+ | ${t("privacy_policy")}`} />
         <meta
           name="twitter:description"

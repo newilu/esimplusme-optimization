@@ -103,7 +103,7 @@ export default function Home({
           property="og:description"
           content={t("mobile_data_page_description")}
         />
-        <meta name="twitter:card" content="app" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={t("mobile_data_title")} />
         <meta
           name="twitter:description"
