@@ -28,12 +28,12 @@ type PageProps = {
 
 function Index({ country, state, phones, phone, countries }: PageProps) {
   const { asPath } = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("virtual-phone-number");
 
   const meta = generateMeta({
     language: i18n.language,
-    title: t("payment_title"),
-    description: t("payment_description"),
+    title: t("meta:payment_title"),
+    description: t("meta:payment_description"),
     asPath,
     supportedLangs: ["en"],
   });

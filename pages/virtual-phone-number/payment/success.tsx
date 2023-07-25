@@ -12,12 +12,12 @@ import { generateMeta } from "@/shared/lib";
 
 function Success() {
   const { asPath } = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("virtual-phone-number");
 
   const meta = generateMeta({
     language: i18n.language,
-    title: t("purchase_success_title"),
-    description: t("purchase_success_description"),
+    title: t("meta:purchase_success_title"),
+    description: t("meta:purchase_success_description"),
     asPath,
     supportedLangs: ["en"],
   });

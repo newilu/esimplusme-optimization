@@ -12,12 +12,12 @@ import { generateMeta } from "@/shared/lib";
 
 function ProviderSelect() {
   const { asPath } = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("virtual-phone-number");
 
   const meta = generateMeta({
     language: i18n.language,
-    title: t("payment_provider_select_title"),
-    description: t("payment_provider_select_description"),
+    title: t("meta:payment_provider_select_title"),
+    description: t("meta:payment_provider_select_description"),
     asPath,
     supportedLangs: ["en"],
   });
