@@ -11,7 +11,7 @@ class MyDocument extends Document {
       // eslint-disable-next-line no-underscore-dangle
       this.props.__NEXT_DATA__.locale ?? i18nextConfig.i18n.defaultLocale;
     return (
-      <Html lang={currentLocale}>
+      <Html lang={currentLocale} data-country={(this.props as any).countryCode}>
         <Head>
           <meta charSet="utf-8" />
           <link href="/app.css" rel="stylesheet" />
@@ -152,6 +152,7 @@ MyDocument.getInitialProps = async (ctx) => {
   const originalRenderPage = ctx.renderPage;
 
   const sheet = new ServerStyleSheet();
+  const countryCode = (ctx.req?.headers["cf-ipcountry"] ?? "") as string;
 
   ctx.renderPage = () =>
     originalRenderPage({
@@ -169,6 +170,7 @@ MyDocument.getInitialProps = async (ctx) => {
       ...React.Children.toArray(initialProps.styles),
       ...sheet.getStyleElement(),
     ],
+    countryCode,
   };
 };
 

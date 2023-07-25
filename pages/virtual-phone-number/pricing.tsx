@@ -63,18 +63,11 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const countryCode = (req.headers["cf-ipcountry"] ?? "") as string;
 
-  const [{ data: popularCountriesRaw }] = await Promise.all([
+  const [{ data: popularCountries }] = await Promise.all([
     api.secondPhone.listSecondPhoneCountries(),
   ]);
-  const popularSecondPhoneCountries = popularCountriesRaw?.data.countries
-    .filter(({ code }) => SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code))
-    .sort(
-      (a, b) =>
-        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
-        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
-    );
 
-  if (!popularSecondPhoneCountries) {
+  if (!popularCountries) {
     return {
       redirect: {
         destination: "/virtual-phone-number",
@@ -90,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         "virtual-phone-number",
         "meta",
       ])),
-      popularSecondPhoneCountries,
+      popularSecondPhoneCountries: popularCountries,
       secondPhoneCountries: COUNTRY_LIST,
       countryCode,
     },

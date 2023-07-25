@@ -1,5 +1,11 @@
-import { PhoneToBuy, SecondPhoneCountry, State } from "@/utils/types";
+import {
+  MappedDataType,
+  PhoneToBuy,
+  SecondPhoneCountry,
+  State,
+} from "@/utils/types";
 import { MAIN_API_URL } from "@/utils/constants";
+import { SECOND_PHONE_SUPPORTED_COUNTRIES } from "@/shared/constants";
 import { getCookie } from "@/shared/lib";
 import { queryFetcher } from "./index";
 
@@ -20,10 +26,25 @@ const ENDPOINTS = {
   buyNumber: () => `/v6/second-phone/buy-number`,
 };
 
-function listSecondPhoneCountries() {
-  return queryFetcher<{ data: { countries: SecondPhoneCountry[] } }>(
-    MAIN_API_URL.concat(ENDPOINTS.secondPhoneCountries())
-  );
+async function listSecondPhoneCountries(): Promise<
+  MappedDataType<SecondPhoneCountry[]>
+> {
+  const { data, error, headers } = await queryFetcher<{
+    data: { countries: SecondPhoneCountry[] };
+  }>(MAIN_API_URL.concat(ENDPOINTS.secondPhoneCountries()));
+
+  return {
+    error,
+    data:
+      data?.data.countries
+        .filter(({ code }) => SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code))
+        .sort(
+          (a, b) =>
+            SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
+            SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
+        ) ?? null,
+    headers,
+  };
 }
 function getSecondPhonePopularCountries() {
   return queryFetcher<{ data: { countries: SecondPhoneCountry[] } }>(

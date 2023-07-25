@@ -132,15 +132,10 @@ export const getServerSideProps: GetServerSideProps<
     currentCountry.isoCode
   );
 
-  const { data: secondPhoneCountriesDataRaw } =
+  const { data: secondPhoneCountries } =
     await api.secondPhone.listSecondPhoneCountries();
 
-  const popularCountries =
-    secondPhoneCountriesDataRaw?.data.countries.sort(
-      (a, b) =>
-        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
-        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
-    ) ?? [];
+  const popularCountries = secondPhoneCountries ?? [];
 
   if (currentCountry.isoCode === "US") {
     let phones: PhoneToBuy[];
