@@ -3,10 +3,15 @@ pipelines:
   custom:
     build-and-deploy:
       - step:
-          name: Build and push image
+          name: Build dev
           script:
-            - IMAGE_NAME=esimplus-blog
+            - IMAGE_NAME=esimplus-dev
             - VERSION=0.1.${BITBUCKET_BUILD_NUMBER}
+            - touch .env
+            - echo NEXT_PUBLIC_BASE_URL=${DEV_NEXT_PUBLIC_BASE_URL} >> .env
+            - echo NEXT_PUBLIC_SERVER_URL=${DEV_NEXT_PUBLIC_SERVER_URL} >> .env
+            - echo NEXT_PUBLIC_ECOMMPAY_PROJECT_ID=${DEV_NEXT_PUBLIC_ECOMMPAY_PROJECT_ID} >> .env
+            - cat .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
             - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
@@ -16,17 +21,33 @@ pipelines:
       - step:
           name: Deploy dev
           script:
-            - IMAGE_NAME=esimplus-blog
+            - IMAGE_NAME=esimplus-dev
             - VERSION=0.1.${BITBUCKET_BUILD_NUMBER}
             - sed -i 's/IMAGE_NAME_VALUE/'"$IMAGE_NAME"'/g' ./deploy-dev.sh
             - sed -i 's/VERSION_VALUE/'"$VERSION"'/g' ./deploy-dev.sh
             - cat ./deploy-dev.sh
             - cat ./deploy-dev.sh | ssh ${DEPLOY_USER}@${DEPLOY_HOST}
       - step:
+          name: Build prod
+          trigger: manual
+          script:
+            - IMAGE_NAME=esimplus-prod
+            - VERSION=0.1.${BITBUCKET_BUILD_NUMBER}
+            - touch .env
+            - echo PROD_NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL} >> .env
+            - echo PROD_NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL} >> .env
+            - echo PROD_NEXT_PUBLIC_ECOMMPAY_PROJECT_ID=${NEXT_PUBLIC_ECOMMPAY_PROJECT_ID} >> .env
+            - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+            - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
+            - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
+            - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
+          services:
+            - docker            
+      - step:
           name: Deploy prod
           trigger: manual
           script:
-            - IMAGE_NAME=esimplus-blog
+            - IMAGE_NAME=esimplus-prod
             - VERSION=0.1.${BITBUCKET_BUILD_NUMBER}
             - sed -i 's/IMAGE_NAME_VALUE/'"$IMAGE_NAME"'/g' ./deploy-prod.sh
             - sed -i 's/VERSION_VALUE/'"$VERSION"'/g' ./deploy-prod.sh
@@ -35,4 +56,4 @@ pipelines:
 definitions:
   services:
     docker:
-      memory: 3072 
+      memory: 3072
