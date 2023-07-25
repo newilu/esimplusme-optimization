@@ -39,7 +39,7 @@ function Footer({ countryCode = "" }: { countryCode?: string }) {
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href="https://www.facebook.com/esim4world/"
+                  href="https://www.facebook.com/esimplus.me/"
                 >
                   <Image src={facebook} alt="facebook" />
                 </a>
