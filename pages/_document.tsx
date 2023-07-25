@@ -24,33 +24,32 @@ class MyDocument extends Document {
           <Main />
           <Script strategy="beforeInteractive" id="help-crunch-script">
             {`
-                (function (w, d) {
-        w.HelpCrunch = function () {
-          w.HelpCrunch.q.push(arguments);
-        };
-        w.HelpCrunch.q = [];
-        function r() {
-          var s = document.createElement('script');
-          s.async = 1;
-          s.type = 'text/javascript';
-          s.src = 'https://widget.helpcrunch.com/';
-          (d.body || d.head).appendChild(s);
-        }
-        if (w.attachEvent) {
-          w.attachEvent('onload', r);
-        } else {
-          w.addEventListener('load', r, false);
-        }
-      })(window, document);
+              window.helpcrunchSettings = {
+                organization: 'appvillis',
+                appId: 'dc92b31a-172f-46e8-9f88-ceddd074d9fe',
+              };
 
-      HelpCrunch('init', 'appvillis', {
-        applicationId: 1,
-        applicationSecret:
-          '3GoaIg0gOa0vzfNaISDSDL+vJPSCEKYtC8tGIGA+y3z5rgJmfVQ+vFlHOiXJOPAAkKQYw2oheLOO4AJKMV6umA==',
-      });
+              (function(w,d) { 
+                var hS=w.helpcrunchSettings;
+                if(!hS||!hS.organization){return;}
+                var widgetSrc='https://'+hS.organization+'.widget.helpcrunch.com/';
+                w.HelpCrunch=function(){w.HelpCrunch.q.push(arguments)};
+                w.HelpCrunch.q=[];
+                function r(){
+                  if (d.querySelector('script[src="' + widgetSrc + '"')) { return; }
+                  var s=d.createElement('script');
+                  s.async=1;
+                  s.type='text/javascript';
+                  s.src=widgetSrc;
+                  (d.body||d.head).appendChild(s);
+                }
+                if(d.readyState === 'complete'||hS.loadImmediately){r();} 
+                else if(w.attachEvent){w.attachEvent('onload',r)}
+                else{w.addEventListener('load',r,false)}
+              })(window, document)
 
-      HelpCrunch('showChatWidget');
-              `}
+              HelpCrunch('showChatWidget');
+            `}
           </Script>
           <Script strategy="beforeInteractive" id="gtag-script">{`
             window.dataLayer = window.dataLayer || [];
