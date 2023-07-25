@@ -25,8 +25,15 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { format } from "libphonenumber-js";
 import { useWindowSize } from "@/context/WindowSizeContext";
+import MobileNumberFaq from "@/features/MobileNumberFaq";
+import Footer from "@/components/Footer";
+import WhyDoYouNeedMobileNumber from "@/features/WhyDoYouNeedMobileNumber";
 
-type PageProps = { country: ICountry; phones: PhoneToBuy[] };
+type PageProps = {
+  country: ICountry;
+  phones: PhoneToBuy[];
+  countryCode: string;
+};
 
 const SectionsWrapper = styled.div`
   display: grid;
@@ -80,7 +87,7 @@ const SectionsWrapper = styled.div`
   }
 `;
 
-function Index({ country, phones }: PageProps) {
+function Index({ country, phones, countryCode }: PageProps) {
   const router = useRouter();
   const { t, i18n } = useTranslation("virtual-phone-number");
   const { isMobile } = useWindowSize();
@@ -136,6 +143,7 @@ function Index({ country, phones }: PageProps) {
         <h1>
           {t("phone_numbers_by_country_mobile_title", {
             country: country.name,
+            areaCode,
           })}
         </h1>
         <Breadcrumbs style={{ margin: "20px 0" }}>
@@ -179,6 +187,9 @@ function Index({ country, phones }: PageProps) {
           </PanelSection>
         </SectionsWrapper>
       </BaseHeader>
+      <WhyDoYouNeedMobileNumber country={country} />
+      <MobileNumberFaq />
+      <Footer countryCode={countryCode} />
     </>
   );
 }
@@ -186,7 +197,10 @@ function Index({ country, phones }: PageProps) {
 export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   locale,
   params,
+  req,
 }) => {
+  const countryCode = (req.headers["cf-ipcountry"] ?? "") as string;
+
   const { country } = params ?? {};
   if (typeof country !== "string") {
     return {
@@ -223,6 +237,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       ])),
       country: currentCountry,
       phones: data?.data.phones ?? [],
+      countryCode,
     },
   };
 };

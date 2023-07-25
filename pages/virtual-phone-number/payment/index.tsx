@@ -126,6 +126,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
         ...(await serverSideTranslations(locale ?? "en", [
           "common",
           "virtual-phone-number",
+          "meta",
         ])),
         phones,
         phone: selectedPhone,
@@ -156,6 +157,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       ...(await serverSideTranslations(locale ?? "en", [
         "common",
         "virtual-phone-number",
+        "meta",
       ])),
       phones: filteredPhones.length ? filteredPhones : countryPhones,
       country: currentCountry,

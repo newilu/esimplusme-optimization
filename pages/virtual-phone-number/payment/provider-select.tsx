@@ -38,6 +38,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
     ...(await serverSideTranslations(locale ?? "en", [
       "common",
       "virtual-phone-number",
+      "meta",
     ])),
   },
 });

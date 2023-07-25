@@ -21,9 +21,11 @@ import { generateMeta } from "@/shared/lib";
 function Pricing({
   popularSecondPhoneCountries,
   secondPhoneCountries,
+  countryCode,
 }: {
   popularSecondPhoneCountries: SecondPhoneCountry[];
   secondPhoneCountries: ICountry[];
+  countryCode: string;
 }) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
@@ -50,12 +52,17 @@ function Pricing({
       />
       <SpecialDealsSection />
       <DownloadAppSection />
-      <Footer />
+      <Footer countryCode={countryCode} />
     </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  req,
+}) => {
+  const countryCode = (req.headers["cf-ipcountry"] ?? "") as string;
+
   const [{ data: popularCountriesRaw }] = await Promise.all([
     api.secondPhone.listSecondPhoneCountries(),
   ]);
@@ -85,6 +92,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
       ])),
       popularSecondPhoneCountries,
       secondPhoneCountries: COUNTRY_LIST,
+      countryCode,
     },
   };
 };
