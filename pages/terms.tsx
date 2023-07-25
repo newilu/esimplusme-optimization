@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   color: ${(props) => props.theme.primaryText};
 `;
 
-function TermsOfUse({ countryCode }: { countryCode: string }) {
+function TermsOfUse() {
   const { t, i18n } = useTranslation();
   const { pathname } = useRouter();
 
@@ -41,13 +41,19 @@ function TermsOfUse({ countryCode }: { countryCode: string }) {
         />
         <meta property="og:image:width" content="112" />
         <meta property="og:image:height" content="93" />
-        <meta property="og:title" content={`ESIM Plus | ${t("terms_of_use")}`} />
+        <meta
+          property="og:title"
+          content={`ESIM Plus | ${t("terms_of_use")}`}
+        />
         <meta
           property="og:description"
           content={t("terms_of_use_page_description")}
         />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={`ESIM Plus | ${t("terms_of_use")}`} />
+        <meta
+          name="twitter:title"
+          content={`ESIM Plus | ${t("terms_of_use")}`}
+        />
         <meta
           name="twitter:description"
           content={t("terms_of_use_page_description")}
@@ -223,7 +229,7 @@ function TermsOfUse({ countryCode }: { countryCode: string }) {
             or Services.
           </p>
         </Container>
-        <Footer countryCode={countryCode} />
+        <Footer />
       </Wrapper>
     </>
   );
@@ -231,12 +237,7 @@ function TermsOfUse({ countryCode }: { countryCode: string }) {
 
 export default TermsOfUse;
 
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  req,
-}) => {
-  const countryCode = req.headers["cf-ipcountry"] ?? "";
-
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   if (locale !== "en") {
     return { redirect: { destination: "/terms", statusCode: 301 } };
   }
@@ -248,7 +249,6 @@ export const getServerSideProps: GetServerSideProps = async ({
         "navbar",
         "footer",
       ])),
-      countryCode,
     },
   };
 };

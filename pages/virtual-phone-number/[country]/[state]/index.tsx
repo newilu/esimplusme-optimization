@@ -15,11 +15,7 @@ import {
   getStatesByCountryCode,
   removeExcludedWords,
 } from "@/shared/lib";
-import {
-  COUNTRY_LIST,
-  SECOND_PHONE_SUPPORTED_COUNTRIES,
-  STATE_NAME_DEPRECATED_WORDS,
-} from "@/shared/constants";
+import { COUNTRY_LIST, STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";

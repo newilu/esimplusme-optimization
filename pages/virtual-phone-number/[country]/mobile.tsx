@@ -32,7 +32,6 @@ import WhyDoYouNeedMobileNumber from "@/features/WhyDoYouNeedMobileNumber";
 type PageProps = {
   country: ICountry;
   phones: PhoneToBuy[];
-  countryCode: string;
 };
 
 const SectionsWrapper = styled.div`
@@ -87,7 +86,7 @@ const SectionsWrapper = styled.div`
   }
 `;
 
-function Index({ country, phones, countryCode }: PageProps) {
+function Index({ country, phones }: PageProps) {
   const router = useRouter();
   const { t, i18n } = useTranslation("virtual-phone-number");
   const { isMobile } = useWindowSize();
@@ -189,7 +188,7 @@ function Index({ country, phones, countryCode }: PageProps) {
       </BaseHeader>
       <WhyDoYouNeedMobileNumber country={country} />
       <MobileNumberFaq />
-      <Footer countryCode={countryCode} />
+      <Footer />
     </>
   );
 }
@@ -197,10 +196,7 @@ function Index({ country, phones, countryCode }: PageProps) {
 export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   locale,
   params,
-  req,
 }) => {
-  const countryCode = (req.headers["cf-ipcountry"] ?? "") as string;
-
   const { country } = params ?? {};
   if (typeof country !== "string") {
     return {
@@ -237,7 +233,6 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       ])),
       country: currentCountry,
       phones: data?.data.phones ?? [],
-      countryCode,
     },
   };
 };

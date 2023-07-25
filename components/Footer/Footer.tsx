@@ -25,8 +25,15 @@ import {
   BottomSection,
 } from "./styled";
 
-function Footer({ countryCode = "" }: { countryCode?: string }) {
+function Footer() {
   const { t, i18n } = useTranslation();
+  const [countryCode, setCountryCode] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCountryCode(document.documentElement.getAttribute("data-country"));
+    }
+  }, []);
 
   return (
     <Wrapper>

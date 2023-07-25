@@ -8,10 +8,7 @@ import PhoneNumbersRates from "@/widgets/PhoneNumberRates";
 import Navbar from "@/widgets/Navbar";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import { SecondPhoneCountry } from "@/utils/types";
-import {
-  COUNTRY_LIST,
-  SECOND_PHONE_SUPPORTED_COUNTRIES,
-} from "@/shared/constants";
+import { COUNTRY_LIST } from "@/shared/constants";
 import SpecialDealsSection from "@/features/SpecialDealsSection";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
@@ -21,11 +18,9 @@ import { generateMeta } from "@/shared/lib";
 function Pricing({
   popularSecondPhoneCountries,
   secondPhoneCountries,
-  countryCode,
 }: {
   popularSecondPhoneCountries: SecondPhoneCountry[];
   secondPhoneCountries: ICountry[];
-  countryCode: string;
 }) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
@@ -52,7 +47,7 @@ function Pricing({
       />
       <SpecialDealsSection />
       <DownloadAppSection />
-      <Footer countryCode={countryCode} />
+      <Footer />
     </>
   );
 }

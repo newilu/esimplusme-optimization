@@ -11,10 +11,7 @@ import PhoneNumberRegionsByCountry from "@/widgets/PhoneNumberRegionsByCountry";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
 import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
-import {
-  COUNTRY_LIST,
-  SECOND_PHONE_SUPPORTED_COUNTRIES,
-} from "@/shared/constants";
+import { COUNTRY_LIST } from "@/shared/constants";
 import {
   formatStringToKebabCase,
   generateMeta,
