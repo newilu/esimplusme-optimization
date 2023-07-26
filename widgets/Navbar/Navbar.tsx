@@ -12,6 +12,7 @@ import CountryFlag from "@/shared/ui/CountryFlag";
 import { Country, Region, RegionById } from "@/utils/types";
 import burgerMenu from "./assets/burger-menu.png";
 import ArrowRight from "./assets/ArrowRight";
+import { sendSafeGtagEvent } from "@/utils/common";
 import {
   Wrapper,
   Container,
@@ -61,15 +62,13 @@ function Navbar({
   } = useModalControls(false, { disableBodyScroll: true });
 
   const handleSignInClick = () => {
-    if (typeof window !== "undefined") {
-      switch (true) {
-        case router.pathname.includes("virtual-phone-number"):
-          window.gtag("event", "signin_virtualnumber_click");
-          break;
-        default:
-          window.gtag("event", "signin_mobiledata_click");
-          break;
-      }
+    switch (true) {
+      case router.pathname.includes("virtual-phone-number"):
+        sendSafeGtagEvent("signin_virtualnumber_click");
+        break;
+      default:
+        sendSafeGtagEvent("signin_mobiledata_click");
+        break;
     }
   };
 
@@ -129,10 +128,10 @@ function Navbar({
             router.asPath.includes("/esim") ||
             router.asPath.endsWith("/virtual-phone-number") ||
             router.asPath.endsWith("/esim-supported-devices")) && (
-            <div>
-              <LanguageMenu />
-            </div>
-          )}
+              <div>
+                <LanguageMenu />
+              </div>
+            )}
           <ButtonsWrapper>
             <Button
               style={{ height: 45 }}
@@ -228,7 +227,6 @@ function Navbar({
                                 <CountryFlag
                                   width={22}
                                   height={22}
-                                  src={`https://static.esimplus.net/storage/flags/${name.toLowerCase()}.svg`}
                                   name={name}
                                 />
                               </div>
@@ -258,7 +256,6 @@ function Navbar({
                                 <CountryFlag
                                   width={22}
                                   height={22}
-                                  src={`https://static.esimplus.net/storage/flags/${worldwideRegion.name.toLowerCase()}.svg`}
                                   name={worldwideRegion.name}
                                 />
                               </div>

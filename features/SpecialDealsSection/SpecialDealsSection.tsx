@@ -7,6 +7,7 @@ import {
   SpecialDealCard,
   SpecialDealCardTitle,
   SpecialDealsWrapper,
+  TextSEO,
   VirtualPhoneNumberServicesInformationItem,
   VirtualPhoneNumberServicesInformationList,
   Wrapper,
@@ -30,7 +31,12 @@ function SpecialDealsSection() {
               href="/virtual-phone-number/united-states/new-york"
               size="small"
               variant="secondary"
-              label={t("more_info")}
+              label={
+                <>
+                  {t("more_info")}
+                  <TextSEO>{t("number_in")} New York, United States</TextSEO>
+                </>
+              }
             />
           </SpecialDealCard>{" "}
           <SpecialDealCard>
@@ -43,7 +49,12 @@ function SpecialDealsSection() {
               href="/virtual-phone-number/united-kingdom/london-borough-of-barking-and-dagenham"
               size="small"
               variant="secondary"
-              label={t("more_info")}
+              label={
+                <>
+                  {t("more_info")}
+                  <TextSEO>{t("number_in")} London, United Kingdom</TextSEO>
+                </>
+              }
             />
           </SpecialDealCard>{" "}
           <SpecialDealCard>
@@ -56,7 +67,12 @@ function SpecialDealsSection() {
               href="/virtual-phone-number/spain/madrid"
               size="small"
               variant="secondary"
-              label={t("more_info")}
+              label={
+                <>
+                  {t("more_info")}
+                  <TextSEO>{t("number_in")} Madrid, Spain</TextSEO>
+                </>
+              }
             />
           </SpecialDealCard>
         </SpecialDealsWrapper>

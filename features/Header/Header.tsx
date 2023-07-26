@@ -4,6 +4,7 @@ import { scrollToId } from "@/shared/lib";
 import { SectionIDS } from "shared/constants";
 import { Container } from "shared/ui/styled";
 import Button from "shared/ui/Button";
+import { sendSafeGtagEvent, sendSafeYMEvent } from "@/utils/common";
 import { Wrapper } from "./styled";
 
 function Header() {
@@ -11,8 +12,13 @@ function Header() {
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      window.ym(79496440, "reachGoal", "landing_page_view");
-      window.gtag("event", "landing_page_view");
+      const ymTimerId = sendSafeYMEvent("landing_page_view")
+      const gtagTimerId = sendSafeGtagEvent("landing_page_view")
+
+      return () => {
+        clearInterval(ymTimerId)
+        clearInterval(gtagTimerId)
+      }
     }
   }, []);
 
@@ -26,10 +32,8 @@ function Header() {
         <Button
           onClick={() => {
             scrollToId(SectionIDS.SearchYourDestination, 65);
-            if (typeof window !== "undefined") {
-              window.ym(79496440, "reachGoal", "header_cta_click");
-              window.gtag("event", "header_cta_click");
-            }
+            sendSafeYMEvent("header_cta_click")
+            sendSafeGtagEvent("header_cta_click")
           }}
           label={t("get_mobile_data")}
         />

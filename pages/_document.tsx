@@ -22,7 +22,7 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <Script strategy="beforeInteractive" id="help-crunch-script">
+          <Script id="help-crunch-script" strategy='afterInteractive'>
             {`
               window.helpcrunchSettings = {
                 organization: 'appvillis',
@@ -51,7 +51,7 @@ class MyDocument extends Document {
               HelpCrunch('showChatWidget');
             `}
           </Script>
-          <Script strategy="beforeInteractive" id="gtag-script">{`
+          <Script strategy='lazyOnload' id="gtag-script">{`
             window.dataLayer = window.dataLayer || [];
             function gtag() {
             dataLayer.push(arguments);
@@ -60,7 +60,7 @@ class MyDocument extends Document {
 
             gtag('config', 'G-RQ66T6FFRW');
           `}</Script>
-          <Script strategy="beforeInteractive" id="metrika-script">{`
+          <Script strategy='lazyOnload' id="metrika-script">{`
       (function (m, e, t, r, i, k, a) {
         m[i] =
           m[i] ||
@@ -95,8 +95,7 @@ class MyDocument extends Document {
       });
     `}</Script>
           <Script
-            strategy="beforeInteractive"
-            async
+            strategy='lazyOnload'
             src="https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW"
           />
           <noscript>
@@ -110,7 +109,7 @@ class MyDocument extends Document {
               />
             </div>
           </noscript>
-          <Script strategy="beforeInteractive" id="fb-script">{`
+          <Script strategy='lazyOnload' id="fb-script">{`
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
@@ -137,8 +136,8 @@ class MyDocument extends Document {
       fbq('init', 578800919804138);
     `}</Script>
           <Script
-            strategy="beforeInteractive"
             src="https://paymentpage.ecommpay.com/shared/merchant.js"
+            strategy='afterInteractive'
           />
           <NextScript />
         </body>

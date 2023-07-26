@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import { Container } from "shared/ui/styled";
 import { Wrapper } from "./styled";
+import { sendSafeGtagEvent } from "@/utils/common";
 
 function GetFreeNumberSection() {
   const { t } = useTranslation();
@@ -17,8 +18,8 @@ function GetFreeNumberSection() {
           <button
             type="button"
             onClick={() => {
+              sendSafeGtagEvent("virtualnumber_free_click")
               if (typeof window !== "undefined") {
-                window.gtag("event", "virtualnumber_free_click");
                 window.open("https://sms.esimplus.me/");
               }
             }}
