@@ -17,13 +17,16 @@ import {
 import PhoneNumberPurchaseHeader from "@/widgets/PhoneNumberPurchaseHeader";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
+import NoNumbersAvailableView from "@/features/NoNumbersAvailableView";
+import BaseHeader from "@/shared/ui/BaseHeader";
+import { PanelSection } from "@/shared/ui/styled";
 
 type PageProps = {
-  phones: PhoneToBuy[];
-  country: ICountry;
+  phones: PhoneToBuy[] | null;
+  countries: SecondPhoneCountry[];
+  country: ICountry | null;
   state: IState | null;
   phone: PhoneToBuy | null;
-  countries: SecondPhoneCountry[];
 };
 
 function Index({ country, state, phones, phone, countries }: PageProps) {
@@ -42,13 +45,21 @@ function Index({ country, state, phones, phone, countries }: PageProps) {
     <>
       <Head>{meta}</Head>
       <Navbar />
-      <PhoneNumberPurchaseHeader
-        phone={phone}
-        state={state}
-        phones={phones}
-        country={country}
-        countries={countries}
-      />
+      {phones && country ? (
+        <PhoneNumberPurchaseHeader
+          phone={phone}
+          state={state}
+          phones={phones}
+          country={country}
+          countries={countries}
+        />
+      ) : (
+        <BaseHeader>
+          <PanelSection>
+            <NoNumbersAvailableView countries={countries} />
+          </PanelSection>
+        </BaseHeader>
+      )}
       <DownloadAppSection />
       <Footer />
     </>
@@ -61,11 +72,25 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 }) => {
   const { country, state, phone } = query;
 
+  const { data: secondPhoneCountries } =
+    await api.secondPhone.listSecondPhoneCountries();
+
+  const countries = secondPhoneCountries ?? [];
+
   if (typeof country !== "string") {
+    console.log("zxc");
     return {
-      redirect: {
-        destination: "/virtual-phone-number/pricing",
-        statusCode: 301,
+      props: {
+        ...(await serverSideTranslations(locale ?? "en", [
+          "common",
+          "virtual-phone-number",
+          "meta",
+        ])),
+        country: null,
+        phone: null,
+        countries,
+        state: null,
+        phones: null,
       },
     };
   }
@@ -87,11 +112,6 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       },
     };
   }
-
-  const { data: secondPhoneCountries } =
-    await api.secondPhone.listSecondPhoneCountries();
-
-  const countries = secondPhoneCountries ?? [];
 
   if (currentCountry.isoCode === "US" && currentState) {
     let selectedPhone: PhoneToBuy | null = null;
