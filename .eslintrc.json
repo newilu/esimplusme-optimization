@@ -1,11 +1,26 @@
 {
-  "extends": ["kentcdodds", "plugin:react-hooks/recommended"],
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "next",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "plugins": ["prettier"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
-    "@typescript-eslint/no-unsafe-call": "off"
+    "@typescript-eslint/no-unsafe-call": "off",
+    "import/no-cycle": "off",
+    "react/jsx-props-no-spreading": "off",
+    "import/prefer-default-export": "off",
+    "react/require-default-props": "off",
+    "no-restricted-exports": "off",
+    "prefer-arrow-callback": "off",
+    "no-plusplus": "off",
+    "react/no-unstable-nested-components": "warn"
   }
 }

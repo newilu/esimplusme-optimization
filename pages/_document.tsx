@@ -1,59 +1,57 @@
 import React from "react";
+import Image from "next/image";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import i18nextConfig from "../next-i18next.config";
+import Script from "next/script";
 import { ServerStyleSheet } from "styled-components";
+import i18nextConfig from "../next-i18next.config";
 
 class MyDocument extends Document {
   render() {
     const currentLocale =
+      // eslint-disable-next-line no-underscore-dangle
       this.props.__NEXT_DATA__.locale ?? i18nextConfig.i18n.defaultLocale;
     return (
       <Html lang={currentLocale}>
         <Head>
           <meta charSet="utf-8" />
-
           <link href="/app.css" rel="stylesheet" />
+          <link
+            rel="stylesheet"
+            href="https://paymentpage.ecommpay.com/shared/merchant.css"
+          />
         </Head>
         <body>
           <Main />
-          <NextScript />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `  (function (w, d) {
-        w.HelpCrunch = function () {
-          w.HelpCrunch.q.push(arguments);
-        };
-        w.HelpCrunch.q = [];
-        function r() {
-          var s = document.createElement('script');
-          s.async = 1;
-          s.type = 'text/javascript';
-          s.src = 'https://widget.helpcrunch.com/';
-          (d.body || d.head).appendChild(s);
-        }
-        if (w.attachEvent) {
-          w.attachEvent('onload', r);
-        } else {
-          w.addEventListener('load', r, false);
-        }
-      })(window, document);
+          <Script strategy="beforeInteractive" id="help-crunch-script">
+            {`
+              window.helpcrunchSettings = {
+                organization: 'appvillis',
+                appId: 'dc92b31a-172f-46e8-9f88-ceddd074d9fe',
+              };
 
-      HelpCrunch('init', 'appvillis', {
-        applicationId: 1,
-        applicationSecret:
-          '3GoaIg0gOa0vzfNaISDSDL+vJPSCEKYtC8tGIGA+y3z5rgJmfVQ+vFlHOiXJOPAAkKQYw2oheLOO4AJKMV6umA==',
-      });
+              (function(w,d) { 
+                var hS=w.helpcrunchSettings;
+                if(!hS||!hS.organization){return;}
+                var widgetSrc='https://'+hS.organization+'.widget.helpcrunch.com/';
+                w.HelpCrunch=function(){w.HelpCrunch.q.push(arguments)};
+                w.HelpCrunch.q=[];
+                function r(){
+                  if (d.querySelector('script[src="' + widgetSrc + '"')) { return; }
+                  var s=d.createElement('script');
+                  s.async=1;
+                  s.type='text/javascript';
+                  s.src=widgetSrc;
+                  (d.body||d.head).appendChild(s);
+                }
+                if(d.readyState === 'complete'||hS.loadImmediately){r();} 
+                else if(w.attachEvent){w.attachEvent('onload',r)}
+                else{w.addEventListener('load',r,false)}
+              })(window, document)
 
-      HelpCrunch('showChatWidget');`,
-            }}
-          />
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW"
-          ></script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+              HelpCrunch('showChatWidget');
+            `}
+          </Script>
+          <Script strategy="beforeInteractive" id="gtag-script">{`
             window.dataLayer = window.dataLayer || [];
             function gtag() {
             dataLayer.push(arguments);
@@ -61,12 +59,8 @@ class MyDocument extends Document {
             gtag('js', new Date());
 
             gtag('config', 'G-RQ66T6FFRW');
-          `,
-            }}
-          ></script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+          `}</Script>
+          <Script strategy="beforeInteractive" id="metrika-script">{`
       (function (m, e, t, r, i, k, a) {
         m[i] =
           m[i] ||
@@ -99,21 +93,24 @@ class MyDocument extends Document {
         webvisor: true,
         ecommerce: 'dataLayer',
       });
-    `,
-            }}
-          ></script>
+    `}</Script>
+          <Script
+            strategy="beforeInteractive"
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW"
+          />
           <noscript>
             <div>
-              <img
+              <Image
+                width={10}
+                height={10}
                 src="https://mc.yandex.ru/watch/79496440"
                 style={{ position: "absolute", left: -9999 }}
                 alt=""
               />
             </div>
           </noscript>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+          <Script strategy="beforeInteractive" id="fb-script">{`
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
@@ -138,9 +135,12 @@ class MyDocument extends Document {
         'https://connect.facebook.net/en_US/fbevents.js',
       );
       fbq('init', 578800919804138);
-    `,
-            }}
-          ></script>
+    `}</Script>
+          <Script
+            strategy="beforeInteractive"
+            src="https://paymentpage.ecommpay.com/shared/merchant.js"
+          />
+          <NextScript />
         </body>
       </Html>
     );

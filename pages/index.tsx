@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import Footer from "components/Footer";
 import Navbar from "widgets/Navbar";
 import { GetServerSideProps } from "next";
@@ -12,13 +13,12 @@ import api from "api";
 import { Country, Region, RegionById } from "utils/types";
 import Reviews from "features/Reviews";
 import { Trans, useTranslation } from "next-i18next";
-import { generateRandomReviewsCount } from "shared/lib";
+import { generateRandomReviewsCount } from "@/shared/lib";
 import DownloadAppSection from "features/DownloadAppSection";
 import FAQSection from "features/FAQSection";
 import SetupGuide from "features/MobiledataSetupGuide";
 import Header from "features/Header";
 import { LANGS_LIST } from "@/shared/constants";
-import { useRouter } from "next/router";
 
 type HomeProps = {
   countries: Country[];
@@ -91,7 +91,7 @@ export default function Home({
         <meta property="og:locale" content={i18n.language} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://esimplus.me${pathname}`} />
-        <meta property="og:site_name" content="ESIM+" />
+        <meta property="og:site_name" content="ESIM Plus" />
         <meta
           property="og:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
@@ -103,7 +103,7 @@ export default function Home({
           property="og:description"
           content={t("mobile_data_page_description")}
         />
-        <meta name="twitter:card" content="app" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={t("mobile_data_title")} />
         <meta
           name="twitter:description"
@@ -113,7 +113,6 @@ export default function Home({
           name="twitter:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
         />
-        <meta property="article:modified_time" content="2023-06-15" />
         <link
           rel="canonical"
           href={`https://esimplus.me${
@@ -154,12 +153,7 @@ export default function Home({
       />
       <DownloadAppSection sectionTitle="download_the_esimplus_app_mobile_data" />
       <FAQSection />
-      <Footer
-        countryCode={countryCode}
-        countries={countries}
-        regions={regions}
-        worldwideRegion={worldwideRegion}
-      />
+      <Footer countryCode={countryCode} />
     </div>
   );
 }

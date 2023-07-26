@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
 
-export const SwitchButton = styled.button<{ $isSelected?: boolean }>`
+export const SwitchButton = styled.button<{
+  $isSelected?: boolean;
+}>`
   white-space: nowrap;
   flex: 1;
   cursor: pointer;
@@ -52,6 +54,7 @@ export const Wrapper = styled.div<{
     ${(props) =>
       props.isStyledAsDropdown &&
       css`
+        width: 100% !important;
         flex-direction: column;
         max-height: 50px;
         overflow: hidden;

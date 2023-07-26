@@ -1,12 +1,13 @@
+/* eslint react/no-unescaped-entities: 0 */
+
 import React from "react";
 import { useTranslation } from "next-i18next";
 import styled from "styled-components";
 import Footer from "components/Footer";
 import { Container } from "shared/ui/styled";
 import Navbar from "widgets/Navbar";
-import { LANGS_LIST } from "shared/constants";
 import { useRouter } from "next/router";
-import Head from "next/head.js";
+import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
@@ -33,20 +34,20 @@ function TermsOfUse({ countryCode }: { countryCode: string }) {
         <meta property="og:locale" content={i18n.language} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://esimplus.me${pathname}`} />
-        <meta property="og:site_name" content="ESIM+" />
+        <meta property="og:site_name" content="ESIM Plus" />
         <meta
           property="og:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
         />
         <meta property="og:image:width" content="112" />
         <meta property="og:image:height" content="93" />
-        <meta property="og:title" content={`ESIM+ | ${t("terms_of_use")}`} />
+        <meta property="og:title" content={`ESIM Plus | ${t("terms_of_use")}`} />
         <meta
           property="og:description"
           content={t("terms_of_use_page_description")}
         />
-        <meta name="twitter:card" content="app" />
-        <meta name="twitter:title" content={`ESIM+ | ${t("terms_of_use")}`} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={`ESIM Plus | ${t("terms_of_use")}`} />
         <meta
           name="twitter:description"
           content={t("terms_of_use_page_description")}
@@ -55,7 +56,6 @@ function TermsOfUse({ countryCode }: { countryCode: string }) {
           name="twitter:image"
           content="https://static.esimplus.net/storage/logos/logo.png"
         />
-        <meta property="article:modified_time" content="2023-06-15" />
         <link
           rel="canonical"
           href={`https://esimplus.me${
@@ -64,16 +64,7 @@ function TermsOfUse({ countryCode }: { countryCode: string }) {
               : `/${i18n.language.slice(0, 2)}`
           }/terms`}
         />
-        {LANGS_LIST.map((lng) => (
-          <link
-            key={lng.concat("2")}
-            rel="alternate"
-            href={`https://esimplus.me${
-              lng.startsWith("en") ? "" : `/${lng.slice(0, 2)}`
-            }/terms`}
-            hrefLang={lng.toLowerCase()}
-          />
-        ))}
+        <link rel="alternate" href="https://esimplus.me/terms" hrefLang="en" />
       </Head>
       <Wrapper>
         <Navbar />
@@ -245,6 +236,11 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
 }) => {
   const countryCode = req.headers["cf-ipcountry"] ?? "";
+
+  if (locale !== "en") {
+    return { redirect: { destination: "/terms", statusCode: 301 } };
+  }
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Container } from "../../utils/styled";
+import { Container } from "shared/ui/styled";
 
 export const LinksWrapper = styled.div`
   padding-left: 50px;

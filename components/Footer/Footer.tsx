@@ -1,12 +1,18 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
+import Link from "next/link";
 import facebook from "public/staticfiles/Facebook.svg";
 import telegram from "public/staticfiles/Telegram.svg";
 import ln from "public/staticfiles/ln.svg";
 import whatWeAccept from "public/staticfiles/what-we-accept.svg";
-import { Container } from "utils/styled";
-import Logo from "../../entities/Logo";
+import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
+import { Container } from "shared/ui/styled";
+import Logo from "@/entities/Logo";
+import belkal1 from "./assets/belkal-1.svg";
+import belkal2 from "./assets/belkal-2.svg";
+import mir1 from "./assets/mir-1.svg";
+import mir2 from "./assets/mir-2.svg";
 import {
   ListItem,
   List,
@@ -17,46 +23,10 @@ import {
   LinksWrapper,
   TopSection,
   BottomSection,
-  Chat,
 } from "./styled";
-import { Country, Region, RegionById } from "@/utils/types";
-import NavLink from "@/shared/ui/NavLink";
-import CountryFlag from "@/shared/ui/CountryFlag";
-import { BASE_STORAGE_URL, SectionIDS } from "@/shared/constants";
-import { scrollToId } from "@/shared/lib";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { TG_DEFAULT_LINK, TG_RU_LINK } from "@/utils/constants";
-import belkal1 from "./assets/belkal-1.svg";
-import belkal2 from "./assets/belkal-2.svg";
-import mir1 from "./assets/mir-1.svg";
-import mir2 from "./assets/mir-2.svg";
 
-function Footer({
-  countries = [],
-  regions = [],
-  worldwideRegion,
-  countryCode = "",
-}: {
-  countries?: Country[];
-  regions?: Region[];
-  worldwideRegion?: RegionById;
-  countryCode?: string;
-}) {
-  const router = useRouter();
+function Footer({ countryCode = "" }: { countryCode?: string }) {
   const { t, i18n } = useTranslation();
-  const [isShowingAllCountries, setIsShowingAllCountries] =
-    React.useState(false);
-
-  const countryList = React.useMemo(
-    () => (isShowingAllCountries ? countries : countries.slice(0, 9)),
-    [isShowingAllCountries, countries]
-  );
-
-  const handleRegionSelect = (region?: string) => {
-    scrollToId(SectionIDS.SearchYourDestination, 65);
-    void router.push({ query: { region } }, undefined, { shallow: true });
-  };
 
   return (
     <Wrapper>
@@ -65,7 +35,7 @@ function Footer({
           <div>
             <Logo color="white" />
             <SocialNetworksWrapper>
-              <button>
+              <button type="button">
                 <a
                   target="_blank"
                   rel="noreferrer"
@@ -74,7 +44,7 @@ function Footer({
                   <Image src={facebook} alt="facebook" />
                 </a>
               </button>{" "}
-              <button>
+              <button type="button">
                 <Link
                   target="_blank"
                   rel="noreferrer"
@@ -83,7 +53,7 @@ function Footer({
                   <Image src={telegram} alt="telegram" />
                 </Link>
               </button>{" "}
-              <button>
+              <button type="button">
                 <Link
                   target="_blank"
                   rel="noreferrer"
@@ -170,109 +140,6 @@ function Footer({
                 </ListWrapper>
               </div>
             </LinksWrapper>
-            {router.pathname === "/" && (
-              <LinksWrapper>
-                <div>
-                  <ListWrapper>
-                    <ListTitle>{t("local_esim")}</ListTitle>
-                    <List>
-                      {countryList.map(({ country, isoName2 }) => (
-                        <ListItem key={country}>
-                          <NavLink
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleRegionSelect(isoName2.toLowerCase());
-                            }}
-                            href={`/?region=${isoName2.toLowerCase()}`}
-                          >
-                            <Chat key={country}>
-                              <div>
-                                <CountryFlag
-                                  width={22}
-                                  height={22}
-                                  name={isoName2}
-                                  alt="local plan"
-                                />
-                              </div>
-                              {country}
-                            </Chat>
-                          </NavLink>
-                        </ListItem>
-                      ))}
-                      <ListItem
-                        onClick={() =>
-                          setIsShowingAllCountries((prev) => !prev)
-                        }
-                      >
-                        <span>
-                          {isShowingAllCountries ? "Less" : "More"}...
-                        </span>
-                      </ListItem>
-                    </List>
-                  </ListWrapper>
-                </div>
-                <div>
-                  <ListWrapper>
-                    <ListTitle>{t("regional_esim")}</ListTitle>
-                    <List>
-                      {regions.map(({ name }) => (
-                        <ListItem key={name}>
-                          <NavLink
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleRegionSelect(name.toLowerCase());
-                            }}
-                            href={`/?region=${name.toLowerCase()}`}
-                          >
-                            <Chat key={name}>
-                              <div>
-                                <Image
-                                  width={22}
-                                  height={22}
-                                  src={`${BASE_STORAGE_URL}48x30/${name}350.jpg`}
-                                  alt="regional plan"
-                                />
-                              </div>
-                              {name}
-                            </Chat>
-                          </NavLink>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </ListWrapper>
-                </div>
-                <div>
-                  <ListWrapper>
-                    <ListTitle>{t("global_esim")}</ListTitle>
-                    <List>
-                      <ListItem>
-                        <NavLink
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleRegionSelect(
-                              worldwideRegion?.name.toLowerCase()
-                            );
-                          }}
-                          href={`/?region=worldwide`}
-                        >
-                          <Chat>
-                            <div>
-                              <Image
-                                width={22}
-                                height={22}
-                                src={`${BASE_STORAGE_URL}48x30/Pay-as-you-go.jpg`}
-                                alt="worldwide plan"
-                              />
-                            </div>
-                            {worldwideRegion?.name}
-                          </Chat>
-                        </NavLink>
-                      </ListItem>
-                    </List>
-                  </ListWrapper>
-                </div>
-              </LinksWrapper>
-            )}
             <ul>
               <li>
                 <a

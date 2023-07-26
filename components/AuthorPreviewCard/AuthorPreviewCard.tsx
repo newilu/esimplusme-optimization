@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { AuthorDesr, AuthorName, AuthorImageWrapper, Wrapper } from "./styled";
 import Link from "next/link";
+import { AuthorDesr, AuthorName, AuthorImageWrapper, Wrapper } from "./styled";
 
 function AuthorPreviewCard({
   name,

@@ -8,6 +8,7 @@ const { esmExternals = false, tsconfigPath } = loadCustomBuildParams();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
+  staticPageGenerationTimeout: 120000,
   experimental: {
     esmExternals, // https://nextjs.org/blog/next-11-1#es-modules-support
   },
@@ -17,14 +18,37 @@ const nextConfig = {
     tsconfigPath,
   },
   images: {
-    domains: ["static.esimplus.net", "admin-blog.esimplus.me"],
+    domains: ["static.esimplus.net", "admin-blog.esimplus.me", "mc.yandex.ru"],
     minimumCacheTTL: 999999,
+  },
+  async redirects() {
+    return [
+      {
+        source: "/authors/:path*",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/blog/:path*",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/categories/:path*",
+        destination: "/",
+        permanent: true,
+      },
+    ];
   },
   async rewrites() {
     return [
       {
         source: "/sitemap.xml",
         destination: "/api/sitemap",
+      },
+      {
+        source: "/esim/regional",
+        destination: "/esim",
       },
     ];
   },

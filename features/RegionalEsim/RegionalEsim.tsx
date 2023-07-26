@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { Bundle, Country, Region } from "utils/types";
 import { useModalControls } from "shared/hooks";
 import xmark from "shared/assets/xmark.svg";
-import { getErrorMessage, scrollToId } from "shared/lib";
+import { getErrorMessage, scrollToId } from "@/shared/lib";
 import { BASE_STORAGE_URL, SectionIDS } from "shared/constants";
 import Loader from "shared/ui/Loader";
 import SearchInput from "shared/ui/SearchInput";
@@ -81,7 +81,7 @@ function RegionalEsim({
     scrollToId(SectionIDS.SearchYourDestination, 65);
     setSelectedRegion(region);
     const { region: _region, ...rest } = router.query;
-    void router.push(
+    router.push(
       {
         query: {
           ...rest,
@@ -97,7 +97,7 @@ function RegionalEsim({
   React.useEffect(() => {
     if (debouncedFilterText) {
       setIsFilteredCountriesLoading(true);
-      void api.profiles
+      api.profiles
         .getCountriesByFilterText(debouncedFilterText, i18n.language)
         .then(({ data }) => {
           setFilteredCountries(data?.data ?? []);
@@ -165,7 +165,7 @@ function RegionalEsim({
                 <div>{selectedRegion.name}</div>
               </SelectedCountryNameWrapper>
             </div>
-            <button onClick={() => handleRegionChange(null)}>
+            <button type="button" onClick={() => handleRegionChange(null)}>
               <Image width={14} height={14} src={xmark} alt="x mark" />
             </button>
           </SelectedCountry>
@@ -233,7 +233,6 @@ function RegionalEsim({
                 <CountryFlag
                   width={130}
                   height={80}
-                  alt={name}
                   src={`${BASE_STORAGE_URL}130x80/${name}350.jpg`}
                 />
               </div>

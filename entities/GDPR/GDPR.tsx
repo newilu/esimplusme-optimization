@@ -1,9 +1,9 @@
 import React from "react";
 import xmark from "shared/assets/xmark.svg";
 import { getCookie, setCookie } from "shared/lib";
-import { Wrapper } from "./styled";
 import Link from "next/link";
 import Image from "next/image";
+import { Wrapper } from "./styled";
 
 function GDPR({ onSubmit = () => {} }: { onSubmit?: () => void }) {
   const [isOpen, setIsOpen] = React.useState(!getCookie("CookieConsent"));
@@ -26,7 +26,7 @@ function GDPR({ onSubmit = () => {} }: { onSubmit?: () => void }) {
       <div>
         <div>
           By using this site you agree to our{" "}
-          <Link href="/privacy">
+          <Link locale="en" href="/privacy">
             <b>Cookie Policy.</b>
           </Link>
         </div>

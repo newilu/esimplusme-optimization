@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Container } from "../../utils/styled";
+import { Container } from "shared/ui/styled";
 
 export const ImageWrapper = styled.div`
   padding-top: 90px;
