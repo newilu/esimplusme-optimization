@@ -4,6 +4,7 @@ import { scrollToId } from "@/shared/lib";
 import { Container, SectionTitle } from "shared/ui/styled";
 import { SectionIDS } from "shared/constants";
 import Button from "shared/ui/Button";
+import { sendSafeGtagEvent, sendSafeYMEvent } from "@/utils/common";
 import { Content, LeftSide, RightSide, Wrapper } from "./styled";
 
 function SetupGuide() {
@@ -21,10 +22,8 @@ function SetupGuide() {
             <Button
               onClick={() => {
                 scrollToId(SectionIDS.SearchYourDestination, 65);
-                if (typeof window !== "undefined") {
-                  window.ym(79496440, "reachGoal", "setup_cta_click");
-                  window.gtag("event", "setup_cta_click");
-                }
+                sendSafeYMEvent("setup_cta_click")
+                sendSafeGtagEvent("setup_cta_click")
               }}
               label={t("get_mobile_data")}
               variant="outlined"

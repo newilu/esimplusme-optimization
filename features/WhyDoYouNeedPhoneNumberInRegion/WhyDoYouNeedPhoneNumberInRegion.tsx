@@ -6,6 +6,7 @@ import { Paragraph, SectionTitle } from "@/shared/ui/styled";
 import AppstoreDownloadAppButton from "@/entities/AppstoreDownloadAppButton";
 import GplayDownloadAppButton from "@/entities/GplayDownloadAppButton";
 import globe from "@/shared/assets/globe.svg";
+import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
 import { AppBlockWrapper, AppButtonsWrapper, Wrapper } from "./styled";
 
 function WhyDoYouNeedPhoneNumberInRegion({
@@ -17,16 +18,14 @@ function WhyDoYouNeedPhoneNumberInRegion({
   const { t } = useTranslation("virtual-phone-number");
 
   const handleMarketClick = (market: string) => {
-    if (typeof window !== "undefined") window.fbq("track", "Lead");
+    sendSafeFbqEvent("Lead")
     switch (true) {
       case router.asPath.includes("virtual-phone-number"):
-        if (typeof window !== "undefined")
-          window.gtag("event", `virtualnumber_${market}_click`);
+        sendSafeGtagEvent(`virtualnumber_${market}_click`);
         break;
 
       default:
-        if (typeof window !== "undefined")
-          window.gtag("event", `mobiledata_${market}_click`);
+        sendSafeGtagEvent(`mobiledata_${market}_click`);
         break;
     }
   };

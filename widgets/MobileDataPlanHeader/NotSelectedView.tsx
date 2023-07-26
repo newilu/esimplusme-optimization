@@ -62,8 +62,8 @@ function NotSelectedView({
         setFilteredRegions(
           data?.data
             ? regions.filter(({ id }) =>
-                data.data.some(({ regionlist }) => regionlist.includes(id))
-              )
+              data.data.some(({ regionlist }) => regionlist.includes(id))
+            )
             : regions
         );
       },
@@ -134,7 +134,7 @@ function NotSelectedView({
                   <CountryFlag
                     height={58}
                     width={58}
-                    src={`https://static.esimplus.net/storage/flags/${isoName2.toLowerCase()}.svg`}
+                    name={isoName2}
                   />
                 </div>
                 <div>{_country}</div>

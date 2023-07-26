@@ -43,7 +43,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
     React.useState(false);
   const [activeCountry, setActiveCountry] = React.useState<Country | null>(
     countries.find((el) => el.isoName2.toLowerCase() === router.query.region) ??
-      null
+    null
   );
   const [filteredCountries, setFilteredCountries] = React.useState<Country[]>(
     []
@@ -97,7 +97,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
 
       setBundlesByDataAmount(
         existingBundlesBySelectedDataAmount ??
-          countryByIsoName.bundles[countryByIsoName.availableDataAmounts[0]]
+        countryByIsoName.bundles[countryByIsoName.availableDataAmounts[0]]
       );
     },
     [countryByIsoName, selectedDataSize]
@@ -270,7 +270,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
                 <CountryFlag
                   height={58}
                   width={58}
-                  src={`https://static.esimplus.net/storage/flags/${isoName2.toLowerCase()}.svg`}
+                  name={isoName2}
                 />
               </div>
               <div>{country}</div>

@@ -16,6 +16,7 @@ import gplay from "./assets/gplay.svg";
 import gplayDark from "./assets/gplay-black.svg";
 import appstore from "./assets/appstore.svg";
 import appstoreDark from "./assets/appstore-black.svg";
+import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
 import { ButtonsWrapper, Content, ImageWrapper, Wrapper } from "./styled";
 
 function DownloadAppSection({
@@ -28,16 +29,14 @@ function DownloadAppSection({
   const theme = useTheme();
 
   const handleMarketClick = (market: string) => {
-    if (typeof window !== "undefined") window.fbq("track", "Lead");
+    sendSafeFbqEvent("Lead")
     switch (true) {
       case router.pathname.includes("virtual-phone-number"):
-        if (typeof window !== "undefined")
-          window.gtag("event", `virtualnumber_${market}_click`);
+        sendSafeGtagEvent(`virtualnumber_${market}_click`)
         break;
 
       default:
-        if (typeof window !== "undefined")
-          window.gtag("event", `mobiledata_${market}_click`);
+        sendSafeGtagEvent(`mobiledata_${market}_click`)
         break;
     }
   };

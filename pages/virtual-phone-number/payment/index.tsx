@@ -78,7 +78,6 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   const countries = secondPhoneCountries ?? [];
 
   if (typeof country !== "string") {
-    console.log("zxc");
     return {
       props: {
         ...(await serverSideTranslations(locale ?? "en", [
