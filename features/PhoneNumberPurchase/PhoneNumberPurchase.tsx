@@ -140,8 +140,8 @@ function PhoneNumberPurchase({
             <Trans
               i18nKey="virtual-phone-number:phone_purchase_agreement_second"
               components={{
-                1: <Link href="/privacy" />,
-                2: <Link href="/terms" />,
+                1: <Link target="_blank" href="/privacy" />,
+                2: <Link target="_blank" href="/terms" />,
               }}
             />
           </div>
