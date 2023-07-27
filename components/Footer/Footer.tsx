@@ -84,7 +84,7 @@ function Footer() {
                     </ListItem>
                     <ListItem>
                       <Link locale="en" href="/virtual-phone-number/pricing">
-                        {t("virtual-phone-number:phone_number_rates")}
+                        {t("phone_number_rates")}
                       </Link>
                     </ListItem>
                   </List>
