@@ -43,18 +43,18 @@ function Footer() {
             <Logo color="white" />
             <SocialNetworksWrapper>
               <button type="button">
-                <a
+                <Link
                   target="_blank"
-                  rel="noreferrer"
+                  rel="nofollow"
                   href="https://www.facebook.com/esimplus.me/"
                 >
                   <Image src={facebook} alt="facebook" />
-                </a>
+                </Link>
               </button>{" "}
               <button type="button">
                 <Link
                   target="_blank"
-                  rel="noreferrer"
+                  rel="nofollow"
                   href={i18n.language === "ru" ? TG_RU_LINK : TG_DEFAULT_LINK}
                 >
                   <Image src={telegram} alt="telegram" />
@@ -63,7 +63,7 @@ function Footer() {
               <button type="button">
                 <Link
                   target="_blank"
-                  rel="noreferrer"
+                  rel="nofollow"
                   href="https://www.linkedin.com/company/esimplus"
                 >
                   <Image src={ln} alt="linkedin" />
