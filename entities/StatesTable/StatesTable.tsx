@@ -85,7 +85,7 @@ function StatesTable({
         header: () => t("monthly_fee"),
         cell: () =>
           t("from_amount_month", {
-            price: phoneNumberStartingPrice || MINIMAL_PHONE_NUMBER_PRICE + 1,
+            price: (phoneNumberStartingPrice || MINIMAL_PHONE_NUMBER_PRICE) + 1,
           }),
       }),
     [phoneNumberStartingPrice, t]
