@@ -35,7 +35,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
   const [phoneNumbersList, setPhoneNumbersList] = React.useState<
     (SecondPhoneCountry & { phoneNumber: string })[]
   >([]);
-  console.log(countries);
+
   const phoneNumberColumn = React.useMemo(
     () =>
       columnHelper.accessor("phoneNumber", {
@@ -96,8 +96,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
           };
         })
         .filter(
-          (i): i is SecondPhoneCountry & { phoneNumber: string } =>
-            typeof i !== null
+          (i): i is SecondPhoneCountry & { phoneNumber: string } => i !== null
         )
     );
   }, [countries]);
