@@ -48,7 +48,6 @@ function PhoneNumberPurchase({
   const { t } = useTranslation("virtual-phone-number");
   const [checkedAgreements, setCheckedAgreements] = React.useState({
     first: false,
-    second: false,
   });
 
   return (
@@ -122,7 +121,7 @@ function PhoneNumberPurchase({
       </PhoneNumberCapabilitiesInfo>
       <Button
         fullWidth
-        disabled={!checkedAgreements.first || !checkedAgreements.second}
+        disabled={!checkedAgreements.first}
         label={t("get_number")}
         onClick={onSubmit}
       />
@@ -131,23 +130,9 @@ function PhoneNumberPurchase({
           <Checkbox
             value={checkedAgreements.first}
             onChange={() => {
-              setCheckedAgreements((prev) => ({ ...prev, first: !prev.first }));
-            }}
-          />
-          <div>
-            <Trans
-              i18nKey="virtual-phone-number:phone_purchase_agreement_first"
-              components={{ a: <Link href="/esim-supported-devices" /> }}
-            />
-          </div>
-        </Agreement>{" "}
-        <Agreement>
-          <Checkbox
-            value={checkedAgreements.second}
-            onChange={() => {
               setCheckedAgreements((prev) => ({
                 ...prev,
-                second: !prev.second,
+                first: !prev.first,
               }));
             }}
           />

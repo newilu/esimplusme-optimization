@@ -52,7 +52,12 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
     () =>
       columnHelper.accessor("prices.cheapest.price", {
         header: () => t("connection_monthly_fee"),
-        cell: (info) => t("from_amount_month", { price: info.getValue() + 1 }),
+        cell: (info) => {
+          const price = info.getValue();
+          return price
+            ? t("from_amount_month", { price: info.getValue() + 1 })
+            : "-";
+        },
       }),
     [t]
   );

@@ -67,11 +67,16 @@ function PopularCountriesTable({
         header: () => (
           <div style={{ textAlign: "left" }}>{t("monthly_fee")}</div>
         ),
-        cell: (info) => (
-          <div style={{ textAlign: "left" }}>
-            <b>{t("from_amount_month", { price: info.getValue() + 1 })}</b>
-          </div>
-        ),
+        cell: (info) => {
+          const price = info.getValue();
+          return (
+            <div style={{ textAlign: "left" }}>
+              <b>
+                {price ? t("from_amount_month", { price: price + 1 }) : "-"}
+              </b>
+            </div>
+          );
+        },
       }),
 
     [t]
