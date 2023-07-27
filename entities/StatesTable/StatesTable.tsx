@@ -8,7 +8,10 @@ import {
   getCountryByIsoCode,
   removeExcludedWords,
 } from "@/shared/lib";
-import { STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
+import {
+  MINIMAL_PHONE_NUMBER_PRICE,
+  STATE_NAME_DEPRECATED_WORDS,
+} from "@/shared/constants";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Button from "@/shared/ui/Button";
 import { StateNameWrapper, Wrapper } from "./styled";
@@ -81,9 +84,9 @@ function StatesTable({
         id: TableIDS.MonthlyFee,
         header: () => t("monthly_fee"),
         cell: () =>
-          phoneNumberStartingPrice
-            ? t("from_amount_month", { price: phoneNumberStartingPrice + 1 })
-            : "-",
+          t("from_amount_month", {
+            price: phoneNumberStartingPrice || MINIMAL_PHONE_NUMBER_PRICE + 1,
+          }),
       }),
     [phoneNumberStartingPrice, t]
   );

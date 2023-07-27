@@ -12,7 +12,10 @@ import {
   getRandomInt,
 } from "@/shared/lib";
 import BaseTable from "@/shared/ui/BaseTable";
-import { SECOND_PHONE_SUPPORTED_COUNTRIES } from "@/shared/constants";
+import {
+  MINIMAL_PHONE_NUMBER_PRICE,
+  SECOND_PHONE_SUPPORTED_COUNTRIES,
+} from "@/shared/constants";
 import { format } from "libphonenumber-js";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import searchIcon from "./assets/search.svg";
@@ -53,10 +56,8 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
       columnHelper.accessor("prices.cheapest.price", {
         header: () => t("connection_monthly_fee"),
         cell: (info) => {
-          const price = info.getValue();
-          return price
-            ? t("from_amount_month", { price: info.getValue() + 1 })
-            : "-";
+          const price = info.getValue() || MINIMAL_PHONE_NUMBER_PRICE;
+          return t("from_amount_month", { price: price + 1 });
         },
       }),
     [t]
