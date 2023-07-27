@@ -96,8 +96,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
           };
         })
         .filter(
-          (i): i is SecondPhoneCountry & { phoneNumber: string } =>
-            typeof i !== null
+          (i): i is SecondPhoneCountry & { phoneNumber: string } => i !== null
         )
     );
   }, [countries]);
