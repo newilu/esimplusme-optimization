@@ -2,34 +2,64 @@ import React from "react";
 import type { ICountry, IState } from "country-cities";
 import type { GetServerSideProps } from "next";
 import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
 import { COUNTRY_LIST } from "@/shared/constants";
-import { formatStringToKebabCase, getStatesByCountryCode } from "@/shared/lib";
+import {
+  formatStringToKebabCase,
+  generateMeta,
+  getStatesByCountryCode,
+} from "@/shared/lib";
 import PhoneNumberPurchaseHeader from "@/widgets/PhoneNumberPurchaseHeader";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
+import NoNumbersAvailableView from "@/features/NoNumbersAvailableView";
+import BaseHeader from "@/shared/ui/BaseHeader";
+import { PanelSection } from "@/shared/ui/styled";
 
 type PageProps = {
-  phones: PhoneToBuy[];
-  country: ICountry;
+  phones: PhoneToBuy[] | null;
+  countries: SecondPhoneCountry[];
+  country: ICountry | null;
   state: IState | null;
   phone: PhoneToBuy | null;
-  countries: SecondPhoneCountry[];
 };
 
 function Index({ country, state, phones, phone, countries }: PageProps) {
+  const { asPath } = useRouter();
+  const { t, i18n } = useTranslation("virtual-phone-number");
+
+  const meta = generateMeta({
+    language: i18n.language,
+    title: t("meta:payment_title"),
+    description: t("meta:payment_description"),
+    asPath,
+    supportedLangs: ["en"],
+  });
+
   return (
     <>
+      <Head>{meta}</Head>
       <Navbar />
-      <PhoneNumberPurchaseHeader
-        phone={phone}
-        state={state}
-        phones={phones}
-        country={country}
-        countries={countries}
-      />
+      {phones && country ? (
+        <PhoneNumberPurchaseHeader
+          phone={phone}
+          state={state}
+          phones={phones}
+          country={country}
+          countries={countries}
+        />
+      ) : (
+        <BaseHeader>
+          <PanelSection>
+            <NoNumbersAvailableView countries={countries} />
+          </PanelSection>
+        </BaseHeader>
+      )}
       <DownloadAppSection />
       <Footer />
     </>
@@ -42,11 +72,24 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 }) => {
   const { country, state, phone } = query;
 
+  const { data: secondPhoneCountries } =
+    await api.secondPhone.listSecondPhoneCountries();
+
+  const countries = secondPhoneCountries ?? [];
+
   if (typeof country !== "string") {
     return {
-      redirect: {
-        destination: "/virtual-phone-number/pricing",
-        statusCode: 301,
+      props: {
+        ...(await serverSideTranslations(locale ?? "en", [
+          "common",
+          "virtual-phone-number",
+          "meta",
+        ])),
+        country: null,
+        phone: null,
+        countries,
+        state: null,
+        phones: null,
       },
     };
   }
@@ -68,11 +111,6 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       },
     };
   }
-
-  const { data: secondPhoneCountriesDataRaw } =
-    await api.secondPhone.listSecondPhoneCountries();
-
-  const countries = secondPhoneCountriesDataRaw?.data.countries ?? [];
 
   if (currentCountry.isoCode === "US" && currentState) {
     let selectedPhone: PhoneToBuy | null = null;
@@ -107,6 +145,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
         ...(await serverSideTranslations(locale ?? "en", [
           "common",
           "virtual-phone-number",
+          "meta",
         ])),
         phones,
         phone: selectedPhone,
@@ -137,6 +176,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       ...(await serverSideTranslations(locale ?? "en", [
         "common",
         "virtual-phone-number",
+        "meta",
       ])),
       phones: filteredPhones.length ? filteredPhones : countryPhones,
       country: currentCountry,

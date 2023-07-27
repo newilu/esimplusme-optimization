@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { LANGS_LIST } from "@/shared/constants";
 
-function VirtualPhoneNumber({ countryCode }: { countryCode: string }) {
+function VirtualPhoneNumber() {
   const { pathname } = useRouter();
   const { t, i18n } = useTranslation();
   const [reviewsCount, setReviesCount] = React.useState("350000");
@@ -140,7 +140,7 @@ function VirtualPhoneNumber({ countryCode }: { countryCode: string }) {
         <GetFreeNumberSection />
         <DownloadAppSection sectionTitle="download_the_esimplus_app_virtual_numbers" />
         <FAQSection />
-        <Footer countryCode={countryCode} />
+        <Footer />
       </div>
     </>
   );
@@ -148,20 +148,12 @@ function VirtualPhoneNumber({ countryCode }: { countryCode: string }) {
 
 export default VirtualPhoneNumber;
 
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  req,
-}) => {
-  const countryCode = req.headers["cf-ipcountry"] ?? "";
-
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "en", [
-        "common",
-        "navbar",
-        "footer",
-      ])),
-      countryCode,
-    },
-  };
-};
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? "en", [
+      "common",
+      "navbar",
+      "footer",
+    ])),
+  },
+});

@@ -106,4 +106,12 @@ export const Wrapper = styled.div`
       }
     }
   }
+
+  @media (max-width: 430px) {
+    > div:first-child {
+      > ${SectionTitle},>${Paragraph}:first-of-type {
+        text-align: center;
+      }
+    }
+  }
 `;

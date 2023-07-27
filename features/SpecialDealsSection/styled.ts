@@ -84,3 +84,11 @@ export const Wrapper = styled.div`
     }
   }
 `;
+
+export const TextSEO = styled.p`
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  overflow: hidden;
+  color: transparent;
+`

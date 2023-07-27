@@ -57,7 +57,7 @@ function SelectProviderAndPurchaseHeader() {
     if (error) {
       toast.error(getErrorMessage(error));
     } else if (data?.data.payUrl) {
-      // push(data?.data.payUrl);
+      push(data?.data.payUrl);
     }
   };
 

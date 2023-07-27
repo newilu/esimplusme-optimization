@@ -97,7 +97,8 @@ export const Content = styled.div`
   ul {
     padding: 50px 0;
     display: grid;
-    grid-gap: 2rem;
+    grid-gap: 32px;
+
     li {
       display: flex;
       grid-gap: 15px;
@@ -113,6 +114,7 @@ export const Content = styled.div`
 
     ul {
       padding: 2rem 0;
+      gap: 16px;
 
       li {
         font-weight: 400;

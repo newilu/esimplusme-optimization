@@ -6,6 +6,7 @@ import busd from "./assets/busd.png";
 import usdt from "./assets/tether.png";
 import { Container, SectionTitle } from "shared/ui/styled";
 import Button from "shared/ui/Button";
+import { sendSafeGtagEvent } from "@/utils/common";
 import {
   Card,
   CardsWrapper,
@@ -42,9 +43,7 @@ function HowToGetSms() {
         <GetNumberWrapper>
           <Button
             onClick={() => {
-              if (typeof window !== "undefined") {
-                window.gtag("event", "virtualnumber_setup_button_click");
-              }
+              sendSafeGtagEvent("virtualnumber_setup_button_click")
             }}
             label={
               <a

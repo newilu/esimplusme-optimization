@@ -25,8 +25,15 @@ import {
   BottomSection,
 } from "./styled";
 
-function Footer({ countryCode = "" }: { countryCode?: string }) {
+function Footer() {
   const { t, i18n } = useTranslation();
+  const [countryCode, setCountryCode] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCountryCode(document.documentElement.getAttribute("data-country"));
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -36,18 +43,18 @@ function Footer({ countryCode = "" }: { countryCode?: string }) {
             <Logo color="white" />
             <SocialNetworksWrapper>
               <button type="button">
-                <a
+                <Link
                   target="_blank"
-                  rel="noreferrer"
-                  href="https://www.facebook.com/esim4world/"
+                  rel="nofollow"
+                  href="https://www.facebook.com/esimplus.me/"
                 >
                   <Image src={facebook} alt="facebook" />
-                </a>
+                </Link>
               </button>{" "}
               <button type="button">
                 <Link
                   target="_blank"
-                  rel="noreferrer"
+                  rel="nofollow"
                   href={i18n.language === "ru" ? TG_RU_LINK : TG_DEFAULT_LINK}
                 >
                   <Image src={telegram} alt="telegram" />
@@ -56,7 +63,7 @@ function Footer({ countryCode = "" }: { countryCode?: string }) {
               <button type="button">
                 <Link
                   target="_blank"
-                  rel="noreferrer"
+                  rel="nofollow"
                   href="https://www.linkedin.com/company/esimplus"
                 >
                   <Image src={ln} alt="linkedin" />
@@ -76,7 +83,9 @@ function Footer({ countryCode = "" }: { countryCode?: string }) {
                       </Link>
                     </ListItem>
                     <ListItem>
-                      <Link href="/">{t("mobile_data")}</Link>
+                      <Link locale="en" href="/virtual-phone-number/pricing">
+                        {t("phone_number_rates")}
+                      </Link>
                     </ListItem>
                   </List>
                 </ListWrapper>

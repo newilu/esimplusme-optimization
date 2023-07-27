@@ -24,14 +24,12 @@ type HomeProps = {
   countries: Country[];
   regions: Region[];
   worldwideRegion?: RegionById;
-  countryCode: string;
 };
 
 export default function Home({
   countries,
   regions,
   worldwideRegion,
-  countryCode,
 }: HomeProps) {
   const { pathname } = useRouter();
   const { t, i18n } = useTranslation();
@@ -153,17 +151,14 @@ export default function Home({
       />
       <DownloadAppSection sectionTitle="download_the_esimplus_app_mobile_data" />
       <FAQSection />
-      <Footer countryCode={countryCode} />
+      <Footer />
     </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
   locale,
-  req,
 }) => {
-  const countryCode = (req.headers["cf-ipcountry"] ?? "") as string;
-
   const [countries, regions, worldwideRegion] = await Promise.all([
     api.profiles.listCountries(),
     api.profiles.listRegions(),
@@ -180,7 +175,6 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
       countries: countries.data?.data.countries ?? [],
       regions: regions.data?.data.regions ?? [],
       worldwideRegion: worldwideRegion.data?.data.region,
-      countryCode,
     },
   };
 };

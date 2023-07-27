@@ -1,5 +1,11 @@
 import { ProviderTypes } from "./constants";
 
+export type MappedDataType<T extends unknown> = {
+  data: T | null;
+  error: string | null;
+  headers: Headers;
+};
+
 export type State = {
   abbreviation: string;
   id: number;

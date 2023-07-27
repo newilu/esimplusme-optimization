@@ -119,10 +119,10 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  const { data: secondPhoneCountriesDataRaw } =
+  const { data: secondPhoneCountries } =
     await api.secondPhone.listSecondPhoneCountries();
 
-  const countries = secondPhoneCountriesDataRaw?.data.countries ?? [];
+  const countries = secondPhoneCountries ?? [];
 
   if (currentCountry.isoCode === "US") {
     const { data } = await api.secondPhone.getAvailableNumbersByStateISO(

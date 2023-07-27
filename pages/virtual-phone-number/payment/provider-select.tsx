@@ -1,14 +1,30 @@
 import React from "react";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Navbar from "@/widgets/Navbar";
 import SelectProviderAndPurchaseHeader from "@/widgets/SelectProviderAndPurchaseHeader";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
+import { generateMeta } from "@/shared/lib";
 
 function ProviderSelect() {
+  const { asPath } = useRouter();
+  const { t, i18n } = useTranslation("virtual-phone-number");
+
+  const meta = generateMeta({
+    language: i18n.language,
+    title: t("meta:payment_provider_select_title"),
+    description: t("meta:payment_provider_select_description"),
+    asPath,
+    supportedLangs: ["en"],
+  });
+
   return (
     <>
+      <Head>{meta}</Head>
       <Navbar />
       <SelectProviderAndPurchaseHeader />
       <DownloadAppSection />
@@ -22,6 +38,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
     ...(await serverSideTranslations(locale ?? "en", [
       "common",
       "virtual-phone-number",
+      "meta",
     ])),
   },
 });

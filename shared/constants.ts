@@ -40,3 +40,5 @@ export const SECOND_PHONE_SUPPORTED_COUNTRIES = [
   "IL",
   "CA",
 ];
+
+export const MINIMAL_PHONE_NUMBER_PRICE = 7;

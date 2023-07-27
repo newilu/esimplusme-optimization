@@ -15,13 +15,17 @@ function RandomPhoneNumberGenerator() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? "en", [
-      "common",
-      "random-number",
-    ])),
-  },
-});
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return { redirect: { destination: "/", statusCode: 301 } };
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", [
+        "common",
+        "random-number",
+      ])),
+    },
+  };
+};
 
 export default RandomPhoneNumberGenerator;

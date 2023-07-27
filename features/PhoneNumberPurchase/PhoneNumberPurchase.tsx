@@ -36,17 +36,18 @@ type PhoneNumberPurchaseProps = {
   phone: PhoneToBuy;
   country: ICountry;
   onSubmit?: () => void;
+  isNumberOfMobileType?: boolean;
 };
 
 function PhoneNumberPurchase({
   phone,
   country,
   onSubmit = () => {},
+  isNumberOfMobileType = false,
 }: PhoneNumberPurchaseProps) {
   const { t } = useTranslation("virtual-phone-number");
   const [checkedAgreements, setCheckedAgreements] = React.useState({
     first: false,
-    second: false,
   });
 
   return (
@@ -54,9 +55,13 @@ function PhoneNumberPurchase({
       <CountryNameAndNumberTypeWrapper>
         <CountryNameWrapper>
           <CountryFlag width={24} height={18} name={country.isoCode} />
-          {country.isoCode === "US" ? "US" : country.name}
+          {!isNumberOfMobileType &&
+            (country.isoCode === "US" ? "US" : country.name)}
+          {isNumberOfMobileType && country.name}
         </CountryNameWrapper>
-        <NumberType>{phone.numberType}</NumberType>
+        <NumberType>
+          {isNumberOfMobileType ? "Mobile" : phone.numberType}
+        </NumberType>
       </CountryNameAndNumberTypeWrapper>
       <PhoneNumberAndPriceWrapper>
         <PhoneNumber>{format(phone.phoneNumber, "INTERNATIONAL")}</PhoneNumber>
@@ -116,7 +121,7 @@ function PhoneNumberPurchase({
       </PhoneNumberCapabilitiesInfo>
       <Button
         fullWidth
-        disabled={!checkedAgreements.first || !checkedAgreements.second}
+        disabled={!checkedAgreements.first}
         label={t("get_number")}
         onClick={onSubmit}
       />
@@ -125,23 +130,9 @@ function PhoneNumberPurchase({
           <Checkbox
             value={checkedAgreements.first}
             onChange={() => {
-              setCheckedAgreements((prev) => ({ ...prev, first: !prev.first }));
-            }}
-          />
-          <div>
-            <Trans
-              i18nKey="virtual-phone-number:phone_purchase_agreement_first"
-              components={{ a: <Link href="/esim-supported-devices" /> }}
-            />
-          </div>
-        </Agreement>{" "}
-        <Agreement>
-          <Checkbox
-            value={checkedAgreements.second}
-            onChange={() => {
               setCheckedAgreements((prev) => ({
                 ...prev,
-                second: !prev.second,
+                first: !prev.first,
               }));
             }}
           />
@@ -149,8 +140,8 @@ function PhoneNumberPurchase({
             <Trans
               i18nKey="virtual-phone-number:phone_purchase_agreement_second"
               components={{
-                1: <Link href="/privacy" />,
-                2: <Link href="/terms" />,
+                1: <Link target="_blank" href="/privacy" />,
+                2: <Link target="_blank" href="/terms" />,
               }}
             />
           </div>

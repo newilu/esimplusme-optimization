@@ -86,7 +86,10 @@ export const Wrapper = styled.div<{
   scrollable?: boolean;
 }>`
   position: relative;
-  overflow: auto;
+
+  > div {
+    overflow: auto;
+  }
 
   ${(props) =>
     props.scrollable &&
@@ -96,6 +99,7 @@ export const Wrapper = styled.div<{
           border-bottom: none;
         }
       }
+
       &:after {
         content: "";
         position: absolute;

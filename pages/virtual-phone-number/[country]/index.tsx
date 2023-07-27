@@ -11,10 +11,7 @@ import PhoneNumberRegionsByCountry from "@/widgets/PhoneNumberRegionsByCountry";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
 import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
-import {
-  COUNTRY_LIST,
-  SECOND_PHONE_SUPPORTED_COUNTRIES,
-} from "@/shared/constants";
+import { COUNTRY_LIST } from "@/shared/constants";
 import {
   formatStringToKebabCase,
   generateMeta,
@@ -115,16 +112,10 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     phoneNumbers = data?.data.phones ?? [];
   }
 
-  const { data } = await api.secondPhone.listSecondPhoneCountries();
+  const { data: secondPhoneCountries } =
+    await api.secondPhone.listSecondPhoneCountries();
 
-  const popularCountries =
-    data?.data.countries
-      .filter(({ code }) => SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code))
-      .sort(
-        (a, b) =>
-          SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
-          SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
-      ) ?? [];
+  const popularCountries = secondPhoneCountries ?? [];
 
   phoneNumberStartingPrice =
     popularCountries.find((el) => el.code === currentCountry.isoCode)?.prices

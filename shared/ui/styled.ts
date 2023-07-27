@@ -7,6 +7,10 @@ export const PanelSectionTitle = styled.div`
   font-weight: 700;
   font-size: 18px;
   line-height: 26px;
+
+  @media (max-width: 430px) {
+    padding: 16px;
+  }
 `;
 export const PanelSection = styled.div<{ flex?: string | number }>`
   background: ${(props) => props.theme.panelSectionBg};

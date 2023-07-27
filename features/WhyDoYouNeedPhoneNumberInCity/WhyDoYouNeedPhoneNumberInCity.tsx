@@ -7,6 +7,7 @@ import AppstoreDownloadAppButton from "@/entities/AppstoreDownloadAppButton";
 import GplayDownloadAppButton from "@/entities/GplayDownloadAppButton";
 import clock from "./assets/clock.svg";
 import note from "./assets/note.svg";
+import { sendSafeGtagEvent, sendSafeFbqEvent } from "@/utils/common";
 import { AppBlockWrapper, AppButtonsWrapper, Wrapper } from "./styled";
 
 function WhyDoYouNeedPhoneNumberInCity({ cityName }: { cityName: string }) {
@@ -14,16 +15,14 @@ function WhyDoYouNeedPhoneNumberInCity({ cityName }: { cityName: string }) {
   const { t } = useTranslation("virtual-phone-number");
 
   const handleMarketClick = (market: string) => {
-    if (typeof window !== "undefined") window.fbq("track", "Lead");
+    sendSafeFbqEvent('Lead')
     switch (true) {
       case router.asPath.includes("virtual-phone-number"):
-        if (typeof window !== "undefined")
-          window.gtag("event", `virtualnumber_${market}_click`);
+        sendSafeGtagEvent(`virtualnumber_${market}_click`);
         break;
 
       default:
-        if (typeof window !== "undefined")
-          window.gtag("event", `mobiledata_${market}_click`);
+        sendSafeGtagEvent(`mobiledata_${market}_click`);
         break;
     }
   };

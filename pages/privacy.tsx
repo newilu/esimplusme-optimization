@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   color: ${(props) => props.theme.primaryText};
 `;
 
-function Privacy({ countryCode }: { countryCode: string }) {
+function Privacy() {
   const { pathname } = useRouter();
   const { t, i18n } = useTranslation();
 
@@ -37,13 +37,19 @@ function Privacy({ countryCode }: { countryCode: string }) {
         />
         <meta property="og:image:width" content="112" />
         <meta property="og:image:height" content="93" />
-        <meta property="og:title" content={`ESIM Plus | ${t("privacy_policy")}`} />
+        <meta
+          property="og:title"
+          content={`ESIM Plus | ${t("privacy_policy")}`}
+        />
         <meta
           property="og:description"
           content={t("privacy_policy_page_description")}
         />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={`ESIM Plus | ${t("privacy_policy")}`} />
+        <meta
+          name="twitter:title"
+          content={`ESIM Plus | ${t("privacy_policy")}`}
+        />
         <meta
           name="twitter:description"
           content={t("privacy_policy_page_description")}
@@ -660,7 +666,7 @@ function Privacy({ countryCode }: { countryCode: string }) {
             Vilnius, 01134, Lithiania
           </p>
         </Container>
-        <Footer countryCode={countryCode} />
+        <Footer />
       </Wrapper>
     </>
   );
@@ -668,12 +674,7 @@ function Privacy({ countryCode }: { countryCode: string }) {
 
 export default Privacy;
 
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  req,
-}) => {
-  const countryCode = req.headers["cf-ipcountry"] ?? "";
-
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   if (locale !== "en") {
     return { redirect: { destination: "/privacy", statusCode: 301 } };
   }
@@ -685,7 +686,6 @@ export const getServerSideProps: GetServerSideProps = async ({
         "navbar",
         "footer",
       ])),
-      countryCode,
     },
   };
 };

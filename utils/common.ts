@@ -100,4 +100,29 @@ function uuid() {
   });
 }
 
-export { setCookie, getCookie, scrollToId, getErrorMessage, uuid };
+function sendSafeYMEvent(name: string) {
+  return sendSafeEvent('ym', () => window.ym(79496440, "reachGoal", name))
+}
+
+function sendSafeGtagEvent(name: string) {
+  return sendSafeEvent('gtag', () => window.gtag("event", name))
+}
+
+function sendSafeFbqEvent(name: string) {
+  return sendSafeEvent('fbq', () => window.fbq("track", name))
+}
+
+function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq', callback: () => void) {
+  const timerId = setInterval(() => {
+    if (typeof window !== 'undefined' && typeof window[type] !== 'undefined') {
+      callback()
+      clearInterval(timerId)
+    } else {
+      console.log(type + " мetric not initialized");
+    }
+  }, 500)
+
+  return timerId
+}
+
+export { sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid };

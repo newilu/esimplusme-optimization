@@ -8,10 +8,7 @@ import PhoneNumbersRates from "@/widgets/PhoneNumberRates";
 import Navbar from "@/widgets/Navbar";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import { SecondPhoneCountry } from "@/utils/types";
-import {
-  COUNTRY_LIST,
-  SECOND_PHONE_SUPPORTED_COUNTRIES,
-} from "@/shared/constants";
+import { COUNTRY_LIST } from "@/shared/constants";
 import SpecialDealsSection from "@/features/SpecialDealsSection";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
@@ -55,19 +52,17 @@ function Pricing({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const [{ data: popularCountriesRaw }] = await Promise.all([
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  req,
+}) => {
+  const countryCode = (req.headers["cf-ipcountry"] ?? "") as string;
+
+  const [{ data: popularCountries }] = await Promise.all([
     api.secondPhone.listSecondPhoneCountries(),
   ]);
-  const popularSecondPhoneCountries = popularCountriesRaw?.data.countries
-    .filter(({ code }) => SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code))
-    .sort(
-      (a, b) =>
-        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
-        SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
-    );
 
-  if (!popularSecondPhoneCountries) {
+  if (!popularCountries) {
     return {
       redirect: {
         destination: "/virtual-phone-number",
@@ -83,8 +78,9 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         "virtual-phone-number",
         "meta",
       ])),
-      popularSecondPhoneCountries,
+      popularSecondPhoneCountries: popularCountries,
       secondPhoneCountries: COUNTRY_LIST,
+      countryCode,
     },
   };
 };

@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import BaseTable from "@/shared/ui/BaseTable";
 import Link from "next/link";
 
@@ -7,8 +7,9 @@ export const PhoneNumber = styled.div`
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.1px;
-  color: ${(props) => props.theme.primaryText};
+  color: ${(props) => props.theme.primaryText} !important;
 `;
+
 export const PhoneNumberType = styled.div`
   font-weight: 500;
   font-size: 14px;
