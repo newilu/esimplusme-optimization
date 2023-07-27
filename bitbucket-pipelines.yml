@@ -34,9 +34,9 @@ pipelines:
             - IMAGE_NAME=esimplus-prod
             - VERSION=0.1.${BITBUCKET_BUILD_NUMBER}
             - touch .env
-            - echo PROD_NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL} >> .env
-            - echo PROD_NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL} >> .env
-            - echo PROD_NEXT_PUBLIC_ECOMMPAY_PROJECT_ID=${NEXT_PUBLIC_ECOMMPAY_PROJECT_ID} >> .env
+            - echo NEXT_PUBLIC_BASE_URL=${PROD_NEXT_PUBLIC_BASE_URL} >> .env
+            - echo NEXT_PUBLIC_SERVER_URL=${PROD_NEXT_PUBLIC_SERVER_URL} >> .env
+            - echo NEXT_PUBLIC_ECOMMPAY_PROJECT_ID=${PROD_NEXT_PUBLIC_ECOMMPAY_PROJECT_ID} >> .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
             - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
