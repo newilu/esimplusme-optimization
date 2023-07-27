@@ -35,7 +35,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
   const [phoneNumbersList, setPhoneNumbersList] = React.useState<
     (SecondPhoneCountry & { phoneNumber: string })[]
   >([]);
-
+  console.log(countries);
   const phoneNumberColumn = React.useMemo(
     () =>
       columnHelper.accessor("phoneNumber", {
