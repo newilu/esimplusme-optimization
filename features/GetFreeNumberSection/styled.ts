@@ -72,6 +72,12 @@ export const Wrapper = styled.div`
       top: 0;
     }
 
+    a {
+      color: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
     &::before {
       content: url(${arrowRight.src});
       position: absolute;

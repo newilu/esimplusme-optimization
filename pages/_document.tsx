@@ -22,36 +22,7 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <Script id="help-crunch-script" strategy='afterInteractive'>
-            {`
-              window.helpcrunchSettings = {
-                organization: 'appvillis',
-                appId: 'dc92b31a-172f-46e8-9f88-ceddd074d9fe',
-              };
-
-              (function(w,d) { 
-                var hS=w.helpcrunchSettings;
-                if(!hS||!hS.organization){return;}
-                var widgetSrc='https://'+hS.organization+'.widget.helpcrunch.com/';
-                w.HelpCrunch=function(){w.HelpCrunch.q.push(arguments)};
-                w.HelpCrunch.q=[];
-                function r(){
-                  if (d.querySelector('script[src="' + widgetSrc + '"')) { return; }
-                  var s=d.createElement('script');
-                  s.async=1;
-                  s.type='text/javascript';
-                  s.src=widgetSrc;
-                  (d.body||d.head).appendChild(s);
-                }
-                if(d.readyState === 'complete'||hS.loadImmediately){r();} 
-                else if(w.attachEvent){w.attachEvent('onload',r)}
-                else{w.addEventListener('load',r,false)}
-              })(window, document)
-
-              HelpCrunch('showChatWidget');
-            `}
-          </Script>
-          <Script strategy='lazyOnload' id="gtag-script">{`
+          <Script strategy="lazyOnload" id="gtag-script">{`
             window.dataLayer = window.dataLayer || [];
             function gtag() {
             dataLayer.push(arguments);
@@ -60,7 +31,7 @@ class MyDocument extends Document {
 
             gtag('config', 'G-RQ66T6FFRW');
           `}</Script>
-          <Script strategy='lazyOnload' id="metrika-script">{`
+          <Script strategy="lazyOnload" id="metrika-script">{`
       (function (m, e, t, r, i, k, a) {
         m[i] =
           m[i] ||
@@ -95,7 +66,7 @@ class MyDocument extends Document {
       });
     `}</Script>
           <Script
-            strategy='lazyOnload'
+            strategy="lazyOnload"
             src="https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW"
           />
           <noscript>
@@ -109,7 +80,7 @@ class MyDocument extends Document {
               />
             </div>
           </noscript>
-          <Script strategy='lazyOnload' id="fb-script">{`
+          <Script strategy="lazyOnload" id="fb-script">{`
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
@@ -137,7 +108,7 @@ class MyDocument extends Document {
     `}</Script>
           <Script
             src="https://paymentpage.ecommpay.com/shared/merchant.js"
-            strategy='afterInteractive'
+            strategy="afterInteractive"
           />
           <NextScript />
         </body>

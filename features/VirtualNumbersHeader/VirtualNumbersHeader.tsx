@@ -1,11 +1,13 @@
 import React from "react";
 import { Trans, useTranslation } from "next-i18next";
+import Image from "next/image";
+import Link from "next/link";
 import { useWindowSize } from "context/WindowSizeContext";
+import Button from "shared/ui/Button";
+import { Container } from "shared/ui/styled";
 import wechat from "./assets/Wechat.svg";
 import snapchat from "./assets/Snapchat.svg";
 import allo from "./assets/Allo.svg";
-import Button from "shared/ui/Button";
-import { Container } from "shared/ui/styled";
 import {
   SectionTitle,
   InfoSection,
@@ -17,7 +19,6 @@ import {
   SectionSubtitle,
   Wrapper,
 } from "./styled";
-import Image from "next/image";
 
 export const messages = [
   {
@@ -87,13 +88,9 @@ function VirtualNumbersHeader() {
               }
             }}
             label={
-              <a
-                rel="noreferrer"
-                target="_blank"
-                href="https://sms.esimplus.me"
-              >
+              <Link locale="en" href="/virtual-phone-number/pricing">
                 {t("get_a_number")}
-              </a>
+              </Link>
             }
           />
         </InfoSection>
