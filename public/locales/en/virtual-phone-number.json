@@ -92,6 +92,6 @@
   "special_deals_services_info_item_7": "The subscription is set to renew automatically each month, while retaining the flexibility to cancel anytime.",
   "iso_code": "ISO Code",
   "from_amount_month": "from {{price}}$/mo",
-  "numbers": "numbers",
-  "connection_monthly_fee": "connection monthly fee"
+  "numbers": "Numbers",
+  "connection_monthly_fee": "Connection Monthly Fee"
 }
