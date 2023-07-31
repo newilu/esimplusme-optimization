@@ -1,12 +1,13 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
 import Image from "next/image";
-import card from "./assets/card.svg";
-import busd from "./assets/busd.png";
-import usdt from "./assets/tether.png";
 import { Container, SectionTitle } from "shared/ui/styled";
 import Button from "shared/ui/Button";
 import { sendSafeGtagEvent } from "@/utils/common";
+import card from "./assets/card.svg";
+import busd from "./assets/busd.png";
+import usdt from "./assets/tether.png";
 import {
   Card,
   CardsWrapper,
@@ -43,16 +44,12 @@ function HowToGetSms() {
         <GetNumberWrapper>
           <Button
             onClick={() => {
-              sendSafeGtagEvent("virtualnumber_setup_button_click")
+              sendSafeGtagEvent("virtualnumber_setup_button_click");
             }}
             label={
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://sms.esimplus.me/"
-              >
+              <Link locale="en" href="/virtual-phone-number/pricing">
                 {t("get_a_number")}
-              </a>
+              </Link>
             }
           />
           <WhatWeAccept>{t("to_get_number_you_can_use")}</WhatWeAccept>
