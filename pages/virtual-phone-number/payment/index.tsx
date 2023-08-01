@@ -94,14 +94,10 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find((el) =>
-    country.includes(formatStringToKebabCase(el.name))
-  );
+  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
 
-  const currentState =
-    getStatesByCountryCode(currentCountry?.isoCode ?? "").find((el) =>
-      state?.includes(formatStringToKebabCase(el.name))
-    ) ?? null;
+  const currentState = getStatesByCountryCode(currentCountry?.isoCode ?? "")
+    .find((el) => state === formatStringToKebabCase(el.name)) ?? null;
 
   if (!currentCountry) {
     return {

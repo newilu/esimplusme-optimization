@@ -97,8 +97,8 @@ function Index({ country, phones }: PageProps) {
   const areaCode =
     (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
       ? format(phones[0].phoneNumber, "INTERNATIONAL")
-          .slice(0, 6)
-          .replaceAll(" ", "-")
+        .slice(0, 6)
+        .replaceAll(" ", "-")
       : formatAreaCode(country.phonecode);
 
   const purchaseSectionId = React.useId();
@@ -207,9 +207,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find((el) =>
-    country.includes(formatStringToKebabCase(el.name))
-  );
+  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
 
   if (!currentCountry) {
     return {
