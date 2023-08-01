@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperClass } from "swiper/types";
 import Image, { StaticImageData } from "next/image";
 import UserImagePlaceholder from "./assets/UserImagePlaceholder";
-import arrow from "./assets/arrow-right.svg";
+import ArrowRight from "./assets/ArrowRight";
 import star from "./assets/star.svg";
 import { useWindowSize } from "context/WindowSizeContext";
 import { Container, SectionTitle } from "shared/ui/styled";
@@ -53,10 +53,10 @@ function Reviews({
           {!isMobile && (
             <SliderButtonsWrapper>
               <button onClick={() => swiperApi?.slidePrev()} disabled={activeIndex === 0}>
-                <Image width={18} height={18} src={arrow} alt="arrow" />
+                <ArrowRight />
               </button>
               <button onClick={() => swiperApi?.slideNext()} disabled={activeIndex === reviewsList.length - slidesPerView}>
-                <Image width={18} height={18} src={arrow} alt="arrow" />
+                <ArrowRight />
               </button>
             </SliderButtonsWrapper>
           )}
@@ -116,10 +116,10 @@ function Reviews({
       {isMobile && (
         <SliderButtonsWrapper style={{ justifyContent: "center" }}>
           <button onClick={() => swiperApi?.slidePrev()} disabled={activeIndex === 0}>
-            <Image width={18} height={18} src={arrow} alt="arrow" />
+            <ArrowRight />
           </button>
           <button onClick={() => swiperApi?.slideNext()} disabled={activeIndex === reviewsList.length - slidesPerView}>
-            <Image width={18} height={18} src={arrow} alt="arrow" />
+            <ArrowRight />
           </button>
         </SliderButtonsWrapper>
       )}

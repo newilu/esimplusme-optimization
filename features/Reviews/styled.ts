@@ -109,17 +109,17 @@ export const SliderButtonsWrapper = styled.div`
     border: none;
 
     :disabled {
-      img {
+      svg {
         opacity: 0.5;
       }
     }
 
-    img {
-      filter: invert(${(props) => (props.theme.name === "light" ? 1 : 0)});
+    svg {
+      fill: ${(props) => (props.theme.primaryText)}
     }
 
     &:first-child {
-      img {
+      svg {
         transform: rotate(180deg);
       }
     }
