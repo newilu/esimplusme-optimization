@@ -7,6 +7,7 @@ import Image from "next/image";
 import api from "@/api";
 import checkmark from "./assets/checkmark.svg";
 import { Wrapper } from "./styled";
+import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
 
 function SuccessfulPurchaseHeader() {
   const { t } = useTranslation("virtual-phone-number");
@@ -20,15 +21,15 @@ function SuccessfulPurchaseHeader() {
     if (paymentId && paymentAmount) {
       const formatedPaymentAmount = isNaN(Number(paymentAmount)) || paymentAmount
 
-      window.fbq('track', 'Purchase', {
+      sendSafeFbqEvent('Purchase', {
         content_ids: paymentId,
         content_name: 'phone number',
         currency: 'USD',
         num_items: 1,
         value: formatedPaymentAmount,
-      });
+      })
 
-      window.gtag('event', 'purchase', {
+      sendSafeGtagEvent('purchase', {
         transaction_id: paymentId,
         value: formatedPaymentAmount,
         tax: 0,
@@ -45,7 +46,7 @@ function SuccessfulPurchaseHeader() {
             quantity: 1,
           },
         ],
-      });
+      })
     }
   }, [paymentAmount, paymentId])
 

@@ -104,12 +104,12 @@ function sendSafeYMEvent(name: string) {
   return sendSafeEvent('ym', () => window.ym(79496440, "reachGoal", name))
 }
 
-function sendSafeGtagEvent(name: string) {
-  return sendSafeEvent('gtag', () => window.gtag("event", name))
+function sendSafeGtagEvent(name: string, paramets?: object) {
+  return sendSafeEvent('gtag', () => window.gtag("event", name, paramets))
 }
 
-function sendSafeFbqEvent(name: string) {
-  return sendSafeEvent('fbq', () => window.fbq("track", name))
+function sendSafeFbqEvent(name: string, paramets?: object) {
+  return sendSafeEvent('fbq', () => window.fbq("track", name, paramets))
 }
 
 function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq', callback: () => void) {
