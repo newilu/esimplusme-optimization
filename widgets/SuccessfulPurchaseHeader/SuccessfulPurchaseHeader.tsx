@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "next-i18next";
 import Button from "@/shared/ui/Button";
 import { useRouter } from "next/router";
@@ -9,12 +9,33 @@ import { Wrapper } from "./styled";
 
 function SuccessfulPurchaseHeader() {
   const { t } = useTranslation("virtual-phone-number");
-  const router = useRouter();
+  const {
+    push,
+    query: { phone_number: phone, country, payment_amount: paymentAmount, payment_id: paymentId }
+  } = useRouter();
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const { phone_number: phone, country } = router.query;
+  useEffect(() => {
+    if (paymentId && paymentAmount) {
+      window.fbq('track', 'Purchase', {
+        content_ids: paymentId,
+        content_name: 'phone number',
+        currency: 'USD',
+        num_items: 1,
+        value: paymentAmount,
+      });
 
-  React.useEffect(() => {
+      window.gtag('event', 'purchase', {
+        transaction_id: paymentId,
+        value: paymentAmount,
+        tax: 0,
+        shipping: 0,
+        currency: 'USD',
+      });
+    }
+  }, [paymentAmount, paymentId])
+
+  useEffect(() => {
     if (typeof phone === "string" && typeof country === "string") {
       setIsLoading(true);
       let attempt = 0;
@@ -38,7 +59,7 @@ function SuccessfulPurchaseHeader() {
       <Button
         disabled={isLoading}
         fullWidth
-        onClick={() => router.push("https://sms.esimplus.me/register")}
+        onClick={() => push("https://sms.esimplus.me/register")}
         label={t("create_account")}
       />
     </Wrapper>

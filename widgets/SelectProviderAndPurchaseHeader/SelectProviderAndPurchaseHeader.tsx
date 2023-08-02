@@ -20,7 +20,7 @@ function SelectProviderAndPurchaseHeader() {
   const { paymentAmount, phoneNumber, country, state } = query;
   const { t } = useTranslation("virtual-phone-number");
 
-  const redirectURL = React.useMemo(() => {
+  const getRedirectURL = (paymentId: string) => {
     if (
       typeof paymentAmount !== "string" ||
       typeof phoneNumber !== "string" ||
@@ -32,14 +32,14 @@ function SelectProviderAndPurchaseHeader() {
     const redirectURLSearchParams = new URLSearchParams({
       payment_amount: paymentAmount,
       phone_number: phoneNumber,
+      payment_id: paymentId,
       country,
       ...(state ? { state: state as string } : {}),
     });
 
-    return `${
-      process.env.NEXT_PUBLIC_BASE_URL
-    }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`;
-  }, [country, paymentAmount, phoneNumber, state]);
+    return `${process.env.NEXT_PUBLIC_BASE_URL
+      }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`;
+  }
 
   const handlePurchaseWithCrypto = async () => {
     const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
@@ -49,9 +49,11 @@ function SelectProviderAndPurchaseHeader() {
       setCookie("session", systemAuthToken, 30);
     }
 
+    const paymentId = v4()
+
     const { data, error } = await api.secondPhone.thedexTopUp({
       price: paymentAmount as string,
-      successUrl: redirectURL,
+      successUrl: getRedirectURL(paymentId),
       failureUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/virtual-phone-number/`,
     });
     if (error) {
@@ -78,6 +80,7 @@ function SelectProviderAndPurchaseHeader() {
 
     const paymentId = v4();
     const customerId = v4();
+    const redirectURL = getRedirectURL(paymentId)
 
     const { data } = await api.secondPhone.getSignature({
       price: paymentAmount,
