@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { v4 } from "uuid";
 import { useTranslation } from "next-i18next";
 import Button from "@/shared/ui/Button";
 import { useRouter } from "next/router";
@@ -33,6 +34,17 @@ function SuccessfulPurchaseHeader() {
         tax: 0,
         shipping: 0,
         currency: 'USD',
+        items: [
+          {
+            item_id: v4(),
+            item_name: 'phone number',
+            currency: 'USD',
+            discount: 0,
+            index: 0,
+            price: formatedPaymentAmount,
+            quantity: 1,
+          },
+        ],
       });
     }
   }, [paymentAmount, paymentId])
