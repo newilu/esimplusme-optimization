@@ -17,17 +17,19 @@ function SuccessfulPurchaseHeader() {
 
   useEffect(() => {
     if (paymentId && paymentAmount) {
+      const formatedPaymentAmount = isNaN(Number(paymentAmount)) || paymentAmount
+
       window.fbq('track', 'Purchase', {
         content_ids: paymentId,
         content_name: 'phone number',
         currency: 'USD',
         num_items: 1,
-        value: paymentAmount,
+        value: formatedPaymentAmount,
       });
 
       window.gtag('event', 'purchase', {
         transaction_id: paymentId,
-        value: paymentAmount,
+        value: formatedPaymentAmount,
         tax: 0,
         shipping: 0,
         currency: 'USD',
