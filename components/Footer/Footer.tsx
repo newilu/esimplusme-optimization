@@ -114,7 +114,7 @@ function Footer() {
                     <ListItem>
                       <Link
                         target="_blank"
-                        rel="noreferrer"
+                        rel="nofollow"
                         href={
                           i18n.language === "ru" ? TG_RU_LINK : TG_DEFAULT_LINK
                         }

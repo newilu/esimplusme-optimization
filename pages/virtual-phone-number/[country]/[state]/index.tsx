@@ -46,8 +46,8 @@ function Index({
   const areaCode =
     (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
       ? format(phones[0].phoneNumber, "INTERNATIONAL")
-          .slice(0, 6)
-          .replaceAll(" ", "-")
+        .slice(0, 6)
+        .replaceAll(" ", "-")
       : formatAreaCode(country.phonecode);
 
   const meta = generateMeta({
@@ -102,17 +102,10 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find((el) =>
-    country.includes(formatStringToKebabCase(el.name))
-  );
+  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
 
-  const currentState = getStatesByCountryCode(
-    currentCountry?.isoCode ?? ""
-  ).find((el) =>
-    formatStringToKebabCase(
-      removeExcludedWords(el.name, STATE_NAME_DEPRECATED_WORDS)
-    ).includes(state)
-  );
+  const currentState = getStatesByCountryCode(currentCountry?.isoCode ?? "")
+    .find((el) => formatStringToKebabCase(removeExcludedWords(el.name, STATE_NAME_DEPRECATED_WORDS)) === state);
 
   if (!currentCountry || !currentState) {
     return {

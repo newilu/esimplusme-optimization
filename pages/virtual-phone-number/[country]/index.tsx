@@ -89,9 +89,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find((el) =>
-    country.includes(formatStringToKebabCase(el.name))
-  );
+  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
 
   if (!currentCountry) {
     return {
