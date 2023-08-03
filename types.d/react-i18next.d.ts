@@ -33,5 +33,6 @@ declare global {
     gtag: (event: string, action: string, params?: any) => void;
     fbq: (event: string, name: string, options?: any) => void;
     ym: (...args: any) => void;
+    dataLayer: { push: (...args: any) => void }
   }
 }

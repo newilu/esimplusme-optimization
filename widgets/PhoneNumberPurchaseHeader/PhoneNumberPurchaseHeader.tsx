@@ -169,6 +169,10 @@ function PhoneNumberPurchaseHeader({
                   phoneNumber: selectedPhone.phoneNumber,
                   country: country.isoCode,
                   state: state?.isoCode ?? "",
+                  code: country.phonecode,
+                  type: selectedPhone.numberType,
+                  calls: String(selectedPhone.capabilities.voice),
+                  sms: String(selectedPhone.capabilities.SMS),
                 });
 
                 router.push(

@@ -54,6 +54,10 @@ function PhoneNumbersByRegion({
       paymentAmount: String((phoneNumber.price + 1) * 100),
       phoneNumber: phoneNumber.phoneNumber,
       country: country.isoCode,
+      code: country.phonecode,
+      type: phoneNumber.numberType,
+      calls: String(phoneNumber.capabilities.voice),
+      sms: String(phoneNumber.capabilities.SMS),
     });
 
     await push(

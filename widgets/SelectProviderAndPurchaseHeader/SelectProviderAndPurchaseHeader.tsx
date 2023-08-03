@@ -17,7 +17,7 @@ import {
 
 function SelectProviderAndPurchaseHeader() {
   const { query, back, push } = useRouter();
-  const { paymentAmount, phoneNumber, country, state } = query;
+  const { paymentAmount, phoneNumber, country, state, code, type, calls, sms } = query;
   const { t } = useTranslation("virtual-phone-number");
 
   const getRedirectURL = (paymentId: string) => {
@@ -34,7 +34,13 @@ function SelectProviderAndPurchaseHeader() {
       phone_number: phoneNumber,
       payment_id: paymentId,
       country,
-      ...(state ? { state: state as string } : {}),
+      ...{ 
+        code: code as string || '', 
+        type: type as string || '', 
+        calls: calls as string || '', 
+        sms: sms as string || '',
+        state: state as string || ''
+      }, 
     });
 
     return `${process.env.NEXT_PUBLIC_BASE_URL
@@ -51,6 +57,8 @@ function SelectProviderAndPurchaseHeader() {
 
     const paymentId = v4()
 
+    console.log(getRedirectURL(paymentId));
+    
     const { data, error } = await api.secondPhone.thedexTopUp({
       price: paymentAmount as string,
       successUrl: getRedirectURL(paymentId),

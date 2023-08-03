@@ -127,6 +127,10 @@ function Index({ country, phones }: PageProps) {
       paymentAmount: String((selectedPhone.price + 1) * 100),
       phoneNumber: selectedPhone.phoneNumber,
       country: country.isoCode,
+      code: country.phonecode,
+      type: selectedPhone.numberType,
+      calls: String(selectedPhone.capabilities.voice),
+      sms: String(selectedPhone.capabilities.SMS),
     });
 
     await router.push(

@@ -100,8 +100,12 @@ function uuid() {
   });
 }
 
-function sendSafeYMEvent(name: string) {
-  return sendSafeEvent('ym', () => window.ym(79496440, "reachGoal", name))
+function sendSafeYMEvent(name: string, paramets?: object) {
+  return sendSafeEvent('ym', () => window.ym(79496440, "reachGoal", name, paramets))
+}
+
+function sendSafeEcommerceEvent(paramets?: object) {  
+  return sendSafeEvent('dataLayer', () => window.dataLayer.push(paramets))
 }
 
 function sendSafeGtagEvent(name: string, paramets?: object) {
@@ -112,7 +116,7 @@ function sendSafeFbqEvent(name: string, paramets?: object) {
   return sendSafeEvent('fbq', () => window.fbq("track", name, paramets))
 }
 
-function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq', callback: () => void) {
+function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq' | 'dataLayer', callback: () => void) {
   const timerId = setInterval(() => {
     if (typeof window !== 'undefined' && typeof window[type] !== 'undefined') {
       callback()
@@ -125,4 +129,4 @@ function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq', callback: () => void) {
   return timerId
 }
 
-export { sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid };
+export { sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid, sendSafeEcommerceEvent };

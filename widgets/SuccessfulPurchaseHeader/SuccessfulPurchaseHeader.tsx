@@ -7,19 +7,19 @@ import Image from "next/image";
 import api from "@/api";
 import checkmark from "./assets/checkmark.svg";
 import { Wrapper } from "./styled";
-import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
+import { sendSafeEcommerceEvent, sendSafeFbqEvent, sendSafeGtagEvent, sendSafeYMEvent } from "@/utils/common";
 
 function SuccessfulPurchaseHeader() {
   const { t } = useTranslation("virtual-phone-number");
   const {
     push,
-    query: { phone_number: phone, country, payment_amount: paymentAmount, payment_id: paymentId }
+    query: { phone_number: phone, country, payment_amount: paymentAmount, payment_id: paymentId, sms, calls, type, code, }
   } = useRouter();
   const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
     if (paymentId && paymentAmount) {
-      const formatedPaymentAmount = isNaN(Number(paymentAmount)) || paymentAmount
+      const formatedPaymentAmount = isNaN(Number(paymentAmount)) || paymentAmount;
 
       sendSafeFbqEvent('Purchase', {
         content_ids: paymentId,
@@ -47,8 +47,33 @@ function SuccessfulPurchaseHeader() {
           },
         ],
       })
+
+      sendSafeEcommerceEvent({
+        ecommerce: {
+          currencyCode: "USD",
+          purchase: {
+            actionField: { id : paymentId },
+            products: [{
+              id: paymentId,
+              name: 'phone number',
+              price: formatedPaymentAmount,
+            }]
+          }
+        }
+      })
+
+      sendSafeYMEvent('number_purchase_success', {
+        price: paymentAmount,
+        currency: 'USD',
+        country_code: `+${code}`,
+        country,
+        type,
+        sms,
+        calls,
+        source: 'webapp',
+      })
     }
-  }, [paymentAmount, paymentId])
+  }, [])
 
   useEffect(() => {
     if (typeof phone === "string" && typeof country === "string") {
