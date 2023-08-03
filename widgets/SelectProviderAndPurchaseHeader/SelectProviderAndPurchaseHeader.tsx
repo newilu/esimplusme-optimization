@@ -57,8 +57,6 @@ function SelectProviderAndPurchaseHeader() {
 
     const paymentId = v4()
 
-    console.log(getRedirectURL(paymentId));
-    
     const { data, error } = await api.secondPhone.thedexTopUp({
       price: paymentAmount as string,
       successUrl: getRedirectURL(paymentId),
