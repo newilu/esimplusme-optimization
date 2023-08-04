@@ -1,5 +1,23 @@
 import styled from "styled-components";
 
+export const PaymentMethodSupportedCards = styled.div`
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+`;
+
 export const CancelPaymentTypeSelection = styled.div`
   cursor: pointer;
   margin: 20px auto;
@@ -28,8 +46,12 @@ export const PaymentMethodCard = styled.div`
   flex: 1 1 200px;
 
   @media (max-width: 768px) {
-    height: 150px;
     grid-gap: 0;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    text-align: left;
+    padding: 16px;
+    height: auto;
   }
 `;
 

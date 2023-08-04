@@ -9,16 +9,24 @@ import { getErrorMessage, setCookie } from "@/shared/lib";
 import BaseHeader from "@/shared/ui/BaseHeader";
 import card from "./assets/card.svg";
 import usdt from "./assets/usdt.svg";
+import bycard from "./assets/bycard-min.png";
+import rucard from "./assets/rucard-min.png";
+import mir from "./assets/mir-min.png";
+import visa from "./assets/visa-min.png";
+import mastercard from "./assets/mastercard-min.png";
 import {
   CancelPaymentTypeSelection,
   PaymentMethodCard,
   PaymentMethodsWrapper,
+  PaymentMethodSupportedCards,
 } from "./styled";
 
 function SelectProviderAndPurchaseHeader() {
   const { query, back, push } = useRouter();
-  const { paymentAmount, phoneNumber, country, state, code, type, calls, sms } = query;
+  const { paymentAmount, phoneNumber, country, state, code, type, calls, sms } =
+    query;
   const { t } = useTranslation("virtual-phone-number");
+  const [countryCode, setCountryCode] = React.useState<string | null>(null);
 
   const getRedirectURL = (paymentId: string) => {
     if (
@@ -34,18 +42,19 @@ function SelectProviderAndPurchaseHeader() {
       phone_number: phoneNumber,
       payment_id: paymentId,
       country,
-      ...{ 
-        code: code as string || '', 
-        type: type as string || '', 
-        calls: calls as string || '', 
-        sms: sms as string || '',
-        state: state as string || ''
-      }, 
+      ...{
+        code: (code as string) || "",
+        type: (type as string) || "",
+        calls: (calls as string) || "",
+        sms: (sms as string) || "",
+        state: (state as string) || "",
+      },
     });
 
-    return `${process.env.NEXT_PUBLIC_BASE_URL
-      }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`;
-  }
+    return `${
+      process.env.NEXT_PUBLIC_BASE_URL
+    }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`;
+  };
 
   const handlePurchaseWithCrypto = async () => {
     const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
@@ -55,7 +64,7 @@ function SelectProviderAndPurchaseHeader() {
       setCookie("session", systemAuthToken, 30);
     }
 
-    const paymentId = v4()
+    const paymentId = v4();
 
     const { data, error } = await api.secondPhone.thedexTopUp({
       price: paymentAmount as string,
@@ -86,7 +95,7 @@ function SelectProviderAndPurchaseHeader() {
 
     const paymentId = v4();
     const customerId = v4();
-    const redirectURL = getRedirectURL(paymentId)
+    const redirectURL = getRedirectURL(paymentId);
 
     const { data } = await api.secondPhone.getSignature({
       price: paymentAmount,
@@ -105,17 +114,110 @@ function SelectProviderAndPurchaseHeader() {
     });
   };
 
+  const handlePurchaseWithWebpay = async () => {
+    if (
+      typeof paymentAmount !== "string" ||
+      typeof phoneNumber !== "string" ||
+      typeof country !== "string"
+    )
+      return;
+
+    const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
+    const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
+
+    if (systemAuthToken) {
+      setCookie("session", systemAuthToken, 30);
+    }
+
+    const redirectURLSearchParams = new URLSearchParams({
+      payment_amount: paymentAmount,
+      phone_number: phoneNumber,
+      country,
+      ...{
+        code: (code as string) || "",
+        type: (type as string) || "",
+        calls: (calls as string) || "",
+        sms: (sms as string) || "",
+        state: (state as string) || "",
+      },
+    });
+
+    const { data, error } = await api.secondPhone.topupWithWebpay({
+      amount: +paymentAmount,
+      successUrl: `${
+        process.env.NEXT_PUBLIC_BASE_URL
+      }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`,
+      failureUrl: process.env.NEXT_PUBLIC_BASE_URL,
+    });
+
+    if (data?.data.payUrl) {
+      push(data.data.payUrl);
+    } else {
+      toast.error(getErrorMessage(error));
+    }
+  };
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCountryCode(document.documentElement.getAttribute("data-country"));
+    }
+  }, []);
+
   return (
     <BaseHeader style={{ padding: "50px 0" }}>
       <h1>{t("choose_payment_method")}</h1>
       <PaymentMethodsWrapper>
+        {(countryCode === "RU" || countryCode === "BY") && (
+          <PaymentMethodCard onClick={handlePurchaseWithWebpay}>
+            <Image
+              width={52}
+              height={48}
+              src={countryCode === "RU" ? rucard : bycard}
+              alt=""
+            />
+            <div>
+              Pay with card
+              <PaymentMethodSupportedCards>
+                {countryCode === "RU" ? (
+                  <div>
+                    <Image width={20} height={20} src={mir} alt="" />
+                    МИР
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <Image width={20} height={20} src={visa} alt="" />
+                      Visa
+                    </div>{" "}
+                    <div>
+                      <Image width={20} height={20} src={mastercard} alt="" />
+                      Mastercard
+                    </div>
+                  </>
+                )}
+              </PaymentMethodSupportedCards>
+            </div>
+          </PaymentMethodCard>
+        )}
         <PaymentMethodCard onClick={handlePurchaseWithCard}>
-          <Image width={64} height={64} src={card} alt="" />
-          {t("pay_with_card")}
-        </PaymentMethodCard>{" "}
+          <Image width={48} height={48} src={card} alt="" />
+          <div>
+            Pay with card
+            <PaymentMethodSupportedCards>
+              <div>
+                <Image width={20} height={20} src={visa} alt="" />
+                Visa
+              </div>{" "}
+              <div>
+                <Image width={20} height={20} src={mastercard} alt="" />
+                Mastercard
+              </div>
+            </PaymentMethodSupportedCards>
+          </div>
+        </PaymentMethodCard>
         <PaymentMethodCard onClick={handlePurchaseWithCrypto}>
-          <Image width={64} height={64} src={usdt} alt="" />
-          {t("pay_with_crypto")}
+          <Image width={48} height={48} src={usdt} alt="" />
+          Pay with crypto
         </PaymentMethodCard>
       </PaymentMethodsWrapper>
       <CancelPaymentTypeSelection onClick={back}>

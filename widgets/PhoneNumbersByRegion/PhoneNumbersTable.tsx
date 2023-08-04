@@ -111,6 +111,7 @@ function PhoneNumbersTable({
   const handleRowClick = async (_phone: PhoneToBuy) => {
     onRowClick(_phone);
 
+
     if (pathname.includes("/payment")) {
       const { phone, ...rest } = query;
       await replace(

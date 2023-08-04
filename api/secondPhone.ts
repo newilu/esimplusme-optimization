@@ -24,6 +24,7 @@ const ENDPOINTS = {
   signature: () => "/v7/second-phone/ecommpay-signature",
   thedexTopUp: () => "/v6/payment-providers/thedex/top-up/second-phone",
   buyNumber: () => `/v6/second-phone/buy-number`,
+  topupWithWebpay: () => `/v6/payment-providers/webpay/top-up/second-phone`,
 };
 
 async function listSecondPhoneCountries(): Promise<
@@ -130,6 +131,24 @@ function thedexTopUp({
   );
 }
 
+function topupWithWebpay(payload: {
+  amount: number;
+  successUrl?: string;
+  failureUrl?: string;
+}) {
+  return queryFetcher<{ data: { payUrl: string; paymentId: string } }>(
+    ENDPOINTS.topupWithWebpay(),
+    {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify(payload),
+      headers: {
+        "x-system-auth-token": getCookie("session") ?? "",
+      },
+    }
+  );
+}
+
 function buyNumber(props: { phone: string; country_code: string }) {
   return queryFetcher(`${MAIN_API_URL}${ENDPOINTS.buyNumber()}`, {
     method: "POST",
@@ -143,6 +162,7 @@ function buyNumber(props: { phone: string; country_code: string }) {
 
 export {
   ENDPOINTS,
+  topupWithWebpay,
   getPhonesByCountry,
   getPhonePrices,
   getAvailableStates,
