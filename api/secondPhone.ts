@@ -137,7 +137,7 @@ function topupWithWebpay(payload: {
   failureUrl?: string;
 }) {
   return queryFetcher<{ data: { payUrl: string; paymentId: string } }>(
-    ENDPOINTS.topupWithWebpay(),
+    `${MAIN_API_URL}${ENDPOINTS.topupWithWebpay()}`,
     {
       method: "POST",
       credentials: "include",
