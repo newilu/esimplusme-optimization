@@ -93,5 +93,11 @@
   "iso_code": "ISO Code",
   "from_amount_month": "from {{price}}$/mo",
   "numbers": "Numbers",
-  "connection_monthly_fee": "Connection Monthly Fee"
+  "connection_monthly_fee": "Connection Monthly Fee",
+  "month": "Month",
+  "months": "Months",
+  "year": "Year",
+  "multiple_purchase": "Multiple purchase",
+  "multiple_purchase_description_1": "The numbers you have purchased will soon appear on your home screen.",
+  "multiple_purchase_count": "Amount of phone numbers to buy"
 }

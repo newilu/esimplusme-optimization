@@ -23,7 +23,7 @@ import {
 
 function SelectProviderAndPurchaseHeader() {
   const { query, back, push } = useRouter();
-  const { paymentAmount, phoneNumber, country, state, code, type, calls, sms } =
+  const { paymentAmount, phoneNumber, country, state, code, type, calls, sms, duration, count } =
     query;
   const { t } = useTranslation("virtual-phone-number");
   const [countryCode, setCountryCode] = React.useState<string | null>(null);
@@ -48,6 +48,8 @@ function SelectProviderAndPurchaseHeader() {
         calls: (calls as string) || "",
         sms: (sms as string) || "",
         state: (state as string) || "",
+        duration: (duration as string) || "",
+        count: (count as string) || "",
       },
     });
 

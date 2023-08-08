@@ -28,7 +28,7 @@ export const PhoneNumberCapabilityAvailability = styled.div`
     fill: #50a854;
   }
 `;
-export const PhoneNumberCapabilityName = styled.div`
+export const InfoField = styled.div`
   display: flex;
   align-items: center;
   grid-gap: 12px;
@@ -38,6 +38,7 @@ export const PhoneNumberCapabilityName = styled.div`
   color: ${(props) => props.theme.primaryText};
 
   svg {
+    flex-shrink: 0;
     fill: ${(props) => props.theme.primary};
   }
 `;
@@ -190,3 +191,95 @@ export const Wrapper = styled.div`
     padding: 32px 16px;
   }
 `;
+
+export const RadioButtonsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  grid-gap: 10px 0;
+  margin-bottom: 35px;
+`
+
+export const PhoneDurationOptionWrapper = styled.div`
+  margin-right: 10px;
+  color: ${(props) => props.theme.secondaryText};
+  font-size: 14px;
+  line-height: 22px;
+`
+
+export const PhoneDurationOptionWrapperTitlte = styled.div`
+  font-weight: 700;
+  font-size: 18px;
+  color: ${(props) => props.theme.primaryText};
+`
+
+export const MultiplePurchaseLabel = styled.label`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: ${(props) => props.theme.primaryText};
+  cursor: pointer;
+`
+export const MultiplePurchaseInfoField = styled(InfoField)`
+  font-weight: 400;
+  margin-bottom: 5px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  b {
+    margin-left: 3px;
+  }
+`
+
+export const MultiplePurchaseRangeWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  font-weight: 500;
+  color: ${(props) => props.theme.primaryText};
+`
+export const MultiplePurchaseRange = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+  font-size: 24px;
+  font-weight: 700;
+`
+
+export const MultiplePurchaseIconsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  grid-gap: 0 5px;
+  user-select: none;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 1px solid ${(props) => props.theme.borderColor};
+`
+
+export const MultiplePurchaseIcon = styled.div<{ $disabled?: boolean }>`
+  display: flex;
+  align-items: center;
+  padding: 9px 5px;
+  background: ${(props) => props.theme.benefitsBg};
+  border-radius: 8px;
+  opacity: ${(props) => props.$disabled ? .4 : 1};
+  cursor: pointer;
+  pointer-events: ${(props) => props.$disabled ? 'none' : 'auto'};
+  
+  svg {
+    color: ${(props) => props.theme.primary};
+  }
+`
+
+export const PurchaseLimit = styled.span`
+  color: ${(props) => props.theme.secondaryText};
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+`
+export const MultiplePurchaseWrapper = styled.div`
+  margin: 20px 0;
+  border-bottom: 1px solid #F1F1F1;
+`

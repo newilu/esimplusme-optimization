@@ -13,13 +13,13 @@ function SuccessfulPurchaseHeader() {
   const { t } = useTranslation("virtual-phone-number");
   const {
     push,
-    query: { phone_number: phone, country, payment_amount: paymentAmount, payment_id: paymentId, sms, calls, type, code, }
+    query: { phone_number: phone, country, payment_amount: paymentAmount, payment_id: paymentId, sms, calls, type, code, count }
   } = useRouter();
   const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
     if (paymentId && paymentAmount) {
-      const formatedPaymentAmount = isNaN(Number(paymentAmount)) || paymentAmount;
+      const formatedPaymentAmount = isNaN(Number(paymentAmount)) ? paymentAmount : Number(paymentAmount) / 100;
 
       sendSafeFbqEvent('Purchase', {
         content_ids: paymentId,
@@ -78,6 +78,19 @@ function SuccessfulPurchaseHeader() {
   useEffect(() => {
     if (typeof phone === "string" && typeof country === "string") {
       setIsLoading(true);
+
+      const validCount = !isNaN(Number(count)) ? Number(count) : 1;
+
+      const promise = () => (
+        validCount > 1 
+          ? api.secondPhone.buyMultipleNumbers({ 
+              referencePhoneNumber: phone,
+              countryCode: country,
+              requiredQuantity: validCount, 
+            })
+          : api.secondPhone.buyNumber({ phone, country_code: country })
+      );
+
       let attempt = 0;
       const interval = setInterval(async () => {
         if (attempt >= 2) {
@@ -86,7 +99,8 @@ function SuccessfulPurchaseHeader() {
           return;
         }
         attempt += 1;
-        await api.secondPhone.buyNumber({ phone, country_code: country });
+        await promise()
+          .then(() => {attempt = 2})
       }, 1000);
     }
   }, [country, phone]);

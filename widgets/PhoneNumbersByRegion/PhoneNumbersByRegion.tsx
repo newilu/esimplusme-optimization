@@ -17,7 +17,6 @@ import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 import {
   PanelSection,
   PanelSectionTitle,
-  NoDataWrapper,
 } from "@/shared/ui/styled";
 import CitiesTable from "./CitiesTable";
 import PhoneNumbersTable from "./PhoneNumbersTable";
@@ -46,24 +45,6 @@ function PhoneNumbersByRegion({
   const { t } = useTranslation("virtual-phone-number");
 
   const { phone, ...restOfQuery } = query;
-
-  const handlePhoneNumberPurchase = async () => {
-    if (!phoneNumber) return;
-
-    const params = new URLSearchParams({
-      paymentAmount: String((phoneNumber.price + 1) * 100),
-      phoneNumber: phoneNumber.phoneNumber,
-      country: country.isoCode,
-      code: country.phonecode,
-      type: phoneNumber.numberType,
-      calls: String(phoneNumber.capabilities.voice),
-      sms: String(phoneNumber.capabilities.SMS),
-    });
-
-    await push(
-      `/virtual-phone-number/payment/provider-select?${params.toString()}`
-    );
-  };
 
   React.useEffect(() => {
     if (
@@ -129,7 +110,6 @@ function PhoneNumbersByRegion({
             <PhoneNumberPurchase
               phone={phoneNumber}
               country={country}
-              onSubmit={handlePhoneNumberPurchase}
             />
           </PanelSection>
         ) : (

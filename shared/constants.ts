@@ -2,6 +2,8 @@ import { countries } from "country-cities";
 
 export const DEFAULT_SELECTED_DATA_SIZE = 1000;
 
+export const MAX_PURCHASE_PRICE = 5000;
+
 export const BASE_STORAGE_URL = "https://static.esimplus.net/storage/plans/";
 
 export enum SectionIDS {

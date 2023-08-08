@@ -1,7 +1,6 @@
 import React from "react";
 import type { ICountry, IState } from "country-cities";
 import { Trans, useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { formatStringToKebabCase } from "@/shared/lib";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
@@ -32,29 +31,10 @@ function PhoneNumberRegionsByCountry({
   phoneNumberStartingPrice,
   popularCountries,
 }: PhoneNumberRegionsByCountryProps) {
-  const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
   const [selectedPhone, setSelectedPhone] = React.useState(
     phones?.length ? phones[0] : null
   );
-
-  const handlePhoneNumberPurchase = async () => {
-    if (!selectedPhone) return;
-
-    const params = new URLSearchParams({
-      paymentAmount: String((selectedPhone.price + 1) * 100),
-      phoneNumber: selectedPhone.phoneNumber,
-      country: country.isoCode,
-      code: country.phonecode,
-      type: selectedPhone.numberType,
-      calls: String(selectedPhone.capabilities.voice),
-      sms: String(selectedPhone.capabilities.SMS),
-    });
-
-    await router.push(
-      `/virtual-phone-number/payment/provider-select?${params.toString()}`
-    );
-  };
 
   return (
     <Wrapper>
@@ -112,7 +92,6 @@ function PhoneNumberRegionsByCountry({
               <PhoneNumberPurchase
                 country={country}
                 phone={selectedPhone as PhoneToBuy}
-                onSubmit={handlePhoneNumberPurchase}
               />
             </PanelSection>
           </>

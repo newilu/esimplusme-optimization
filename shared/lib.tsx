@@ -1,4 +1,3 @@
-import React from "react";
 import latinize from "latinize";
 import { differenceInDays, getHours } from "date-fns";
 import { cities, countries, states } from "country-cities";

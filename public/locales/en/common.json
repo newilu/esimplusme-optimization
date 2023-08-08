@@ -222,5 +222,7 @@
   "virtual_numbers_faq_q_13": "How can I get a virtual phone number free of charge?",
   "virtual_numbers_faq_a_13": "We provide an opportunity to use a test virtual phone number for free. For more information, please reach out to our tech support team at <1>support.esim@appvillis.com</1>.",
   "virtual_numbers_faq_q_14": "How can I use a virtual phone number?",
-  "virtual_numbers_faq_a_14": "Our virtual phone numbers come with a pre-determined set of features, specified before the purchase. For instance, some virtual phone numbers are designed solely for making calls or exchanging text messages, while others combine these two functions. Apart from that, virtual phone numbers allow you to establish a secure and high-speed Internet connection."
+  "virtual_numbers_faq_a_14": "Our virtual phone numbers come with a pre-determined set of features, specified before the purchase. For instance, some virtual phone numbers are designed solely for making calls or exchanging text messages, while others combine these two functions. Apart from that, virtual phone numbers allow you to establish a secure and high-speed Internet connection.",
+  "purchase_limit": "Purchase limit is ${{value}}",
+  "multiple_purchase_description_2": "Numbers will be <1>given out randomly</1>, except for the first one you choose"
 }
