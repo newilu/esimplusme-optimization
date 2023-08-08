@@ -1,11 +1,25 @@
 import styled from "styled-components";
 
+export const PaymentMethodCardInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    align-items: start;
+  }
+`
+
 export const PaymentMethodSupportedCards = styled.div`
   margin-top: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
+
+  @media (max-width: 768px) {
+    justify-content: start;
+  }
 
   > div {
     display: flex;
@@ -28,7 +42,8 @@ export const CancelPaymentTypeSelection = styled.div`
   text-align: center;
 `;
 
-export const PaymentMethodCard = styled.div`
+export const PaymentMethodCard = styled.div<{$disabled: boolean}>`
+  pointer-events: ${(props) => props.$disabled ? 'none': 'auto'};
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -44,6 +59,8 @@ export const PaymentMethodCard = styled.div`
   border-radius: 10px;
   background: ${(props) => props.theme.primary};
   flex: 1 1 200px;
+  filter: ${(props) => props.$disabled ? 'grayscale(1)' : 'none'};
+  opacity: ${(props) => props.$disabled ? '.65' : '1'};
 
   @media (max-width: 768px) {
     grid-gap: 0;

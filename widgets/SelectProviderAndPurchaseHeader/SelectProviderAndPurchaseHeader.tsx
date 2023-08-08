@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { v4 } from "uuid";
 import toast from "react-hot-toast";
 import { useTranslation } from "next-i18next";
@@ -19,6 +19,7 @@ import {
   PaymentMethodCard,
   PaymentMethodsWrapper,
   PaymentMethodSupportedCards,
+  PaymentMethodCardInfo,
 } from "./styled";
 
 function SelectProviderAndPurchaseHeader() {
@@ -26,7 +27,8 @@ function SelectProviderAndPurchaseHeader() {
   const { paymentAmount, phoneNumber, country, state, code, type, calls, sms } =
     query;
   const { t } = useTranslation("virtual-phone-number");
-  const [countryCode, setCountryCode] = React.useState<string | null>(null);
+  const [countryCode, setCountryCode] = useState<string | null>(null);
+  const [disabledPurchase, setDisabledPurchase] = useState(false)
 
   const getRedirectURL = (paymentId: string) => {
     if (
@@ -51,30 +53,36 @@ function SelectProviderAndPurchaseHeader() {
       },
     });
 
-    return `${
-      process.env.NEXT_PUBLIC_BASE_URL
-    }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`;
+    return `${process.env.NEXT_PUBLIC_BASE_URL
+      }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`;
   };
 
   const handlePurchaseWithCrypto = async () => {
-    const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
-    const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
+    setDisabledPurchase(true)
 
-    if (systemAuthToken) {
-      setCookie("session", systemAuthToken, 30);
-    }
+    try {
+      const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
+      const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
 
-    const paymentId = v4();
+      if (systemAuthToken) {
+        setCookie("session", systemAuthToken, 30);
+      }
 
-    const { data, error } = await api.secondPhone.thedexTopUp({
-      price: paymentAmount as string,
-      successUrl: getRedirectURL(paymentId),
-      failureUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/virtual-phone-number/`,
-    });
-    if (error) {
-      toast.error(getErrorMessage(error));
-    } else if (data?.data.payUrl) {
-      push(data?.data.payUrl);
+      const paymentId = v4();
+
+      const { data, error } = await api.secondPhone.thedexTopUp({
+        price: paymentAmount as string,
+        successUrl: getRedirectURL(paymentId),
+        failureUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/virtual-phone-number/`,
+      });
+      if (error) {
+        toast.error(getErrorMessage(error));
+        setDisabledPurchase(false)
+      } else if (data?.data.payUrl) {
+        push(data?.data.payUrl);
+      }
+    } finally {
+      setDisabledPurchase(false)
     }
   };
 
@@ -86,32 +94,39 @@ function SelectProviderAndPurchaseHeader() {
     )
       return;
 
-    const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
-    const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
+    setDisabledPurchase(true)
 
-    if (systemAuthToken) {
-      setCookie("session", systemAuthToken, 30);
+    try {
+      const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
+      const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
+
+      if (systemAuthToken) {
+        setCookie("session", systemAuthToken, 30);
+      }
+
+      const paymentId = v4();
+      const customerId = v4();
+      const redirectURL = getRedirectURL(paymentId);
+
+      const { data } = await api.secondPhone.getSignature({
+        price: paymentAmount,
+        stringToSign: `customer_id:${customerId};payment_amount:${paymentAmount};payment_currency:USD;payment_id:${paymentId};project_id:${process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID};redirect_success_mode:parent_page;redirect_success_url:${redirectURL}`,
+      });
+
+      window.EPayWidget.run({
+        customer_id: customerId,
+        payment_amount: paymentAmount,
+        payment_currency: "USD",
+        payment_id: paymentId,
+        project_id: process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID,
+        redirect_success_mode: "parent_page",
+        redirect_success_url: redirectURL,
+        signature: (data as any)?.data.data,
+        onExit: () => { setDisabledPurchase(false) }
+      });
+    } finally {
+      setDisabledPurchase(false)
     }
-
-    const paymentId = v4();
-    const customerId = v4();
-    const redirectURL = getRedirectURL(paymentId);
-
-    const { data } = await api.secondPhone.getSignature({
-      price: paymentAmount,
-      stringToSign: `customer_id:${customerId};payment_amount:${paymentAmount};payment_currency:USD;payment_id:${paymentId};project_id:${process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID};redirect_success_mode:parent_page;redirect_success_url:${redirectURL}`,
-    });
-
-    window.EPayWidget.run({
-      customer_id: customerId,
-      payment_amount: paymentAmount,
-      payment_currency: "USD",
-      payment_id: paymentId,
-      project_id: process.env.NEXT_PUBLIC_ECOMMPAY_PROJECT_ID,
-      redirect_success_mode: "parent_page",
-      redirect_success_url: redirectURL,
-      signature: (data as any)?.data.data,
-    });
   };
 
   const handlePurchaseWithWebpay = async () => {
@@ -121,6 +136,8 @@ function SelectProviderAndPurchaseHeader() {
       typeof country !== "string"
     )
       return;
+
+    setDisabledPurchase(true)
 
     const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
     const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
@@ -144,9 +161,8 @@ function SelectProviderAndPurchaseHeader() {
 
     const { data, error } = await api.secondPhone.topupWithWebpay({
       amount: +paymentAmount,
-      successUrl: `${
-        process.env.NEXT_PUBLIC_BASE_URL
-      }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`,
+      successUrl: `${process.env.NEXT_PUBLIC_BASE_URL
+        }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`,
       failureUrl: process.env.NEXT_PUBLIC_BASE_URL,
     });
 
@@ -154,6 +170,7 @@ function SelectProviderAndPurchaseHeader() {
       push(data.data.payUrl);
     } else {
       toast.error(getErrorMessage(error));
+      setDisabledPurchase(false)
     }
   };
 
@@ -168,14 +185,14 @@ function SelectProviderAndPurchaseHeader() {
       <h1>{t("choose_payment_method")}</h1>
       <PaymentMethodsWrapper>
         {(countryCode === "RU" || countryCode === "BY") && (
-          <PaymentMethodCard onClick={handlePurchaseWithWebpay}>
+          <PaymentMethodCard $disabled={disabledPurchase} onClick={handlePurchaseWithWebpay}>
             <Image
               width={52}
               height={48}
               src={countryCode === "RU" ? rucard : bycard}
               alt=""
             />
-            <div>
+            <PaymentMethodCardInfo>
               Pay with card
               <PaymentMethodSupportedCards>
                 {countryCode === "RU" ? (
@@ -196,12 +213,12 @@ function SelectProviderAndPurchaseHeader() {
                   </>
                 )}
               </PaymentMethodSupportedCards>
-            </div>
+            </PaymentMethodCardInfo>
           </PaymentMethodCard>
         )}
-        <PaymentMethodCard onClick={handlePurchaseWithCard}>
+        <PaymentMethodCard $disabled={disabledPurchase} onClick={handlePurchaseWithCard}>
           <Image width={48} height={48} src={card} alt="" />
-          <div>
+          <PaymentMethodCardInfo>
             Pay with card
             <PaymentMethodSupportedCards>
               <div>
@@ -213,9 +230,9 @@ function SelectProviderAndPurchaseHeader() {
                 Mastercard
               </div>
             </PaymentMethodSupportedCards>
-          </div>
+          </PaymentMethodCardInfo>
         </PaymentMethodCard>
-        <PaymentMethodCard onClick={handlePurchaseWithCrypto}>
+        <PaymentMethodCard $disabled={disabledPurchase} onClick={handlePurchaseWithCrypto}>
           <Image width={48} height={48} src={usdt} alt="" />
           Pay with crypto
         </PaymentMethodCard>
