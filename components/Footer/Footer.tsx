@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import facebook from "public/staticfiles/Facebook.svg";
@@ -28,6 +29,7 @@ import {
 function Footer() {
   const { t, i18n } = useTranslation();
   const [countryCode, setCountryCode] = React.useState<string | null>(null);
+  const { pathname } = useRouter();
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -204,7 +206,7 @@ function Footer() {
               src={whatWeAccept}
               alt="what we accept"
             />{" "}
-            {(countryCode === "RU" || countryCode === "BY") && (
+            {pathname === '/virtual-phone-number/payment/provider-select' && (countryCode === "RU" || countryCode === "BY") && (
               <>
                 <Image width={48} height={24} src={belkal1} alt="" />
                 <Image width={72} height={24} src={belkal2} alt="" />
