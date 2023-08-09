@@ -104,11 +104,11 @@ function PhoneNumberPurchase({
   const phoneDuration = phoneDurationList.find((data) => data.value === Number(router.query[PHONE_DURATION_KEY]))?.value || phoneDurationList[2].value;
 
   const setPhoneDuration = (value: number) => {
-    router.replace({ query: {...router.query, [PHONE_DURATION_KEY]: value} })
+    router.replace({ query: { ...router.query, [PHONE_DURATION_KEY]: value } }, undefined, { scroll: false })
   }
 
   const setCheckedAgreements = () => {
-    router.replace({ query: {...router.query, [PRIVACY_POLICY_AGREEMENTS_KEY]: !checkedAgreements} })
+    router.replace({ query: { ...router.query, [PRIVACY_POLICY_AGREEMENTS_KEY]: !checkedAgreements } }, undefined, { scroll: false })
   }
 
   const handleSubmit = async () => {
