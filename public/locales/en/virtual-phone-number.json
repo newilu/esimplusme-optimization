@@ -97,5 +97,6 @@
   "year": "Year",
   "multiple_purchase": "Multiple purchase",
   "multiple_purchase_description_1": "The numbers you have purchased will soon appear on your home screen.",
+  "multiple_purchase_description_2": "Numbers will be <1>given out randomly</1>, except for the first one you choose",
   "multiple_purchase_count": "Amount of phone numbers to buy"
 }

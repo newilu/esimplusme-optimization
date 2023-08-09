@@ -208,7 +208,7 @@ function PhoneNumberPurchase({
             </MultiplePurchaseInfoField>
             <MultiplePurchaseInfoField>
               <RandomIcon />
-              <span><Trans i18nKey='multiple_purchase_description_2' components={{ 1: <b></b> }} /></span>
+              <span><Trans i18nKey='virtual-phone-number:multiple_purchase_description_2' components={{ 1: <b></b> }} /></span>
             </MultiplePurchaseInfoField>
             <MultiplePurchaseRangeWrapper>
               <span>{t('multiple_purchase_count')}</span>
