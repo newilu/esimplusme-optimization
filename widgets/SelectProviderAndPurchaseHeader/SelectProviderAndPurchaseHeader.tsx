@@ -193,7 +193,7 @@ function SelectProviderAndPurchaseHeader() {
               alt=""
             />
             <PaymentMethodCardInfo>
-              Pay with card
+              {t("pay_with_card")}
               <PaymentMethodSupportedCards>
                 {countryCode === "RU" ? (
                   <div>
@@ -219,7 +219,7 @@ function SelectProviderAndPurchaseHeader() {
         <PaymentMethodCard $disabled={disabledPurchase} onClick={handlePurchaseWithCard}>
           <Image width={48} height={48} src={card} alt="" />
           <PaymentMethodCardInfo>
-            Pay with card
+            {t("pay_with_card")}
             <PaymentMethodSupportedCards>
               <div>
                 <Image width={20} height={20} src={visa} alt="" />
@@ -234,7 +234,7 @@ function SelectProviderAndPurchaseHeader() {
         </PaymentMethodCard>
         <PaymentMethodCard $disabled={disabledPurchase} onClick={handlePurchaseWithCrypto}>
           <Image width={48} height={48} src={usdt} alt="" />
-          Pay with crypto
+          {t("pay_with_crypto")}
         </PaymentMethodCard>
       </PaymentMethodsWrapper>
       <CancelPaymentTypeSelection onClick={back}>
