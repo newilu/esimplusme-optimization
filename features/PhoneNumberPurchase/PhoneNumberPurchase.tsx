@@ -66,6 +66,7 @@ type PhoneNumberPurchaseProps = {
 };
 
 const MIN_COUNT_OF_NUMBERS = 10;
+const PHONE_DURATION_KEY = 'duration'
 
 function PhoneNumberPurchase({
   phone,
@@ -98,7 +99,12 @@ function PhoneNumberPurchase({
       disabled: price * 12 * numbersCount > MAX_PURCHASE_PRICE
     }
   ]), [t, price, numbersCount])
-  const [phoneDuration, setPhoneDuration] = useState(phoneDurationList[2].value);
+
+  const phoneDuration = phoneDurationList.find((data) => data.value === Number(router.query[PHONE_DURATION_KEY]))?.value || phoneDurationList[2].value;
+
+  const setPhoneDuration = (value: number) => {
+    router.replace({ query: {...router.query, [PHONE_DURATION_KEY]: value} })
+  }
 
   const handleSubmit = async () => {
     const path = geteratePurchaseRedirectUrl({ phone, state, country, count: numbersCount, duration: phoneDuration })
