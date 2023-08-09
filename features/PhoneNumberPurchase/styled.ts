@@ -86,27 +86,7 @@ export const AboutServiceSection = styled.div`
     }
   }
 `;
-export const PhoneNumberAlertText = styled.div`
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  color: rgba(111, 111, 111, 1);
-`;
-export const PhoneNumberAlertTitle = styled.div`
-  margin-bottom: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 20px;
-  color: black;
-`;
-export const PhoneNumberAlert = styled.div`
-  margin: 20px 0;
-  padding: 10px 16px;
-  background: #fcf1cb;
-  border: 1px dashed #f6c657;
-  border-radius: 5px;
-  text-align: center;
-`;
+
 export const PhoneNumberPrice = styled.div`
   font-weight: 700;
   font-size: 32px;

@@ -101,7 +101,7 @@ function SuccessfulPurchaseHeader() {
         attempt += 1;
         await promise()
           .then(() => {attempt = 2})
-      }, 1000);
+      }, 2000);
     }
   }, [country, phone]);
 

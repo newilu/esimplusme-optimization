@@ -43,8 +43,6 @@ export const CancelPaymentTypeSelection = styled.div`
 `;
 
 export const PaymentMethodCard = styled.div<{$disabled: boolean}>`
-  pointer-events: ${(props) => props.$disabled ? 'none': 'auto'};
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,6 +59,8 @@ export const PaymentMethodCard = styled.div<{$disabled: boolean}>`
   flex: 1 1 200px;
   filter: ${(props) => props.$disabled ? 'grayscale(1)' : 'none'};
   opacity: ${(props) => props.$disabled ? '.65' : '1'};
+  pointer-events: ${(props) => props.$disabled ? 'none': 'auto'};
+  cursor: pointer;
 
   @media (max-width: 768px) {
     grid-gap: 0;

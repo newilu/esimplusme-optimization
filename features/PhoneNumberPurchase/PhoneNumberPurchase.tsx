@@ -19,7 +19,7 @@ import CheckmarkSVG from "@/shared/assets/CheckmarkSVG";
 import cross from "@/shared/assets/red-cross.svg";
 
 import Checkbox from "@/shared/ui/Checkbox";
-import { RadioButtons } from "@/shared/ui/RadioButtons/RadioButtons";
+import RadioButtons from "@/shared/ui/RadioButtons";
 import { MAX_PURCHASE_PRICE } from "@/shared/constants";
 import { geteratePurchaseRedirectUrl } from "@/utils/common";
 
@@ -31,9 +31,6 @@ import {
   PhoneNumberAndPriceWrapper,
   PhoneNumberPrice,
   PhoneNumber,
-  PhoneNumberAlert,
-  PhoneNumberAlertTitle,
-  PhoneNumberAlertText,
   AboutServiceSection,
   PhoneNumberCapabilitiesInfo,
   PhoneNumberCapability,
@@ -147,10 +144,6 @@ function PhoneNumberPurchase({
         <PhoneNumber>{format(phone.phoneNumber, "INTERNATIONAL")}</PhoneNumber>
         <PhoneNumberPrice>${price}</PhoneNumberPrice>
       </PhoneNumberAndPriceWrapper>
-      <PhoneNumberAlert>
-        <PhoneNumberAlertTitle>{t("alert_title")}</PhoneNumberAlertTitle>
-        <PhoneNumberAlertText>{t("alert_text")}</PhoneNumberAlertText>
-      </PhoneNumberAlert>
       <AboutServiceSection>
         <div>{t("about_our_service")}</div>
         <ul>

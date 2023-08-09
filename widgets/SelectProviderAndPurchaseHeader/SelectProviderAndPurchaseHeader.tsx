@@ -30,7 +30,7 @@ function SelectProviderAndPurchaseHeader() {
   const [countryCode, setCountryCode] = useState<string | null>(null);
   const [disabledPurchase, setDisabledPurchase] = useState(false)
 
-  const getRedirectURL = (paymentId: string) => {
+  const getRedirectURL = (paymentId?: string) => {
     if (
       typeof paymentAmount !== "string" ||
       typeof phoneNumber !== "string" ||
@@ -42,17 +42,15 @@ function SelectProviderAndPurchaseHeader() {
     const redirectURLSearchParams = new URLSearchParams({
       payment_amount: paymentAmount,
       phone_number: phoneNumber,
-      payment_id: paymentId,
       country,
-      ...{
-        code: (code as string) || "",
-        type: (type as string) || "",
-        calls: (calls as string) || "",
-        sms: (sms as string) || "",
-        state: (state as string) || "",
-        duration: (duration as string) || "",
-        count: (count as string) || "",
-      },
+      payment_id: paymentId || '',
+      code: (code as string) || "",
+      type: (type as string) || "",
+      calls: (calls as string) || "",
+      sms: (sms as string) || "",
+      state: (state as string) || "",
+      duration: (duration as string) || "",
+      count: (count as string) || "",
     });
 
     return `${process.env.NEXT_PUBLIC_BASE_URL
@@ -148,23 +146,9 @@ function SelectProviderAndPurchaseHeader() {
       setCookie("session", systemAuthToken, 30);
     }
 
-    const redirectURLSearchParams = new URLSearchParams({
-      payment_amount: paymentAmount,
-      phone_number: phoneNumber,
-      country,
-      ...{
-        code: (code as string) || "",
-        type: (type as string) || "",
-        calls: (calls as string) || "",
-        sms: (sms as string) || "",
-        state: (state as string) || "",
-      },
-    });
-
     const { data, error } = await api.secondPhone.topupWithWebpay({
       amount: +paymentAmount,
-      successUrl: `${process.env.NEXT_PUBLIC_BASE_URL
-        }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`,
+      successUrl: getRedirectURL(),
       failureUrl: process.env.NEXT_PUBLIC_BASE_URL,
     });
 
