@@ -67,6 +67,7 @@ type PhoneNumberPurchaseProps = {
 
 const MIN_COUNT_OF_NUMBERS = 10;
 const PHONE_DURATION_KEY = 'duration'
+const PRIVACY_POLICY_AGREEMENTS_KEY = 'agreement';
 
 function PhoneNumberPurchase({
   phone,
@@ -76,7 +77,7 @@ function PhoneNumberPurchase({
 }: PhoneNumberPurchaseProps) {
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
-  const [checkedAgreements, setCheckedAgreements] = useState(true);
+  const checkedAgreements = router.query[PRIVACY_POLICY_AGREEMENTS_KEY] === 'true';
   const [multiplePurchase, setMultiplePurchase] = useState(false);
   const [multipleNumberCount, setMultipleNumberCount] = useState(MIN_COUNT_OF_NUMBERS);
   const numbersCount = multiplePurchase ? multipleNumberCount : 1;
@@ -104,6 +105,10 @@ function PhoneNumberPurchase({
 
   const setPhoneDuration = (value: number) => {
     router.replace({ query: {...router.query, [PHONE_DURATION_KEY]: value} })
+  }
+
+  const setCheckedAgreements = () => {
+    router.replace({ query: {...router.query, [PRIVACY_POLICY_AGREEMENTS_KEY]: !checkedAgreements} })
   }
 
   const handleSubmit = async () => {
@@ -252,9 +257,7 @@ function PhoneNumberPurchase({
         <Agreement>
           <Checkbox
             checked={checkedAgreements}
-            onChange={() => {
-              setCheckedAgreements((prev) => !prev);
-            }}
+            onChange={setCheckedAgreements}
           />
           <div>
             <Trans
