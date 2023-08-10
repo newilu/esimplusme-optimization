@@ -77,7 +77,7 @@ function PhoneNumberPurchase({
 }: PhoneNumberPurchaseProps) {
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
-  const checkedAgreements = router.query[PRIVACY_POLICY_AGREEMENTS_KEY] === 'true';
+  const checkedAgreements = router.query[PRIVACY_POLICY_AGREEMENTS_KEY] !== 'false';
   const [multiplePurchase, setMultiplePurchase] = useState(false);
   const [multipleNumberCount, setMultipleNumberCount] = useState(MIN_COUNT_OF_NUMBERS);
   const numbersCount = multiplePurchase ? multipleNumberCount : 1;
