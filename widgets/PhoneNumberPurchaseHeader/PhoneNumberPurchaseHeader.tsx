@@ -73,7 +73,7 @@ function PhoneNumberPurchaseHeader({
       <h1>
         {t("phone_numbers_by_city_title", {
           stateIso: state?.isoCode,
-          city: removeExcludedWords(city?.name || '', STATE_NAME_DEPRECATED_WORDS),
+          city: city?.name,
           areaCode,
           country: country.name,
         })}
@@ -109,7 +109,7 @@ function PhoneNumberPurchaseHeader({
               removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)
             )}/${formatStringToKebabCase(city.name)}`}
           >
-            {removeExcludedWords(city.name, STATE_NAME_DEPRECATED_WORDS)}
+            {city.name}
           </Link>
         )}
       </Breadcrumbs>
