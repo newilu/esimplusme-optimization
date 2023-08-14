@@ -72,7 +72,7 @@ function PopularCountriesTable({
           const price = info.getValue() || MINIMAL_PHONE_NUMBER_PRICE;
           return (
             <div style={{ textAlign: "left" }}>
-              <b>{t("from_amount_month", { price: price + 1 })}</b>
+              <b>{price + 1}$</b>
             </div>
           );
         },

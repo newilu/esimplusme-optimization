@@ -11,7 +11,7 @@ class MyDocument extends Document {
       // eslint-disable-next-line no-underscore-dangle
       this.props.__NEXT_DATA__.locale ?? i18nextConfig.i18n.defaultLocale;
     return (
-      <Html lang={currentLocale} data-country={(this.props as any).countryCode}>
+      <Html lang={currentLocale}>
         <Head>
           <meta charSet="utf-8" />
           <link href="/app.css" rel="stylesheet" />
@@ -20,7 +20,7 @@ class MyDocument extends Document {
             href="https://paymentpage.ecommpay.com/shared/merchant.css"
           />
         </Head>
-        <body>
+        <body data-country={(this.props as any).countryCode}>
           <Main />
           <Script strategy="lazyOnload" id="gtag-script">{`
             window.dataLayer = window.dataLayer || [];

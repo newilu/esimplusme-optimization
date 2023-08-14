@@ -176,7 +176,7 @@ function SelectProviderAndPurchaseHeader() {
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      setCountryCode(document.documentElement.getAttribute("data-country"));
+      setCountryCode(document.body.getAttribute("data-country"));
     }
   }, []);
 

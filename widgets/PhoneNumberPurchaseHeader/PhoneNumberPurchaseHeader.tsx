@@ -53,8 +53,8 @@ function PhoneNumberPurchaseHeader({
   const areaCode =
     (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
       ? format(phones[0].phoneNumber, "INTERNATIONAL")
-          .slice(0, 6)
-          .replaceAll(" ", "-")
+        .slice(0, 6)
+        .replaceAll(" ", "-")
       : formatAreaCode(country.phonecode);
 
   const handlePhoneNumberSelect = React.useCallback(
@@ -73,7 +73,7 @@ function PhoneNumberPurchaseHeader({
       <h1>
         {t("phone_numbers_by_city_title", {
           stateIso: state?.isoCode,
-          city: city?.name,
+          city: removeExcludedWords(city?.name || '', STATE_NAME_DEPRECATED_WORDS),
           areaCode,
           country: country.name,
         })}
@@ -109,7 +109,7 @@ function PhoneNumberPurchaseHeader({
               removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)
             )}/${formatStringToKebabCase(city.name)}`}
           >
-            {city.name}
+            {removeExcludedWords(city.name, STATE_NAME_DEPRECATED_WORDS)}
           </Link>
         )}
       </Breadcrumbs>
@@ -129,16 +129,15 @@ function PhoneNumberPurchaseHeader({
               <Link
                 href={`/virtual-phone-number/${formatStringToKebabCase(
                   country.name
-                )}${
-                  state
+                )}${state
                     ? `/${formatStringToKebabCase(
-                        removeExcludedWords(
-                          state.name,
-                          STATE_NAME_DEPRECATED_WORDS
-                        )
-                      )}`
+                      removeExcludedWords(
+                        state.name,
+                        STATE_NAME_DEPRECATED_WORDS
+                      )
+                    )}`
                     : ""
-                }`}
+                  }`}
               >
                 {t("change")}
               </Link>
