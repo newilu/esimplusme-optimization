@@ -41,10 +41,10 @@ function PhoneNumbersByRegion({
   popularCountries,
   phoneNumber = null,
 }: PhoneNumbersByCountryProps) {
-  const { asPath, query, push, replace } = useRouter();
+  const { pathname, query, push, replace } = useRouter();
   const { t } = useTranslation("virtual-phone-number");
 
-  const { phone, ...restOfQuery } = query;
+  const { phone, ...rest } = query;
 
   React.useEffect(() => {
     if (
@@ -53,12 +53,12 @@ function PhoneNumbersByRegion({
       phoneNumber.phoneNumber !== phone
     ) {
       replace(
-        { query: { ...restOfQuery, phone: phoneNumber?.phoneNumber } },
+        { query: { ...rest, phone: phoneNumber?.phoneNumber } },
         undefined,
-        { shallow: true }
+        { shallow: true, scroll: false }
       );
     }
-  }, [phoneNumber, phone, restOfQuery]);
+  }, [phoneNumber?.phoneNumber]);
 
   return (
     <Wrapper>
@@ -105,7 +105,7 @@ function PhoneNumbersByRegion({
                 />{" "}
                 {areaCode ?? formatAreaCode(country.phonecode)} {country.name}
               </div>
-              <Link href={asPath.split("?")[0]}>{t("change")}</Link>
+              <Link href={pathname}>{t("change")}</Link>
             </PanelSectionTitle>
             <PhoneNumberPurchase
               phone={phoneNumber}
@@ -141,10 +141,7 @@ function PhoneNumbersByRegion({
                 (phones.length ? (
                   <PhoneNumbersTable
                     onRowClick={(phone) => {
-                      const search = new URLSearchParams();
-                      search.append("phone", phone.phoneNumber);
-
-                      push(`${asPath.split("?")[0]}?${search.toString()}`);
+                      push({pathname, query: {...rest, phone: phone.phoneNumber}});
                     }}
                     phones={phones}
                   />
@@ -156,7 +153,9 @@ function PhoneNumbersByRegion({
               <PanelSection>
                 <PanelSectionTitle>{t("all_numbers")}</PanelSectionTitle>
                 {phones.length ? (
-                  <PhoneNumbersTable phones={phones} />
+                  <PhoneNumbersTable phones={phones} onRowClick={(phone) => {
+                    push({pathname, query: {...rest, phone: phone.phoneNumber}});
+                  }} />
                 ) : (
                   <NoNumbersAvailableView countries={popularCountries} />
                 )}
