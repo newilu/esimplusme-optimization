@@ -76,14 +76,16 @@ function PhoneNumbersTable({
       columnHelper.accessor("region", {
         header: () => t("buy"),
         cell: (info) => {
-          const search = new URLSearchParams();
-          if (typeof country === "string") search.append("country", country);
-          if (typeof state === "string") search.append("state", state);
-          search.append("phone", info.row.original.phoneNumber);
-
+ 
           return (
             <PurchasePhoneNumberButton
-              href={`/virtual-phone-number/payment?${search.toString()}`}
+              href={{
+                pathname: '/virtual-phone-number/payment',
+                query: {
+                  ...query,
+                  phone: info.row.original.phoneNumber
+                }
+              }}
             >
               {t("buy")}
             </PurchasePhoneNumberButton>
@@ -115,9 +117,8 @@ function PhoneNumbersTable({
     onRowClick(_phone);
 
     if (pathname.includes("/payment")) {
-      const { phone, ...rest } = query;
       await replace(
-        { query: { ...rest, phone: _phone.phoneNumber } },
+        { query: { ...query, phone: _phone.phoneNumber } },
         undefined,
         {
           shallow: true,

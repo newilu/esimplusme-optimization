@@ -1,10 +1,14 @@
 import React from "react";
+import { useRouter } from "next/router";
+
 import type { ICountry, IState } from "country-cities";
 import { Trans, useTranslation } from "next-i18next";
 import Link from "next/link";
-import { formatStringToKebabCase } from "@/shared/lib";
+import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 import { StatesTable } from "@/entities/StatesTable/StatesTable";
+import { CountryFlag } from "@/shared/ui/CountryFlag/CountryFlag";
+
 import {
   PanelSection,
   PanelSectionTitle,
@@ -22,6 +26,7 @@ type PhoneNumberRegionsByCountryProps = {
   phones: PhoneToBuy[] | null;
   popularCountries: SecondPhoneCountry[];
   phoneNumberStartingPrice: number | null;
+  phoneNumber?: PhoneToBuy | null;
 };
 
 function PhoneNumberRegionsByCountry({
@@ -30,8 +35,10 @@ function PhoneNumberRegionsByCountry({
   phones,
   phoneNumberStartingPrice,
   popularCountries,
+  phoneNumber = null
 }: PhoneNumberRegionsByCountryProps) {
   const { t } = useTranslation("virtual-phone-number");
+  const { pathname } = useRouter();
   const [selectedPhone, setSelectedPhone] = React.useState(
     phones?.length ? phones[0] : null
   );
@@ -63,37 +70,60 @@ function PhoneNumberRegionsByCountry({
         </Link>
       </Breadcrumbs>
       <PanelSectionsWrapper dir="row">
-        {!!states.length && (
+      {phoneNumber ? (
           <PanelSection>
             <PanelSectionTitle>
-              {t("regions")}{" "}
-              <Link href="/virtual-phone-number/pricing">{t("change")}</Link>
+              <div>
+                <CountryFlag
+                  name={country.isoCode}
+                  width={32}
+                  height={24}
+                  borderRadius={5}
+                />{" "}
+                {formatAreaCode(country.phonecode)} {country.name}
+              </div>
+              <Link href={pathname}>Change</Link>
             </PanelSectionTitle>
-            <StatesTable
+            <PhoneNumberPurchase
+              phone={phoneNumber}
               country={country}
-              states={states}
-              phoneNumberStartingPrice={phoneNumberStartingPrice}
             />
           </PanelSection>
-        )}
-        {!!phones?.length && (
+        ) : (
           <>
-            <PanelSection>
-              <PanelSectionTitle>
-                {t("select_phone_number")}{" "}
-                <Link href="/virtual-phone-number/pricing">{t("change")}</Link>
-              </PanelSectionTitle>
-              <PhoneNumbersTable
-                phones={phones}
-                onRowClick={setSelectedPhone}
-              />
-            </PanelSection>
-            <PanelSection>
-              <PhoneNumberPurchase
-                country={country}
-                phone={selectedPhone as PhoneToBuy}
-              />
-            </PanelSection>
+            {!!states.length && (
+              <PanelSection>
+                <PanelSectionTitle>
+                  {t("regions")}{" "}
+                  <Link href="/virtual-phone-number/pricing">{t("change")}</Link>
+                </PanelSectionTitle>
+                <StatesTable
+                  country={country}
+                  states={states}
+                  phoneNumberStartingPrice={phoneNumberStartingPrice}
+                />
+              </PanelSection>
+            )}
+            {!!phones?.length && (
+              <>
+                <PanelSection>
+                  <PanelSectionTitle>
+                    {t("select_phone_number")}{" "}
+                    <Link href="/virtual-phone-number/pricing">{t("change")}</Link>
+                  </PanelSectionTitle>
+                  <PhoneNumbersTable
+                    phones={phones}
+                    onRowClick={setSelectedPhone}
+                  />
+                </PanelSection>
+                <PanelSection>
+                  <PhoneNumberPurchase
+                    country={country}
+                    phone={selectedPhone as PhoneToBuy}
+                  />
+                </PanelSection>
+              </>
+            )}
           </>
         )}
         {popularCountries && !phones?.length && !states.length && (

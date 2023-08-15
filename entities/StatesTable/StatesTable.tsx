@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import type { ICountry, IState } from "country-cities";
 import { useTranslation } from "next-i18next";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -40,6 +41,7 @@ function StatesTable({
   maxVisibleElements = null,
 }: StatesTableProps) {
   const { t } = useTranslation("virtual-phone-number");
+  const { push, query } = useRouter();
 
   const stateAreaCodeColumn = React.useMemo(
     () =>
@@ -59,11 +61,14 @@ function StatesTable({
         header: () => t("state"),
         cell: (info) => (
           <StateNameWrapper
-            href={`/virtual-phone-number/${formatStringToKebabCase(
-              country.name
-            )}/${formatStringToKebabCase(
-              removeExcludedWords(info.getValue(), STATE_NAME_DEPRECATED_WORDS)
-            )}`}
+            href={{
+              pathname: `/virtual-phone-number/${formatStringToKebabCase(
+                country.name
+              )}/${formatStringToKebabCase(
+                removeExcludedWords(info.getValue(), STATE_NAME_DEPRECATED_WORDS)
+              )}`,
+              query
+            }}
           >
             <CountryFlag
               width={28}
@@ -106,19 +111,10 @@ function StatesTable({
       columnHelper.accessor("isoCode", {
         id: TableIDS.Purchase,
         header: () => t("buy"),
-        cell: (info) => {
+        cell: () => {
           return (
             <Button
               style={{ margin: "0 auto" }}
-              as="a"
-              href={`/virtual-phone-number/${formatStringToKebabCase(
-                country.name
-              )}/${formatStringToKebabCase(
-                removeExcludedWords(
-                  info.row.original.name,
-                  STATE_NAME_DEPRECATED_WORDS
-                )
-              )}`}
               label={t("buy")}
               size="small"
             />
@@ -138,6 +134,14 @@ function StatesTable({
         phoneNumberPriceColumn,
         purchaseButtonColumn,
       ]}
+      onRowClick={(data) => {
+        const formatedCountryName = formatStringToKebabCase(country.name);
+        const formatedStateName = formatStringToKebabCase(
+          removeExcludedWords(data.name, STATE_NAME_DEPRECATED_WORDS),
+        )
+
+        push({pathname: `/virtual-phone-number/${formatedCountryName}/${formatedStateName}`, query})
+      }}
       data={states}
     />
   );
