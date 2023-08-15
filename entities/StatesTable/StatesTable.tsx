@@ -134,24 +134,6 @@ function StatesTable({
     [t]
   );
 
-  const statesWithMobile = useMemo(() => {
-    if (states.length > 0) {
-      const mobileField = {
-        name: "Mobile",
-        phonecode: country.phonecode,
-        countryCode: country.isoCode,
-        isoCode: '',
-        flag: '',
-        currency: '',
-        latitude: '',
-        longitude: '',
-      } as IState;
-      const start = states.length - 1 > 10 ? 10 : states.length - 1
-      return [...states.slice(0, start), mobileField, ...states.slice(start + 1)]
-    }
-    return states
-  }, [states, country.phonecode, country.isoCode])
-
   return (
     <Wrapper
       maxVisibleElements={maxVisibleElements}
@@ -163,7 +145,7 @@ function StatesTable({
         purchaseButtonColumn,
       ]}
       onRowClick={(data) => { router.push(getHref(data)) }}
-      data={statesWithMobile}
+      data={states}
     />
   );
 }
