@@ -16,7 +16,6 @@ export const PhoneNumberType = styled.div`
   line-height: 20px;
   letter-spacing: -0.1px;
   color: ${(props) => props.theme.primary};
-  margin-bottom: 5px;
   text-transform: capitalize;
 `;
 

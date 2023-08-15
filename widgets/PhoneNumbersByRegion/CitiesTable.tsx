@@ -47,7 +47,7 @@ function CitiesTable({ cities }: { cities: ICity[] }) {
             removeExcludedWords(state?.name ?? "", STATE_NAME_DEPRECATED_WORDS)
           )}/${formatStringToKebabCase(info.getValue())}`;
 
-          return <Link href={href}>{info.getValue()}</Link>;
+          return <Link href={href}>{removeExcludedWords(info.getValue(), STATE_NAME_DEPRECATED_WORDS)}</Link>;
         },
       }),
 

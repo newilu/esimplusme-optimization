@@ -33,10 +33,13 @@ function PhoneNumbersTable({
   const phoneNumberColumn = React.useMemo(
     () =>
       columnHelper.accessor("phoneNumber", {
-        header: () => t("all_numbers"),
+        header: () => (
+          <PhoneNumberType>
+            {t('all_type_numbers', { type: phones[0].numberType })}
+          </PhoneNumberType>
+        ),
         cell: (info) => (
           <div>
-            <PhoneNumberType>{info.row.original.numberType}</PhoneNumberType>
             <PhoneNumber>
               {format(info.getValue(), "INTERNATIONAL")}
             </PhoneNumber>
