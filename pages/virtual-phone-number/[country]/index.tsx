@@ -105,7 +105,24 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  const regions = getStatesByCountryCode(currentCountry.isoCode);
+  let regions = getStatesByCountryCode(currentCountry.isoCode);
+
+  if (currentCountry.isoCode === "US" && regions.length > 0) {
+    const mobileField = {
+      name: "Mobile",
+      phonecode: currentCountry.phonecode,
+      countryCode: currentCountry.isoCode,
+      isoCode: '',
+      flag: '',
+      currency: '',
+      latitude: '',
+      longitude: '',
+    } as IState;
+
+    const start = regions.length - 1 > 10 ? 10 : regions.length - 1;
+
+    regions = [...regions.slice(0, start), mobileField, ...regions.slice(start + 1)]
+  }
 
   if (!regions.length || autonumber) {
     const { data } = await api.secondPhone.getPhonesByCountry(

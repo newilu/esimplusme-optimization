@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
 import type { ICountry, IState } from "country-cities";
 import { useTranslation } from "next-i18next";
@@ -6,7 +6,6 @@ import { createColumnHelper } from "@tanstack/react-table";
 import {
   formatAreaCode,
   formatStringToKebabCase,
-  getCountryByIsoCode,
   removeExcludedWords,
 } from "@/shared/lib";
 import {
@@ -40,10 +39,24 @@ function StatesTable({
   phoneNumberStartingPrice,
   maxVisibleElements = null,
 }: StatesTableProps) {
+  const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
-  const { push, query } = useRouter();
 
-  const stateAreaCodeColumn = React.useMemo(
+  const params = new URLSearchParams(router.query as {})
+  const paramsString = params.toString().length > 0 ? `?${params.toString()}` : '';
+
+  const getHref = useCallback((state: IState) => {
+    const formatedCountryName = formatStringToKebabCase(country.name);
+    if (state.name === 'Mobile') {
+      return `/virtual-phone-number/${formatedCountryName}/mobile${paramsString}`
+    }
+    const formatedStateName = formatStringToKebabCase(
+      removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS),
+    )
+    return `/virtual-phone-number/${formatedCountryName}/${formatedStateName}${paramsString}`
+  }, [paramsString, country.name])
+
+  const stateAreaCodeColumn = useMemo(
     () =>
       columnHelper.accessor("countryCode", {
         id: TableIDS.AreaCode,
@@ -54,22 +67,13 @@ function StatesTable({
     [country.phonecode, t]
   );
 
-  const stateNameColumn = React.useMemo(
+  const stateNameColumn = useMemo(
     () =>
       columnHelper.accessor("name", {
         id: TableIDS.State,
         header: () => t("state"),
         cell: (info) => (
-          <StateNameWrapper
-            href={{
-              pathname: `/virtual-phone-number/${formatStringToKebabCase(
-                country.name
-              )}/${formatStringToKebabCase(
-                removeExcludedWords(info.getValue(), STATE_NAME_DEPRECATED_WORDS)
-              )}`,
-              query
-            }}
-          >
+          <StateNameWrapper href={getHref(info.row.original)}>
             <CountryFlag
               width={28}
               height={21}
@@ -80,23 +84,20 @@ function StatesTable({
         ),
       }),
 
-    [country.name, t]
+    [getHref, t]
   );
 
-  const phoneNumberPriceColumn = React.useMemo(
+  const phoneNumberPriceColumn = useMemo(
     () =>
       columnHelper.accessor("latitude", {
         id: TableIDS.MonthlyFee,
         header: () => t("monthly_fee"),
-        cell: () =>
-          t("from_amount_month", {
-            price: (phoneNumberStartingPrice || MINIMAL_PHONE_NUMBER_PRICE) + 1,
-          }),
+        cell: () => `${(phoneNumberStartingPrice || MINIMAL_PHONE_NUMBER_PRICE) + 1}$`,
       }),
     [phoneNumberStartingPrice, t]
   );
 
-  const stateISOColumn = React.useMemo(
+  const stateISOColumn = useMemo(
     () =>
       columnHelper.accessor("isoCode", {
         id: TableIDS.ISOCode,
@@ -106,7 +107,7 @@ function StatesTable({
     [t]
   );
 
-  const purchaseButtonColumn = React.useMemo(
+  const purchaseButtonColumn = useMemo(
     () =>
       columnHelper.accessor("isoCode", {
         id: TableIDS.Purchase,
@@ -134,14 +135,7 @@ function StatesTable({
         phoneNumberPriceColumn,
         purchaseButtonColumn,
       ]}
-      onRowClick={(data) => {
-        const formatedCountryName = formatStringToKebabCase(country.name);
-        const formatedStateName = formatStringToKebabCase(
-          removeExcludedWords(data.name, STATE_NAME_DEPRECATED_WORDS),
-        )
-
-        push({pathname: `/virtual-phone-number/${formatedCountryName}/${formatedStateName}`, query})
-      }}
+      onRowClick={(data) => { router.push(getHref(data)) }}
       data={states}
     />
   );

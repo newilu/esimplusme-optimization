@@ -12,7 +12,7 @@ import {
   generateMeta,
   scrollToId,
 } from "@/shared/lib";
-import { PhoneToBuy } from "@/utils/types";
+import { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
 import api from "@/api";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 import BaseHeader from "@/shared/ui/BaseHeader";
@@ -28,10 +28,12 @@ import { useWindowSize } from "@/context/WindowSizeContext";
 import MobileNumberFaq from "@/features/MobileNumberFaq";
 import Footer from "@/components/Footer";
 import WhyDoYouNeedMobileNumber from "@/features/WhyDoYouNeedMobileNumber";
+import { NoNumbersAvailableView } from "@/features/NoNumbersAvailableView/NoNumbersAvailableView";
 
 type PageProps = {
   country: ICountry;
   phones: PhoneToBuy[];
+  popularCountries: SecondPhoneCountry[];
 };
 
 const SectionsWrapper = styled.div`
@@ -86,7 +88,7 @@ const SectionsWrapper = styled.div`
   }
 `;
 
-function Index({ country, phones }: PageProps) {
+function Index({ country, phones, popularCountries }: PageProps) {
   const router = useRouter();
   const { t, i18n } = useTranslation("virtual-phone-number");
   const { isMobile } = useWindowSize();
@@ -145,31 +147,41 @@ function Index({ country, phones }: PageProps) {
           </Link>
           <Link href="/mock">Mobile</Link>
         </Breadcrumbs>
-        <SectionsWrapper>
-          <PanelSection>
-            <PanelSectionTitle>{t("select_phone_number")}</PanelSectionTitle>
-          </PanelSection>{" "}
-          <PanelSection style={{ paddingTop: 25 }}>
-            <PhoneNumbersTable
-              phones={phones}
-              onRowClick={(phone) => {
-                if (isMobile) {
-                  scrollToId(purchaseSectionId, 80);
-                }
-                setSelectedPhone(phone);
-              }}
-            />
-          </PanelSection>{" "}
-          <PanelSection id={purchaseSectionId}>
-            {selectedPhone && (
-              <PhoneNumberPurchase
-                isNumberOfMobileType
-                country={country}
-                phone={selectedPhone}
+        {phones.length > 0 ? (
+          <SectionsWrapper>
+            <PanelSection>
+              <PanelSectionTitle>{t("select_phone_number")}</PanelSectionTitle>
+            </PanelSection>{" "}
+            <PanelSection style={{ paddingTop: 25 }}>
+              <PhoneNumbersTable
+                phones={phones}
+                onRowClick={(phone) => {
+                  if (isMobile) {
+                    scrollToId(purchaseSectionId, 80);
+                  }
+                  setSelectedPhone(phone);
+                }}
               />
-            )}
-          </PanelSection>
-        </SectionsWrapper>
+            </PanelSection>{" "}
+            <PanelSection id={purchaseSectionId}>
+              {selectedPhone && (
+                <PhoneNumberPurchase
+                  isNumberOfMobileType
+                  country={country}
+                  phone={selectedPhone}
+                />
+              )}
+            </PanelSection>
+          </SectionsWrapper>
+        ) : (
+          popularCountries.length > 0 && (
+            <PanelSection>
+              <NoNumbersAvailableView
+                countries={popularCountries}
+              />
+            </PanelSection>
+          )
+        )}
       </BaseHeader>
       <WhyDoYouNeedMobileNumber country={country} />
       <MobileNumberFaq />
@@ -207,6 +219,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     currentCountry.isoCode
   );
 
+  const { data: secondPhoneCountries } =
+    await api.secondPhone.listSecondPhoneCountries();
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
@@ -216,6 +231,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       ])),
       country: currentCountry,
       phones: data?.data.phones ?? [],
+      popularCountries: secondPhoneCountries ?? []
     },
   };
 };

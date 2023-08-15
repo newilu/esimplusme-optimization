@@ -20,7 +20,7 @@ function CitiesTable({ cities }: { cities: ICity[] }) {
   const { t } = useTranslation("virtual-phone-number");
   const router = useRouter();
 
-  const getHrefData = (city: ICity ) => {
+  const getHrefData = (city: ICity) => {
     const country = getCountryByIsoCode(city.countryCode);
     const state = getStateByCode(city.stateCode, city.countryCode);
     const countryName = formatStringToKebabCase(country?.name ?? "")
@@ -48,7 +48,11 @@ function CitiesTable({ cities }: { cities: ICity[] }) {
     () =>
       columnHelper.accessor("name", {
         header: () => t("destination"),
-        cell: (info) => <Link href={getHrefData(info.row.original)}>{info.getValue()}</Link>,
+        cell: (info) => (
+          <Link href={getHrefData(info.row.original)}>
+            {removeExcludedWords(info.getValue(), STATE_NAME_DEPRECATED_WORDS)}
+          </Link>
+        ),
       }),
 
     [t]

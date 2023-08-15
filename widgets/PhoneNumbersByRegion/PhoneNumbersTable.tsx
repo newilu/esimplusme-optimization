@@ -18,7 +18,7 @@ const columnHelper = createColumnHelper<PhoneToBuy>();
 
 function PhoneNumbersTable({
   phones,
-  onRowClick = () => {},
+  onRowClick = () => { },
 }: {
   phones: PhoneToBuy[];
   onRowClick?: (props: PhoneToBuy) => void;
@@ -31,10 +31,9 @@ function PhoneNumbersTable({
   const phoneNumberColumn = React.useMemo(
     () =>
       columnHelper.accessor("phoneNumber", {
-        header: "",
+        header: () => <PhoneNumberType>{phones[0].numberType}</PhoneNumberType>,
         cell: (info) => (
           <div>
-            <PhoneNumberType>{info.row.original.numberType}</PhoneNumberType>
             <PhoneNumber>
               {format(info.getValue(), "INTERNATIONAL")}
             </PhoneNumber>
