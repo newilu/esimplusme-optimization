@@ -99,7 +99,10 @@ function SuccessfulPurchaseHeader() {
       <Button
         disabled={isLoading}
         fullWidth
-        onClick={() => push("https://sms.esimplus.me/register")}
+        onClick={() => {
+          const environmentPrefix = window.location.origin.includes('dev') || window.location.origin.includes('localhost') ? 'dev-' : '';
+          push(`https://${environmentPrefix}sms.esimplus.me/register`)
+        }}
         label={t("create_account")}
       />
     </Wrapper>

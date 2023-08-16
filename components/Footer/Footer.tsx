@@ -153,28 +153,20 @@ function Footer() {
             </LinksWrapper>
             <ul>
               <li>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://esimplus.me/privacy"
-                >
+                <Link locale="en" href="/privacy">
                   {t("privacy_policy")}
-                </a>
-              </li>{" "}
+                </Link>
+              </li>
               <li>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://esimplus.me/terms"
-                >
+                <Link locale="en" href="/terms">
                   {t("terms_of_use")}
-                </a>
-              </li>{" "}
+                </Link>
+              </li>
               <li>
                 <Link href="/esim-supported-devices">
                   {t("esim_supported_devices")}
                 </Link>
-              </li>{" "}
+              </li>
             </ul>
           </div>
         </Container>
@@ -187,17 +179,17 @@ function Footer() {
               <Link locale="en" href="/privacy">
                 {t("privacy_policy")}
               </Link>
-            </li>{" "}
+            </li>
             <li>
               <Link locale="en" href="/terms">
                 {t("terms_of_use")}
               </Link>
-            </li>{" "}
+            </li>
             <li>
               <Link href="/esim-supported-devices">
                 {t("esim_supported_devices")}
               </Link>
-            </li>{" "}
+            </li>
           </ul>
           <div>
             <Image
