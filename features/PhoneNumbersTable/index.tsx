@@ -8,7 +8,6 @@ import SmsSvg from "@/shared/assets/SmsSVG";
 import { useTranslation } from "next-i18next";
 import {
   PhoneNumber,
-  PhoneNumberType,
   SvgWrapper,
   PurchasePhoneNumberButton,
   StyledBaseTable,
@@ -33,11 +32,7 @@ function PhoneNumbersTable({
   const phoneNumberColumn = React.useMemo(
     () =>
       columnHelper.accessor("phoneNumber", {
-        header: () => (
-          <PhoneNumberType>
-            {t('all_type_numbers', { type: phones[0].numberType })}
-          </PhoneNumberType>
-        ),
+        header: () => t('all_type_numbers', { type: phones[0].numberType }),
         cell: (info) => (
           <div>
             <PhoneNumber>
