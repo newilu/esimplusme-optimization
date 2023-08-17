@@ -129,4 +129,6 @@ function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq' | 'dataLayer', callback: () =
   return timerId
 }
 
-export { sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid, sendSafeEcommerceEvent };
+const delay = (ms: number) => new Promise((res) => {setTimeout(res, ms)})
+
+export { delay, sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid, sendSafeEcommerceEvent };
