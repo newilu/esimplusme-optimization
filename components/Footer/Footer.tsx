@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import facebook from "public/staticfiles/Facebook.svg";
@@ -28,10 +29,11 @@ import {
 function Footer() {
   const { t, i18n } = useTranslation();
   const [countryCode, setCountryCode] = React.useState<string | null>(null);
+  const { pathname } = useRouter();
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      setCountryCode(document.documentElement.getAttribute("data-country"));
+      setCountryCode(document.body.getAttribute("data-country"));
     }
   }, []);
 
@@ -151,28 +153,20 @@ function Footer() {
             </LinksWrapper>
             <ul>
               <li>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://esimplus.me/privacy"
-                >
+                <Link locale="en" href="/privacy">
                   {t("privacy_policy")}
-                </a>
-              </li>{" "}
+                </Link>
+              </li>
               <li>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://esimplus.me/terms"
-                >
+                <Link locale="en" href="/terms">
                   {t("terms_of_use")}
-                </a>
-              </li>{" "}
+                </Link>
+              </li>
               <li>
                 <Link href="/esim-supported-devices">
                   {t("esim_supported_devices")}
                 </Link>
-              </li>{" "}
+              </li>
             </ul>
           </div>
         </Container>
@@ -185,17 +179,17 @@ function Footer() {
               <Link locale="en" href="/privacy">
                 {t("privacy_policy")}
               </Link>
-            </li>{" "}
+            </li>
             <li>
               <Link locale="en" href="/terms">
                 {t("terms_of_use")}
               </Link>
-            </li>{" "}
+            </li>
             <li>
               <Link href="/esim-supported-devices">
                 {t("esim_supported_devices")}
               </Link>
-            </li>{" "}
+            </li>
           </ul>
           <div>
             <Image
@@ -204,7 +198,7 @@ function Footer() {
               src={whatWeAccept}
               alt="what we accept"
             />{" "}
-            {(countryCode === "RU" || countryCode === "BY") && (
+            {pathname === '/virtual-phone-number/payment/provider-select' && (countryCode === "RU" || countryCode === "BY") && (
               <>
                 <Image width={48} height={24} src={belkal1} alt="" />
                 <Image width={72} height={24} src={belkal2} alt="" />

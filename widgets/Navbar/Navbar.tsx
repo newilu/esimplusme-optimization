@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -32,6 +32,16 @@ enum Regions {
   Regional = "regional_esim",
   Global = "global_esim",
 }
+const redirectUrls = {
+  dev: {
+    mobiledata: "https://dev-mobiledata.esimplus.me/",
+    sms: "https://dev-sms.esimplus.me/"
+  },
+  prod: {
+    mobiledata: "https://mobiledata.esimplus.me/",
+    sms: "https://sms.esimplus.me/"
+  }
+}
 
 function Navbar({
   color,
@@ -46,8 +56,8 @@ function Navbar({
 }) {
   const router = useRouter();
   const { t } = useTranslation();
-  const [navSelectedRegion, setNavSelectedRegion] =
-    React.useState<Regions | null>(null);
+  const [navSelectedRegion, setNavSelectedRegion] = useState<Regions | null>(null);
+  const [redirectUrl, setRedirectUrl] = useState('');
 
   const {
     isOpen: isMobileDataDropdownOpen,
@@ -72,7 +82,7 @@ function Navbar({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const listener = () => {
       const navbar = document.getElementById("navbar");
 
@@ -103,6 +113,14 @@ function Navbar({
     closeNavMenu();
     e.stopPropagation();
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const environment = window.location.origin.includes('dev') || window.location.origin.includes('localhost') ? 'dev' : 'prod';
+      const product = router.pathname.includes("virtual-phone-number") ? 'sms' : 'mobiledata'
+      setRedirectUrl(redirectUrls[environment][product])
+    }
+  }, [])
 
   return (
     <>
@@ -140,11 +158,7 @@ function Navbar({
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href={
-                    router.pathname.includes("virtual-phone-number")
-                      ? "https://sms.esimplus.me/"
-                      : "https://mobiledata.esimplus.me/"
-                  }
+                  href={redirectUrl}
                 >
                   {t("sign_in")}
                 </a>
@@ -313,11 +327,7 @@ function Navbar({
                   <Link
                     target="_blank"
                     rel="noreferrer"
-                    href={
-                      router.pathname.includes("virtual-phone-number")
-                        ? "https://sms.esimplus.me/"
-                        : "https://mobiledata.esimplus.me/"
-                    }
+                    href={redirectUrl}
                   >
                     {t("sign_in")}
                   </Link>

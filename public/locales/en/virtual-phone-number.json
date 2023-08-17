@@ -66,6 +66,7 @@
   "change": "Change",
   "select_phone_number": "Select a number",
   "all_numbers": "All numbers",
+  "all_type_numbers": "All {{type}} numbers",
   "alert_title": "Virtual Phone Number for 1 Month",
   "alert_text": "Get this number with the option of unlimited extension of time. Available for use in the ESIM Plus app and on the website.",
   "about_our_service": "About our services",
@@ -91,7 +92,6 @@
   "special_deals_services_info_item_6": "The purchase of a number is limited to a single account. If you switch to a new account, you will need to subscribe to a new phone number.",
   "special_deals_services_info_item_7": "The subscription is set to renew automatically each month, while retaining the flexibility to cancel anytime.",
   "iso_code": "ISO Code",
-  "from_amount_month": "from {{price}}$/mo",
   "numbers": "Numbers",
   "connection_monthly_fee": "Connection Monthly Fee"
 }
