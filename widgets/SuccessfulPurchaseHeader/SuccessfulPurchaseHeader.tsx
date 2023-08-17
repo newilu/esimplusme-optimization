@@ -86,7 +86,7 @@ function SuccessfulPurchaseHeader() {
 
       setIsLoading(true);
       
-      recursiveCheckPaymentStatus(paymentId, 5)
+      recursiveCheckPaymentStatus(paymentId, 10)
         .then(() => {
           api.secondPhone.buyNumber({ phone, country_code: country })
             .then(() => {
