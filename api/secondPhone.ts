@@ -178,7 +178,7 @@ const recursiveCheckPaymentStatus = (paymentId: string, attempts: number) => (
     checkPaymentStatus(paymentId)
       .then(({ data }) => {
         if(data?.data?.paid === false) {
-          delay(5000)
+          delay(6000)
             .then(() => {
               recursiveCheckPaymentStatus(paymentId, attempts - 1)
                 .then(res)
