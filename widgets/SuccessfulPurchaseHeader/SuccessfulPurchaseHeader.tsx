@@ -89,9 +89,7 @@ function SuccessfulPurchaseHeader() {
       recursiveCheckPaymentStatus(paymentId, 5)
         .then(() => {
           api.secondPhone.buyNumber({ phone, country_code: country })
-            .then((data) => {
-              console.log({data}, 'secondPhone');
-              
+            .then(() => {
               window.fbq("track", "Purchase", {
                 content_ids: [phone],
                 eventref: "",
