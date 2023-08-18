@@ -42,8 +42,8 @@ function StatesTable({
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
 
-  const params = new URLSearchParams(router.query as {})
-  const paramsString = params.toString().length > 0 ? `?${params.toString()}` : '';
+  const params = router.asPath.split('?')[1];
+  const paramsString = params ? `?${params}` : '';
 
   const getHref = useCallback((state: IState) => {
     const formatedCountryName = formatStringToKebabCase(country.name);

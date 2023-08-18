@@ -9,6 +9,7 @@ import { MAIN_API_URL } from "@/utils/constants";
 import { SECOND_PHONE_SUPPORTED_COUNTRIES } from "@/shared/constants";
 import { getCookie } from "@/shared/lib";
 import { queryFetcher } from "./index";
+import { delay } from "@/utils/common";
 
 const ENDPOINTS = {
   getPhonesByCountry: (countryCode: string) =>
@@ -27,6 +28,7 @@ const ENDPOINTS = {
   buyNumber: () => `/v6/second-phone/buy-number`,
   buyMultipleNumbers: () => '/v6/second-phone/buy-multiple-numbers',
   topupWithWebpay: () => `/v6/payment-providers/webpay/top-up/second-phone`,
+  checkPaymentStatus: () => '/v6/payment-providers/is-payment-paid',
 };
 
 async function listSecondPhoneCountries(): Promise<
@@ -173,6 +175,34 @@ function buyMultipleNumbers(payload: BuyMultipleNumbersPayload) {
   });
 }
 
+function checkPaymentStatus(paymentId: string) {
+  return queryFetcher<{data: { paid: boolean }}>(`${MAIN_API_URL}${ENDPOINTS.checkPaymentStatus()}`, {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify({paymentId}),
+    headers: {
+      "x-system-auth-token": getCookie("session") ?? "",
+    },
+  }); 
+}
+
+const recursiveCheckPaymentStatus = (paymentId: string, attempts: number) => (
+  new Promise<void>((res) => {
+    checkPaymentStatus(paymentId)
+      .then(({ data }) => {
+        if(data?.data?.paid === false) {
+          delay(6000)
+            .then(() => {
+              recursiveCheckPaymentStatus(paymentId, attempts - 1)
+                .then(res)
+            })
+        } else {
+          res()
+        }
+      })
+  })
+)
+
 export {
   ENDPOINTS,
   topupWithWebpay,
@@ -187,5 +217,7 @@ export {
   getSignature,
   thedexTopUp,
   buyNumber,
-  buyMultipleNumbers
+  buyMultipleNumbers,
+  checkPaymentStatus,
+  recursiveCheckPaymentStatus,
 };

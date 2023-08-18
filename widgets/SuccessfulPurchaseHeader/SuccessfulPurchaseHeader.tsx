@@ -1,21 +1,27 @@
 import React, { useEffect } from "react";
 import { v4 } from "uuid";
 import { useTranslation } from "next-i18next";
-import Button from "@/shared/ui/Button";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import api from "@/api";
 import checkmark from "./assets/checkmark.svg";
-import { Wrapper } from "./styled";
+import Loader from "@/shared/ui/Loader";
+import Button from "@/shared/ui/Button";
 import { sendSafeEcommerceEvent, sendSafeFbqEvent, sendSafeGtagEvent, sendSafeYMEvent } from "@/utils/common";
+import { recursiveCheckPaymentStatus } from "@/api/secondPhone";
+
+import { Wrapper } from "./styled";
+
 
 function SuccessfulPurchaseHeader() {
   const { t } = useTranslation("virtual-phone-number");
   const {
     push,
-    query: { phone_number: phone, country, payment_amount: paymentAmount, payment_id: paymentId, sms, calls, type, code, count }
+    query: { phone_number: phone, country, payment_amount: paymentAmount, payment_id, wsb_order_num, invoiceId, sms, calls, type, code, count }
   } = useRouter();
+  const paymentId = payment_id || wsb_order_num || invoiceId
   const [isLoading, setIsLoading] = React.useState(true);
+
 
   useEffect(() => {
     if (paymentId && paymentAmount) {
@@ -76,44 +82,66 @@ function SuccessfulPurchaseHeader() {
   }, [])
 
   useEffect(() => {
-    if (typeof phone === "string" && typeof country === "string") {
+    if (typeof phone === "string" && typeof country === "string" && typeof paymentId === "string") {
+
       setIsLoading(true);
+      
+      recursiveCheckPaymentStatus(paymentId, 10)
+        .then(() => {
+          const validCount = !isNaN(Number(count)) ? Number(count) : 1;
 
-      const validCount = !isNaN(Number(count)) ? Number(count) : 1;
+          const promise = () => (
+            validCount > 1 
+              ? api.secondPhone.buyMultipleNumbers({ 
+                  referencePhoneNumber: phone,
+                  countryCode: country,
+                  requiredQuantity: validCount, 
+                })
+              : api.secondPhone.buyNumber({ phone, country_code: country })
+          );
 
-      const promise = () => (
-        validCount > 1 
-          ? api.secondPhone.buyMultipleNumbers({ 
-              referencePhoneNumber: phone,
-              countryCode: country,
-              requiredQuantity: validCount, 
-            })
-          : api.secondPhone.buyNumber({ phone, country_code: country })
-      );
-
-      let attempt = 0;
-      const interval = setInterval(async () => {
-        if (attempt >= 2) {
-          clearInterval(interval);
+          promise()
+            .then(() => {
+              window.fbq("track", "Purchase", {
+                content_ids: [phone],
+                eventref: "",
+                currency: "USD",
+                num_items: 1,
+                value: Number(paymentAmount) / 100,
+              });
+            });
+        })
+        .catch(() => {
+          console.log('error');
+        })
+        .finally(()=> {
           setIsLoading(false);
-          return;
-        }
-        attempt += 1;
-        await promise()
-          .then(() => {attempt = 2})
-      }, 2000);
+        })
     }
-  }, [country, phone]);
+  }, []);
 
   return (
     <Wrapper>
-      <Image width={150} height={120} src={checkmark} alt="" />
-      <h1>{t("success")}</h1>
-      <p>{t("you_have_successfully_purchased_number")}</p>
+      {isLoading ? (
+        <>
+          <Loader />
+          <h1>Your payment is being processed</h1>
+          <p>Do not leave the screen</p>
+        </>
+      ) : (
+        <>
+          <Image width={150} height={120} src={checkmark} alt="" />
+          <h1>{t("success")}</h1>
+          <p>{t("you_have_successfully_purchased_number")}</p>
+        </>
+      )}
       <Button
         disabled={isLoading}
         fullWidth
-        onClick={() => push("https://sms.esimplus.me/register")}
+        onClick={() => {
+          const environmentPrefix = window.location.origin.includes('dev') || window.location.origin.includes('localhost') ? 'dev-' : '';
+          push(`https://${environmentPrefix}sms.esimplus.me/register`)
+        }}
         label={t("create_account")}
       />
     </Wrapper>

@@ -152,29 +152,6 @@ const geteratePurchaseRedirectUrl = (
   return `/virtual-phone-number/payment/provider-select?${params.toString()}`
 }
 
-const loadPromeseInterval = async (
-  { getPromise, maxAttempts, errorMessage, intervalMS = 1000 }: 
-  { getPromise: () => () => Promise<any>, maxAttempts: number, errorMessage: String, intervalMS?: number }
-) => {
-  const _load = (resolve: (value: unknown) => void, reject: (error: unknown) => void, attempts = 1) => {
-    if (attempts === maxAttempts) {
-      return reject(new Error(`Ad failed to load after ${attempts} tries`));
-    }
+const delay = (ms: number) => new Promise((res) => {setTimeout(res, ms)})
 
-    const promise = getPromise();
-
-    return promise()
-      .then(resolve)
-      .catch((error) => {
-        if (error.message === errorMessage) {
-          setTimeout(() => _load(resolve, reject, attempts + 1), intervalMS);
-        } else {
-          reject(error);
-        }
-      });
-  };
-
-  return new Promise(_load);
-};
-
-export { sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid, sendSafeEcommerceEvent, geteratePurchaseRedirectUrl, loadPromeseInterval };
+export { delay, geteratePurchaseRedirectUrl, sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid, sendSafeEcommerceEvent };

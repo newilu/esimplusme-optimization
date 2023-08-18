@@ -43,14 +43,16 @@ function SelectProviderAndPurchaseHeader() {
       payment_amount: paymentAmount,
       phone_number: phoneNumber,
       country,
-      payment_id: paymentId || '',
-      code: (code as string) || "",
-      type: (type as string) || "",
-      calls: (calls as string) || "",
-      sms: (sms as string) || "",
-      state: (state as string) || "",
-      duration: (duration as string) || "",
-      count: (count as string) || "",
+      ...{
+        payment_id: (paymentId || ""),
+        code: (code as string) || "",
+        type: (type as string) || "",
+        calls: (calls as string) || "",
+        sms: (sms as string) || "",
+        state: (state as string) || "",
+        duration: (duration as string) || "",
+        count: (count as string) || "",
+      },
     });
 
     return `${process.env.NEXT_PUBLIC_BASE_URL
@@ -68,11 +70,9 @@ function SelectProviderAndPurchaseHeader() {
         setCookie("session", systemAuthToken, 30);
       }
 
-      const paymentId = v4();
-
       const { data, error } = await api.secondPhone.thedexTopUp({
         price: paymentAmount as string,
-        successUrl: getRedirectURL(paymentId),
+        successUrl: getRedirectURL(),
         failureUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/virtual-phone-number/`,
       });
       if (error) {
