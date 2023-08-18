@@ -1,4 +1,5 @@
 import {
+  BuyMultipleNumbersPayload,
   MappedDataType,
   PhoneToBuy,
   SecondPhoneCountry,
@@ -25,6 +26,7 @@ const ENDPOINTS = {
   signature: () => "/v7/second-phone/ecommpay-signature",
   thedexTopUp: () => "/v6/payment-providers/thedex/top-up/second-phone",
   buyNumber: () => `/v6/second-phone/buy-number`,
+  buyMultipleNumbers: () => '/v6/second-phone/buy-multiple-numbers',
   topupWithWebpay: () => `/v6/payment-providers/webpay/top-up/second-phone`,
   checkPaymentStatus: () => '/v6/payment-providers/is-payment-paid',
 };
@@ -162,6 +164,17 @@ function buyNumber(props: { phone: string; country_code: string }) {
   });
 }
 
+function buyMultipleNumbers(payload: BuyMultipleNumbersPayload) {
+  return queryFetcher(`${MAIN_API_URL}${ENDPOINTS.buyMultipleNumbers()}`, {
+    method: 'POST',
+    credentials: 'include',
+    body: JSON.stringify(payload),
+    ...(getCookie('sd-user')
+      ? { headers: { 'sd-user': getCookie('sd-user') as string } }
+      : {}),
+  });
+}
+
 function checkPaymentStatus(paymentId: string) {
   return queryFetcher<{data: { paid: boolean }}>(`${MAIN_API_URL}${ENDPOINTS.checkPaymentStatus()}`, {
     method: "POST",
@@ -204,6 +217,7 @@ export {
   getSignature,
   thedexTopUp,
   buyNumber,
+  buyMultipleNumbers,
   checkPaymentStatus,
   recursiveCheckPaymentStatus,
 };

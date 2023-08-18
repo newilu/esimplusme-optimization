@@ -112,19 +112,10 @@ function StatesTable({
       columnHelper.accessor("isoCode", {
         id: TableIDS.Purchase,
         header: () => t("buy"),
-        cell: (info) => {
+        cell: () => {
           return (
             <Button
               style={{ margin: "0 auto" }}
-              as="a"
-              href={`/virtual-phone-number/${formatStringToKebabCase(
-                country.name
-              )}/${formatStringToKebabCase(
-                removeExcludedWords(
-                  info.row.original.name,
-                  STATE_NAME_DEPRECATED_WORDS
-                )
-              )}`}
               label={t("buy")}
               size="small"
             />

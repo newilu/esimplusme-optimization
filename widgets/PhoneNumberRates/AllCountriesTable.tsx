@@ -45,9 +45,12 @@ function PopularCountriesTable({ countries }: { countries: ICountry[] }) {
               />
             </CountryFlagWrapper>{" "}
             <Link
-              href={`/virtual-phone-number/${formatStringToKebabCase(
-                info.getValue()
-              )}`}
+              href={{
+                pathname: `/virtual-phone-number/${formatStringToKebabCase(
+                  info.getValue()
+                )}`,
+                query: router.query
+              }}
             >
               {info.getValue()}
             </Link>
@@ -60,9 +63,12 @@ function PopularCountriesTable({ countries }: { countries: ICountry[] }) {
 
   return (
     <BaseTable
-      onRowClick={({ name }) =>
-        router.push(`/virtual-phone-number/${formatStringToKebabCase(name)}`)
-      }
+      onRowClick={({ name }) => {
+        router.push({
+          pathname: `/virtual-phone-number/${formatStringToKebabCase(name)}`,
+          query: router.query
+        })
+      }}
       maxVisibleElements={null}
       data={countries}
       columns={[areaCodeColumn, countryNameColumn]}

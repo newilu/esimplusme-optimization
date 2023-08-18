@@ -65,12 +65,15 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
       country,
       phoneNumber,
     }: SecondPhoneCountry & { phoneNumber: string }) => {
-      const search = new URLSearchParams([
-        ["country", formatStringToKebabCase(country)],
-        ["phone", phoneNumber],
-      ]);
 
-      router.push(`/virtual-phone-number/payment?${search.toString()}`);
+      router.push({
+        pathname: '/virtual-phone-number/payment',
+        query: {
+          ...router.query,
+          country: formatStringToKebabCase(country),
+          phone: phoneNumber
+        }
+      });
     },
     [router]
   );

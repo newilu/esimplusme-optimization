@@ -1,3 +1,6 @@
+import type { ICountry, IState } from "country-cities";
+import type { PhoneToBuy } from "./types";
+
 function getErrorMessage(error: any): string {
   let message = "";
 
@@ -104,7 +107,7 @@ function sendSafeYMEvent(name: string, paramets?: object) {
   return sendSafeEvent('ym', () => window.ym(79496440, "reachGoal", name, paramets))
 }
 
-function sendSafeEcommerceEvent(paramets?: object) {  
+function sendSafeEcommerceEvent(paramets?: object) {
   return sendSafeEvent('dataLayer', () => window.dataLayer.push(paramets))
 }
 
@@ -129,6 +132,26 @@ function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq' | 'dataLayer', callback: () =
   return timerId
 }
 
+const geteratePurchaseRedirectUrl = (
+  { phone, country, duration, count, state }: 
+  { phone: PhoneToBuy, country: ICountry, state?: IState | null, count: number, duration: number }
+) => {
+  const params = new URLSearchParams({
+    paymentAmount: String((phone.price + 1) * 100 * duration * count),
+    phoneNumber: phone.phoneNumber,
+    country: country.isoCode,
+    code: country.phonecode,
+    type: phone.numberType,
+    state: state?.isoCode ?? "",
+    calls: String(phone.capabilities.voice),
+    sms: String(phone.capabilities.SMS),
+    count: String(count),
+    duration: String(duration)
+  });
+
+  return `/virtual-phone-number/payment/provider-select?${params.toString()}`
+}
+
 const delay = (ms: number) => new Promise((res) => {setTimeout(res, ms)})
 
-export { delay, sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid, sendSafeEcommerceEvent };
+export { delay, geteratePurchaseRedirectUrl, sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid, sendSafeEcommerceEvent };

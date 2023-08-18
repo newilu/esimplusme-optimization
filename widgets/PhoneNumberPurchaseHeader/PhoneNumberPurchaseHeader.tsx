@@ -2,7 +2,6 @@ import React from "react";
 import type { ICity, ICountry, IState } from "country-cities";
 import { format } from "libphonenumber-js";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { useWindowSize } from "@/context/WindowSizeContext";
 import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
@@ -42,7 +41,6 @@ function PhoneNumberPurchaseHeader({
   phone = null,
   countries,
 }: PhoneNumberPurchaseHeaderProps) {
-  const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
   const { isMobile } = useWindowSize();
   const [step, setStep] = React.useState(Steps.SelectNumber);
@@ -162,22 +160,7 @@ function PhoneNumberPurchaseHeader({
             <PhoneNumberPurchase
               country={country}
               phone={selectedPhone}
-              onSubmit={() => {
-                const params = new URLSearchParams({
-                  paymentAmount: String((selectedPhone.price + 1) * 100),
-                  phoneNumber: selectedPhone.phoneNumber,
-                  country: country.isoCode,
-                  state: state?.isoCode ?? "",
-                  code: country.phonecode,
-                  type: selectedPhone.numberType,
-                  calls: String(selectedPhone.capabilities.voice),
-                  sms: String(selectedPhone.capabilities.SMS),
-                });
-
-                router.push(
-                  `/virtual-phone-number/payment/provider-select?${params.toString()}`
-                );
-              }}
+              state={state}
             />
           </PanelSection>
         )}

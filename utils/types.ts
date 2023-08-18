@@ -201,3 +201,5 @@ export type Region = {
 
 export type RegionById = Region &
   Pick<CountryByISO, "availableDataAmounts" | "bundles">;
+
+export type BuyMultipleNumbersPayload = { referencePhoneNumber: string; countryCode: string; requiredQuantity: number }

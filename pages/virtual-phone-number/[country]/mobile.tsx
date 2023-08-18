@@ -122,24 +122,6 @@ function Index({ country, phones, popularCountries }: PageProps) {
     [router.asPath, country.name, i18n.language, t, areaCode]
   );
 
-  const handlePhoneNumberPurchase = async () => {
-    if (!selectedPhone) return;
-
-    const params = new URLSearchParams({
-      paymentAmount: String((selectedPhone.price + 1) * 100),
-      phoneNumber: selectedPhone.phoneNumber,
-      country: country.isoCode,
-      code: country.phonecode,
-      type: selectedPhone.numberType,
-      calls: String(selectedPhone.capabilities.voice),
-      sms: String(selectedPhone.capabilities.SMS),
-    });
-
-    await router.push(
-      `/virtual-phone-number/payment/provider-select?${params.toString()}`
-    );
-  };
-
   return (
     <>
       <Head>{meta}</Head>
@@ -185,7 +167,6 @@ function Index({ country, phones, popularCountries }: PageProps) {
               {selectedPhone && (
                 <PhoneNumberPurchase
                   isNumberOfMobileType
-                  onSubmit={handlePhoneNumberPurchase}
                   country={country}
                   phone={selectedPhone}
                 />

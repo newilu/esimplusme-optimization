@@ -17,7 +17,7 @@ function SuccessfulPurchaseHeader() {
   const { t } = useTranslation("virtual-phone-number");
   const {
     push,
-    query: { phone_number: phone, country, payment_amount: paymentAmount, payment_id, wsb_order_num, invoiceId, sms, calls, type, code, }
+    query: { phone_number: phone, country, payment_amount: paymentAmount, payment_id, wsb_order_num, invoiceId, sms, calls, type, code, count }
   } = useRouter();
   const paymentId = payment_id || wsb_order_num || invoiceId
   const [isLoading, setIsLoading] = React.useState(true);
@@ -25,7 +25,7 @@ function SuccessfulPurchaseHeader() {
 
   useEffect(() => {
     if (paymentId && paymentAmount) {
-      const formatedPaymentAmount = isNaN(Number(paymentAmount)) || paymentAmount;
+      const formatedPaymentAmount = isNaN(Number(paymentAmount)) ? paymentAmount : Number(paymentAmount) / 100;
 
       sendSafeFbqEvent('Purchase', {
         content_ids: paymentId,
@@ -88,7 +88,19 @@ function SuccessfulPurchaseHeader() {
       
       recursiveCheckPaymentStatus(paymentId, 10)
         .then(() => {
-          api.secondPhone.buyNumber({ phone, country_code: country })
+          const validCount = !isNaN(Number(count)) ? Number(count) : 1;
+
+          const promise = () => (
+            validCount > 1 
+              ? api.secondPhone.buyMultipleNumbers({ 
+                  referencePhoneNumber: phone,
+                  countryCode: country,
+                  requiredQuantity: validCount, 
+                })
+              : api.secondPhone.buyNumber({ phone, country_code: country })
+          );
+
+          promise()
             .then(() => {
               window.fbq("track", "Purchase", {
                 content_ids: [phone],

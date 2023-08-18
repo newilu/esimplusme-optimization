@@ -8,6 +8,12 @@ export const PanelSectionTitle = styled.div`
   font-size: 18px;
   line-height: 26px;
 
+  > div {
+    display: flex;
+    align-items: center;
+    grid-gap: 10px;
+  }
+
   @media (max-width: 430px) {
     padding: 16px;
   }
