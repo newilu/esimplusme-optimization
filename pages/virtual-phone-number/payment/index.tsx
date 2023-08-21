@@ -94,10 +94,14 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
+  const currentCountry = COUNTRY_LIST.find(
+    (el) => country === formatStringToKebabCase(el.name)
+  );
 
-  const currentState = getStatesByCountryCode(currentCountry?.isoCode ?? "")
-    .find((el) => state === formatStringToKebabCase(el.name)) ?? null;
+  const currentState =
+    getStatesByCountryCode(currentCountry?.isoCode ?? "").find(
+      (el) => state === formatStringToKebabCase(el.name)
+    ) ?? null;
 
   if (!currentCountry) {
     return {
@@ -163,9 +167,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 
   const countryPhones = data?.data.phones ?? [];
 
-  const filteredPhones = currentState
-    ? countryPhones.filter((_phone) => _phone.region === currentState.isoCode)
-    : countryPhones;
+  const filteredPhones = countryPhones.filter((_phone) =>
+    currentState ? _phone.region === currentState?.isoCode : true
+  );
 
   return {
     props: {
@@ -174,7 +178,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
         "virtual-phone-number",
         "meta",
       ])),
-      phones: filteredPhones.length ? filteredPhones : countryPhones,
+      phones: filteredPhones,
       country: currentCountry,
       state: currentState,
       phone: selectedPhone,
