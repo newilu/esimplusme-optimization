@@ -153,7 +153,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       phones: phoneNumbers,
       country: currentCountry,
       states: regions,
-      phoneNumber: !autonumber && phoneNumbers?.[0] || null
+      phoneNumber: autonumber && phoneNumbers?.[0] || null
     },
   };
 };
