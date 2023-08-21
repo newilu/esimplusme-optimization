@@ -88,6 +88,11 @@ function Footer() {
                       <Link locale="en" href="/virtual-phone-number/pricing">
                         {t("phone_number_rates")}
                       </Link>
+                    </ListItem>{" "}
+                    <ListItem>
+                      <Link locale="en" href="/random-phone-number-generator">
+                        {t("phone_number_generator")}
+                      </Link>
                     </ListItem>
                   </List>
                 </ListWrapper>
@@ -198,14 +203,15 @@ function Footer() {
               src={whatWeAccept}
               alt="what we accept"
             />{" "}
-            {pathname === '/virtual-phone-number/payment/provider-select' && (countryCode === "RU" || countryCode === "BY") && (
-              <>
-                <Image width={48} height={24} src={belkal1} alt="" />
-                <Image width={72} height={24} src={belkal2} alt="" />
-                <Image width={72} height={16} src={mir1} alt="" />
-                <Image width={70} height={24} src={mir2} alt="" />
-              </>
-            )}
+            {pathname === "/virtual-phone-number/payment/provider-select" &&
+              (countryCode === "RU" || countryCode === "BY") && (
+                <>
+                  <Image width={48} height={24} src={belkal1} alt="" />
+                  <Image width={72} height={24} src={belkal2} alt="" />
+                  <Image width={72} height={16} src={mir1} alt="" />
+                  <Image width={70} height={24} src={mir2} alt="" />
+                </>
+              )}
           </div>
         </Container>
       </BottomSection>
