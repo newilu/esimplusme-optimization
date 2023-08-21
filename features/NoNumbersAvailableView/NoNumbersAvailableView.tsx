@@ -55,7 +55,8 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
     () =>
       columnHelper.accessor("prices.cheapest.price", {
         header: () => t("connection_monthly_fee"),
-        cell: (info) => `${(info.getValue() || MINIMAL_PHONE_NUMBER_PRICE) + 1}$`,
+        cell: (info) =>
+          `${(info.getValue() || MINIMAL_PHONE_NUMBER_PRICE) + 1}$`,
       }),
     [t]
   );
@@ -81,7 +82,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
         .map(() => {
           const randCountryIso =
             SECOND_PHONE_SUPPORTED_COUNTRIES[
-            getRandomInt(0, SECOND_PHONE_SUPPORTED_COUNTRIES.length - 1)
+              getRandomInt(0, SECOND_PHONE_SUPPORTED_COUNTRIES.length - 1)
             ];
 
           const country = countries.find(({ code }) => code === randCountryIso);
@@ -112,14 +113,16 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
           are greatly appreciated!
         </Paragraph>
       </div>
-      <div>
-        <BaseTable
-          onRowClick={handleRowClick}
-          maxVisibleElements={null}
-          data={phoneNumbersList}
-          columns={[phoneNumberColumn, connectionFeeColumn]}
-        />
-      </div>
+      {Boolean(phoneNumbersList.length) && (
+        <div>
+          <BaseTable
+            onRowClick={handleRowClick}
+            maxVisibleElements={null}
+            data={phoneNumbersList}
+            columns={[phoneNumberColumn, connectionFeeColumn]}
+          />
+        </div>
+      )}
     </Wrapper>
   );
 }
