@@ -182,9 +182,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 
   const countryPhones =
     data?.data.phones ??
-    SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
+    (SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
       ? generateSecondPhonesList({ countryIso: currentCountry.isoCode })
-      : [];
+      : []);
 
   const filteredPhones = countryPhones.filter(
     (_phone) => _phone.region === currentState?.isoCode
