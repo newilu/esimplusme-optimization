@@ -92,7 +92,7 @@ function StatesTable({
       columnHelper.accessor("latitude", {
         id: TableIDS.MonthlyFee,
         header: () => t("monthly_fee"),
-        cell: () => `${(phoneNumberStartingPrice || MINIMAL_PHONE_NUMBER_PRICE) + 1}$`,
+        cell: () => `$${(phoneNumberStartingPrice || MINIMAL_PHONE_NUMBER_PRICE) + 1}`,
       }),
     [phoneNumberStartingPrice, t]
   );

@@ -56,7 +56,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
       columnHelper.accessor("prices.cheapest.price", {
         header: () => t("connection_monthly_fee"),
         cell: (info) =>
-          `${(info.getValue() || MINIMAL_PHONE_NUMBER_PRICE) + 1}$`,
+          `$${(info.getValue() || MINIMAL_PHONE_NUMBER_PRICE) + 1}`,
       }),
     [t]
   );
