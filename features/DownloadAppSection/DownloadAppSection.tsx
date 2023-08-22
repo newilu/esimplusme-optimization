@@ -11,12 +11,12 @@ import sms from "shared/assets/sms.svg";
 import support from "shared/assets/24-support.svg";
 import globe from "shared/assets/globe.svg";
 import card from "shared/assets/card-slash.svg";
+import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
 import devices from "./assets/devices.webp";
 import gplay from "./assets/gplay.svg";
 import gplayDark from "./assets/gplay-black.svg";
 import appstore from "./assets/appstore.svg";
 import appstoreDark from "./assets/appstore-black.svg";
-import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
 import { ButtonsWrapper, Content, ImageWrapper, Wrapper } from "./styled";
 
 function DownloadAppSection({

@@ -11,6 +11,7 @@ import { ThemeProvider } from "context/ThemeContext";
 import { CookieConsentProvider } from "context/CookieConsentContext";
 import { WidthProvider } from "context/WindowSizeContext";
 import favicon from "public/favicon.ico";
+import { useAnalyticScripts } from "@/shared/hooks";
 import nextI18NextConfig from "../next-i18next.config";
 
 const EsimAppBanner = dynamic(() => import("features/EsimAppBanner"), {
@@ -27,6 +28,8 @@ Router.events.on("routeChangeComplete", nProgress.done);
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  useAnalyticScripts()
+
   return (
     <>
       <Head>

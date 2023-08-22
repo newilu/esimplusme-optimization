@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { loadFacebookScript, loadGtagScript, loadYMScript } from "@/utils/analyticScripts";
 
 function useOutsideClick(
   elementRef: React.RefObject<any>,
@@ -16,6 +18,24 @@ function useOutsideClick(
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [elementRef, onOutsideClick]);
+}
+
+function useAnalyticScripts() {
+  useEffect(() => {
+    if(typeof window !== "undefined") {
+      const loadAnalyticScripts = () => {
+        loadYMScript();
+        loadFacebookScript();
+        loadGtagScript();
+      }
+
+      window.addEventListener('load', loadAnalyticScripts)
+
+      return () => {
+        window.removeEventListener('load', loadAnalyticScripts)
+      }
+    }
+  }, [])
 }
 
 function useModalControls(
@@ -88,4 +108,4 @@ function useInView(
   return isVisible;
 }
 
-export { useModalControls, useOutsideClick, useInView };
+export { useModalControls, useOutsideClick, useInView, useAnalyticScripts };
