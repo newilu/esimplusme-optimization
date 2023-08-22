@@ -150,9 +150,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 
     phoneNumbers =
       data?.data.phones ??
-      SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
+      (SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
         ? generateSecondPhonesList({ countryIso: currentCountry.isoCode })
-        : [];
+        : []);
   }
 
   const { data: secondPhoneCountries } =
