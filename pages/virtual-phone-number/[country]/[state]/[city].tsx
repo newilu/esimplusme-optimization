@@ -6,14 +6,21 @@ import { format } from "libphonenumber-js";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import api from "@/api";
 import Navbar from "@/widgets/Navbar";
-import { COUNTRY_LIST, STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
+import {
+  COUNTRY_LIST,
+  SECOND_PHONE_SUPPORTED_COUNTRIES,
+  STATE_NAME_DEPRECATED_WORDS,
+} from "@/shared/constants";
 import WhyDoYouNeedPhoneNumber from "@/features/WhyDoYouNeedPhoneNumberInCity";
 import {
   formatAreaCode,
+  formatStringFromKebabToTileCase,
   formatStringToKebabCase,
   generateMeta,
+  generateSecondPhonesList,
   getCitiesByStateCode,
   getStatesByCountryCode,
+  getUSStateInfoByStateName,
   removeExcludedWords,
 } from "@/shared/lib";
 import PhoneNumbersByCity from "@/widgets/PhoneNumberPurchaseHeader";
@@ -21,6 +28,7 @@ import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import { useSecondPhoneCountries } from "@/shared/hooks";
 
 type PageProps = {
   phones: PhoneToBuy[];
@@ -33,12 +41,15 @@ type PageProps = {
 function Index({ country, city, state, phones, countries }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
+  const secondPhoneCountries = useSecondPhoneCountries({
+    initCountryList: countries,
+  });
 
   const areaCode =
     (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
       ? format(phones[0].phoneNumber, "INTERNATIONAL")
-        .slice(0, 6)
-        .replaceAll(" ", "-")
+          .slice(0, 6)
+          .replaceAll(" ", "-")
       : formatAreaCode(country.phonecode);
 
   const meta = generateMeta({
@@ -66,7 +77,7 @@ function Index({ country, city, state, phones, countries }: PageProps) {
         state={state}
         phones={phones}
         country={country}
-        countries={countries}
+        countries={secondPhoneCountries}
       />
       <WhyDoYouNeedPhoneNumber cityName={city.name} />
       <Footer />
@@ -93,13 +104,37 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
+  const currentCountry = COUNTRY_LIST.find(
+    (el) => country === formatStringToKebabCase(el.name)
+  );
 
-  const currentState = getStatesByCountryCode(currentCountry?.isoCode ?? "")
-    .find((el) => formatStringToKebabCase(removeExcludedWords(el.name, STATE_NAME_DEPRECATED_WORDS)) === state);
+  let currentState: IState | undefined;
 
-  const currentCity = getCitiesByStateCode(currentState?.isoCode || "", currentCountry?.isoCode || "")
-    .find((el) => city === formatStringToKebabCase(el.name));
+  if (currentCountry?.isoCode === "US") {
+    const stateFromLocalJSON = getUSStateInfoByStateName(
+      formatStringFromKebabToTileCase(state)
+    );
+
+    currentState = {
+      isoCode: stateFromLocalJSON.isoCode,
+      countryCode: "US",
+      name: stateFromLocalJSON.name,
+      latitude: null,
+      longitude: null,
+    };
+  } else {
+    currentState = getStatesByCountryCode(currentCountry?.isoCode ?? "").find(
+      (el) =>
+        formatStringToKebabCase(
+          removeExcludedWords(el.name, STATE_NAME_DEPRECATED_WORDS)
+        ) === state
+    );
+  }
+
+  const currentCity = getCitiesByStateCode(
+    currentState?.isoCode || "",
+    currentCountry?.isoCode || ""
+  ).find((el) => city === formatStringToKebabCase(el.name));
 
   if (!currentCountry || !currentState || !currentCity) {
     return {
@@ -127,7 +162,12 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
           "virtual-phone-number",
           "meta",
         ])),
-        phones: data?.data.phones ?? [],
+        phones:
+          data?.data.phones ??
+          generateSecondPhonesList({
+            countryIso: currentCountry.isoCode,
+            stateIso: currentState.isoCode,
+          }),
         country: currentCountry,
         state: currentState,
         city: currentCity,
@@ -140,10 +180,14 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     currentCountry.isoCode
   );
 
-  const countryPhones = data?.data.phones ?? [];
+  const countryPhones =
+    data?.data.phones ??
+    SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
+      ? generateSecondPhonesList({ countryIso: currentCountry.isoCode })
+      : [];
 
   const filteredPhones = countryPhones.filter(
-    (_phone) => _phone.region === currentState.isoCode
+    (_phone) => _phone.region === currentState?.isoCode
   );
 
   return {

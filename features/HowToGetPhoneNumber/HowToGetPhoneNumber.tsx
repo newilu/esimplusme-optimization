@@ -1,9 +1,9 @@
 import React from "react";
 import { Trans, useTranslation } from "next-i18next";
 import Image from "next/image";
-import phone from "@/shared/assets/call-calling.svg";
-import calendar from "@/shared/assets/calendar.svg";
-import smartphone from "@/shared/assets/smartphone.svg";
+import phone from "@/shared/assets/images/call-calling.svg";
+import calendar from "@/shared/assets/images/calendar.svg";
+import smartphone from "@/shared/assets/images/smartphone.svg";
 import {
   SectionTitle,
   Paragraph,

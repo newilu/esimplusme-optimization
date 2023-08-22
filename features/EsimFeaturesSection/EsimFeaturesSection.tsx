@@ -1,13 +1,13 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
-import card from "shared/assets/card.svg";
-import phone from "shared/assets/call-calling.svg";
-import globe from "shared/assets/globe.svg";
-import cloud from "shared/assets/cloud-connection.svg";
-import cardSlash from "shared/assets/card-slash.svg";
-import wallet from "shared/assets/wallet-minus.svg";
-import support from "shared/assets/24-support.svg";
-import cpu from "shared/assets/cpu.svg";
+import card from "@/shared/assets/images/card.svg";
+import phone from "@/shared/assets/images/call-calling.svg";
+import globe from "@/shared/assets/images/globe.svg";
+import cloud from "@/shared/assets/images/cloud-connection.svg";
+import cardSlash from "@/shared/assets/images/card-slash.svg";
+import wallet from "@/shared/assets/images/wallet-minus.svg";
+import support from "@/shared/assets/images/24-support.svg";
+import cpu from "@/shared/assets/images/cpu.svg";
 import { Container, SectionTitle } from "shared/ui/styled";
 import {
   Feature,

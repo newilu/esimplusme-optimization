@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import xmark from "shared/assets/xmark.svg";
+import xmark from "@/shared/assets/images/xmark.svg";
 import { Title, Content, Blur, Wrapper, FullscreenWrapper } from "./styled";
 
 export interface ModalProps

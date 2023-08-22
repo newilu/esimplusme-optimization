@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import xmark from "shared/assets/xmark.svg";
+import xmark from "@/shared/assets/images/xmark.svg";
 import { useModalControls } from "shared/hooks";
 import ThemeSwitcher from "features/ThemeSwitcher";
 import Logo from "entities/Logo";
@@ -35,13 +35,13 @@ enum Regions {
 const redirectUrls = {
   dev: {
     mobiledata: "https://dev-mobiledata.esimplus.me/",
-    sms: "https://dev-sms.esimplus.me/"
+    sms: "https://dev-sms.esimplus.me/",
   },
   prod: {
     mobiledata: "https://mobiledata.esimplus.me/",
-    sms: "https://sms.esimplus.me/"
-  }
-}
+    sms: "https://sms.esimplus.me/",
+  },
+};
 
 function Navbar({
   color,
@@ -56,8 +56,10 @@ function Navbar({
 }) {
   const router = useRouter();
   const { t } = useTranslation();
-  const [navSelectedRegion, setNavSelectedRegion] = useState<Regions | null>(null);
-  const [redirectUrl, setRedirectUrl] = useState('');
+  const [navSelectedRegion, setNavSelectedRegion] = useState<Regions | null>(
+    null
+  );
+  const [redirectUrl, setRedirectUrl] = useState("");
 
   const {
     isOpen: isMobileDataDropdownOpen,
@@ -116,11 +118,17 @@ function Navbar({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const environment = window.location.origin.includes('dev') || window.location.origin.includes('localhost') ? 'dev' : 'prod';
-      const product = router.pathname.includes("virtual-phone-number") ? 'sms' : 'mobiledata'
-      setRedirectUrl(redirectUrls[environment][product])
+      const environment =
+        window.location.origin.includes("dev") ||
+        window.location.origin.includes("localhost")
+          ? "dev"
+          : "prod";
+      const product = router.pathname.includes("virtual-phone-number")
+        ? "sms"
+        : "mobiledata";
+      setRedirectUrl(redirectUrls[environment][product]);
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -146,20 +154,16 @@ function Navbar({
             router.asPath.includes("/esim") ||
             router.asPath.endsWith("/virtual-phone-number") ||
             router.asPath.endsWith("/esim-supported-devices")) && (
-              <div>
-                <LanguageMenu />
-              </div>
-            )}
+            <div>
+              <LanguageMenu />
+            </div>
+          )}
           <ButtonsWrapper>
             <Button
               style={{ height: 45 }}
               onClick={handleSignInClick}
               label={
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href={redirectUrl}
-                >
+                <a target="_blank" rel="noreferrer" href={redirectUrl}>
                   {t("sign_in")}
                 </a>
               }
@@ -324,11 +328,7 @@ function Navbar({
               <Button
                 style={{ height: 45 }}
                 label={
-                  <Link
-                    target="_blank"
-                    rel="noreferrer"
-                    href={redirectUrl}
-                  >
+                  <Link target="_blank" rel="noreferrer" href={redirectUrl}>
                     {t("sign_in")}
                   </Link>
                 }

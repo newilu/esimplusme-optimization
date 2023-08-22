@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Paragraph, SectionTitle } from "@/shared/ui/styled";
-import checkmark from "@/shared/assets/checkmark.svg";
+import checkmark from "@/shared/assets/images/checkmark.svg";
 
 export const ListTitle = styled.div`
   font-size: 18px;

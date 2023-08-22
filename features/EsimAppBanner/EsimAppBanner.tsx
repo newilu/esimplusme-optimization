@@ -1,7 +1,7 @@
 import React from "react";
 import { isIOS, isMobile } from "react-device-detect";
 import logo from "public/staticfiles/logo.png";
-import xmark from "shared/assets/xmark.svg";
+import xmark from "@/shared/assets/images/xmark.svg";
 import { Title, Wrapper } from "./styled";
 import Image from "next/image";
 import Link from "next/link";

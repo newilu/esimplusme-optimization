@@ -14,10 +14,7 @@ import {
 } from "@/shared/lib";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
-import {
-  PanelSection,
-  PanelSectionTitle,
-} from "@/shared/ui/styled";
+import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
 import CitiesTable from "./CitiesTable";
 import PhoneNumbersTable from "./PhoneNumbersTable";
 import { SectionsWrapper, Wrapper } from "./styled";
@@ -27,7 +24,7 @@ type PhoneNumbersByCountryProps = {
   country: ICountry;
   state: IState;
   cities: ICity[];
-  areaCode?: string;
+  areaCode: string;
   popularCountries: SecondPhoneCountry[];
   phoneNumber?: PhoneToBuy | null;
 };
@@ -136,7 +133,9 @@ function PhoneNumbersByRegion({
               <PanelSectionTitle style={{ padding: "15px 25px" }}>
                 {cities.length ? t("cities") : t("all_numbers")}
               </PanelSectionTitle>
-              {!!cities.length && <CitiesTable cities={cities} />}
+              {!!cities.length && (
+                <CitiesTable areaCode={areaCode} cities={cities} />
+              )}
               {!cities.length &&
                 (phones.length ? (
                   <PhoneNumbersTable

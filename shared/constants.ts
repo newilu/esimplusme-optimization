@@ -43,4 +43,5 @@ export const SECOND_PHONE_SUPPORTED_COUNTRIES = [
   "CA",
 ];
 
-export const MINIMAL_PHONE_NUMBER_PRICE = 7;
+export const DEFAULT_PHONE_NUMBER_PRICE = 7;
+export const DEFAULT_PHONE_NUMBER_TYPE = "local";

@@ -21,6 +21,7 @@
     "no-restricted-exports": "off",
     "prefer-arrow-callback": "off",
     "no-plusplus": "off",
-    "react/no-unstable-nested-components": "warn"
+    "react/no-unstable-nested-components": "warn",
+    "consistent-return": "off"
   }
 }

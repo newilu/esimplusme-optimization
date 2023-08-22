@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import ornament from "shared/assets/ornament.svg";
+import ornament from "@/shared/assets/images/ornament.svg";
 
 export const SectionSubtitle = styled.div`
   font-weight: 300;

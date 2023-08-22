@@ -76,5 +76,3 @@ export const MAIN_API_URL =
 
 export const TG_DEFAULT_LINK = "https://t.me/esimplus_official";
 export const TG_RU_LINK = "https://t.me/esimplus";
-
-export const BASE_APP_URL = "https://esimplus.me";

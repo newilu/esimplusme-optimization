@@ -12,7 +12,7 @@ import { formatAreaCode, formatStringToKebabCase } from "@/shared/lib";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { Wrapper } from "./styled";
-import { MINIMAL_PHONE_NUMBER_PRICE } from "@/shared/constants";
+import { DEFAULT_PHONE_NUMBER_PRICE } from "@/shared/constants";
 
 const columnHelper = createColumnHelper<SecondPhoneCountry>();
 
@@ -70,7 +70,7 @@ function PopularCountriesTable({
           <div style={{ textAlign: "left" }}>{t("monthly_fee")}</div>
         ),
         cell: (info) => {
-          const price = info.getValue() || MINIMAL_PHONE_NUMBER_PRICE;
+          const price = info.getValue() || DEFAULT_PHONE_NUMBER_PRICE;
           return (
             <div style={{ textAlign: "left" }}>
               <b>${price + 1}</b>
