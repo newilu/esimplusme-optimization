@@ -3,8 +3,8 @@ import { format } from "libphonenumber-js";
 import { useRouter } from "next/router";
 import { createColumnHelper } from "@tanstack/react-table";
 import { PhoneToBuy } from "@/utils/types";
-import PhoneSvg from "@/shared/assets/PhoneSVG";
-import SmsSvg from "@/shared/assets/SmsSVG";
+import PhoneSvg from "@/shared/assets/images/PhoneSVG";
+import SmsSvg from "@/shared/assets/images/SmsSVG";
 import { useTranslation } from "next-i18next";
 import {
   PhoneNumber,
@@ -32,7 +32,7 @@ function PhoneNumbersTable({
   const phoneNumberColumn = React.useMemo(
     () =>
       columnHelper.accessor("phoneNumber", {
-        header: () => t('all_type_numbers', { type: phones[0].numberType }),
+        header: () => t("all_type_numbers", { type: phones[0].numberType }),
         cell: (info) => (
           <div>
             <PhoneNumber>

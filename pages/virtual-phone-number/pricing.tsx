@@ -14,16 +14,20 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { generateMeta } from "@/shared/lib";
+import { useSecondPhoneCountries } from "@/shared/hooks";
 
 function Pricing({
   popularSecondPhoneCountries,
-  secondPhoneCountries,
+  allCountries,
 }: {
   popularSecondPhoneCountries: SecondPhoneCountry[];
-  secondPhoneCountries: ICountry[];
+  allCountries: ICountry[];
 }) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
+  const secondPhoneCountries = useSecondPhoneCountries({
+    initCountryList: popularSecondPhoneCountries,
+  });
 
   const meta = React.useMemo(
     () =>
@@ -42,8 +46,8 @@ function Pricing({
       <Head>{meta}</Head>
       <Navbar />
       <PhoneNumbersRates
-        popularSecondPhoneCountries={popularSecondPhoneCountries}
-        secondPhoneCountries={secondPhoneCountries}
+        popularSecondPhoneCountries={secondPhoneCountries}
+        secondPhoneCountries={allCountries}
       />
       <SpecialDealsSection />
       <DownloadAppSection />
@@ -62,15 +66,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     api.secondPhone.listSecondPhoneCountries(),
   ]);
 
-  if (!popularCountries) {
-    return {
-      redirect: {
-        destination: "/virtual-phone-number",
-        statusCode: 301,
-      },
-    };
-  }
-
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
@@ -78,8 +73,8 @@ export const getServerSideProps: GetServerSideProps = async ({
         "virtual-phone-number",
         "meta",
       ])),
-      popularSecondPhoneCountries: popularCountries,
-      secondPhoneCountries: COUNTRY_LIST,
+      popularSecondPhoneCountries: popularCountries ?? [],
+      allCountries: COUNTRY_LIST,
       countryCode,
     },
   };

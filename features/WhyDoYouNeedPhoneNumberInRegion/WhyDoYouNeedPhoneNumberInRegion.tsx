@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { Paragraph, SectionTitle } from "@/shared/ui/styled";
 import AppstoreDownloadAppButton from "@/entities/AppstoreDownloadAppButton";
 import GplayDownloadAppButton from "@/entities/GplayDownloadAppButton";
-import globe from "@/shared/assets/globe.svg";
+import globe from "@/shared/assets/images/globe.svg";
 import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
 import { AppBlockWrapper, AppButtonsWrapper, Wrapper } from "./styled";
 
@@ -18,7 +18,7 @@ function WhyDoYouNeedPhoneNumberInRegion({
   const { t } = useTranslation("virtual-phone-number");
 
   const handleMarketClick = (market: string) => {
-    sendSafeFbqEvent("Lead")
+    sendSafeFbqEvent("Lead");
     switch (true) {
       case router.asPath.includes("virtual-phone-number"):
         sendSafeGtagEvent(`virtualnumber_${market}_click`);

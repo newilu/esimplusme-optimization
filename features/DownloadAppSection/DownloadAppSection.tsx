@@ -5,13 +5,13 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { APPSTORE_LINK, GPLAY_LINK } from "@/shared/constants";
 import { SectionTitle } from "shared/ui/styled";
-import cloudConnection from "shared/assets/cloud-connection.svg";
-import phone from "shared/assets/call-calling.svg";
-import sms from "shared/assets/sms.svg";
-import support from "shared/assets/24-support.svg";
-import globe from "shared/assets/globe.svg";
-import card from "shared/assets/card-slash.svg";
 import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
+import cloudConnection from "@/shared/assets/images/cloud-connection.svg";
+import phone from "@/shared/assets/images/call-calling.svg";
+import sms from "@/shared/assets/images/sms.svg";
+import support from "@/shared/assets/images/24-support.svg";
+import globe from "@/shared/assets/images/globe.svg";
+import card from "@/shared/assets/images/card-slash.svg";
 import devices from "./assets/devices.webp";
 import gplay from "./assets/gplay.svg";
 import gplayDark from "./assets/gplay-black.svg";
@@ -29,14 +29,14 @@ function DownloadAppSection({
   const theme = useTheme();
 
   const handleMarketClick = (market: string) => {
-    sendSafeFbqEvent("Lead")
+    sendSafeFbqEvent("Lead");
     switch (true) {
       case router.pathname.includes("virtual-phone-number"):
-        sendSafeGtagEvent(`virtualnumber_${market}_click`)
+        sendSafeGtagEvent(`virtualnumber_${market}_click`);
         break;
 
       default:
-        sendSafeGtagEvent(`mobiledata_${market}_click`)
+        sendSafeGtagEvent(`mobiledata_${market}_click`);
         break;
     }
   };

@@ -5,11 +5,15 @@ import type { ICountry } from "country-cities";
 import Link from "next/link";
 import styled from "styled-components";
 import Navbar from "@/widgets/Navbar";
-import { COUNTRY_LIST } from "@/shared/constants";
+import {
+  COUNTRY_LIST,
+  SECOND_PHONE_SUPPORTED_COUNTRIES,
+} from "@/shared/constants";
 import {
   formatAreaCode,
   formatStringToKebabCase,
   generateMeta,
+  generateSecondPhonesList,
   scrollToId,
 } from "@/shared/lib";
 import { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
@@ -23,12 +27,13 @@ import { Wrapper as TableWrapper } from "@/shared/ui/BaseTable/styled";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { format } from "libphonenumber-js";
 import { useWindowSize } from "@/context/WindowSizeContext";
 import MobileNumberFaq from "@/features/MobileNumberFaq";
 import Footer from "@/components/Footer";
 import WhyDoYouNeedMobileNumber from "@/features/WhyDoYouNeedMobileNumber";
 import { NoNumbersAvailableView } from "@/features/NoNumbersAvailableView/NoNumbersAvailableView";
+import { useSecondPhoneCountries } from "@/shared/hooks";
+import { format } from "libphonenumber-js";
 
 type PageProps = {
   country: ICountry;
@@ -92,15 +97,17 @@ function Index({ country, phones, popularCountries }: PageProps) {
   const router = useRouter();
   const { t, i18n } = useTranslation("virtual-phone-number");
   const { isMobile } = useWindowSize();
-  const [selectedPhone, setSelectedPhone] = React.useState(
-    phones.length ? phones[0] : null
-  );
+  const secondPhoneCountries = useSecondPhoneCountries({
+    initCountryList: popularCountries,
+  });
+
+  const [selectedPhone, setSelectedPhone] = React.useState(phones[0]);
 
   const areaCode =
     (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
       ? format(phones[0].phoneNumber, "INTERNATIONAL")
-        .slice(0, 6)
-        .replaceAll(" ", "-")
+          .slice(0, 6)
+          .replaceAll(" ", "-")
       : formatAreaCode(country.phonecode);
 
   const purchaseSectionId = React.useId();
@@ -174,13 +181,9 @@ function Index({ country, phones, popularCountries }: PageProps) {
             </PanelSection>
           </SectionsWrapper>
         ) : (
-          popularCountries.length > 0 && (
-            <PanelSection>
-              <NoNumbersAvailableView
-                countries={popularCountries}
-              />
-            </PanelSection>
-          )
+          <PanelSection>
+            <NoNumbersAvailableView countries={secondPhoneCountries} />
+          </PanelSection>
         )}
       </BaseHeader>
       <WhyDoYouNeedMobileNumber country={country} />
@@ -204,7 +207,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
+  const currentCountry = COUNTRY_LIST.find(
+    (el) => country === formatStringToKebabCase(el.name)
+  );
 
   if (!currentCountry) {
     return {
@@ -222,6 +227,12 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   const { data: secondPhoneCountries } =
     await api.secondPhone.listSecondPhoneCountries();
 
+  const phones =
+    data?.data.phones ??
+    (SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
+      ? generateSecondPhonesList({ countryIso: currentCountry.isoCode })
+      : []);
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
@@ -230,8 +241,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
         "meta",
       ])),
       country: currentCountry,
-      phones: data?.data.phones ?? [],
-      popularCountries: secondPhoneCountries ?? []
+      phones,
+      popularCountries: secondPhoneCountries ?? [],
     },
   };
 };

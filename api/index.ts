@@ -1,10 +1,10 @@
 import { getErrorMessage } from "utils/common";
+import { BLOG_API_URL } from "@/utils/constants";
 import * as articles from "./articles";
 import * as categories from "./categories";
 import * as authors from "./authors";
 import * as profiles from "./profiles";
 import * as secondPhone from "./secondPhone";
-import { BLOG_API_URL } from "@/utils/constants";
 
 type AuthTypes = {
   [key: string]: string;

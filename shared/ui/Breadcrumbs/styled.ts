@@ -14,7 +14,6 @@ export const Wrapper = styled.div`
     font-size: 13px;
     line-height: 16px;
     display: inline-flex;
-    padding-right: 24px;
   }
 
   > a {
@@ -23,22 +22,15 @@ export const Wrapper = styled.div`
     font-size: 13px;
     line-height: 16px;
     display: inline-flex;
-    position: relative;
-    padding-right: 24px;
-
-    &:after {
-      content: "/";
-      color: ${(props) => props.theme.secondaryText};
-      position: absolute;
-      right: 10px;
-    }
 
     &:last-child {
       color: ${(props) => props.theme.primary};
-
-      &:after {
-        display: none;
-      }
     }
   }
 `;
+
+export const Slash = styled.span`
+  display: inline-flex;
+  padding: 0 10px;
+  color: ${(props) => props.theme.secondaryText};
+`

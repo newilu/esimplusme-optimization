@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import ornament from "shared/assets/ornament.svg";
+import ornament from "@/shared/assets/images/ornament.svg";
 
 export const SectionSubtitle = styled.div`
   font-weight: 300;
@@ -84,6 +84,7 @@ export const InfoSection = styled.div`
   @media (max-width: 767px) {
     > div {
       max-width: unset;
+      margin-top: 60px;
       margin-bottom: 40px;
     }
 
@@ -192,7 +193,7 @@ export const Wrapper = styled.div`
   height: cacl(100vh - 65px);
   max-height: 1000px;
 
-  > div:last-child {
+  ${MessagesSection} {
     position: relative;
     width: 100%;
     flex-basis: 45%;
@@ -244,23 +245,11 @@ export const Wrapper = styled.div`
   @media (max-width: 767px) {
     flex-direction: column-reverse;
 
-    > div:last-child {
-      flex-basis: 100%;
-      &::after {
-        left: -16px;
-      }
-    }
     ${MessagesSection} {
-      overflow: hidden;
-      border-radius: 0 !important;
+      display: none;
 
       &::after {
         display: none;
-      }
-
-      ${Message} {
-        box-shadow: none;
-        border: 1px solid ${(props) => props.theme.cardsBorder};
       }
     }
   }

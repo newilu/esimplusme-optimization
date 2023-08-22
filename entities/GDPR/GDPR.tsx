@@ -1,5 +1,5 @@
 import React from "react";
-import xmark from "shared/assets/xmark.svg";
+import xmark from "@/shared/assets/images/xmark.svg";
 import { getCookie, setCookie } from "shared/lib";
 import Link from "next/link";
 import Image from "next/image";

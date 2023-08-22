@@ -5,7 +5,6 @@ import { useTranslation } from "next-i18next";
 import { createColumnHelper } from "@tanstack/react-table";
 import Link from "next/link";
 import {
-  formatAreaCode,
   formatStringToKebabCase,
   getCountryByIsoCode,
   getStateByCode,
@@ -16,7 +15,13 @@ import { StyledCitiesTable } from "./styled";
 
 const columnHelper = createColumnHelper<ICity>();
 
-function CitiesTable({ cities }: { cities: ICity[] }) {
+function CitiesTable({
+  cities,
+  areaCode,
+}: {
+  cities: ICity[];
+  areaCode: string;
+}) {
   const { t } = useTranslation("virtual-phone-number");
   const router = useRouter();
 
@@ -36,13 +41,10 @@ function CitiesTable({ cities }: { cities: ICity[] }) {
     () =>
       columnHelper.accessor("countryCode", {
         header: () => t("area_code"),
-        cell: (info) =>
-          formatAreaCode(
-            getCountryByIsoCode(info.row.original.countryCode)?.phonecode ?? ""
-          ),
+        cell: () => areaCode,
       }),
 
-    [t]
+    [t, areaCode]
   );
   const cityNameColumn = React.useMemo(
     () =>

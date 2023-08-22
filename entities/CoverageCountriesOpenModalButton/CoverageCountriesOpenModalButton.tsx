@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
-import globe from "shared/assets/globe.svg";
+import globe from "@/shared/assets/images/globe.svg";
 import { Wrapper } from "./styled";
 
 type CoverageCountriesOpenModalButtonProps = React.ButtonHTMLAttributes<any>;

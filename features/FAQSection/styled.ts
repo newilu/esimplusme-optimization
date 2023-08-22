@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { Container, SectionTitle } from "shared/ui/styled";
-import ornament from "shared/assets/ornament.svg";
+import ornament from "@/shared/assets/images/ornament.svg";
 
 export const QuestionAnswer = styled.div`
   padding-right: 90px;
