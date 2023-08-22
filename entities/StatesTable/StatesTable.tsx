@@ -6,10 +6,11 @@ import { createColumnHelper } from "@tanstack/react-table";
 import {
   formatAreaCode,
   formatStringToKebabCase,
+  getUSStateInfoByIso,
   removeExcludedWords,
 } from "@/shared/lib";
 import {
-  MINIMAL_PHONE_NUMBER_PRICE,
+  DEFAULT_PHONE_NUMBER_PRICE,
   STATE_NAME_DEPRECATED_WORDS,
 } from "@/shared/constants";
 import CountryFlag from "@/shared/ui/CountryFlag";
@@ -42,29 +43,35 @@ function StatesTable({
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
 
-  const params = router.asPath.split('?')[1];
-  const paramsString = params ? `?${params}` : '';
+  const params = router.asPath.split("?")[1];
+  const paramsString = params ? `?${params}` : "";
 
-  const getHref = useCallback((state: IState) => {
-    const formatedCountryName = formatStringToKebabCase(country.name);
-    if (state.name === 'Mobile') {
-      return `/virtual-phone-number/${formatedCountryName}/mobile${paramsString}`
-    }
-    const formatedStateName = formatStringToKebabCase(
-      removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS),
-    )
-    return `/virtual-phone-number/${formatedCountryName}/${formatedStateName}${paramsString}`
-  }, [paramsString, country.name])
+  const getHref = useCallback(
+    (state: IState) => {
+      const formatedCountryName = formatStringToKebabCase(country.name);
+      if (state.name === "Mobile") {
+        return `/virtual-phone-number/${formatedCountryName}/mobile${paramsString}`;
+      }
+      const formatedStateName = formatStringToKebabCase(
+        removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)
+      );
+      return `/virtual-phone-number/${formatedCountryName}/${formatedStateName}${paramsString}`;
+    },
+    [paramsString, country.name]
+  );
 
   const stateAreaCodeColumn = useMemo(
     () =>
       columnHelper.accessor("countryCode", {
         id: TableIDS.AreaCode,
         header: () => t("area_code"),
-        cell: () => formatAreaCode(country.phonecode),
+        cell: ({ row }) =>
+          country.isoCode === "US"
+            ? getUSStateInfoByIso(row.original.isoCode).codes[0]
+            : formatAreaCode(country.phonecode),
       }),
 
-    [country.phonecode, t]
+    [country.isoCode, country.phonecode, t]
   );
 
   const stateNameColumn = useMemo(
@@ -92,7 +99,8 @@ function StatesTable({
       columnHelper.accessor("latitude", {
         id: TableIDS.MonthlyFee,
         header: () => t("monthly_fee"),
-        cell: () => `${(phoneNumberStartingPrice || MINIMAL_PHONE_NUMBER_PRICE) + 1}$`,
+        cell: () =>
+          `${(phoneNumberStartingPrice || DEFAULT_PHONE_NUMBER_PRICE) + 1}$`,
       }),
     [phoneNumberStartingPrice, t]
   );
@@ -144,7 +152,9 @@ function StatesTable({
         phoneNumberPriceColumn,
         purchaseButtonColumn,
       ]}
-      onRowClick={(data) => { router.push(getHref(data)) }}
+      onRowClick={(data) => {
+        router.push(getHref(data));
+      }}
       data={states}
     />
   );

@@ -14,11 +14,7 @@ import {
 } from "@/shared/lib";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Breadcrumbs from "@/shared/ui/Breadcrumbs";
-import {
-  PanelSection,
-  PanelSectionTitle,
-  NoDataWrapper,
-} from "@/shared/ui/styled";
+import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
 import CitiesTable from "./CitiesTable";
 import PhoneNumbersTable from "./PhoneNumbersTable";
 import { SectionsWrapper, Wrapper } from "./styled";
@@ -28,7 +24,7 @@ type PhoneNumbersByCountryProps = {
   country: ICountry;
   state: IState;
   cities: ICity[];
-  areaCode?: string;
+  areaCode: string;
   popularCountries: SecondPhoneCountry[];
   phoneNumber?: PhoneToBuy | null;
 };
@@ -77,7 +73,7 @@ function PhoneNumbersByRegion({
         { shallow: true }
       );
     }
-  }, [phoneNumber, phone, restOfQuery]);
+  }, [phoneNumber, phone, restOfQuery, replace]);
 
   return (
     <Wrapper>
@@ -156,13 +152,15 @@ function PhoneNumbersByRegion({
               <PanelSectionTitle style={{ padding: "15px 25px" }}>
                 {cities.length ? t("cities") : t("all_numbers")}
               </PanelSectionTitle>
-              {!!cities.length && <CitiesTable cities={cities} />}
+              {!!cities.length && (
+                <CitiesTable areaCode={areaCode} cities={cities} />
+              )}
               {!cities.length &&
                 (phones.length ? (
                   <PhoneNumbersTable
-                    onRowClick={(phone) => {
+                    onRowClick={(rowData) => {
                       const search = new URLSearchParams();
-                      search.append("phone", phone.phoneNumber);
+                      search.append("phone", rowData.phoneNumber);
 
                       push(`${asPath.split("?")[0]}?${search.toString()}`);
                     }}

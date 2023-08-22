@@ -1,4 +1,11 @@
 import React from "react";
+import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
+import { formatAreaCode, getCountryByIsoCode } from "@/shared/lib";
+import { SecondPhoneCountry } from "@/utils/types";
+import {
+  DEFAULT_PHONE_NUMBER_PRICE,
+  SECOND_PHONE_SUPPORTED_COUNTRIES,
+} from "@/shared/constants";
 
 function useOutsideClick(
   elementRef: React.RefObject<any>,
@@ -88,4 +95,50 @@ function useInView(
   return isVisible;
 }
 
-export { useModalControls, useOutsideClick, useInView };
+function useSecondPhoneCountries(options?: {
+  initCountryList?: SecondPhoneCountry[];
+}) {
+  const { initCountryList } = options ?? {};
+
+  const secondPhoneCoutriesList: SecondPhoneCountry[] = React.useMemo(
+    () =>
+      initCountryList && initCountryList.length
+        ? initCountryList
+            .filter(({ code }) =>
+              SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code)
+            )
+            .sort(
+              (a, b) =>
+                SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
+                SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
+            )
+        : (SECOND_PHONE_SUPPORTED_COUNTRIES.map((code) => {
+            const country = getCountryByIsoCode(code);
+            if (!country) return null;
+
+            return {
+              code,
+              country: country.name,
+              prefix: formatAreaCode(
+                getCountryCallingCode(code as CountryCode)
+              ),
+              prices: {
+                cheapest: {
+                  currency: "USD",
+                  price: DEFAULT_PHONE_NUMBER_PRICE,
+                },
+              },
+            } as SecondPhoneCountry;
+          }).filter((el) => el !== null) as SecondPhoneCountry[]),
+    [initCountryList]
+  );
+
+  return secondPhoneCoutriesList;
+}
+
+export {
+  useModalControls,
+  useOutsideClick,
+  useInView,
+  useSecondPhoneCountries,
+};

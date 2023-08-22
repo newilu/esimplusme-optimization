@@ -11,13 +11,19 @@ import PhoneNumberRegionsByCountry from "@/widgets/PhoneNumberRegionsByCountry";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import HowToGetPhoneNumber from "@/features/HowToGetPhoneNumber";
 import type { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
-import { COUNTRY_LIST } from "@/shared/constants";
+import {
+  COUNTRY_LIST,
+  SECOND_PHONE_SUPPORTED_COUNTRIES,
+} from "@/shared/constants";
 import {
   formatStringToKebabCase,
   generateMeta,
+  generateSecondPhonesList,
   getStatesByCountryCode,
 } from "@/shared/lib";
 import Footer from "@/components/Footer";
+import { useSecondPhoneCountries } from "@/shared/hooks";
+import statesByIso from "@/shared/assets/us-state-info-by-iso.json";
 
 type PageProps = {
   country: ICountry;
@@ -36,6 +42,9 @@ function Index({
 }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
+  const secondPhoneCountries = useSecondPhoneCountries({
+    initCountryList: popularCountries,
+  });
 
   const meta = React.useMemo(
     () =>
@@ -62,7 +71,7 @@ function Index({
         states={states}
         country={country}
         phones={phones}
-        popularCountries={popularCountries}
+        popularCountries={secondPhoneCountries}
       />
       <HowToGetPhoneNumber countryName={country.name} />
       <DownloadAppSection />
@@ -89,7 +98,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
+  const currentCountry = COUNTRY_LIST.find(
+    (el) => country === formatStringToKebabCase(el.name)
+  );
 
   if (!currentCountry) {
     return {
@@ -100,23 +111,36 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     };
   }
 
-  let regions = getStatesByCountryCode(currentCountry.isoCode);
+  let regions =
+    currentCountry.isoCode === "US"
+      ? (Object.entries(statesByIso).map(([isoCode, { name }]) => ({
+          name,
+          isoCode,
+          countryCode: "US",
+          latitude: null,
+          longitude: null,
+        })) as IState[])
+      : getStatesByCountryCode(currentCountry.isoCode);
 
   if (currentCountry.isoCode === "US" && regions.length > 0) {
     const mobileField = {
       name: "Mobile",
       phonecode: currentCountry.phonecode,
       countryCode: currentCountry.isoCode,
-      isoCode: '',
-      flag: '',
-      currency: '',
-      latitude: '',
-      longitude: '',
+      isoCode: "",
+      flag: "",
+      currency: "",
+      latitude: "",
+      longitude: "",
     } as IState;
 
     const start = regions.length - 1 > 10 ? 10 : regions.length - 1;
 
-    regions = [...regions.slice(0, start), mobileField, ...regions.slice(start + 1)]
+    regions = [
+      ...regions.slice(0, start),
+      mobileField,
+      ...regions.slice(start + 1),
+    ];
   }
 
   if (!regions.length) {
@@ -124,7 +148,11 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       currentCountry.isoCode
     );
 
-    phoneNumbers = data?.data.phones ?? [];
+    phoneNumbers =
+      data?.data.phones ??
+      SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
+        ? generateSecondPhonesList({ countryIso: currentCountry.isoCode })
+        : [];
   }
 
   const { data: secondPhoneCountries } =

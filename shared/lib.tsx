@@ -4,10 +4,17 @@ import { differenceInDays, getHours } from "date-fns";
 import { cities, countries, states } from "country-cities";
 import {
   CountryCode,
+  getCountryCallingCode,
   getExampleNumber,
   isValidPhoneNumber,
 } from "libphonenumber-js";
 import examples from "libphonenumber-js/examples.mobile.json";
+import { PhoneToBuy } from "@/utils/types";
+import {
+  DEFAULT_PHONE_NUMBER_PRICE,
+  DEFAULT_PHONE_NUMBER_TYPE,
+} from "@/shared/constants";
+import statesByIso from "./assets/us-state-info-by-iso.json";
 
 function formatDataSize(dataSize: string | number) {
   return +dataSize >= 1000 ? `${+dataSize / 1000} GB` : `${dataSize} MB`;
@@ -158,6 +165,13 @@ function formatStringToKebabCase(string: string) {
     .replaceAll(" ", "-");
 }
 
+function formatStringFromKebabToTileCase(string: string) {
+  return latinize(string)
+    .split("-")
+    .map((el) => el[0].toUpperCase().concat(el.slice(1, el.length)))
+    .join(" ");
+}
+
 function getCountryByIsoCode(isoCode: string) {
   return countries.getByCode(isoCode);
 }
@@ -284,7 +298,63 @@ function getRandomInt(min: number, max: number) {
   );
 }
 
+function getRandomBoolean() {
+  return Math.random() < 0.5;
+}
+
+function getUSStateInfoByIso(stateIso = "AL") {
+  if (stateIso in statesByIso) {
+    return statesByIso[stateIso as keyof typeof statesByIso];
+  }
+
+  return statesByIso.AL;
+}
+
+function getUSStateInfoByStateName(stateName = "Alabama") {
+  const state = Object.entries(statesByIso).find(([, info]) =>
+    info.name.includes(stateName)
+  );
+  if (state) return { isoCode: state[0], ...state[1] };
+
+  return { isoCode: "AL", ...statesByIso.AL };
+}
+
+function generateSecondPhonesList({
+  countryIso,
+  stateIso,
+}: {
+  countryIso: string;
+  stateIso?: string;
+}): PhoneToBuy[] {
+  const countryCode =
+    countryIso === "US" && stateIso
+      ? getUSStateInfoByIso(stateIso).codes[0]
+      : getCountryCallingCode(countryIso as CountryCode);
+
+  return Array(10)
+    .fill(null)
+    .map(() => ({
+      phoneNumber: generateFakeNumber(countryIso, countryCode),
+      price: DEFAULT_PHONE_NUMBER_PRICE,
+      numberType: DEFAULT_PHONE_NUMBER_TYPE,
+      region: stateIso ?? countryIso,
+      capabilities: {
+        voice: getRandomBoolean(),
+        MMS: getRandomBoolean(),
+        SMS: getRandomBoolean(),
+      },
+      beta: false,
+      addressRequirements: "",
+      coinsPrice: DEFAULT_PHONE_NUMBER_PRICE,
+      locality: null,
+    }));
+}
+
 export {
+  getRandomBoolean,
+  generateSecondPhonesList,
+  getUSStateInfoByStateName,
+  getUSStateInfoByIso,
   getRandomInt,
   removeExcludedWords,
   getCountryByIsoCode,
@@ -304,4 +374,5 @@ export {
   formatAreaCode,
   generateFakeNumber,
   generateMeta,
+  formatStringFromKebabToTileCase,
 };

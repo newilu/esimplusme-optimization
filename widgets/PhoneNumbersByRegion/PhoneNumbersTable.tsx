@@ -3,8 +3,8 @@ import { format } from "libphonenumber-js";
 import { useRouter } from "next/router";
 import { createColumnHelper } from "@tanstack/react-table";
 import { PhoneToBuy } from "@/utils/types";
-import PhoneSvg from "@/shared/assets/PhoneSVG";
-import SmsSvg from "@/shared/assets/SmsSVG";
+import PhoneSvg from "@/shared/assets/images/PhoneSVG";
+import SmsSvg from "@/shared/assets/images/SmsSVG";
 import { useTranslation } from "next-i18next";
 import {
   PhoneNumber,
@@ -17,7 +17,7 @@ const columnHelper = createColumnHelper<PhoneToBuy>();
 
 function PhoneNumbersTable({
   phones,
-  onRowClick = () => { },
+  onRowClick = () => {},
 }: {
   phones: PhoneToBuy[];
   onRowClick?: (props: PhoneToBuy) => void;
@@ -108,7 +108,6 @@ function PhoneNumbersTable({
 
   const handleRowClick = async (_phone: PhoneToBuy) => {
     onRowClick(_phone);
-
 
     if (pathname.includes("/payment")) {
       const { phone, ...rest } = query;

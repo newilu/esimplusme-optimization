@@ -4,7 +4,6 @@ import { useTranslation } from "next-i18next";
 import { createColumnHelper } from "@tanstack/react-table";
 import Link from "next/link";
 import {
-  formatAreaCode,
   formatStringToKebabCase,
   getCountryByIsoCode,
   getStateByCode,
@@ -15,20 +14,23 @@ import { StyledCitiesTable } from "./styled";
 
 const columnHelper = createColumnHelper<ICity>();
 
-function CitiesTable({ cities }: { cities: ICity[] }) {
+function CitiesTable({
+  cities,
+  areaCode,
+}: {
+  cities: ICity[];
+  areaCode: string;
+}) {
   const { t } = useTranslation("virtual-phone-number");
 
   const areaCodeColumn = React.useMemo(
     () =>
       columnHelper.accessor("countryCode", {
         header: () => t("area_code"),
-        cell: (info) =>
-          formatAreaCode(
-            getCountryByIsoCode(info.row.original.countryCode)?.phonecode ?? ""
-          ),
+        cell: () => areaCode,
       }),
 
-    [t]
+    [t, areaCode]
   );
   const cityNameColumn = React.useMemo(
     () =>
@@ -47,7 +49,14 @@ function CitiesTable({ cities }: { cities: ICity[] }) {
             removeExcludedWords(state?.name ?? "", STATE_NAME_DEPRECATED_WORDS)
           )}/${formatStringToKebabCase(info.getValue())}`;
 
-          return <Link href={href}>{removeExcludedWords(info.getValue(), STATE_NAME_DEPRECATED_WORDS)}</Link>;
+          return (
+            <Link href={href}>
+              {removeExcludedWords(
+                info.getValue(),
+                STATE_NAME_DEPRECATED_WORDS
+              )}
+            </Link>
+          );
         },
       }),
 

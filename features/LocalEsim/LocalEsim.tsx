@@ -13,7 +13,7 @@ import Loader from "shared/ui/Loader";
 import { NoMatchesText } from "shared/ui/styled";
 import { useModalControls } from "shared/hooks";
 import SearchInput from "shared/ui/SearchInput";
-import xmark from "shared/assets/xmark.svg";
+import xmark from "@/shared/assets/images/xmark.svg";
 import MobileDataBundleCard from "entities/MobileDataBundleCard";
 import CoverageCountriesModal from "entities/CoverageCountriesModal";
 import CoverageCountriesOpenModalButton from "entities/CoverageCountriesOpenModalButton";
@@ -43,7 +43,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
     React.useState(false);
   const [activeCountry, setActiveCountry] = React.useState<Country | null>(
     countries.find((el) => el.isoName2.toLowerCase() === router.query.region) ??
-    null
+      null
   );
   const [filteredCountries, setFilteredCountries] = React.useState<Country[]>(
     []
@@ -97,7 +97,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
 
       setBundlesByDataAmount(
         existingBundlesBySelectedDataAmount ??
-        countryByIsoName.bundles[countryByIsoName.availableDataAmounts[0]]
+          countryByIsoName.bundles[countryByIsoName.availableDataAmounts[0]]
       );
     },
     [countryByIsoName, selectedDataSize]
@@ -267,11 +267,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
               }
             >
               <div>
-                <CountryFlag
-                  height={58}
-                  width={58}
-                  name={isoName2}
-                />
+                <CountryFlag height={58} width={58} name={isoName2} />
               </div>
               <div>{country}</div>
             </CountryCard>

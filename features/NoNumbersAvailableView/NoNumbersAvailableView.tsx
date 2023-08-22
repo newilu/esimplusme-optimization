@@ -13,7 +13,7 @@ import {
 } from "@/shared/lib";
 import BaseTable from "@/shared/ui/BaseTable";
 import {
-  MINIMAL_PHONE_NUMBER_PRICE,
+  DEFAULT_PHONE_NUMBER_PRICE,
   SECOND_PHONE_SUPPORTED_COUNTRIES,
 } from "@/shared/constants";
 import { format } from "libphonenumber-js";
@@ -56,7 +56,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
       columnHelper.accessor("prices.cheapest.price", {
         header: () => t("connection_monthly_fee"),
         cell: (info) =>
-          `${(info.getValue() || MINIMAL_PHONE_NUMBER_PRICE) + 1}$`,
+          `${(info.getValue() || DEFAULT_PHONE_NUMBER_PRICE) + 1}$`,
       }),
     [t]
   );

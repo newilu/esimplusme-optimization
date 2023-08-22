@@ -6,10 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Button from "@/shared/ui/Button";
-import PhoneSVG from "@/shared/assets/PhoneSVG";
-import SmsSVG from "@/shared/assets/SmsSVG";
-import CheckmarkSVG from "@/shared/assets/CheckmarkSVG";
-import cross from "@/shared/assets/red-cross.svg";
+import PhoneSVG from "@/shared/assets/images/PhoneSVG";
+import SmsSVG from "@/shared/assets/images/SmsSVG";
+import CheckmarkSVG from "@/shared/assets/images/CheckmarkSVG";
+import cross from "@/shared/assets/images/red-cross.svg";
 import Checkbox from "@/shared/ui/Checkbox";
 import { Trans, useTranslation } from "next-i18next";
 import {

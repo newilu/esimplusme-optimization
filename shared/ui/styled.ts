@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import ornament from "../assets/ornament.svg";
+import ornament from "../assets/images/ornament.svg";
 
 export const PanelSectionTitle = styled.div`
   padding: 15px 25px;

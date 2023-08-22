@@ -1,14 +1,8 @@
-import {
-  MappedDataType,
-  PhoneToBuy,
-  SecondPhoneCountry,
-  State,
-} from "@/utils/types";
+import { MappedDataType, PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
 import { MAIN_API_URL } from "@/utils/constants";
-import { SECOND_PHONE_SUPPORTED_COUNTRIES } from "@/shared/constants";
 import { getCookie } from "@/shared/lib";
-import { queryFetcher } from "./index";
 import { delay } from "@/utils/common";
+import { queryFetcher } from "./index";
 
 const ENDPOINTS = {
   getPhonesByCountry: (countryCode: string) =>
@@ -17,16 +11,17 @@ const ENDPOINTS = {
   states: () => "/v6/second-phone/usa/states",
   numbersByStateCode: (code: number) =>
     `/v6/second-phone/usa/phone-numbers/code/${code}`,
+  numbersByStateIso: (iso: string) =>
+    `/v6/second-phone/usa/phone-numbers/state/${iso}`,
   numbersByStateISO: (stateIso: string) =>
     `/v6/second-phone/usa/phone-numbers/state/${stateIso}`,
   secondPhoneCountries: () => `/v7/second-phone/countries`,
-  secondPhonePopularCountries: () => `/v6/second-phone/countries/top`,
   createTempUser: () => `/v6/auth/temp-user`,
   signature: () => "/v7/second-phone/ecommpay-signature",
   thedexTopUp: () => "/v6/payment-providers/thedex/top-up/second-phone",
   buyNumber: () => `/v6/second-phone/buy-number`,
   topupWithWebpay: () => `/v6/payment-providers/webpay/top-up/second-phone`,
-  checkPaymentStatus: () => '/v6/payment-providers/is-payment-paid',
+  checkPaymentStatus: () => "/v6/payment-providers/is-payment-paid",
 };
 
 async function listSecondPhoneCountries(): Promise<
@@ -38,37 +33,26 @@ async function listSecondPhoneCountries(): Promise<
 
   return {
     error,
-    data:
-      data?.data.countries
-        .filter(({ code }) => SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code))
-        .sort(
-          (a, b) =>
-            SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
-            SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
-        ) ?? null,
+    data: data?.data.countries ?? null,
     headers,
   };
 }
-function getSecondPhonePopularCountries() {
-  return queryFetcher<{ data: { countries: SecondPhoneCountry[] } }>(
-    MAIN_API_URL.concat(ENDPOINTS.secondPhonePopularCountries())
-  );
-}
 
-function getAvailableStates() {
-  return queryFetcher<{ states: State[] }>(
-    `${MAIN_API_URL}${ENDPOINTS.states()}`
-  );
-}
 function getAvailableNumbersByStateISO(iso: string) {
   return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(
     `${MAIN_API_URL}${ENDPOINTS.numbersByStateISO(iso)}`
   );
 }
 
-function getAvailableNumbersByStateCode(code: number) {
-  return queryFetcher<{ phones: PhoneToBuy[] }>(
+function getAvailableNumbersByStateAreaCode(code: number) {
+  return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(
     `${MAIN_API_URL}${ENDPOINTS.numbersByStateCode(code)}`
+  );
+}
+
+function getAvailableNumbersByStateIso(isoCode: string) {
+  return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(
+    `${MAIN_API_URL}${ENDPOINTS.numbersByStateIso(isoCode)}`
   );
 }
 
@@ -163,42 +147,40 @@ function buyNumber(props: { phone: string; country_code: string }) {
 }
 
 function checkPaymentStatus(paymentId: string) {
-  return queryFetcher<{data: { paid: boolean }}>(`${MAIN_API_URL}${ENDPOINTS.checkPaymentStatus()}`, {
-    method: "POST",
-    credentials: "include",
-    body: JSON.stringify({paymentId}),
-    headers: {
-      "x-system-auth-token": getCookie("session") ?? "",
-    },
-  }); 
+  return queryFetcher<{ data: { paid: boolean } }>(
+    `${MAIN_API_URL}${ENDPOINTS.checkPaymentStatus()}`,
+    {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({ paymentId }),
+      headers: {
+        "x-system-auth-token": getCookie("session") ?? "",
+      },
+    }
+  );
 }
 
-const recursiveCheckPaymentStatus = (paymentId: string, attempts: number) => (
+const recursiveCheckPaymentStatus = (paymentId: string, attempts: number) =>
   new Promise<void>((res) => {
-    checkPaymentStatus(paymentId)
-      .then(({ data }) => {
-        if(data?.data?.paid === false) {
-          delay(6000)
-            .then(() => {
-              recursiveCheckPaymentStatus(paymentId, attempts - 1)
-                .then(res)
-            })
-        } else {
-          res()
-        }
-      })
-  })
-)
+    checkPaymentStatus(paymentId).then(({ data }) => {
+      if (data?.data?.paid === false) {
+        delay(6000).then(() => {
+          recursiveCheckPaymentStatus(paymentId, attempts - 1).then(res);
+        });
+      } else {
+        res();
+      }
+    });
+  });
 
 export {
   ENDPOINTS,
   topupWithWebpay,
   getPhonesByCountry,
   getPhonePrices,
-  getAvailableStates,
-  getAvailableNumbersByStateCode,
+  getAvailableNumbersByStateAreaCode,
+  getAvailableNumbersByStateIso,
   listSecondPhoneCountries,
-  getSecondPhonePopularCountries,
   getAvailableNumbersByStateISO,
   createTempUser,
   getSignature,

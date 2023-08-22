@@ -1,5 +1,5 @@
 import React from "react";
-import CheckmarkSvg from "@/shared/assets/CheckmarkSVG";
+import CheckmarkSvg from "@/shared/assets/images/CheckmarkSVG";
 import { Wrapper } from "./styled";
 
 function Checkbox({

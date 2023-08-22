@@ -9,19 +9,27 @@ import Navbar from "@/widgets/Navbar";
 import PhoneNumbersByRegion from "@/widgets/PhoneNumbersByRegion";
 import {
   formatAreaCode,
+  formatStringFromKebabToTileCase,
   formatStringToKebabCase,
   generateMeta,
+  generateSecondPhonesList,
   getCitiesByStateCode,
   getStatesByCountryCode,
+  getUSStateInfoByStateName,
   removeExcludedWords,
 } from "@/shared/lib";
-import { COUNTRY_LIST, STATE_NAME_DEPRECATED_WORDS } from "@/shared/constants";
+import {
+  COUNTRY_LIST,
+  SECOND_PHONE_SUPPORTED_COUNTRIES,
+  STATE_NAME_DEPRECATED_WORDS,
+} from "@/shared/constants";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import WhyDoYouNeedPhoneNumberInRegion from "@/features/WhyDoYouNeedPhoneNumberInRegion";
+import { useSecondPhoneCountries } from "@/shared/hooks";
 
 type PhoneNumberStatePageProps = {
   phones: PhoneToBuy[];
@@ -42,12 +50,15 @@ function Index({
 }: PhoneNumberStatePageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
+  const secondPhoneCountries = useSecondPhoneCountries({
+    initCountryList: popularCountries,
+  });
 
   const areaCode =
     (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
       ? format(phones[0].phoneNumber, "INTERNATIONAL")
-        .slice(0, 6)
-        .replaceAll(" ", "-")
+          .slice(0, 6)
+          .replaceAll(" ", "-")
       : formatAreaCode(country.phonecode);
 
   const meta = generateMeta({
@@ -77,7 +88,7 @@ function Index({
         country={country}
         state={state}
         areaCode={areaCode}
-        popularCountries={popularCountries}
+        popularCountries={secondPhoneCountries}
         phoneNumber={phoneNumber}
       />
       <WhyDoYouNeedPhoneNumberInRegion regionName={state.name} />
@@ -102,10 +113,32 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
+  const currentCountry = COUNTRY_LIST.find(
+    (el) => country === formatStringToKebabCase(el.name)
+  );
 
-  const currentState = getStatesByCountryCode(currentCountry?.isoCode ?? "")
-    .find((el) => formatStringToKebabCase(removeExcludedWords(el.name, STATE_NAME_DEPRECATED_WORDS)) === state);
+  let currentState: IState | undefined;
+
+  if (currentCountry?.isoCode === "US") {
+    const stateFromLocalJSON = getUSStateInfoByStateName(
+      formatStringFromKebabToTileCase(state)
+    );
+
+    currentState = {
+      isoCode: stateFromLocalJSON.isoCode,
+      countryCode: "US",
+      name: stateFromLocalJSON.name,
+      latitude: null,
+      longitude: null,
+    };
+  } else {
+    currentState = getStatesByCountryCode(currentCountry?.isoCode ?? "").find(
+      (el) =>
+        formatStringToKebabCase(
+          removeExcludedWords(el.name, STATE_NAME_DEPRECATED_WORDS)
+        ) === state
+    );
+  }
 
   if (!currentCountry || !currentState) {
     return {
@@ -127,17 +160,15 @@ export const getServerSideProps: GetServerSideProps<
   const popularCountries = secondPhoneCountries ?? [];
 
   if (currentCountry.isoCode === "US") {
-    let phones: PhoneToBuy[];
     const { data: phonesByStateUS } =
-      await api.secondPhone.getAvailableNumbersByStateISO(currentState.isoCode);
+      await api.secondPhone.getAvailableNumbersByStateIso(currentState.isoCode);
 
-    phones = phonesByStateUS?.data.phones ?? [];
-
-    if (!phones.length) {
-      const { data: phonesByCountryDataRaw } =
-        await api.secondPhone.getPhonesByCountry("US");
-      phones = phonesByCountryDataRaw?.data.phones ?? [];
-    }
+    const phones = phonesByStateUS?.data.phones.length
+      ? phonesByStateUS.data.phones
+      : generateSecondPhonesList({
+          countryIso: currentCountry.isoCode,
+          stateIso: currentState.isoCode,
+        });
 
     const phoneNumber = phone
       ? phones.find((el) => el.phoneNumber === phone) ?? phones[0] ?? null
@@ -163,10 +194,14 @@ export const getServerSideProps: GetServerSideProps<
   const { data: phonesByCountryDataRaw } =
     await api.secondPhone.getPhonesByCountry(currentCountry.isoCode);
 
-  const countryPhones = phonesByCountryDataRaw?.data.phones ?? [];
+  const countryPhones =
+    phonesByCountryDataRaw?.data.phones ??
+    SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
+      ? generateSecondPhonesList({ countryIso: currentCountry.isoCode })
+      : [];
 
   const filteredPhones = countryPhones.filter(
-    (_phone) => _phone.region === currentState.isoCode
+    (_phone) => _phone.region === currentState?.isoCode
   );
 
   const phones = filteredPhones.length ? filteredPhones : countryPhones;
