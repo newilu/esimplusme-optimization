@@ -227,11 +227,11 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   const { data: secondPhoneCountries } =
     await api.secondPhone.listSecondPhoneCountries();
 
-  const phones =
-    data?.data.phones ??
-    (SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
-      ? generateSecondPhonesList({ countryIso: currentCountry.isoCode })
-      : []);
+  const phones = data?.data.phones.length
+    ? data.data.phones
+    : SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
+    ? generateSecondPhonesList({ countryIso: currentCountry.isoCode })
+    : [];
 
   return {
     props: {
