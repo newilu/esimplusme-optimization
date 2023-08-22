@@ -1,5 +1,5 @@
-import React from "react";
-import { Wrapper } from "./styled";
+import React, { Children, Fragment, createElement, isValidElement } from "react";
+import { Wrapper, Slash } from "./styled";
 
 type BreadcrumbsProps = {
   children?: React.ReactNode | React.ReactNode[];
@@ -11,16 +11,26 @@ type BreadcrumbsProps = {
 function Breadcrumbs({ children, ...props }: BreadcrumbsProps) {
   return (
     <Wrapper {...props}>
-      {React.Children.toArray(children).map((child, index, childNodes) => {
-        if (React.isValidElement(child) && index === childNodes.length - 1) {
+      {Children.toArray(children).map((child, index, childNodes) => {
+        if(!isValidElement(child)) {
+          return null
+        }
+
+        if (index === childNodes.length - 1) {
           const { href, ...rest } = child.props;
-          return React.createElement(
+          return createElement(
             "div",
             { ...rest, key: child.key },
             child.props.children
           );
         }
-        return child;
+        
+        return (
+          <Fragment key={child.key}>
+            {child}
+            <Slash>/</Slash>
+          </Fragment>
+        );
       })}
     </Wrapper>
   );
