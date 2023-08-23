@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { loadFacebookScript, loadGtagScript, loadYMScript } from "@/utils/analyticScripts";
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
 import { formatAreaCode, getCountryByIsoCode } from "@/shared/lib";
 import { SecondPhoneCountry } from "@/utils/types";
@@ -23,6 +25,24 @@ function useOutsideClick(
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [elementRef, onOutsideClick]);
+}
+
+function useAnalyticScripts() {
+  useEffect(() => {
+    if(typeof window !== "undefined") {
+      const loadAnalyticScripts = () => {
+        loadYMScript();
+        loadFacebookScript();
+        loadGtagScript();
+      }
+
+      window.addEventListener('load', loadAnalyticScripts)
+
+      return () => {
+        window.removeEventListener('load', loadAnalyticScripts)
+      }
+    }
+  }, [])
 }
 
 function useModalControls(
@@ -141,4 +161,5 @@ export {
   useOutsideClick,
   useInView,
   useSecondPhoneCountries,
+  useAnalyticScripts,
 };

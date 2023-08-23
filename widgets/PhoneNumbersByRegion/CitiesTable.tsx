@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { ICity } from "country-cities";
 import { useTranslation } from "next-i18next";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -22,6 +23,19 @@ function CitiesTable({
   areaCode: string;
 }) {
   const { t } = useTranslation("virtual-phone-number");
+  const router = useRouter();
+
+  const getHrefData = (city: ICity) => {
+    const country = getCountryByIsoCode(city.countryCode);
+    const state = getStateByCode(city.stateCode, city.countryCode);
+    const countryName = formatStringToKebabCase(country?.name ?? "")
+    const stateName = formatStringToKebabCase(
+      removeExcludedWords(state?.name ?? "", STATE_NAME_DEPRECATED_WORDS),
+    )
+    const name = formatStringToKebabCase(city.name)
+
+    return { pathname: `/virtual-phone-number/${countryName}/${stateName}/${name}`, query: router.query }
+  }
 
   const areaCodeColumn = React.useMemo(
     () =>
@@ -36,28 +50,11 @@ function CitiesTable({
     () =>
       columnHelper.accessor("name", {
         header: () => t("destination"),
-        cell: (info) => {
-          const country = getCountryByIsoCode(info.row.original.countryCode);
-          const state = getStateByCode(
-            info.row.original.stateCode,
-            info.row.original.countryCode
-          );
-
-          const href = `/virtual-phone-number/${formatStringToKebabCase(
-            country?.name ?? ""
-          )}/${formatStringToKebabCase(
-            removeExcludedWords(state?.name ?? "", STATE_NAME_DEPRECATED_WORDS)
-          )}/${formatStringToKebabCase(info.getValue())}`;
-
-          return (
-            <Link href={href}>
-              {removeExcludedWords(
-                info.getValue(),
-                STATE_NAME_DEPRECATED_WORDS
-              )}
-            </Link>
-          );
-        },
+        cell: (info) => (
+          <Link href={getHrefData(info.row.original)}>
+            {removeExcludedWords(info.getValue(), STATE_NAME_DEPRECATED_WORDS)}
+          </Link>
+        ),
       }),
 
     [t]
@@ -67,6 +64,7 @@ function CitiesTable({
       maxVisibleElements={null}
       columns={[areaCodeColumn, cityNameColumn]}
       data={cities}
+      onRowClick={(data) => router.push(getHrefData(data))}
     />
   );
 }

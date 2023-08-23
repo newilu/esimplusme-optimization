@@ -15,7 +15,6 @@ import {
   formatStringToKebabCase,
   generateFakeNumber,
 } from "@/shared/lib";
-import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import repeat from "./assets/repeat.svg";
 import {
@@ -54,12 +53,6 @@ function FakeNumberGeneratorHeader() {
 
   return (
     <Wrapper>
-      <Breadcrumbs>
-        <Link href="/virtual-phone-number">{t("common:phone_number")}</Link>
-        <Link href="/random-phone-number-generator">
-          {t("common:generate_random_number")}
-        </Link>
-      </Breadcrumbs>
       <h1>{t("generate_random_number")}</h1>
       <PanelSectionsWrapper dir="row">
         <PanelSection flex="1 1 45%">

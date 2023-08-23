@@ -38,29 +38,10 @@ function PhoneNumbersByRegion({
   popularCountries,
   phoneNumber = null,
 }: PhoneNumbersByCountryProps) {
-  const { asPath, query, push, replace } = useRouter();
-
+  const { pathname, query, push, replace } = useRouter();
   const { t } = useTranslation("virtual-phone-number");
 
-  const { phone, ...restOfQuery } = query;
-
-  const handlePhoneNumberPurchase = async () => {
-    if (!phoneNumber) return;
-
-    const params = new URLSearchParams({
-      paymentAmount: String((phoneNumber.price + 1) * 100),
-      phoneNumber: phoneNumber.phoneNumber,
-      country: country.isoCode,
-      code: country.phonecode,
-      type: phoneNumber.numberType,
-      calls: String(phoneNumber.capabilities.voice),
-      sms: String(phoneNumber.capabilities.SMS),
-    });
-
-    await push(
-      `/virtual-phone-number/payment/provider-select?${params.toString()}`
-    );
-  };
+  const { phone, ...rest } = query;
 
   React.useEffect(() => {
     if (
@@ -69,12 +50,12 @@ function PhoneNumbersByRegion({
       phoneNumber.phoneNumber !== phone
     ) {
       replace(
-        { query: { ...restOfQuery, phone: phoneNumber?.phoneNumber } },
+        { query: { ...rest, phone: phoneNumber?.phoneNumber } },
         undefined,
-        { shallow: true }
+        { shallow: true, scroll: false }
       );
     }
-  }, [phoneNumber, phone, restOfQuery, replace]);
+  }, [phoneNumber?.phoneNumber]);
 
   return (
     <Wrapper>
@@ -121,13 +102,9 @@ function PhoneNumbersByRegion({
                 />{" "}
                 {areaCode ?? formatAreaCode(country.phonecode)} {country.name}
               </div>
-              <Link href={asPath.split("?")[0]}>{t("change")}</Link>
+              <Link href={pathname}>{t("change")}</Link>
             </PanelSectionTitle>
-            <PhoneNumberPurchase
-              phone={phoneNumber}
-              country={country}
-              onSubmit={handlePhoneNumberPurchase}
-            />
+            <PhoneNumberPurchase phone={phoneNumber} country={country} />
           </PanelSection>
         ) : (
           <>
@@ -159,11 +136,11 @@ function PhoneNumbersByRegion({
               {!cities.length &&
                 (phones.length ? (
                   <PhoneNumbersTable
-                    onRowClick={(rowData) => {
-                      const search = new URLSearchParams();
-                      search.append("phone", rowData.phoneNumber);
-
-                      push(`${asPath.split("?")[0]}?${search.toString()}`);
+                    onRowClick={(data) => {
+                      push({
+                        pathname,
+                        query: { ...rest, phone: data.phoneNumber },
+                      });
                     }}
                     phones={phones}
                   />
@@ -176,13 +153,13 @@ function PhoneNumbersByRegion({
                 <PanelSectionTitle>{t("all_numbers")}</PanelSectionTitle>
                 {phones.length ? (
                   <PhoneNumbersTable
-                    onRowClick={(phone) => {
-                      const search = new URLSearchParams();
-                      search.append("phone", phone.phoneNumber);
-
-                      push(`${asPath.split("?")[0]}?${search.toString()}`);
-                    }}
                     phones={phones}
+                    onRowClick={(data) => {
+                      push({
+                        pathname,
+                        query: { ...rest, phone: data.phoneNumber },
+                      });
+                    }}
                   />
                 ) : (
                   <NoNumbersAvailableView countries={popularCountries} />

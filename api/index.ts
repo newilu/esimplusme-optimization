@@ -24,25 +24,31 @@ function queryFetcher<T = unknown>(endpoint = "", options?: RequestInit) {
       ...options,
       headers: { ...options?.headers, ...getAuthAndBaseHeaders() },
     }
-  ).then(async (result) => {
-    const data = await result.json();
-    if (result.status >= 400) {
-      return {
-        headers: result.headers,
-        data: null,
-        error: getErrorMessage(data),
-      } as {
+  )
+    .then(async (result) => {
+      const data = await result.json();
+      if (result.status >= 400) {
+        return {
+          headers: result.headers,
+          data: null,
+          error: getErrorMessage(data),
+        } as {
+          headers: Headers;
+          data: T | null;
+          error: string | null;
+        };
+      }
+      return { headers: result.headers, data, error: null } as {
         headers: Headers;
         data: T | null;
         error: string | null;
       };
-    }
-    return { headers: result.headers, data, error: null } as {
-      headers: Headers;
-      data: T | null;
-      error: string | null;
-    };
-  });
+    })
+    .catch((e: unknown) => ({
+      headers: null,
+      data: null,
+      error: getErrorMessage(e),
+    }));
 }
 
 const api = { articles, categories, authors, profiles, secondPhone };

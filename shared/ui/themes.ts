@@ -42,6 +42,8 @@ const themes = {
     specialDealsBg:
       "linear-gradient(#FCFCFD 0%, #FCFCFD 200px, rgba(0, 0, 0, 0.05) 200px, rgba(0, 0, 0, 0.05) 100%)",
     howToGetNumberBg: "#F8F8F9",
+    checkboxBorderColor: 'rgba(0, 0, 0, 0.5)',
+    radioGroupBorderColor: 'rgba(0, 0, 0, 0.1)',
   },
   dark: {
     name: "dark",
@@ -83,6 +85,8 @@ const themes = {
     specialDealsBg:
       "linear-gradient(#000006 0%, #000006 200px, rgba(255, 255, 255, 0.05) 200px, rgba(255, 255, 255, 0.05) 100%)",
     howToGetNumberBg: "rgba(255, 255, 255, 0.05)",
+    checkboxBorderColor: 'rgba(237, 240, 250, 0.2)',
+    radioGroupBorderColor: 'rgba(237, 240, 250, 0.15)',
   },
 };
 

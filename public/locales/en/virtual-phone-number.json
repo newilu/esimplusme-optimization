@@ -67,8 +67,6 @@
   "select_phone_number": "Select a number",
   "all_numbers": "All numbers",
   "all_type_numbers": "All {{type}} numbers",
-  "alert_title": "Virtual Phone Number for 1 Month",
-  "alert_text": "Get this number with the option of unlimited extension of time. Available for use in the ESIM Plus app and on the website.",
   "about_our_service": "About our services",
   "international_calls": "International Calls & SMS at affordable prices",
   "cheap_phone_numbers": "A variety of phone numbers at flexible rates",
@@ -93,5 +91,12 @@
   "special_deals_services_info_item_7": "The subscription is set to renew automatically each month, while retaining the flexibility to cancel anytime.",
   "iso_code": "ISO Code",
   "numbers": "Numbers",
-  "connection_monthly_fee": "Connection Monthly Fee"
+  "connection_monthly_fee": "Connection Monthly Fee",
+  "month": "Month",
+  "months": "Months",
+  "year": "Year",
+  "multiple_purchase": "Multiple purchase",
+  "multiple_purchase_description_1": "The numbers you have purchased will soon appear on your home screen.",
+  "multiple_purchase_description_2": "Numbers will be <1>given out randomly</1>, except for the first one you choose",
+  "multiple_purchase_count": "Amount of phone numbers to buy"
 }

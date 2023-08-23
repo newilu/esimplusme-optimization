@@ -2,5 +2,20 @@
   "generate_random_number": "Generate random fake phone numbers",
   "select_country": "Which country?",
   "regenerate": "Regenerate",
-  "get_number": "Get This Number"
+  "get_number": "Get This Number",
+  "what_is_a_fake_number_generator": "What is a fake number generator",
+  "what_is_a_fake_number_generator_text": "A fake number generator is a tool designed to produce random phone numbers that closely mimic real mobile numbers. While these numbers may appear authentic, it's important to note that they are randomly generated and not tied to any actual phone lines.",
+  "where_to_use_fake_numbers": "Where to Use Fake Phone Numbers",
+  "where_to_use_fake_numbers_text": "Utilize fake phone numbers for various purposes as they can be used in multiple scenarios:<ul><li>Privacy Protection: Avoid sharing your personal contacts by using a fake number for online transactions, sign-ups, or social media platforms.</li><li>Harmless Pranks: Engage in light-hearted pranks with friends by using fake phone numbers for amusing calls or messages.</li><li>Identity Verification: When websites or apps require verification, use the generated fake number as a substitute to safeguard your privacy.</li></ul><small>Please note that although these fake numbers are randomly generated and may look genuine, they might not be connected to real phone lines.</small>\n",
+  "purchasing_real_numbers": "Purchasing Real Phone Numbers",
+  "purchasing_real_numbers_text": "If you require a fully functional unused virtual phone number that can receive calls and messages, consider purchasing a real number from the desired country on our website or mobile app. We provide a genuine and reliable communication channel for your specific needs with a list of versatile subscription plans.",
+  "faq": "Frequently Asked Questions About Our Fake Phone Number Generator",
+  "faq_q_1": "1. How does this random fake number generator work?",
+  "faq_a_1": "Select your desired country, such as the United States (USA), and click on the 'generate' button. A unique fake phone number that mimics a real number will then be generated.",
+  "faq_q_2": "2. Can I receive texts or calls with these fake numbers?\n",
+  "faq_a_2": "No, although they resemble real mobile numbers, they cannot receive text messages or calls. However, if you're interested in acquiring virtual phone numbers that are capable of receiving both texts and calls, we offer authentic options for purchase on our website and mobile apps.\n",
+  "faq_q_3": "3. Will these generated phone numbers pass validation processes?\n",
+  "faq_a_3": "Yes, these fake numbers pass validation processes as they are generated using a library, which follows the real number formation of the selected country.\n",
+  "faq_q_4": "4. Is there any cost involved in using this service?\n",
+  "faq_a_4": "No, this service is entirely free of charge. You can generate and utilize these fake numbers without any restrictions or limitations. \n"
 }

@@ -56,7 +56,7 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
       columnHelper.accessor("prices.cheapest.price", {
         header: () => t("connection_monthly_fee"),
         cell: (info) =>
-          `${(info.getValue() || DEFAULT_PHONE_NUMBER_PRICE) + 1}$`,
+          `$${(info.getValue() || DEFAULT_PHONE_NUMBER_PRICE) + 1}`,
       }),
     [t]
   );
@@ -66,12 +66,15 @@ function NoNumbersAvailableView({ countries }: NoNumbersAvailableViewProps) {
       country,
       phoneNumber,
     }: SecondPhoneCountry & { phoneNumber: string }) => {
-      const search = new URLSearchParams([
-        ["country", formatStringToKebabCase(country)],
-        ["phone", phoneNumber],
-      ]);
 
-      router.push(`/virtual-phone-number/payment?${search.toString()}`);
+      router.push({
+        pathname: '/virtual-phone-number/payment',
+        query: {
+          ...router.query,
+          country: formatStringToKebabCase(country),
+          phone: phoneNumber
+        }
+      });
     },
     [router]
   );

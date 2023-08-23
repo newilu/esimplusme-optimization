@@ -8,6 +8,12 @@ export const PanelSectionTitle = styled.div`
   font-size: 18px;
   line-height: 26px;
 
+  > div {
+    display: flex;
+    align-items: center;
+    grid-gap: 10px;
+  }
+
   @media (max-width: 430px) {
     padding: 16px;
   }
@@ -112,14 +118,65 @@ export const Card = styled.div`
   border: 1px solid ${(props) => props.theme.cardsBorder};
   border-radius: 20px;
 `;
-export const Container = styled.div`
+
+export const Paragraph = styled.p`
+  text-align: left;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 26px;
+  color: ${(props) => props.theme.secondaryText};
+  white-space: pre-line;
+
+  a {
+    text-decoration: underline;
+    color: ${(props) => props.theme.primary};
+  }
+`;
+
+export const ContentBlock = styled.div`
+  margin: 100px 0;
+
+  > ${Paragraph} {
+    margin: 50px 0 0 0;
+
+    > ul {
+      padding-left: 40px;
+      margin: 25px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.9rem;
+
+      li {
+        list-style: circle;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin: 70px 0;
+
+    > ${Paragraph} {
+      margin: 30px 0 0 0;
+      > ul {
+        padding-left: 16px;
+        margin: 20px 0;
+      }
+    }
+  }
+`;
+
+export const Container = styled.div<{ maxWidth?: number }>`
   position: relative;
   margin: 0 auto;
   padding: 0 16px;
-  max-width: 1272px;
+  max-width: ${(props) => props.maxWidth}px;
   width: 100%;
   height: 100%;
 `;
+Container.defaultProps = {
+  maxWidth: 1272,
+};
 
 export const OrderedListItem = styled.li`
   position: relative;
@@ -153,20 +210,6 @@ export const OrderedList = styled.ol`
   display: flex;
   flex-direction: column;
   gap: 25px;
-`;
-
-export const Paragraph = styled.p`
-  text-align: left;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 26px;
-  color: ${(props) => props.theme.secondaryText};
-  white-space: pre-line;
-
-  a {
-    text-decoration: underline;
-    color: ${(props) => props.theme.primary};
-  }
 `;
 
 export const SectionTitle = styled.h2`

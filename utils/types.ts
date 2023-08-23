@@ -3,7 +3,7 @@ import { ProviderTypes } from "./constants";
 export type MappedDataType<T extends unknown> = {
   data: T | null;
   error: string | null;
-  headers: Headers;
+  headers: Headers | null;
 };
 
 export type State = {
@@ -201,3 +201,9 @@ export type Region = {
 
 export type RegionById = Region &
   Pick<CountryByISO, "availableDataAmounts" | "bundles">;
+
+export type BuyMultipleNumbersPayload = {
+  referencePhoneNumber: string;
+  countryCode: string;
+  requiredQuantity: number;
+};

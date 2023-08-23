@@ -14,5 +14,7 @@
   "virtual_numbers_by_state_title": "Virtual Phone Numbers in {{state}} | {{stateIso}} {{country}} {{areaCode}}",
   "virtual_numbers_by_state_description": "Get a virtual number from {{state}}, {{stateIso}} {{areaCode}} and stay connected in your specified city. Make calls and receive SMS messages, keeping in touch with people in your local area. Our activation process is quick and hassle-free, ensuring a fast and easy setup",
   "virtual_numbers_by_city_title": "Virtual Phone Numbers in {{city}}, {{stateISO}} {{areaCode}}",
-  "virtual_numbers_by_city_description": "Get a virtual number from {{city}}, {{stateISO}} {{areaCode}} and stay connected in your specified city. Make calls and receive SMS messages, keeping in touch with people in your local area. Our activation process is quick and hassle-free, ensuring a fast and easy setup"
+  "virtual_numbers_by_city_description": "Get a virtual number from {{city}}, {{stateISO}} {{areaCode}} and stay connected in your specified city. Make calls and receive SMS messages, keeping in touch with people in your local area. Our activation process is quick and hassle-free, ensuring a fast and easy setup",
+  "random_number_generator_title": "Generate Random Fake Phone Numbers – ESIM Plus",
+  "random_number_generator_description": "Generate a free random fake phone number from the USA! These randomly generated phone numbers, which imitate real ones, are available from various countries worldwide. Start using fake numbers by making some fun prank calls today!"
 }

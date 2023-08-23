@@ -22,10 +22,10 @@ function PhoneNumbersTable({
   phones: PhoneToBuy[];
   onRowClick?: (props: PhoneToBuy) => void;
 }) {
-  const { query, pathname, replace, asPath } = useRouter();
+  const { query, pathname, replace } = useRouter();
   const { t } = useTranslation("virtual-phone-number");
 
-  const { city } = query;
+  const { city, ...rest } = query;
 
   const phoneNumberColumn = React.useMemo(
     () =>
@@ -71,20 +71,18 @@ function PhoneNumbersTable({
     () =>
       columnHelper.accessor("region", {
         header: "",
-        cell: (info) => {
-          const search = new URLSearchParams();
-          search.append("phone", info.row.original.phoneNumber);
-
-          return (
-            <PurchasePhoneNumberButton
-              href={`${asPath.split("?")[0]}?${search.toString()}`}
-            >
-              {t("buy")}
-            </PurchasePhoneNumberButton>
-          );
-        },
+        cell: (info) =>  (
+          <PurchasePhoneNumberButton
+            href={{
+              pathname,
+              query: {...rest, phone: info.row.original.phoneNumber}
+            }}
+          >
+            {t("buy")}
+          </PurchasePhoneNumberButton>
+        )
       }),
-    [asPath, t]
+    [pathname, t]
   );
 
   const columns = React.useMemo(

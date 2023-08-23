@@ -106,6 +106,10 @@ export const CountryListWrapper = styled.div`
 `;
 
 export const Wrapper = styled(BaseHeader)`
+  h1 {
+    font-size: 40px;
+  }
+
   ${PanelSection}:first-of-type {
     position: relative;
 
@@ -124,17 +128,21 @@ export const Wrapper = styled(BaseHeader)`
   }
 
   @media (max-width: 768px) {
+    h1 {
+      font-size: 28px;
+      line-height: 32px;
+    }
     ${PanelSectionsWrapper} {
-      flex-direction: column;
+      flex-direction: column-reverse;
       ${PanelSection} {
         flex: 1;
         &:first-of-type:not(&:only-of-type) {
           background: ${(props) => props.theme.translucentCardsBg};
-          border-radius: 25px 25px 5px 5px;
+          border-radius: 5px 5px 25px 25px;
         }
         &:last-of-type:not(&:only-of-type) {
           background: ${(props) => props.theme.panelSectionBg};
-          border-radius: 5px 5px 25px 25px;
+          border-radius: 25px 25px 5px 5px;
         }
       }
     }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Trans, useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
@@ -56,15 +56,18 @@ export const messages = [
 function VirtualNumbersHeader() {
   const { t } = useTranslation();
   const { isMobile } = useWindowSize();
-  const [items, setItems] = React.useState(messages);
+  const [items, setItems] = useState(messages);
 
-  React.useEffect(() => {
-    const interval = setInterval(
-      () => setItems([items[items.length - 1]].concat(items.slice(0, -1))),
-      4500
-    );
-    return () => clearInterval(interval);
-  }, [items]);
+  useEffect(() => {
+    if(!isMobile) {
+      const interval = setInterval(
+        () => setItems([items[items.length - 1]].concat(items.slice(0, -1))),
+        4500
+      );
+
+      return () => clearInterval(interval);
+    }
+  }, [isMobile, items]);
 
   return (
     <Container>
@@ -94,31 +97,33 @@ function VirtualNumbersHeader() {
             }
           />
         </InfoSection>
-        <MessagesSection>
-          <MessagesWrapper layout>
-            {items.slice(0, isMobile ? 3 : 5).map(({ title, text, img }) => (
-              <Message
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                layout
-                key={text.replace(/\D/g, "")}
-              >
-                <div>
-                  <Image
-                    width={40}
-                    height={40}
-                    src={img}
-                    alt="message sender image"
-                  />
-                </div>
-                <div>
-                  <MessageTitle>{title}</MessageTitle>
-                  <MessageText>{text}</MessageText>
-                </div>
-              </Message>
-            ))}
-          </MessagesWrapper>
-        </MessagesSection>
+        {!isMobile && (
+          <MessagesSection>
+            <MessagesWrapper layout>
+              {items.slice(0, 5).map(({ title, text, img }) => (
+                <Message
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  layout
+                  key={text.replace(/\D/g, "")}
+                >
+                  <div>
+                    <Image
+                      width={40}
+                      height={40}
+                      src={img}
+                      alt="message sender image"
+                    />
+                  </div>
+                  <div>
+                    <MessageTitle>{title}</MessageTitle>
+                    <MessageText>{text}</MessageText>
+                  </div>
+                </Message>
+              ))}
+            </MessagesWrapper>
+          </MessagesSection>
+        )}
       </Wrapper>
     </Container>
   );

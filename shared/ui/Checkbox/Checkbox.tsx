@@ -1,18 +1,26 @@
 import React from "react";
-import CheckmarkSvg from "@/shared/assets/images/CheckmarkSVG";
+import CheckboxIcon from "@/shared/assets/images/CheckboxIcon";
 import { Wrapper } from "./styled";
 
+type Props = {
+  checked: boolean;
+  id?: string;
+  color?: string;
+  type?: "checkbox" | "radio";
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
 function Checkbox({
-  value,
+  checked,
   onChange,
-}: {
-  value: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}) {
+  id,
+  color = "#0076FF",
+  type = "checkbox",
+}: Props) {
   return (
-    <Wrapper checked={value}>
-      {value && <CheckmarkSvg />}
-      <input type="checkbox" onChange={onChange} />
+    <Wrapper checked={checked} $color={color}>
+      {checked && <CheckboxIcon />}
+      <input id={id} name={id} type={type} onChange={onChange} />
     </Wrapper>
   );
 }

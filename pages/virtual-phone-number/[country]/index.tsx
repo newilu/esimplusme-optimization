@@ -31,6 +31,7 @@ type PageProps = {
   phones: PhoneToBuy[] | null;
   phoneNumberStartingPrice: number | null;
   popularCountries: SecondPhoneCountry[];
+  phoneNumber?: PhoneToBuy | null;
 };
 
 function Index({
@@ -39,6 +40,7 @@ function Index({
   phoneNumberStartingPrice,
   phones,
   popularCountries,
+  phoneNumber
 }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
@@ -72,6 +74,7 @@ function Index({
         country={country}
         phones={phones}
         popularCountries={secondPhoneCountries}
+        phoneNumber={phoneNumber}
       />
       <HowToGetPhoneNumber countryName={country.name} />
       <DownloadAppSection />
@@ -83,8 +86,10 @@ function Index({
 export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   locale,
   params,
+  query,
 }) => {
   const { country } = params ?? {};
+  const autonumber = query.autonumber === 'true';
 
   let phoneNumberStartingPrice: number | null = null;
   let phoneNumbers: PhoneToBuy[] | null = null;
@@ -143,7 +148,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     ];
   }
 
-  if (!regions.length) {
+  if (!regions.length || autonumber) {
     const { data } = await api.secondPhone.getPhonesByCountry(
       currentCountry.isoCode
     );
@@ -176,6 +181,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       phones: phoneNumbers,
       country: currentCountry,
       states: regions,
+      phoneNumber: autonumber && phoneNumbers?.[0] || null
     },
   };
 };

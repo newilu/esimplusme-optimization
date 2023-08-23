@@ -50,9 +50,10 @@ function PopularCountriesTable({
               />
             </CountryFlagWrapper>{" "}
             <Link
-              href={`/virtual-phone-number/${formatStringToKebabCase(
-                info.getValue()
-              )}`}
+              href={{
+                pathname: `/virtual-phone-number/${formatStringToKebabCase(info.getValue())}`,
+                query: router.query
+              }}
             >
               {info.getValue()}
             </Link>
@@ -72,7 +73,7 @@ function PopularCountriesTable({
           const price = info.getValue() || DEFAULT_PHONE_NUMBER_PRICE;
           return (
             <div style={{ textAlign: "left" }}>
-              <b>{price + 1}$</b>
+              <b>${price + 1}</b>
             </div>
           );
         },
@@ -84,7 +85,10 @@ function PopularCountriesTable({
   return (
     <Wrapper
       onRowClick={({ country }) =>
-        router.push(`/virtual-phone-number/${formatStringToKebabCase(country)}`)
+        router.push({
+          pathname: `/virtual-phone-number/${formatStringToKebabCase(country)}`,
+          query: router.query,
+        })
       }
       maxVisibleElements={10}
       data={countries}
