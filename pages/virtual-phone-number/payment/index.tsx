@@ -20,6 +20,7 @@ import Footer from "@/components/Footer";
 import NoNumbersAvailableView from "@/features/NoNumbersAvailableView";
 import BaseHeader from "@/shared/ui/BaseHeader";
 import { PanelSection } from "@/shared/ui/styled";
+import { useSecondPhoneCountries } from "@/shared/hooks";
 
 type PageProps = {
   phones: PhoneToBuy[] | null;
@@ -32,6 +33,9 @@ type PageProps = {
 function Index({ country, state, phones, phone, countries }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("virtual-phone-number");
+  const secondPhoneCountries = useSecondPhoneCountries({
+    initCountryList: countries,
+  });
 
   const meta = generateMeta({
     language: i18n.language,
@@ -51,12 +55,12 @@ function Index({ country, state, phones, phone, countries }: PageProps) {
           state={state}
           phones={phones}
           country={country}
-          countries={countries}
+          countries={secondPhoneCountries}
         />
       ) : (
         <BaseHeader>
           <PanelSection>
-            <NoNumbersAvailableView countries={countries} />
+            <NoNumbersAvailableView countries={secondPhoneCountries} />
           </PanelSection>
         </BaseHeader>
       )}
