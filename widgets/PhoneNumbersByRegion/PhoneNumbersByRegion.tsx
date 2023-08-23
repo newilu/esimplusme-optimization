@@ -18,6 +18,7 @@ import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
 import CitiesTable from "./CitiesTable";
 import PhoneNumbersTable from "./PhoneNumbersTable";
 import { SectionsWrapper, Wrapper } from "./styled";
+import { PurchasePhoneNumberButton } from "@/features/PhoneNumbersTable/styled";
 
 type PhoneNumbersByCountryProps = {
   phones: PhoneToBuy[];
@@ -39,6 +40,7 @@ function PhoneNumbersByRegion({
   phoneNumber = null,
 }: PhoneNumbersByCountryProps) {
   const { asPath, query, push, replace } = useRouter();
+
   const { t } = useTranslation("virtual-phone-number");
 
   const { phone, ...restOfQuery } = query;
@@ -174,7 +176,21 @@ function PhoneNumbersByRegion({
               <PanelSection>
                 <PanelSectionTitle>{t("all_numbers")}</PanelSectionTitle>
                 {phones.length ? (
-                  <PhoneNumbersTable phones={phones} />
+                  <PhoneNumbersTable
+                    onRowClick={(phone) => {
+                      const search = new URLSearchParams();
+                      search.append("phone", phone.phoneNumber);
+
+                      return (
+                        <PurchasePhoneNumberButton
+                          href={`${asPath.split("?")[0]}?${search.toString()}`}
+                        >
+                          {t("buy")}
+                        </PurchasePhoneNumberButton>
+                      );
+                    }}
+                    phones={phones}
+                  />
                 ) : (
                   <NoNumbersAvailableView countries={popularCountries} />
                 )}

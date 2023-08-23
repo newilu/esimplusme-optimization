@@ -47,7 +47,7 @@ function PhoneNumberPurchase({
 }: PhoneNumberPurchaseProps) {
   const { t } = useTranslation("virtual-phone-number");
   const [checkedAgreements, setCheckedAgreements] = React.useState({
-    first: false,
+    first: true,
   });
 
   return (
