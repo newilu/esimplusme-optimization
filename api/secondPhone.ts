@@ -87,7 +87,7 @@ function getSignature({
     body: JSON.stringify({ data: stringToSign, price }),
     credentials: "include",
     headers: {
-      "x-system-auth-token": getCookie("session") ?? "",
+      "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
     },
   });
 }
@@ -111,7 +111,7 @@ function thedexTopUp({
       }),
       credentials: "include",
       headers: {
-        "x-system-auth-token": getCookie("session") ?? "",
+        "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
       },
     }
   );
@@ -129,7 +129,7 @@ function topupWithWebpay(payload: {
       credentials: "include",
       body: JSON.stringify(payload),
       headers: {
-        "x-system-auth-token": getCookie("session") ?? "",
+        "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
       },
     }
   );
@@ -141,7 +141,7 @@ function buyNumber(props: { phone: string; country_code: string }) {
     credentials: "include",
     body: JSON.stringify(props),
     headers: {
-      "x-system-auth-token": getCookie("session") ?? "",
+      "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
     },
   });
 }
@@ -154,7 +154,7 @@ function checkPaymentStatus(paymentId: string) {
       credentials: "include",
       body: JSON.stringify({ paymentId }),
       headers: {
-        "x-system-auth-token": getCookie("session") ?? "",
+        "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
       },
     }
   );
