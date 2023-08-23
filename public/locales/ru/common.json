@@ -187,14 +187,18 @@
   "incoming_and_outgoing_calls": "Входящие и исходящие вызовы",
   "make_and_receive_calls_from_any_service": "Совершайте и принимайте звонки с любого номера или сервиса",
   "esim_profiles_with_worldwide_access": "Удобная панель управления",
+  "user_frendly_multiple_languages": "Удобная панель управления на нескольких языках",
   "buy_traffic_at_prices_below_roaming": "Воспользуйтесь наиболее удобной навигацией в мобильном приложении и веб",
   "access_to_numbers_from_any_device": "Доступ к виртуальным телефонным номерам с любого устройства",
+  "access_to_phone_numbers_from_any_device": "Доступ к виртуальным телефонным номерам с любого устройства",
   "your_numbers_are_stored_in_cloud": "Ваши номера хранятся в облаке и доступны на любом устройстве",
   "price_transparency": "Прозрачность цен без комиссий",
+  "price_transparency_virtual_number": "Доступные цены, прозрачные условия, без платы за роуминг!",
   "connect_numbers_without_fees": "Получайте виртуальные номера по актуальным ценам для повышения эффективности вашего бизнеса",
   "convenient_payment_method": "Удобный способ оплаты",
   "pay_with_card_or_crypto": "Оплачивайте с помощью кредитной карты или криптовалюты без комиссий",
   "online_support": "Круглосуточный доступ к службе поддержки",
+  "online_support_virtual_phone": "Круглосуточный доступ к службе поддержки",
   "ask_any_questions": "Обращайтесь в любое время. Наша служба поддержки - это реальные люди с многолетним опытом работы",
   "quick_connection": "Быстрая и простая настройка",
   "get_number_in_3_mins": "Получите виртуальный номер телефона для бизнеса всего за 3 минуты",
@@ -219,5 +223,14 @@
   "we_give_the_opportunity_to_connect_number_for_free": "Мы дарим возможность получить виртуальный номер бесплатно. Для этого скачайте приложение и напишите 'Хочу бесплатный номер!' в нашу службу поддержки.",
   "i_want_free_number": "Получи бесплатный номер",
   "download_the_esimplus_app_virtual_numbers": "Загрузите приложение и управляйте своими виртуальными телефонными номерами с большим комфортом",
+  
+  "virtual_numbers_faq_q_15": "What unique enterprise and vanity solutions does ESIM Plus provide?",
+  "virtual_numbers_faq_a_15": "We cater to both large businesses and individuals by offering tailored solutions and vanity numbers for memorable, specific sequences. Our platform is a resource hub, with blogs and more, to understand and utilize these advanced features effectively.",
+  "virtual_numbers_faq_q_16": "How is the communication optimized?",
+  "virtual_numbers_faq_a_16": "Our advanced routing system ensures calls and messages are seamlessly forwarded, while integration with traditional landlines allows users to tie their virtual number to conventional lines. Whether you're in remote areas or urban centers, communication remains so stable, that you can even enjoy crystal clear video calls. <br> <br> Are you planning meetings or greetings for clientele in places like New York or anywhere globally? Our numbers can be used for setting up efficient conferencing systems. They can also be integrated into platforms that allow for expanding, using port features, or ensuring legal compliance. While we don’t offer direct forwarding services, our virtual numbers can easily be incorporated into systems that do, enhancing your overall approach to resources and learning.",
+  "virtual_numbers_faq_q_17": "Do I incur any toll charges when making international calls?",
+  "virtual_numbers_faq_a_17": "While ESIM Plus strives to offer the most competitive rates, there are instances where toll charges apply, especially for certain international destinations. However, these charges are usually lower compared to many other providers. But it's always a good idea to check the specific rates for the country you're calling. Another advantage of using ESIM Plus is the transparency in our pricing, ensuring there are no hidden fees or surprise costs.  <br> <br> Additionally, to avoid roaming charges, users can purchase a line in each country, ensuring even greater savings.",
+  
+  
   "phone_number_generator": "Phone number generator"
 }

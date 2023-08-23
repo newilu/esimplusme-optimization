@@ -161,14 +161,18 @@
   "incoming_and_outgoing_calls": "Chiamate in entrata e in uscita",
   "make_and_receive_calls_from_any_service": "Effettua e ricevi chiamate da qualsiasi numero o servizio",
   "esim_profiles_with_worldwide_access": "Pannello di controllo in inglese facile da usare",
+  "user_frendly_multiple_languages": "Pannello di controllo intuitivo in molte lingue",
   "buy_traffic_at_prices_below_roaming": "Approfitta della navigazione più comoda nell'app mobile e nella versione desktop",
   "access_to_numbers_from_any_device": "Accesso ai numeri di telefono virtuali su qualsiasi dispositivo senza cookie",
+  "access_to_phone_numbers_from_any_device": "Accesso ai numeri di telefono virtuali su qualsiasi dispositivo senza cookies",
   "your_numbers_are_stored_in_cloud": "I tuoi numeri virtuali sono memorizzati nel cloud e sono disponibili su qualsiasi dispositivo",
   "price_transparency": "Prezzi convenienti, condizioni trasparenti, senza costi di roaming!",
+  "price_transparency_virtual_number": "Prezzi accessibili, condizioni trasparenti, nessuna tariffa di roaming!",
   "connect_numbers_without_fees": "Ottieni numeri di telefono virtuali a prezzi vantaggiosi e migliora le performance della tua azienda",
   "convenient_payment_method": "Metodo di pagamento conveniente",
   "pay_with_card_or_crypto": "Paga con la tua carta di credito o criptovaluta senza tasse aggiuntive",
   "online_support": "Accesso 24/7 al nostro team di supporto clienti",
+  "online_support_virtual_phone": "Accesso 24/7 al nostro team di assistenza clienti reattivo",
   "ask_any_questions": "Contattaci in qualsiasi momento! I nostri specialisti del supporto clienti sono persone reali con anni di esperienza.",
   "quick_connection": "Configurazione rapida e facile",
   "get_number_in_3_mins": "Ottieni un numero di telefono virtuale per le esigenze aziendali in soli 3 minuti",
@@ -221,5 +225,13 @@
   "virtual_numbers_faq_a_13": "Offriamo l'opportunità di utilizzare gratuitamente un numero di telefono virtuale di prova. Per ulteriori informazioni, contatta il nostro team di supporto tecnico all'indirizzo <1>support.esim@appvillis.com</1>.",
   "virtual_numbers_faq_q_14": "Come posso utilizzare un numero di telefono virtuale?",
   "virtual_numbers_faq_a_14": "I nostri numeri di telefono virtuali sono dotati di un set di funzionalità predefinite, specificate prima dell'acquisto. Ad esempio, alcuni numeri di telefono virtuali sono progettati esclusivamente per effettuare chiamate o scambiare messaggi di testo, mentre altri combinano queste due funzioni. Oltre a ciò, i numeri di telefono virtuali ti consentono di stabilire una connessione Internet sicura e ad alta velocità.",
+  
+  "virtual_numbers_faq_q_15": "What unique enterprise and vanity solutions does ESIM Plus provide?",
+  "virtual_numbers_faq_a_15": "We cater to both large businesses and individuals by offering tailored solutions and vanity numbers for memorable, specific sequences. Our platform is a resource hub, with blogs and more, to understand and utilize these advanced features effectively.",
+  "virtual_numbers_faq_q_16": "How is the communication optimized?",
+  "virtual_numbers_faq_a_16": "Our advanced routing system ensures calls and messages are seamlessly forwarded, while integration with traditional landlines allows users to tie their virtual number to conventional lines. Whether you're in remote areas or urban centers, communication remains so stable, that you can even enjoy crystal clear video calls. <br> <br> Are you planning meetings or greetings for clientele in places like New York or anywhere globally? Our numbers can be used for setting up efficient conferencing systems. They can also be integrated into platforms that allow for expanding, using port features, or ensuring legal compliance. While we don’t offer direct forwarding services, our virtual numbers can easily be incorporated into systems that do, enhancing your overall approach to resources and learning.",
+  "virtual_numbers_faq_q_17": "Do I incur any toll charges when making international calls?",
+  "virtual_numbers_faq_a_17": "While ESIM Plus strives to offer the most competitive rates, there are instances where toll charges apply, especially for certain international destinations. However, these charges are usually lower compared to many other providers. But it's always a good idea to check the specific rates for the country you're calling. Another advantage of using ESIM Plus is the transparency in our pricing, ensuring there are no hidden fees or surprise costs.  <br> <br> Additionally, to avoid roaming charges, users can purchase a line in each country, ensuring even greater savings.",
+  
   "phone_number_generator": "Phone number generator"
 }

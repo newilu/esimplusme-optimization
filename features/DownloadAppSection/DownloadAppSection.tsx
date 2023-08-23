@@ -57,11 +57,11 @@ function DownloadAppSection({
             </li>{" "}
             <li>
               <Image width={24} height={24} src={support} alt="support" />
-              {t("online_support")}
+              {t("online_support_virtual_phone")}
             </li>{" "}
             <li>
               <Image width={24} height={24} src={globe} alt="globe" />
-              {t("esim_profiles_with_worldwide_access")}
+              {t("user_frendly_multiple_languages")}
             </li>{" "}
             <li>
               <Image
@@ -70,11 +70,11 @@ function DownloadAppSection({
                 src={cloudConnection}
                 alt="cloud connection"
               />
-              {t("access_to_numbers_from_any_device")}
+              {t("access_to_phone_numbers_from_any_device")}
             </li>{" "}
             <li>
               <Image width={24} height={24} src={card} alt="card" />
-              {t("price_transparency")}
+              {t("price_transparency_virtual_number")}
             </li>
           </ul>
           <ButtonsWrapper>
