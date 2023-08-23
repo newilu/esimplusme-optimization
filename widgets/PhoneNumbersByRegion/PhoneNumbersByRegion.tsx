@@ -18,7 +18,6 @@ import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
 import CitiesTable from "./CitiesTable";
 import PhoneNumbersTable from "./PhoneNumbersTable";
 import { SectionsWrapper, Wrapper } from "./styled";
-import { PurchasePhoneNumberButton } from "@/features/PhoneNumbersTable/styled";
 
 type PhoneNumbersByCountryProps = {
   phones: PhoneToBuy[];
@@ -181,13 +180,7 @@ function PhoneNumbersByRegion({
                       const search = new URLSearchParams();
                       search.append("phone", phone.phoneNumber);
 
-                      return (
-                        <PurchasePhoneNumberButton
-                          href={`${asPath.split("?")[0]}?${search.toString()}`}
-                        >
-                          {t("buy")}
-                        </PurchasePhoneNumberButton>
-                      );
+                      push(`${asPath.split("?")[0]}?${search.toString()}`);
                     }}
                     phones={phones}
                   />
