@@ -110,7 +110,7 @@ function SuccessfulPurchaseHeader() {
     ) {
       setIsLoading(true);
 
-      recursiveCheckPaymentStatus(paymentId, 10)
+      recursiveCheckPaymentStatus(paymentId, 3)
         .then(() => {
           const validCount = !Number.isNaN(Number(count)) ? Number(count) : 1;
 

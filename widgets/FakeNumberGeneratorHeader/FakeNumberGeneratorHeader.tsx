@@ -15,7 +15,6 @@ import {
   formatStringToKebabCase,
   generateFakeNumber,
 } from "@/shared/lib";
-import Breadcrumbs from "@/shared/ui/Breadcrumbs";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import repeat from "./assets/repeat.svg";
 import {
