@@ -70,9 +70,8 @@ export enum ProviderTypes {
 }
 
 export const BLOG_API_URL = "http://admin-blog.esimplus.me/api";
-// export const MAIN_API_URL =
-//   process.env.NEXT_PUBLIC_SERVER_URL ?? "https://api.esimplus.net/api";
-export const MAIN_API_URL = "";
+export const MAIN_API_URL =
+  process.env.NEXT_PUBLIC_SERVER_URL ?? "https://api.esimplus.net/api";
 
 export const TG_DEFAULT_LINK = "https://t.me/esimplus_official";
 export const TG_RU_LINK = "https://t.me/esimplus";
