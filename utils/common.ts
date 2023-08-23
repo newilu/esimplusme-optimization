@@ -67,7 +67,8 @@ function getCookie(name: string) {
     while (c.startsWith(" ")) c = c.substring(1, c.length);
     if (c.startsWith(nameEQ)) return c.substring(nameEQ.length, c.length);
   }
-  return null;
+
+  return undefined;
 }
 
 const scrollToId = (id: string, offsetY = 0) => {
@@ -82,18 +83,18 @@ const scrollToId = (id: string, offsetY = 0) => {
 
 function uuid() {
   // Public Domain/MIT
-  let d = new Date().getTime(); //Timestamp
+  let d = new Date().getTime(); // Timestamp
   let d2 =
-    (typeof performance !== "undefined" && performance.now() * 1000) || 0; //Time in microseconds since page-load or 0 if unsupported
+    (typeof performance !== "undefined" && performance.now() * 1000) || 0; // Time in microseconds since page-load or 0 if unsupported
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-    let r = Math.random() * 16; //random number between 0 and 16
+    let r = Math.random() * 16; // random number between 0 and 16
     if (d > 0) {
-      //Use timestamp until depleted
+      // Use timestamp until depleted
       // eslint-disable-next-line no-bitwise
       r = (d + r) % 16 | 0;
       d = Math.floor(d / 16);
     } else {
-      //Use microseconds since page-load if supported
+      // Use microseconds since page-load if supported
       // eslint-disable-next-line no-bitwise
       r = (d2 + r) % 16 | 0;
       d2 = Math.floor(d2 / 16);
@@ -101,6 +102,19 @@ function uuid() {
     // eslint-disable-next-line no-bitwise
     return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
   });
+}
+
+function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq' | 'dataLayer', callback: () => void, ) {
+  const timerId = setInterval(() => {
+    if (typeof window !== 'undefined' && typeof window[type] !== 'undefined') {
+      callback()
+      clearInterval(timerId)
+    } else {
+      console.log(`${type} мetric not initialized`);
+    }
+  }, 500)
+
+  return timerId
 }
 
 function sendSafeYMEvent(name: string, paramets?: object) {
@@ -117,19 +131,6 @@ function sendSafeGtagEvent(name: string, paramets?: object) {
 
 function sendSafeFbqEvent(name: string, paramets?: object) {
   return sendSafeEvent('fbq', () => window.fbq("track", name, paramets))
-}
-
-function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq' | 'dataLayer', callback: () => void) {
-  const timerId = setInterval(() => {
-    if (typeof window !== 'undefined' && typeof window[type] !== 'undefined') {
-      callback()
-      clearInterval(timerId)
-    } else {
-      console.log(type + " мetric not initialized");
-    }
-  }, 500)
-
-  return timerId
 }
 
 const geteratePurchaseRedirectUrl = (

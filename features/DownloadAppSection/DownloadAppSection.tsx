@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { APPSTORE_LINK, GPLAY_LINK } from "@/shared/constants";
 import { SectionTitle } from "shared/ui/styled";
+import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
 import cloudConnection from "@/shared/assets/images/cloud-connection.svg";
 import phone from "@/shared/assets/images/call-calling.svg";
 import sms from "@/shared/assets/images/sms.svg";
@@ -16,7 +17,6 @@ import gplay from "./assets/gplay.svg";
 import gplayDark from "./assets/gplay-black.svg";
 import appstore from "./assets/appstore.svg";
 import appstoreDark from "./assets/appstore-black.svg";
-import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
 import { ButtonsWrapper, Content, ImageWrapper, Wrapper } from "./styled";
 
 function DownloadAppSection({
