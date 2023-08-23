@@ -157,9 +157,9 @@ function buyMultipleNumbers(payload: BuyMultipleNumbersPayload) {
     method: "POST",
     credentials: "include",
     body: JSON.stringify(payload),
-    ...(getCookie("sd-user")
-      ? { headers: { "sd-user": getCookie("sd-user") as string } }
-      : {}),
+    headers: {
+      "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
+    },
   });
 }
 
