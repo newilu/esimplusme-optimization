@@ -10,8 +10,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "context/ThemeContext";
 import { CookieConsentProvider } from "context/CookieConsentContext";
 import { WidthProvider } from "context/WindowSizeContext";
+import { MixpanelPageProvider } from "@/context/MixpanelPageContextProvider";
 import favicon from "public/favicon.ico";
 import { useAnalyticScripts } from "@/shared/hooks";
+import { sendSafeMixpanelEvent } from "@/utils/common";
 import nextI18NextConfig from "../next-i18next.config";
 
 const EsimAppBanner = dynamic(() => import("features/EsimAppBanner"), {
@@ -28,7 +30,15 @@ Router.events.on("routeChangeComplete", nProgress.done);
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  useAnalyticScripts()
+  // const { asPath } = useRouter();
+
+  useAnalyticScripts();
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      sendSafeMixpanelEvent("track", "qwe", { source: "zxc" });
+    }
+  });
 
   return (
     <>
@@ -37,16 +47,18 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="robots" content="index,follow" />
         {/* <meta name="yandex-verification" content="b0cce6481d476b06" /> */}
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <WidthProvider>
-          <ThemeProvider>
-            <CookieConsentProvider>
-              <EsimAppBanner />
-              <Component {...pageProps} />
-            </CookieConsentProvider>
-          </ThemeProvider>
-        </WidthProvider>{" "}
-      </QueryClientProvider>
+      <MixpanelPageProvider source="">
+        <QueryClientProvider client={queryClient}>
+          <WidthProvider>
+            <ThemeProvider>
+              <CookieConsentProvider>
+                <EsimAppBanner />
+                <Component {...pageProps} />
+              </CookieConsentProvider>
+            </ThemeProvider>
+          </WidthProvider>{" "}
+        </QueryClientProvider>
+      </MixpanelPageProvider>
     </>
   );
 }

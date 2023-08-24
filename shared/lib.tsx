@@ -349,7 +349,12 @@ function generateSecondPhonesList({
     }));
 }
 
+function formatPathToReadableEventName(path: string) {
+  return path.slice(1, path.indexOf("?")).replaceAll("/", "-") || "home";
+}
+
 export {
+  formatPathToReadableEventName,
   getRandomBoolean,
   generateSecondPhonesList,
   getUSStateInfoByStateName,

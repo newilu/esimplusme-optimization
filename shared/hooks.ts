@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 
-import { loadFacebookScript, loadGtagScript, loadYMScript } from "@/utils/analyticScripts";
+import {
+  loadFacebookScript,
+  loadGtagScript,
+  loadMixpanel,
+  loadYMScript,
+} from "@/utils/analyticScripts";
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
 import { formatAreaCode, getCountryByIsoCode } from "@/shared/lib";
 import { SecondPhoneCountry } from "@/utils/types";
@@ -29,20 +34,22 @@ function useOutsideClick(
 
 function useAnalyticScripts() {
   useEffect(() => {
-    if(typeof window !== "undefined") {
+    if (typeof window !== "undefined") {
       const loadAnalyticScripts = () => {
+        console.log("zxc");
         loadYMScript();
         loadFacebookScript();
         loadGtagScript();
-      }
+        loadMixpanel();
+      };
 
-      window.addEventListener('load', loadAnalyticScripts)
+      window.addEventListener("load", loadAnalyticScripts);
 
       return () => {
-        window.removeEventListener('load', loadAnalyticScripts)
-      }
+        window.removeEventListener("load", loadAnalyticScripts);
+      };
     }
-  }, [])
+  }, []);
 }
 
 function useModalControls(
