@@ -17,7 +17,6 @@ type MobileDataBundleCardProps = {
   img?: string;
   title: string;
   dataSize?: string | number;
-  price: string | number;
   duration: string | number;
   worldwide?: 1 | 0;
   supportedCountries?: Bundle["countries"];
@@ -40,47 +39,45 @@ function MobileDataBundleCard({
   const { t } = useTranslation();
 
   return (
-    <>
-      <Wrapper style={style}>
-        <BundleTitle>
-          <div>
-            <BundleImage src={img} />
-            <BundleCountry>{title}</BundleCountry>
-          </div>
-          {embeddedHeader}
-        </BundleTitle>
-        <BundleCapabilities>
-          {dataSize && (
-            <BundleCapability>
-              <div>{formatDataSize(dataSize)}</div>
-              <div>{t("traffic")}</div>
-            </BundleCapability>
-          )}
+    <Wrapper style={style}>
+      <BundleTitle>
+        <div>
+          <BundleImage src={img} />
+          <BundleCountry>{title}</BundleCountry>
+        </div>
+        {embeddedHeader}
+      </BundleTitle>
+      <BundleCapabilities>
+        {dataSize && (
           <BundleCapability>
-            <div>
-              {worldwide ? (
-                t("unlimited")
-              ) : (
-                <Trans
-                  i18nKey="duration_in_days"
-                  values={{
-                    days: duration,
-                  }}
-                />
-              )}
-            </div>
-            <div>{t("duration")}</div>
+            <div>{formatDataSize(dataSize)}</div>
+            <div>{t("traffic")}</div>
           </BundleCapability>
-          {Boolean(supportedCountries?.length) && (
-            <BundleCapability>
-              <div>{supportedCountries?.length}</div>
-              <div>{t("countries")}</div>
-            </BundleCapability>
-          )}
-        </BundleCapabilities>
-        {embeddedFooter}
-      </Wrapper>
-    </>
+        )}
+        <BundleCapability>
+          <div>
+            {worldwide ? (
+              t("unlimited")
+            ) : (
+              <Trans
+                i18nKey="duration_in_days"
+                values={{
+                  days: duration,
+                }}
+              />
+            )}
+          </div>
+          <div>{t("duration")}</div>
+        </BundleCapability>
+        {Boolean(supportedCountries?.length) && (
+          <BundleCapability>
+            <div>{supportedCountries?.length}</div>
+            <div>{t("countries")}</div>
+          </BundleCapability>
+        )}
+      </BundleCapabilities>
+      {embeddedFooter}
+    </Wrapper>
   );
 }
 

@@ -10,6 +10,7 @@ import {
   sendSafeEcommerceEvent,
   sendSafeFbqEvent,
   sendSafeGtagEvent,
+  sendSafeMixpanelEvent,
   sendSafeYMEvent,
 } from "@/utils/common";
 import { recursiveCheckPaymentStatus } from "@/api/secondPhone";
@@ -45,6 +46,12 @@ function SuccessfulPurchaseHeader() {
       const formatedPaymentAmount = Number.isNaN(Number(paymentAmount))
         ? paymentAmount
         : Number(paymentAmount) / 100;
+
+      sendSafeMixpanelEvent("track", "temp_user_balance_topup", {
+        paymentId,
+        currency: "USD",
+        value: formatedPaymentAmount,
+      });
 
       sendSafeFbqEvent("Purchase", {
         content_ids: paymentId,
@@ -130,6 +137,12 @@ function SuccessfulPurchaseHeader() {
               currency: "USD",
               num_items: 1,
               value: Number(paymentAmount) / 100,
+            });
+            sendSafeMixpanelEvent("track", "temp_user_number_purchase", {
+              currency: "USD",
+              price: Number(paymentAmount) / 100,
+              phone,
+              country,
             });
           });
         })

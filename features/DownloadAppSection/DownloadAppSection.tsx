@@ -3,9 +3,14 @@ import { useTranslation } from "next-i18next";
 import { useTheme } from "styled-components";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
 import { APPSTORE_LINK, GPLAY_LINK } from "@/shared/constants";
 import { SectionTitle } from "shared/ui/styled";
-import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
+import {
+  sendSafeFbqEvent,
+  sendSafeGtagEvent,
+  sendSafeMixpanelEvent,
+} from "@/utils/common";
 import cloudConnection from "@/shared/assets/images/cloud-connection.svg";
 import phone from "@/shared/assets/images/call-calling.svg";
 import sms from "@/shared/assets/images/sms.svg";
@@ -27,16 +32,24 @@ function DownloadAppSection({
   const router = useRouter();
   const { t } = useTranslation();
   const theme = useTheme();
+  const { source } = useMixpanelPageContext();
 
   const handleMarketClick = (market: string) => {
     sendSafeFbqEvent("Lead");
     switch (true) {
       case router.pathname.includes("virtual-phone-number"):
         sendSafeGtagEvent(`virtualnumber_${market}_click`);
+        sendSafeMixpanelEvent("track", `virtualnumber_${market}_click`, {
+          source,
+        });
         break;
 
       default:
         sendSafeGtagEvent(`mobiledata_${market}_click`);
+        sendSafeMixpanelEvent("track", `mobiledata_${market}_click`, {
+          source,
+        });
+
         break;
     }
   };

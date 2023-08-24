@@ -1,4 +1,6 @@
 import type { ICountry, IState } from "country-cities";
+import type { OverridedMixpanel } from "mixpanel-browser";
+import mixpanel from "mixpanel-browser";
 import type { PhoneToBuy } from "./types";
 
 function getErrorMessage(error: any): string {
@@ -104,39 +106,83 @@ function uuid() {
   });
 }
 
-function sendSafeEvent(type: 'ym' | 'gtag' | 'fbq' | 'dataLayer', callback: () => void, ) {
+function sendSafeEvent(
+  type: "ym" | "gtag" | "fbq" | "dataLayer",
+  callback: () => void
+) {
+  let attempt = 0;
+
   const timerId = setInterval(() => {
-    if (typeof window !== 'undefined' && typeof window[type] !== 'undefined') {
-      callback()
-      clearInterval(timerId)
+    attempt += 1;
+    if (attempt > 3) {
+      clearInterval(timerId);
+      return;
+    }
+
+    if (typeof window !== "undefined" && typeof window[type] !== "undefined") {
+      callback();
+      clearInterval(timerId);
     } else {
       console.log(`${type} мetric not initialized`);
     }
-  }, 500)
+  }, 1000);
 
-  return timerId
+  return timerId;
 }
 
 function sendSafeYMEvent(name: string, paramets?: object) {
-  return sendSafeEvent('ym', () => window.ym(79496440, "reachGoal", name, paramets))
+  return sendSafeEvent("ym", () =>
+    window.ym(79496440, "reachGoal", name, paramets)
+  );
+}
+function sendSafeMixpanelEvent<
+  T extends keyof Omit<OverridedMixpanel, "people">
+>(method: T, ...params: Parameters<OverridedMixpanel[T]>) {
+  let attempt = 0;
+  const timerId = setInterval(() => {
+    attempt += 1;
+    if (attempt > 3) {
+      clearInterval(timerId);
+      return;
+    }
+
+    if (typeof window !== "undefined" && window.$isMixpanelLoaded) {
+      // @ts-ignore
+      mixpanel[method](...params);
+      clearInterval(timerId);
+    } else {
+      console.log(`mixpanel not initialized`);
+    }
+  }, 1000);
+
+  return timerId;
 }
 
 function sendSafeEcommerceEvent(paramets?: object) {
-  return sendSafeEvent('dataLayer', () => window.dataLayer.push(paramets))
+  return sendSafeEvent("dataLayer", () => window.dataLayer.push(paramets));
 }
 
 function sendSafeGtagEvent(name: string, paramets?: object) {
-  return sendSafeEvent('gtag', () => window.gtag("event", name, paramets))
+  return sendSafeEvent("gtag", () => window.gtag("event", name, paramets));
 }
 
 function sendSafeFbqEvent(name: string, paramets?: object) {
-  return sendSafeEvent('fbq', () => window.fbq("track", name, paramets))
+  return sendSafeEvent("fbq", () => window.fbq("track", name, paramets));
 }
 
-const geteratePurchaseRedirectUrl = (
-  { phone, country, duration, count, state }: 
-  { phone: PhoneToBuy, country: ICountry, state?: IState | null, count: number, duration: number }
-) => {
+const geteratePurchaseRedirectUrl = ({
+  phone,
+  country,
+  duration,
+  count,
+  state,
+}: {
+  phone: PhoneToBuy;
+  country: ICountry;
+  state?: IState | null;
+  count: number;
+  duration: number;
+}) => {
   const params = new URLSearchParams({
     paymentAmount: String((phone.price + 1) * 100 * duration * count),
     phoneNumber: phone.phoneNumber,
@@ -147,12 +193,28 @@ const geteratePurchaseRedirectUrl = (
     calls: String(phone.capabilities.voice),
     sms: String(phone.capabilities.SMS),
     count: String(count),
-    duration: String(duration)
+    duration: String(duration),
   });
 
-  return `/virtual-phone-number/payment/provider-select?${params.toString()}`
-}
+  return `/virtual-phone-number/payment/provider-select?${params.toString()}`;
+};
 
-const delay = (ms: number) => new Promise((res) => {setTimeout(res, ms)})
+const delay = (ms: number) =>
+  new Promise((res) => {
+    setTimeout(res, ms);
+  });
 
-export { delay, geteratePurchaseRedirectUrl, sendSafeFbqEvent, sendSafeYMEvent, sendSafeGtagEvent, setCookie, getCookie, scrollToId, getErrorMessage, uuid, sendSafeEcommerceEvent };
+export {
+  delay,
+  geteratePurchaseRedirectUrl,
+  sendSafeFbqEvent,
+  sendSafeYMEvent,
+  sendSafeGtagEvent,
+  setCookie,
+  getCookie,
+  scrollToId,
+  getErrorMessage,
+  uuid,
+  sendSafeEcommerceEvent,
+  sendSafeMixpanelEvent,
+};

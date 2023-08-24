@@ -1,18 +1,21 @@
-'use client';
+import React, { useContext } from "react";
+import mixpanel from "mixpanel-browser";
+import { MixpanelPageContext, MixpanelPageProviderProps } from "./types";
 
-import React, { useContext } from 'react';
-import { MixpanelPageContext, MixpanelPageProviderProps } from './types';
-
-const Context = React.createContext<MixpanelPageContext>({ source: '' });
+const Context = React.createContext<MixpanelPageContext>({ source: "" });
 
 export const useMixpanelPageContext = () => useContext(Context);
 
-export const MixpanelPageProvider: React.FC<MixpanelPageProviderProps> = (props) => {
+export function MixpanelPageProvider(props: MixpanelPageProviderProps) {
   const { children, source } = props;
 
   React.useEffect(() => {
-    window.mixpanel.track_pageview({ source });
+    if (typeof window !== "undefined" && window.$isMixpanelLoaded) {
+      mixpanel.track_pageview({ source });
+    }
   }, [source]);
 
-  return <Context.Provider value={{ source }}>{children}</Context.Provider>;
-};
+  const value = React.useMemo(() => ({ source }), [source]);
+
+  return <Context.Provider value={value}>{children}</Context.Provider>;
+}

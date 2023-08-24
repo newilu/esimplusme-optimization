@@ -1,12 +1,14 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
 import { Container } from "shared/ui/styled";
-import { sendSafeGtagEvent } from "@/utils/common";
+import { sendSafeGtagEvent, sendSafeMixpanelEvent } from "@/utils/common";
 import { Wrapper } from "./styled";
 
 function GetFreeNumberSection() {
   const { t } = useTranslation();
+  const { source } = useMixpanelPageContext();
 
   return (
     <Container>
@@ -20,6 +22,9 @@ function GetFreeNumberSection() {
             type="button"
             onClick={() => {
               sendSafeGtagEvent("virtualnumber_free_click");
+              sendSafeMixpanelEvent("track", "virtualnumber_free_click", {
+                source,
+              });
             }}
           >
             <Link locale="en" href="/virtual-phone-number/pricing">

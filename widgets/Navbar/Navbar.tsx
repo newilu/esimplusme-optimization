@@ -12,7 +12,7 @@ import CountryFlag from "@/shared/ui/CountryFlag";
 import { Country, Region, RegionById } from "@/utils/types";
 import burgerMenu from "./assets/burger-menu.png";
 import ArrowRight from "./assets/ArrowRight";
-import { sendSafeGtagEvent } from "@/utils/common";
+import { sendSafeGtagEvent, sendSafeMixpanelEvent } from "@/utils/common";
 import {
   Wrapper,
   Container,
@@ -77,9 +77,11 @@ function Navbar({
     switch (true) {
       case router.pathname.includes("virtual-phone-number"):
         sendSafeGtagEvent("signin_virtualnumber_click");
+        sendSafeMixpanelEvent("track", "signin_virtualnumber_click");
         break;
       default:
         sendSafeGtagEvent("signin_mobiledata_click");
+        sendSafeMixpanelEvent("track", "signin_mobiledata_click");
         break;
     }
   };

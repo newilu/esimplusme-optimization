@@ -1,9 +1,8 @@
-import { pageTitlesForAnalytics } from 'utils/constants';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren } from "react";
 
 export interface MixpanelPageProviderProps extends PropsWithChildren {
-  source: pageTitlesForAnalytics;
+  source: string;
 }
 export interface MixpanelPageContext {
-  source: pageTitlesForAnalytics | '';
+  source: string;
 }

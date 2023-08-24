@@ -4,14 +4,16 @@ import nProgress from "nprogress";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { Router } from "next/router";
+import { Router, useRouter } from "next/router";
 import { appWithTranslation } from "next-i18next";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "context/ThemeContext";
 import { CookieConsentProvider } from "context/CookieConsentContext";
 import { WidthProvider } from "context/WindowSizeContext";
+import { MixpanelPageProvider } from "@/context/MixpanelPageContextProvider";
 import favicon from "public/favicon.ico";
 import { useAnalyticScripts } from "@/shared/hooks";
+import { formatPathToReadableEventName } from "@/shared/lib";
 import nextI18NextConfig from "../next-i18next.config";
 
 const EsimAppBanner = dynamic(() => import("features/EsimAppBanner"), {
@@ -28,7 +30,9 @@ Router.events.on("routeChangeComplete", nProgress.done);
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  useAnalyticScripts()
+  const { asPath } = useRouter();
+
+  useAnalyticScripts();
 
   return (
     <>
@@ -37,16 +41,18 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="robots" content="index,follow" />
         {/* <meta name="yandex-verification" content="b0cce6481d476b06" /> */}
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <WidthProvider>
-          <ThemeProvider>
-            <CookieConsentProvider>
-              <EsimAppBanner />
-              <Component {...pageProps} />
-            </CookieConsentProvider>
-          </ThemeProvider>
-        </WidthProvider>{" "}
-      </QueryClientProvider>
+      <MixpanelPageProvider source={formatPathToReadableEventName(asPath)}>
+        <QueryClientProvider client={queryClient}>
+          <WidthProvider>
+            <ThemeProvider>
+              <CookieConsentProvider>
+                <EsimAppBanner />
+                <Component {...pageProps} />
+              </CookieConsentProvider>
+            </ThemeProvider>
+          </WidthProvider>{" "}
+        </QueryClientProvider>
+      </MixpanelPageProvider>
     </>
   );
 }

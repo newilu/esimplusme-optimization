@@ -1,5 +1,7 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
+import { sendSafeMixpanelEvent } from "@/utils/common";
 import Button from "@/shared/ui/Button";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import { Container, SectionTitle } from "@/shared/ui/styled";
@@ -13,8 +15,9 @@ import {
   Wrapper,
 } from "./styled";
 
-function SpecialDealsSection() {
+function VirtualPhoneNumberSpecialDealsSection() {
   const { t } = useTranslation("virtual-phone-number");
+  const { source } = useMixpanelPageContext();
 
   return (
     <Wrapper>
@@ -31,6 +34,11 @@ function SpecialDealsSection() {
               href="/virtual-phone-number/united-states/new-york"
               size="small"
               variant="secondary"
+              onClick={() => {
+                sendSafeMixpanelEvent("track", "united_stated_deal_click", {
+                  source,
+                });
+              }}
               label={
                 <>
                   {t("more_info")}
@@ -49,6 +57,11 @@ function SpecialDealsSection() {
               href="/virtual-phone-number/united-kingdom/london-borough-of-barking-and-dagenham"
               size="small"
               variant="secondary"
+              onClick={() => {
+                sendSafeMixpanelEvent("track", "united_kingdom_deal_click", {
+                  source,
+                });
+              }}
               label={
                 <>
                   {t("more_info")}
@@ -67,6 +80,9 @@ function SpecialDealsSection() {
               href="/virtual-phone-number/spain/madrid"
               size="small"
               variant="secondary"
+              onClick={() => {
+                sendSafeMixpanelEvent("track", "spain_deal_click", { source });
+              }}
               label={
                 <>
                   {t("more_info")}
@@ -104,4 +120,4 @@ function SpecialDealsSection() {
   );
 }
 
-export { SpecialDealsSection };
+export { VirtualPhoneNumberSpecialDealsSection };
