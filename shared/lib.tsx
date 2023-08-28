@@ -330,7 +330,7 @@ function generateSecondPhonesList({
       ? getUSStateInfoByIso(stateIso).codes[0]
       : getCountryCallingCode(countryIso as CountryCode);
 
-  return Array(10)
+  return Array(20)
     .fill(null)
     .map(() => ({
       phoneNumber: generateFakeNumber(countryIso, countryCode),
@@ -338,9 +338,9 @@ function generateSecondPhonesList({
       numberType: DEFAULT_PHONE_NUMBER_TYPE,
       region: stateIso ?? countryIso,
       capabilities: {
-        voice: getRandomBoolean(),
+        voice: true,
         MMS: getRandomBoolean(),
-        SMS: getRandomBoolean(),
+        SMS: true,
       },
       beta: false,
       addressRequirements: "",

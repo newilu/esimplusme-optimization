@@ -22,6 +22,7 @@
     "prefer-arrow-callback": "off",
     "no-plusplus": "off",
     "react/no-unstable-nested-components": "warn",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-nested-ternary": "off"
   }
 }

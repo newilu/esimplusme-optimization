@@ -21,54 +21,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body data-country={(this.props as any).countryCode}>
-          <Main />
-          <Script strategy="lazyOnload" id="gtag-script">{`
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-            dataLayer.push(arguments);
-          }
-            gtag('js', new Date());
-
-            gtag('config', 'G-RQ66T6FFRW');
-          `}</Script>
-          <Script strategy="lazyOnload" id="metrika-script">{`
-      (function (m, e, t, r, i, k, a) {
-        m[i] =
-          m[i] ||
-          function () {
-            (m[i].a = m[i].a || []).push(arguments);
-          };
-        m[i].l = 1 * new Date();
-        for (var j = 0; j < document.scripts.length; j++) {
-          if (document.scripts[j].src === r) {
-            return;
-          }
-        }
-        (k = e.createElement(t)),
-          (a = e.getElementsByTagName(t)[0]),
-          (k.async = 1),
-          (k.src = r),
-          a.parentNode.insertBefore(k, a);
-      })(
-        window,
-        document,
-        'script',
-        'https://mc.yandex.ru/metrika/tag.js',
-        'ym',
-      );
-
-      ym(79496440, 'init', {
-        clickmap: true,
-        trackLinks: true,
-        accurateTrackBounce: true,
-        webvisor: true,
-        ecommerce: 'dataLayer',
-      });
-    `}</Script>
-          <Script
-            strategy="lazyOnload"
-            src="https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW"
-          />
+          <Main /> 
           <noscript>
             <div>
               <Image
@@ -80,32 +33,6 @@ class MyDocument extends Document {
               />
             </div>
           </noscript>
-          <Script strategy="lazyOnload" id="fb-script">{`
-      !(function (f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod
-            ? n.callMethod.apply(n, arguments)
-            : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = '2.0';
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(
-        window,
-        document,
-        'script',
-        'https://connect.facebook.net/en_US/fbevents.js',
-      );
-      fbq('init', 578800919804138);
-    `}</Script>
           <Script
             src="https://paymentpage.ecommpay.com/shared/merchant.js"
             strategy="afterInteractive"

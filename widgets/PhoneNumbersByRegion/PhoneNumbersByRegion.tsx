@@ -104,10 +104,7 @@ function PhoneNumbersByRegion({
               </div>
               <Link href={pathname}>{t("change")}</Link>
             </PanelSectionTitle>
-            <PhoneNumberPurchase
-              phone={phoneNumber}
-              country={country}
-            />
+            <PhoneNumberPurchase phone={phoneNumber} country={country} />
           </PanelSection>
         ) : (
           <>
@@ -139,8 +136,11 @@ function PhoneNumbersByRegion({
               {!cities.length &&
                 (phones.length ? (
                   <PhoneNumbersTable
-                    onRowClick={(phone) => {
-                      push({pathname, query: {...rest, phone: phone.phoneNumber}});
+                    onRowClick={(data) => {
+                      push({
+                        pathname,
+                        query: { ...rest, phone: data.phoneNumber },
+                      });
                     }}
                     phones={phones}
                   />
@@ -152,9 +152,15 @@ function PhoneNumbersByRegion({
               <PanelSection>
                 <PanelSectionTitle>{t("all_numbers")}</PanelSectionTitle>
                 {phones.length ? (
-                  <PhoneNumbersTable phones={phones} onRowClick={(phone) => {
-                    push({pathname, query: {...rest, phone: phone.phoneNumber}});
-                  }} />
+                  <PhoneNumbersTable
+                    phones={phones}
+                    onRowClick={(data) => {
+                      push({
+                        pathname,
+                        query: { ...rest, phone: data.phoneNumber },
+                      });
+                    }}
+                  />
                 ) : (
                   <NoNumbersAvailableView countries={popularCountries} />
                 )}

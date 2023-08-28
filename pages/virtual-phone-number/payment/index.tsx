@@ -12,6 +12,7 @@ import { COUNTRY_LIST } from "@/shared/constants";
 import {
   formatStringToKebabCase,
   generateMeta,
+  generateSecondPhonesList,
   getStatesByCountryCode,
 } from "@/shared/lib";
 import PhoneNumberPurchaseHeader from "@/widgets/PhoneNumberPurchaseHeader";
@@ -20,6 +21,7 @@ import Footer from "@/components/Footer";
 import NoNumbersAvailableView from "@/features/NoNumbersAvailableView";
 import BaseHeader from "@/shared/ui/BaseHeader";
 import { PanelSection } from "@/shared/ui/styled";
+import { useSecondPhoneCountries } from "@/shared/hooks";
 
 type PageProps = {
   phones: PhoneToBuy[] | null;
@@ -32,6 +34,9 @@ type PageProps = {
 function Index({ country, state, phones, phone, countries }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("virtual-phone-number");
+  const secondPhoneCountries = useSecondPhoneCountries({
+    initCountryList: countries,
+  });
 
   const meta = generateMeta({
     language: i18n.language,
@@ -51,12 +56,12 @@ function Index({ country, state, phones, phone, countries }: PageProps) {
           state={state}
           phones={phones}
           country={country}
-          countries={countries}
+          countries={secondPhoneCountries}
         />
       ) : (
         <BaseHeader>
           <PanelSection>
-            <NoNumbersAvailableView countries={countries} />
+            <NoNumbersAvailableView countries={secondPhoneCountries} />
           </PanelSection>
         </BaseHeader>
       )}
@@ -119,16 +124,19 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     const { data: phonesByStateDataRaw } =
       await api.secondPhone.getAvailableNumbersByStateISO(currentState.isoCode);
 
-    phones = phonesByStateDataRaw?.data.phones ?? [];
+    phones = phonesByStateDataRaw?.data.phones.length
+      ? phonesByStateDataRaw.data.phones
+      : generateSecondPhonesList({
+          countryIso: currentCountry.isoCode,
+          stateIso: currentState.isoCode,
+        });
 
     const selectedPhoneFromStatePhones = phones.find(
       (_phone) => _phone.phoneNumber === phone
     );
 
     if (!selectedPhoneFromStatePhones) {
-      const { data } = await api.secondPhone.getPhonesByCountry("US");
-      selectedPhone = data?.data.phones[0] ?? null;
-      phones = data?.data.phones ?? [];
+      selectedPhone = phones[0] ?? null;
     }
 
     if (!selectedPhone) {
@@ -160,12 +168,16 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
     currentCountry.isoCode
   );
 
-  const selectedPhone =
-    data?.data.phones.find((_phone) => _phone.phoneNumber === phone) ??
-    data?.data.phones[0] ??
-    null;
+  const countryPhones = data?.data.phones.length
+    ? data.data.phones
+    : generateSecondPhonesList({
+        countryIso: currentCountry.isoCode,
+      });
 
-  const countryPhones = data?.data.phones ?? [];
+  const selectedPhone =
+    countryPhones.find((_phone) => _phone.phoneNumber === phone) ??
+    countryPhones[0] ??
+    null;
 
   const filteredPhones = countryPhones.filter((_phone) =>
     currentState ? _phone.region === currentState?.isoCode : true

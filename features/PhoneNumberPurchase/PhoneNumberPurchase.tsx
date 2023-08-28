@@ -169,10 +169,10 @@ function PhoneNumberPurchase({
     await router.push(path);
   };
 
-  const setMaxAvailableDuration = () => {
+  const setAvailableDuration = () => {
     for (let i = phoneDurationList.length - 1; i >= 0; i -= 1) {
       const priceInRange =
-        phoneDurationList[i].value * price * multipleNumberCount <
+        phoneDurationList[i].value * price * MIN_COUNT_OF_NUMBERS <
         MAX_PURCHASE_PRICE;
 
       if (priceInRange) {
@@ -184,12 +184,14 @@ function PhoneNumberPurchase({
 
   const toggleMultipleSelector = () => {
     if (!multiplePurchase) {
-      setMaxAvailableDuration();
-    } else {
       setMultipleNumberCount(MIN_COUNT_OF_NUMBERS);
-    }
 
-    setMultiplePurchase(!multiplePurchase);
+      if(price * MIN_COUNT_OF_NUMBERS * phoneDuration > MAX_PURCHASE_PRICE) {
+        setAvailableDuration();
+      }
+    } 
+
+    setMultiplePurchase((prev) => !prev);
   };
 
   return (
@@ -340,8 +342,8 @@ function PhoneNumberPurchase({
             <Trans
               i18nKey="virtual-phone-number:phone_purchase_agreement_second"
               components={{
-                1: <Link target="_blank" href="/privacy" />,
-                2: <Link target="_blank" href="/terms" />,
+                1: <Link target="_blank" href="/terms" />,
+                2: <Link target="_blank" href="/privacy" />,
               }}
             />
           </div>

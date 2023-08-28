@@ -25,7 +25,7 @@ const ENDPOINTS = {
   signature: () => "/v7/second-phone/ecommpay-signature",
   thedexTopUp: () => "/v6/payment-providers/thedex/top-up/second-phone",
   buyNumber: () => `/v6/second-phone/buy-number`,
-  buyMultipleNumbers: () => '/v6/second-phone/buy-multiple-numbers',
+  buyMultipleNumbers: () => "/v6/second-phone/buy-multiple-numbers",
   topupWithWebpay: () => `/v6/payment-providers/webpay/top-up/second-phone`,
   checkPaymentStatus: () => "/v6/payment-providers/is-payment-paid",
 };
@@ -93,7 +93,7 @@ function getSignature({
     body: JSON.stringify({ data: stringToSign, price }),
     credentials: "include",
     headers: {
-      "x-system-auth-token": getCookie("session") ?? "",
+      "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
     },
   });
 }
@@ -117,7 +117,7 @@ function thedexTopUp({
       }),
       credentials: "include",
       headers: {
-        "x-system-auth-token": getCookie("session") ?? "",
+        "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
       },
     }
   );
@@ -135,7 +135,7 @@ function topupWithWebpay(payload: {
       credentials: "include",
       body: JSON.stringify(payload),
       headers: {
-        "x-system-auth-token": getCookie("session") ?? "",
+        "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
       },
     }
   );
@@ -147,19 +147,19 @@ function buyNumber(props: { phone: string; country_code: string }) {
     credentials: "include",
     body: JSON.stringify(props),
     headers: {
-      "x-system-auth-token": getCookie("session") ?? "",
+      "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
     },
   });
 }
 
 function buyMultipleNumbers(payload: BuyMultipleNumbersPayload) {
   return queryFetcher(`${MAIN_API_URL}${ENDPOINTS.buyMultipleNumbers()}`, {
-    method: 'POST',
-    credentials: 'include',
+    method: "POST",
+    credentials: "include",
     body: JSON.stringify(payload),
-    ...(getCookie('sd-user')
-      ? { headers: { 'sd-user': getCookie('sd-user') as string } }
-      : {}),
+    headers: {
+      "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
+    },
   });
 }
 
@@ -171,7 +171,7 @@ function checkPaymentStatus(paymentId: string) {
       credentials: "include",
       body: JSON.stringify({ paymentId }),
       headers: {
-        "x-system-auth-token": getCookie("session") ?? "",
+        "x-system-auth-token": getCookie("tmp_usr_session") ?? "",
       },
     }
   );
