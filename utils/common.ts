@@ -111,10 +111,10 @@ function sendSafeEvent(
   callback: () => void
 ) {
   let attempt = 0;
-
   const timerId = setInterval(() => {
     attempt += 1;
-    if (attempt > 3) {
+
+    if (attempt > 4) {
       clearInterval(timerId);
       return;
     }
@@ -125,9 +125,9 @@ function sendSafeEvent(
     } else {
       console.log(`${type} мetric not initialized`);
     }
-  }, 1000);
+  }, 500)
 
-  return timerId;
+  return timerId
 }
 
 function sendSafeYMEvent(name: string, paramets?: object) {
