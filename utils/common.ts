@@ -1,4 +1,6 @@
 import type { ICountry, IState } from "country-cities";
+import type { OverridedMixpanel } from "mixpanel-browser";
+import mixpanel from "mixpanel-browser";
 import type { PhoneToBuy } from "./types";
 
 function getErrorMessage(error: any): string {
@@ -123,15 +125,37 @@ function sendSafeEvent(
     } else {
       console.log(`${type} мetric not initialized`);
     }
-  }, 1000);
+  }, 500)
 
-  return timerId;
+  return timerId
 }
 
 function sendSafeYMEvent(name: string, paramets?: object) {
   return sendSafeEvent("ym", () =>
     window.ym(79496440, "reachGoal", name, paramets)
   );
+}
+function sendSafeMixpanelEvent<
+  T extends keyof Omit<OverridedMixpanel, "people">
+>(method: T, ...params: Parameters<OverridedMixpanel[T]>) {
+  let attempt = 0;
+  const timerId = setInterval(() => {
+    attempt += 1;
+    if (attempt > 3) {
+      clearInterval(timerId);
+      return;
+    }
+
+    if (typeof window !== "undefined" && window.$isMixpanelLoaded) {
+      // @ts-ignore
+      mixpanel[method](...params);
+      clearInterval(timerId);
+    } else {
+      console.log(`mixpanel not initialized`);
+    }
+  }, 1000);
+
+  return timerId;
 }
 
 function sendSafeEcommerceEvent(paramets?: object) {
@@ -192,4 +216,5 @@ export {
   getErrorMessage,
   uuid,
   sendSafeEcommerceEvent,
+  sendSafeMixpanelEvent,
 };

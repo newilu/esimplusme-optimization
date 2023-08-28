@@ -104,7 +104,11 @@ function PhoneNumbersByRegion({
               </div>
               <Link href={pathname}>{t("change")}</Link>
             </PanelSectionTitle>
-            <PhoneNumberPurchase phone={phoneNumber} country={country} />
+            <PhoneNumberPurchase
+              state={state}
+              phone={phoneNumber}
+              country={country}
+            />
           </PanelSection>
         ) : (
           <>

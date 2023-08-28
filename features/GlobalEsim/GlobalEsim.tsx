@@ -44,7 +44,6 @@ function GlobalEsim({ worldwideRegion }: { worldwideRegion?: RegionById }) {
                 <MobileDataBundleCard
                   key={price}
                   title="Worldwide"
-                  price={price}
                   duration={duration}
                   img={image}
                   worldwide={worldwide}

@@ -45,3 +45,5 @@ export const SECOND_PHONE_SUPPORTED_COUNTRIES = [
 
 export const DEFAULT_PHONE_NUMBER_PRICE = 7;
 export const DEFAULT_PHONE_NUMBER_TYPE = "local";
+
+export const MIXPANEL_ID = "bac3acb26d2720c8060f60fd568fc171";

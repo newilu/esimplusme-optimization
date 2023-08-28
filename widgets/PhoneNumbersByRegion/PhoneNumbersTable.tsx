@@ -12,6 +12,8 @@ import {
   PurchasePhoneNumberButton,
   StyledBaseTable,
 } from "@/features/PhoneNumbersTable/styled";
+import { sendSafeMixpanelEvent } from "@/utils/common";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
 
 const columnHelper = createColumnHelper<PhoneToBuy>();
 
@@ -23,6 +25,7 @@ function PhoneNumbersTable({
   onRowClick?: (props: PhoneToBuy) => void;
 }) {
   const { query, pathname, replace } = useRouter();
+  const { source } = useMixpanelPageContext();
   const { t } = useTranslation("virtual-phone-number");
 
   const { city, ...rest } = query;
@@ -71,18 +74,35 @@ function PhoneNumbersTable({
     () =>
       columnHelper.accessor("region", {
         header: "",
-        cell: (info) =>  (
+        cell: (info) => (
           <PurchasePhoneNumberButton
+            onClick={() => {
+              sendSafeMixpanelEvent(
+                "track",
+                "phone_numbers_table_purchase_click",
+                {
+                  country: rest.country,
+                  state: rest.state,
+                  city,
+                  numberType: info.row.original.numberType,
+                  price: info.row.original.price,
+                  source,
+                }
+              );
+            }}
             href={{
               pathname,
-              query: {...rest, phone: info.row.original.phoneNumber}
+              query: {
+                ...rest,
+                phone: info.row.original.phoneNumber,
+              },
             }}
           >
             {t("buy")}
           </PurchasePhoneNumberButton>
-        )
+        ),
       }),
-    [pathname, t]
+    [city, pathname, rest, source, t]
   );
 
   const columns = React.useMemo(
@@ -108,9 +128,9 @@ function PhoneNumbersTable({
     onRowClick(_phone);
 
     if (pathname.includes("/payment")) {
-      const { phone, ...rest } = query;
+      const { phone, ...restParams } = query;
       await replace(
-        { query: { ...rest, phone: _phone.phoneNumber } },
+        { query: { ...restParams, phone: _phone.phoneNumber } },
         undefined,
         {
           shallow: true,

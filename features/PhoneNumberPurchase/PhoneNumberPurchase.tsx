@@ -6,6 +6,7 @@ import { format } from "libphonenumber-js";
 import Link from "next/link";
 import Image from "next/image";
 
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
 import type { PhoneToBuy } from "@/utils/types";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import Button from "@/shared/ui/Button";
@@ -16,13 +17,16 @@ import RandomIcon from "@/shared/assets/images/RandomIcon";
 import MinusIcon from "@/shared/assets/images/MinusIcon";
 import PlusIcon from "@/shared/assets/images/PlusIcon";
 import CheckmarkSVG from "@/shared/assets/images/CheckmarkSVG";
-import cross from "@/shared/assets/images/red-cross.svg";
 
+import cross from "@/shared/assets/images/red-cross.svg";
 import Checkbox from "@/shared/ui/Checkbox";
 import RadioButtons from "@/shared/ui/RadioButtons";
 import { MAX_PURCHASE_PRICE } from "@/shared/constants";
-import { geteratePurchaseRedirectUrl } from "@/utils/common";
 
+import {
+  geteratePurchaseRedirectUrl,
+  sendSafeMixpanelEvent,
+} from "@/utils/common";
 import {
   CountryNameWrapper,
   CountryNameAndNumberTypeWrapper,
@@ -87,11 +91,14 @@ function PhoneNumberPurchase({
 }: PhoneNumberPurchaseProps) {
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
-  const checkedAgreements =
-    router.query[PRIVACY_POLICY_AGREEMENTS_KEY] !== "false";
+  const { source } = useMixpanelPageContext();
+
   const [multiplePurchase, setMultiplePurchase] = useState(false);
   const [multipleNumberCount, setMultipleNumberCount] =
     useState(MIN_COUNT_OF_NUMBERS);
+
+  const checkedAgreements =
+    router.query[PRIVACY_POLICY_AGREEMENTS_KEY] !== "false";
   const numbersCount = multiplePurchase ? multipleNumberCount : 1;
   const price = phone.price + 1;
 
@@ -158,6 +165,14 @@ function PhoneNumberPurchase({
   };
 
   const handleSubmit = async () => {
+    sendSafeMixpanelEvent("track", "init_purchase", {
+      country: country.name,
+      state: state?.name,
+      duration: phoneDuration,
+      count: numbersCount,
+      numberType: phone.numberType,
+      source,
+    });
     const path = geteratePurchaseRedirectUrl({
       phone,
       state,
@@ -186,10 +201,10 @@ function PhoneNumberPurchase({
     if (!multiplePurchase) {
       setMultipleNumberCount(MIN_COUNT_OF_NUMBERS);
 
-      if(price * MIN_COUNT_OF_NUMBERS * phoneDuration > MAX_PURCHASE_PRICE) {
+      if (price * MIN_COUNT_OF_NUMBERS * phoneDuration > MAX_PURCHASE_PRICE) {
         setAvailableDuration();
       }
-    } 
+    }
 
     setMultiplePurchase((prev) => !prev);
   };

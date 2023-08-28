@@ -6,6 +6,7 @@
  * @link https://www.i18next.com/overview/typescript
  */
 import "react-i18next";
+import { OverridedMixpanel } from "mixpanel-browser";
 
 import type common from "../public/locales/en/common.json";
 import type meta from "../public/locales/en/meta.json";
@@ -33,6 +34,8 @@ declare global {
     gtag: (event: string, action: string, params?: any) => void;
     fbq: (event: string, name: string, options?: any) => void;
     ym: (...args: any) => void;
-    dataLayer: { push: (...args: any) => void }
+    dataLayer: { push: (...args: any) => void };
+    mixpanel: OverridedMixpanel;
+    $isMixpanelLoaded: boolean;
   }
 }
