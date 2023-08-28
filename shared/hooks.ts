@@ -36,7 +36,6 @@ function useAnalyticScripts() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const loadAnalyticScripts = () => {
-        console.log("zxc");
         loadYMScript();
         loadFacebookScript();
         loadGtagScript();
