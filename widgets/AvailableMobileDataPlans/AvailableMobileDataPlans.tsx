@@ -52,7 +52,7 @@ function AvailableMobileDataPlans({
 
           // clear router query if there are no matches
           if (!existingCountry) {
-            void router.replace({ query: routerQuery }, undefined, {
+            router.replace({ query: routerQuery }, undefined, {
               shallow: true,
               scroll: false,
             });
@@ -76,7 +76,7 @@ function AvailableMobileDataPlans({
           onChange={({ value }) => {
             setSelectedRegion(value);
             const { region, ...routerQuery } = router.query;
-            void router.replace({ query: routerQuery }, undefined, {
+            router.replace({ query: routerQuery }, undefined, {
               shallow: true,
             });
           }}

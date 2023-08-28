@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 
-import { loadFacebookScript, loadGtagScript, loadYMScript } from "@/utils/analyticScripts";
+import {
+  loadFacebookScript,
+  loadGtagScript,
+  loadMixpanel,
+  loadYMScript,
+} from "@/utils/analyticScripts";
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
 import { formatAreaCode, getCountryByIsoCode } from "@/shared/lib";
 import { SecondPhoneCountry } from "@/utils/types";
@@ -29,12 +34,13 @@ function useOutsideClick(
 
 function useAnalyticScripts() {
   useEffect(() => {
-    if(typeof window !== "undefined") {
+    if (typeof window !== "undefined") {
       const loadAnalyticScripts = () => {
         loadYMScript();
         loadFacebookScript();
         loadGtagScript();
-      }
+        loadMixpanel();
+      };
 
       if(document.readyState === 'complete') {
         loadAnalyticScripts()
@@ -46,7 +52,7 @@ function useAnalyticScripts() {
         }
       }
     }
-  }, [])
+  }, []);
 }
 
 function useModalControls(

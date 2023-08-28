@@ -1,7 +1,9 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
 import { getCurrencySymbol } from "@/shared/lib";
 import { Bundle } from "@/utils/types";
+import { sendSafeMixpanelEvent } from "@/utils/common";
 import { StyledButton } from "./styled";
 
 type GetPlanButtonProps = {
@@ -22,9 +24,20 @@ function GetPlanButton({
   price,
 }: GetPlanButtonProps) {
   const { t } = useTranslation();
+  const { source } = useMixpanelPageContext();
 
   return (
     <StyledButton
+      onClick={() => {
+        sendSafeMixpanelEvent("track", "get_plan_button_click", {
+          providerType,
+          isoName2,
+          currency,
+          dataAmount,
+          price,
+          source,
+        });
+      }}
       isBestPrice={isBestPrice}
       fullWidth
       variant="secondary"

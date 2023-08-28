@@ -3,8 +3,9 @@ import { Trans, useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { useWindowSize } from "context/WindowSizeContext";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
+import { sendSafeGtagEvent, sendSafeMixpanelEvent } from "@/utils/common";
 import Button from "shared/ui/Button";
-import { sendSafeGtagEvent } from "@/utils/common";
 import { Container } from "shared/ui/styled";
 import wechat from "./assets/Wechat.svg";
 import snapchat from "./assets/Snapchat.svg";
@@ -57,10 +58,11 @@ export const messages = [
 function VirtualNumbersHeader() {
   const { t } = useTranslation();
   const { isMobile } = useWindowSize();
+  const { source } = useMixpanelPageContext();
   const [items, setItems] = useState(messages);
 
   useEffect(() => {
-    if(!isMobile) {
+    if (!isMobile) {
       const interval = setInterval(
         () => setItems([items[items.length - 1]].concat(items.slice(0, -1))),
         4500
@@ -84,7 +86,12 @@ function VirtualNumbersHeader() {
           </div>
           <Button
             onClick={() => {
-              sendSafeGtagEvent("virtualnumber_header_call_to_action_click")
+              sendSafeMixpanelEvent(
+                "track",
+                "virtualnumber_header_call_to_action_click",
+                { source }
+              );
+              sendSafeGtagEvent("virtualnumber_header_call_to_action_click");
             }}
             label={
               <Link locale="en" href="/virtual-phone-number/pricing">

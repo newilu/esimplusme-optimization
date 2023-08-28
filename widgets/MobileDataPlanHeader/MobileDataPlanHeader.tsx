@@ -244,7 +244,6 @@ function MobileDataPlanHeader<
                       title={name}
                       duration={duration}
                       img={image}
-                      price={price}
                       supportedCountries={supportedCountries}
                       worldwide={worldwide}
                       embeddedHeader={

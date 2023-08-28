@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Container, SectionTitle } from "shared/ui/styled";
 import Button from "shared/ui/Button";
-import { sendSafeGtagEvent } from "@/utils/common";
+import { sendSafeGtagEvent, sendSafeMixpanelEvent } from "@/utils/common";
 import card from "./assets/card.svg";
 import busd from "./assets/busd.png";
 import usdt from "./assets/tether.png";
@@ -45,6 +45,10 @@ function HowToGetSms() {
           <Button
             onClick={() => {
               sendSafeGtagEvent("virtualnumber_setup_button_click");
+              sendSafeMixpanelEvent(
+                "track",
+                "virtualnumber_setup_button_click"
+              );
             }}
             label={
               <Link locale="en" href="/virtual-phone-number/pricing">

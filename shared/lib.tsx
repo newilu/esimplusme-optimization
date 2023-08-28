@@ -349,7 +349,18 @@ function generateSecondPhonesList({
     }));
 }
 
+function formatPathToReadableEventName(path: string) {
+  const questionMarkIndex = path.indexOf("?");
+  const hasQuery = questionMarkIndex !== -1;
+  return (
+    path
+      .slice(1, hasQuery ? questionMarkIndex : undefined)
+      .replaceAll("/", "-") || "home"
+  );
+}
+
 export {
+  formatPathToReadableEventName,
   getRandomBoolean,
   generateSecondPhonesList,
   getUSStateInfoByStateName,

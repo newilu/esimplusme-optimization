@@ -1,11 +1,13 @@
 import React from "react";
 import { format } from "libphonenumber-js";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { createColumnHelper } from "@tanstack/react-table";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
 import { PhoneToBuy } from "@/utils/types";
 import PhoneSvg from "@/shared/assets/images/PhoneSVG";
 import SmsSvg from "@/shared/assets/images/SmsSVG";
-import { useTranslation } from "next-i18next";
+import { sendSafeMixpanelEvent } from "@/utils/common";
 import {
   PhoneNumber,
   SvgWrapper,
@@ -25,6 +27,7 @@ function PhoneNumbersTable({
   maxVisibleElements?: number | null;
 }) {
   const { query, pathname, replace } = useRouter();
+  const { source } = useMixpanelPageContext();
   const { t } = useTranslation("virtual-phone-number");
 
   const { country, state, city } = query;
@@ -74,15 +77,28 @@ function PhoneNumbersTable({
       columnHelper.accessor("region", {
         header: () => t("buy"),
         cell: (info) => {
- 
           return (
             <PurchasePhoneNumberButton
+              onClick={() => {
+                sendSafeMixpanelEvent(
+                  "track",
+                  "phone_numbers_table_purchase_click",
+                  {
+                    country,
+                    state,
+                    city,
+                    numberType: info.row.original.numberType,
+                    price: info.row.original.price,
+                    source,
+                  }
+                );
+              }}
               href={{
-                pathname: '/virtual-phone-number/payment',
+                pathname: "/virtual-phone-number/payment",
                 query: {
                   ...query,
-                  phone: info.row.original.phoneNumber
-                }
+                  phone: info.row.original.phoneNumber,
+                },
               }}
             >
               {t("buy")}
@@ -90,7 +106,7 @@ function PhoneNumbersTable({
           );
         },
       }),
-    [country, state, t]
+    [country, state, t, source]
   );
 
   const columns = React.useMemo(() => {

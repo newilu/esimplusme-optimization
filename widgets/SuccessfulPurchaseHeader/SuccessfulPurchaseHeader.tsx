@@ -10,6 +10,7 @@ import {
   sendSafeEcommerceEvent,
   sendSafeFbqEvent,
   sendSafeGtagEvent,
+  sendSafeMixpanelEvent,
   sendSafeYMEvent,
 } from "@/utils/common";
 import { recursiveCheckPaymentStatus } from "@/api/secondPhone";
@@ -51,6 +52,9 @@ function SuccessfulPurchaseHeader() {
       recursiveCheckPaymentStatus(paymentId, 3)
         .then(() => {
           const validCount = !Number.isNaN(Number(count)) ? Number(count) : 1;
+          const formatedPaymentAmount = Number.isNaN(Number(paymentAmount))
+                ? paymentAmount
+                : Number(paymentAmount) / 100;   
 
           const promise = () =>
             validCount > 1
@@ -61,12 +65,14 @@ function SuccessfulPurchaseHeader() {
                 })
               : api.secondPhone.buyNumber({ phone, country_code: country });
 
+          sendSafeMixpanelEvent("track", "temp_user_balance_topup", {
+            paymentId,
+            currency: "USD",
+            value: formatedPaymentAmount,
+          });
+
           return promise().then(() => {
-            if (paymentId && paymentAmount) {
-              const formatedPaymentAmount = Number.isNaN(Number(paymentAmount))
-                ? paymentAmount
-                : Number(paymentAmount) / 100;     
-        
+            if (paymentId && formatedPaymentAmount) {
               sendSafeFbqEvent("Purchase", {
                 content_ids: paymentId,
                 content_name: "phone number",
@@ -120,10 +126,17 @@ function SuccessfulPurchaseHeader() {
                 calls,
                 source: "webapp",
               });
+
+              sendSafeMixpanelEvent("track", "temp_user_number_purchase", {
+                currency: "USD",
+                price: Number(paymentAmount) / 100,
+                phone,
+                country,
+              });
             }
             
             replace(pathname, undefined, { shallow: true })
-          });
+          })
         })
         .catch((error) => {
           console.log(error);
