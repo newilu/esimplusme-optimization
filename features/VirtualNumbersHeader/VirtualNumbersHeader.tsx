@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useWindowSize } from "context/WindowSizeContext";
 import Button from "shared/ui/Button";
+import { sendSafeGtagEvent } from "@/utils/common";
 import { Container } from "shared/ui/styled";
 import wechat from "./assets/Wechat.svg";
 import snapchat from "./assets/Snapchat.svg";
@@ -83,12 +84,7 @@ function VirtualNumbersHeader() {
           </div>
           <Button
             onClick={() => {
-              if (typeof window !== "undefined") {
-                window.gtag(
-                  "event",
-                  "virtualnumber_header_call_to_action_click"
-                );
-              }
+              sendSafeGtagEvent("virtualnumber_header_call_to_action_click")
             }}
             label={
               <Link locale="en" href="/virtual-phone-number/pricing">
