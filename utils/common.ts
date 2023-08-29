@@ -108,16 +108,18 @@ function sendSafeEvent(
   type: "ym" | "gtag" | "fbq" | "dataLayer",
   callback: () => void
 ) {
+  if (typeof window === "undefined") return;
+
   let attempt = 0;
   const timerId = setInterval(() => {
     attempt += 1;
 
-    if (attempt > 4) {
+    if (attempt > 2) {
       clearInterval(timerId);
       return;
     }
 
-    if (typeof window !== "undefined" && typeof window[type] !== "undefined") {
+    if (typeof window[type] !== "undefined") {
       callback();
       clearInterval(timerId);
     } else {
