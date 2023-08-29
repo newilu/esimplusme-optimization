@@ -108,9 +108,7 @@ function sendSafeEvent(
   type: "ym" | "gtag" | "fbq" | "dataLayer",
   callback: () => void
 ) {
-  console.log("interval func - server log");
   if (typeof window === "undefined") return;
-  console.log("interval func - client log");
 
   let attempt = 0;
   const timerId = setInterval(() => {
