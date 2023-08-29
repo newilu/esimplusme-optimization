@@ -15,7 +15,7 @@ import { Wrapper } from "./styled";
 function Header() {
   const { t } = useTranslation();
   const { source } = useMixpanelPageContext();
-
+  sendSafeGtagEvent("");
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const ymTimerId = sendSafeYMEvent("landing_page_view");
