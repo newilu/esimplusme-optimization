@@ -42,11 +42,15 @@ function useAnalyticScripts() {
         loadMixpanel();
       };
 
-      window.addEventListener("load", loadAnalyticScripts);
+      if(document.readyState === 'complete') {
+        loadAnalyticScripts()
+      } else {
+        window.addEventListener('load', loadAnalyticScripts)
 
-      return () => {
-        window.removeEventListener("load", loadAnalyticScripts);
-      };
+        return () => {
+          window.removeEventListener('load', loadAnalyticScripts)
+        }
+      }
     }
   }, []);
 }
