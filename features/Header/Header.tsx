@@ -12,13 +12,13 @@ function Header() {
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      const ymTimerId = sendSafeYMEvent("landing_page_view")
-      const gtagTimerId = sendSafeGtagEvent("landing_page_view")
+      const ymTimerId = sendSafeYMEvent("landing_page_view");
+      const gtagTimerId = sendSafeGtagEvent("landing_page_view");
 
       return () => {
-        clearInterval(ymTimerId)
-        clearInterval(gtagTimerId)
-      }
+        clearInterval(ymTimerId);
+        clearInterval(gtagTimerId);
+      };
     }
   }, []);
 
@@ -32,8 +32,8 @@ function Header() {
         <Button
           onClick={() => {
             scrollToId(SectionIDS.SearchYourDestination, 65);
-            sendSafeYMEvent("header_cta_click")
-            sendSafeGtagEvent("header_cta_click")
+            sendSafeYMEvent("header_cta_click");
+            sendSafeGtagEvent("header_cta_click");
           }}
           label={t("get_mobile_data")}
         />
