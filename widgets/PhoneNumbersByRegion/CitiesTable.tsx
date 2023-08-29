@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 import { ICity } from "country-cities";
 import { useTranslation } from "next-i18next";
@@ -24,8 +24,9 @@ function CitiesTable({
 }) {
   const { t } = useTranslation("virtual-phone-number");
   const router = useRouter();
+  const queryString = router.asPath.split("?")[1];
 
-  const getHrefData = (city: ICity) => {
+  const getHrefData = useCallback((city: ICity) => {
     const country = getCountryByIsoCode(city.countryCode);
     const state = getStateByCode(city.stateCode, city.countryCode);
     const countryName = formatStringToKebabCase(country?.name ?? "")
@@ -34,8 +35,8 @@ function CitiesTable({
     )
     const name = formatStringToKebabCase(city.name)
 
-    return { pathname: `/virtual-phone-number/${countryName}/${stateName}/${name}`, query: router.query }
-  }
+    return { pathname: `/virtual-phone-number/${countryName}/${stateName}/${name}`, query: queryString }
+  }, [queryString])
 
   const areaCodeColumn = React.useMemo(
     () =>
@@ -57,7 +58,7 @@ function CitiesTable({
         ),
       }),
 
-    [t]
+    [t, getHrefData]
   );
   return (
     <StyledCitiesTable
