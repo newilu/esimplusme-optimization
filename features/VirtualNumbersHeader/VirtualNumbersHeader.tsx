@@ -79,10 +79,12 @@ function VirtualNumbersHeader() {
           <div>
             <SectionTitle>
               <div>
-                <Trans i18nKey="acceptance_and_activation" />
+                {t('acceptance_and_activation')}
               </div>
             </SectionTitle>
-            <SectionSubtitle>{t("for_anonymous_reg")}</SectionSubtitle>
+            <SectionSubtitle>
+              <Trans i18nKey="for_anonymous_reg" components={{br: <br />}} />
+            </SectionSubtitle>
           </div>
           <Button
             onClick={() => {
