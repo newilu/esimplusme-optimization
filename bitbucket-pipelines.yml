@@ -11,6 +11,11 @@ pipelines:
             - echo NEXT_PUBLIC_BASE_URL=${DEV_NEXT_PUBLIC_BASE_URL} >> .env
             - echo NEXT_PUBLIC_SERVER_URL=${DEV_NEXT_PUBLIC_SERVER_URL} >> .env
             - echo NEXT_PUBLIC_ECOMMPAY_PROJECT_ID=${DEV_NEXT_PUBLIC_ECOMMPAY_PROJECT_ID} >> .env
+            - echo NEXT_PUBLIC_MIXPANEL_TOKEN=${NEXT_PUBLIC_MIXPANEL_TOKEN} >> .env
+            - echo NEXT_PUBLIC_YANDEX_METRIKA_TOKEN=${NEXT_PUBLIC_YANDEX_METRIKA_TOKEN} >> .env
+            - echo NEXT_PUBLIC_GTAG_TOKEN=${NEXT_PUBLIC_GTAG_TOKEN} >> .env
+            - echo NEXT_PUBLIC_FACEBOOK_TOKEN=${NEXT_PUBLIC_FACEBOOK_TOKEN} >> .env
+            - echo NEXT_PUBLIC_RUNTIME_ENV=${DEV_NEXT_PUBLIC_RUNTIME_ENV} >> .env
             - cat .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
@@ -37,6 +42,11 @@ pipelines:
             - echo NEXT_PUBLIC_BASE_URL=${PROD_NEXT_PUBLIC_BASE_URL} >> .env
             - echo NEXT_PUBLIC_SERVER_URL=${PROD_NEXT_PUBLIC_SERVER_URL} >> .env
             - echo NEXT_PUBLIC_ECOMMPAY_PROJECT_ID=${PROD_NEXT_PUBLIC_ECOMMPAY_PROJECT_ID} >> .env
+            - echo NEXT_PUBLIC_MIXPANEL_TOKEN=${NEXT_PUBLIC_MIXPANEL_TOKEN} >> .env
+            - echo NEXT_PUBLIC_YANDEX_METRIKA_TOKEN=${NEXT_PUBLIC_YANDEX_METRIKA_TOKEN} >> .env
+            - echo NEXT_PUBLIC_GTAG_TOKEN=${NEXT_PUBLIC_GTAG_TOKEN} >> .env
+            - echo NEXT_PUBLIC_FACEBOOK_TOKEN=${NEXT_PUBLIC_FACEBOOK_TOKEN} >> .env
+            - echo NEXT_PUBLIC_RUNTIME_ENV=${PROD_NEXT_PUBLIC_RUNTIME_ENV} >> .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
             - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
