@@ -1,5 +1,5 @@
 import React from "react";
-import { useDebounce } from "use-debounce";
+import debounce from "lodash.debounce";
 
 const WidthContext = React.createContext({
   isMobile: false,
@@ -17,13 +17,11 @@ function WidthProvider<T extends {}>(props: T) {
     height: 0,
     width: 0,
   });
-  const [debouncedSize] = useDebounce(size, 100);
-
-  const value = React.useMemo(() => debouncedSize, [debouncedSize]);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return undefined;
-    function handleResize() {
+
+    const handleResize = debounce(() => {
       setSize({
         height: window.innerHeight,
         width: window.innerWidth,
@@ -31,7 +29,7 @@ function WidthProvider<T extends {}>(props: T) {
         isLaptop: window.innerWidth < 1600,
         isTablet: window.innerWidth < 1024,
       });
-    }
+    }, 100);
 
     handleResize();
 
@@ -39,6 +37,8 @@ function WidthProvider<T extends {}>(props: T) {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const value = React.useMemo(() => size, [size]);
 
   return <WidthContext.Provider value={value} {...props} />;
 }

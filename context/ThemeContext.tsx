@@ -49,6 +49,10 @@ function ThemeProvider<T extends { children: React.ReactNode }>(props: T) {
     }
   }, []);
 
+  React.useEffect(() => {
+    setCookie("isDarkTheme", String(Number(isDarkTheme)), 30);
+  }, [isDarkTheme]);
+
   return (
     <ThemeContext.Provider value={{ isDarkTheme, toggleTheme }} {...props}>
       <GlobalStyle theme={themes[isDarkTheme ? "dark" : "light"]} />

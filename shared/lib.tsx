@@ -58,9 +58,8 @@ function getErrorMessage(error: any): string {
   if (error.message) {
     if (error.message.includes("Firebase")) {
       return error.message.split("/")[1].replaceAll(/[(\-)]/g, " ");
-    } else {
-      return error.message;
     }
+    return error.message;
   }
 
   if (error.errorMessage) return error.errorMessage;
@@ -330,7 +329,14 @@ function generateSecondPhonesList({
     }));
 }
 
+function buildRedisKey(endpoint: string) {
+  return `${process.env.NEXT_PUBLIC_BASE_URL?.startsWith(
+    "https://dev"
+  )}${endpoint.split("/api/")[1].replaceAll("/", "-")}-redis-cache`;
+}
+
 export {
+  buildRedisKey,
   getRandomBoolean,
   generateSecondPhonesList,
   getUSStateInfoByStateName,

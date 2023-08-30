@@ -7,7 +7,6 @@ const { esmExternals = false, tsconfigPath } = loadCustomBuildParams();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
   staticPageGenerationTimeout: 120000,
   experimental: {
     esmExternals, // https://nextjs.org/blog/next-11-1#es-modules-support
@@ -52,6 +51,13 @@ const nextConfig = {
         destination: "/esim",
       },
     ];
+  },
+  webpackDevMiddleware: (config) => {
+    config.watchOptions = {
+      poll: 1000, // Check for changes every second
+      aggregateTimeout: 300, // delay before rebuilding
+    };
+    return config;
   },
 };
 
