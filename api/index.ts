@@ -72,7 +72,7 @@ async function queryFetcher<T = unknown>(
       }
       if (enableCaching) {
         // cache data
-        fetch("http://localhost:3000/api/cache", {
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cache`, {
           headers: { cacheKey },
           method: "POST",
           body: JSON.stringify(data),
