@@ -31,7 +31,8 @@ async function queryFetcher<T = unknown>(
     const cached = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/cache`,
       {
-        headers: { cacheKey },
+        headers: { cacheKey, ...getAuthAndBaseHeaders() },
+        credentials: "include",
       }
     ).then((res) => res.json());
 
