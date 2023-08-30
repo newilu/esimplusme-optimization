@@ -55,7 +55,7 @@ function PhoneNumbersByRegion({
         { shallow: true, scroll: false }
       );
     }
-  }, [phoneNumber?.phoneNumber]);
+  }, []);
 
   return (
     <Wrapper>
