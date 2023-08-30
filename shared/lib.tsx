@@ -43,47 +43,33 @@ function getCurrencySymbol(currency: string) {
 }
 
 function getErrorMessage(error: any): string {
-  let message = "";
+  if (!error) return "";
 
-  if (!error) {
-    return message;
+  if (typeof error === "string") return error;
+
+  if (error.details) return error.details;
+
+  if (error.errors?.length) {
+    return Object.values(error.errors)
+      .map((err: any) => err?.message)
+      .join(" ");
   }
 
-  if (typeof error === "string") {
-    return error;
-  }
-
-  if (error?.details) {
-    return error?.details;
-  }
-  if (error?.errors?.length) {
-    Object.values(
-      error?.errors as { [s: string]: unknown } | ArrayLike<unknown>
-    ).forEach((err: any) => {
-      message += ` ${err?.message}\n`;
-    });
-  } else if (error?.message) {
+  if (error.message) {
     if (error.message.includes("Firebase")) {
-      message = error.message
-        .split("/")[1]
-        .replaceAll(/[(\-)]/g, " ") as string;
+      return error.message.split("/")[1].replaceAll(/[(\-)]/g, " ");
     } else {
-      message = error.message as string;
+      return error.message;
     }
-  } else if (error?.errorMessage) {
-    message = error.errorMessage as string;
-  } else if (typeof error === "object") {
-    Object.values(
-      error as { [s: string]: unknown } | ArrayLike<unknown>
-    ).forEach((err) => {
-      message += ` ${err}\n`;
-    });
   }
 
-  if (message.startsWith("Unexpected JSON")) {
-    return "Server error.";
+  if (error.errorMessage) return error.errorMessage;
+
+  if (typeof error === "object") {
+    return Object.values(error).join(" ");
   }
-  return message;
+
+  return "Unknown error.";
 }
 
 function randomIntFromInterval(min: number, max: number) {
@@ -302,11 +288,7 @@ function getRandomBoolean() {
 }
 
 function getUSStateInfoByIso(stateIso = "AL") {
-  if (stateIso in statesByIso) {
-    return statesByIso[stateIso as keyof typeof statesByIso];
-  }
-
-  return statesByIso.AL;
+  return statesByIso[stateIso as keyof typeof statesByIso] || statesByIso.AL;
 }
 
 function getUSStateInfoByStateName(stateName = "Alabama") {
@@ -314,7 +296,6 @@ function getUSStateInfoByStateName(stateName = "Alabama") {
     info.name.includes(stateName)
   );
   if (state) return { isoCode: state[0], ...state[1] };
-
   return { isoCode: "AL", ...statesByIso.AL };
 }
 
