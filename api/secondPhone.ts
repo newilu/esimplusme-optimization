@@ -35,7 +35,9 @@ async function listSecondPhoneCountries(): Promise<
 > {
   const { data, error, headers } = await queryFetcher<{
     data: { countries: SecondPhoneCountry[] };
-  }>(MAIN_API_URL.concat(ENDPOINTS.secondPhoneCountries()));
+  }>(MAIN_API_URL.concat(ENDPOINTS.secondPhoneCountries()), {
+    enableCaching: true,
+  });
 
   return {
     error,
@@ -46,31 +48,40 @@ async function listSecondPhoneCountries(): Promise<
 
 function getAvailableNumbersByStateISO(iso: string) {
   return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(
-    `${MAIN_API_URL}${ENDPOINTS.numbersByStateISO(iso)}`
+    `${MAIN_API_URL}${ENDPOINTS.numbersByStateISO(iso)}`,
+    {
+      enableCaching: true,
+    }
   );
 }
 
 function getAvailableNumbersByStateAreaCode(code: number) {
   return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(
-    `${MAIN_API_URL}${ENDPOINTS.numbersByStateCode(code)}`
+    `${MAIN_API_URL}${ENDPOINTS.numbersByStateCode(code)}`,
+    {
+      enableCaching: true,
+    }
   );
 }
 
 function getAvailableNumbersByStateIso(isoCode: string) {
   return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(
-    `${MAIN_API_URL}${ENDPOINTS.numbersByStateIso(isoCode)}`
+    `${MAIN_API_URL}${ENDPOINTS.numbersByStateIso(isoCode)}`,
+    {
+      enableCaching: true,
+    }
   );
 }
 
 function getPhonesByCountry(country: string) {
   return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(
-    `${MAIN_API_URL}${ENDPOINTS.getPhonesByCountry(country)}`
+    `${MAIN_API_URL}${ENDPOINTS.getPhonesByCountry(country)}`,
+    {
+      enableCaching: true,
+    }
   );
 }
 
-function getPhonePrices<T>(phone: string) {
-  return queryFetcher<T>(`${MAIN_API_URL}${ENDPOINTS.getPhonePrices(phone)}`);
-}
 function createTempUser() {
   return queryFetcher<{ data: { systemAuthToken: string } }>(
     `${MAIN_API_URL}${ENDPOINTS.createTempUser()}`,
@@ -194,7 +205,6 @@ export {
   ENDPOINTS,
   topupWithWebpay,
   getPhonesByCountry,
-  getPhonePrices,
   getAvailableNumbersByStateAreaCode,
   getAvailableNumbersByStateIso,
   listSecondPhoneCountries,

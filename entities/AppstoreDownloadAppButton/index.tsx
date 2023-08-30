@@ -12,7 +12,7 @@ function Index({ onClick }: { onClick?: () => void }) {
       rel="noreferrer"
       href={APPSTORE_LINK}
     >
-      <Image src={appstore} alt="" />
+      <Image loading="lazy" src={appstore} alt="" />
     </Wrapper>
   );
 }

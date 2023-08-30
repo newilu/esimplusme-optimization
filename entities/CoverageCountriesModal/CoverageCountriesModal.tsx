@@ -35,7 +35,7 @@ function CoverageCountriesModal({
 
   React.useEffect(() => {
     if (debouncedFilterText && !disableSearch) {
-      void api.profiles
+      api.profiles
         .getCountriesByFilterText(debouncedFilterText, i18n.language)
         .then(({ data }) => {
           setFilteredCountries(
