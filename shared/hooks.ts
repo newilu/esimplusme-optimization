@@ -34,7 +34,7 @@ function useOutsideClick(
 
 function useAnalyticScripts() {
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_RUNTIME_ENV !== 'development') {
       const loadAnalyticScripts = () => {
         loadYMScript();
         loadFacebookScript();

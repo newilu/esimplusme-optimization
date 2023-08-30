@@ -110,9 +110,9 @@ function sendSafeEvent(
   type: "ym" | "gtag" | "fbq" | "dataLayer",
   callback: () => void
 ) {
-  console.log("interval func - server log");
-  if (typeof window === "undefined") return;
-  console.log("interval func - client log");
+  if (typeof window === "undefined" || process.env.NEXT_PUBLIC_RUNTIME_ENV === 'development') {
+    return
+  };
 
   let attempt = 0;
   const timerId = setInterval(() => {
@@ -142,6 +142,10 @@ function sendSafeYMEvent(name: string, paramets?: object) {
 function sendSafeMixpanelEvent<
   T extends keyof Omit<OverridedMixpanel, "people">
 >(method: T, ...params: Parameters<OverridedMixpanel[T]>) {
+  if (typeof window === "undefined" || process.env.NEXT_PUBLIC_RUNTIME_ENV === 'development') {
+    return
+  };
+
   let attempt = 0;
   const timerId = setInterval(() => {
     attempt += 1;
@@ -150,7 +154,7 @@ function sendSafeMixpanelEvent<
       return;
     }
 
-    if (typeof window !== "undefined" && window.$isMixpanelLoaded) {
+    if (window.$isMixpanelLoaded) {
       // @ts-ignore
       mixpanel[method](...params);
       clearInterval(timerId);

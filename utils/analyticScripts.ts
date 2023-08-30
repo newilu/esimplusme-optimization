@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 import mixpanel from "mixpanel-browser";
-import { MIXPANEL_ID } from "@/shared/constants";
 
 function loadYMScript() {
   (function () {
@@ -25,7 +24,7 @@ function loadYMScript() {
       firstScript?.parentNode?.insertBefore(script, firstScript);
   })();
 
-  window.ym(79496440, "init", {
+  window.ym(process.env.NEXT_PUBLIC_YANDEX_METRIKA_TOKEN!, "init", {
     clickmap: true,
     trackLinks: true,
     accurateTrackBounce: true,
@@ -40,12 +39,14 @@ function loadGtagScript() {
     window.dataLayer.push(arguments);
   };
 
+  const token = process.env.NEXT_PUBLIC_GTAG_TOKEN!
+
   // @ts-ignore
   window.gtag("js", new Date());
-  window.gtag("config", "G-RQ66T6FFRW");
+  window.gtag("config", token);
 
   const script = document.createElement("script");
-  script.src = "https://www.googletagmanager.com/gtag/js?id=G-RQ66T6FFRW";
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${token}`;
   script.async = true;
 
   document.body.append(script);
@@ -87,15 +88,14 @@ function loadFacebookScript() {
     "https://connect.facebook.net/en_US/fbevents.js"
   );
 
-  window.fbq("init", "578800919804138");
+  window.fbq("init", process.env.NEXT_PUBLIC_FACEBOOK_TOKEN!);
 }
 
 function loadMixpanel() {
-  mixpanel.init(MIXPANEL_ID, {
+  mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN!, {
     debug: true,
     persistence: "localStorage",
   });
-  mixpanel.register({ signed: false });
   window.$isMixpanelLoaded = (mixpanel as any).__loaded as boolean;
 }
 

@@ -167,8 +167,7 @@ function SuccessfulPurchaseHeader() {
         fullWidth
         onClick={() => {
           const environmentPrefix =
-            window.location.origin.includes("dev") ||
-            window.location.origin.includes("localhost")
+            process.env.NEXT_PUBLIC_RUNTIME_ENV === 'development'
               ? "dev-"
               : "";
           push(`https://${environmentPrefix}sms.esimplus.me/register`);
