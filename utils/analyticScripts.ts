@@ -39,7 +39,7 @@ function loadGtagScript() {
     window.dataLayer.push(arguments);
   };
 
-  const token = process.env.NEXT_PUBLIC_GTAG_TOKEN!
+  const token = process.env.NEXT_PUBLIC_GTAG_TOKEN!;
 
   // @ts-ignore
   window.gtag("js", new Date());
@@ -93,7 +93,7 @@ function loadFacebookScript() {
 
 function loadMixpanel() {
   mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN!, {
-    debug: true,
+    debug: process.env.NEXT_PUBLIC_RUNTIME_ENV !== "development",
     persistence: "localStorage",
   });
   window.$isMixpanelLoaded = (mixpanel as any).__loaded as boolean;
