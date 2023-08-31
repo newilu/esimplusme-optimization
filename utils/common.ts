@@ -114,6 +114,11 @@ function sendSafeEvent(
     return
   };
 
+  if(typeof window[type] !== "undefined") {
+    callback();
+    return;
+  }
+
   let attempt = 0;
   const timerId = setInterval(() => {
     attempt += 1;
@@ -145,6 +150,12 @@ function sendSafeMixpanelEvent<
   if (typeof window === "undefined" || process.env.NEXT_PUBLIC_RUNTIME_ENV === 'development') {
     return
   };
+
+  if(window.$isMixpanelLoaded) {
+    // @ts-ignore
+    mixpanel[method](...params);
+    return;
+  }
 
   let attempt = 0;
   const timerId = setInterval(() => {
