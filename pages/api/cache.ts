@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import redis from "@/lib/redis";
+import { getRandomInt } from "@/shared/lib";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,7 +21,7 @@ export default async function handler(
   }
 
   if (req.method === "POST") {
-    const MAX_AGE = 60_000 * 60; // 1 hour
+    const MAX_AGE = 1000 * getRandomInt(50, 60) * 60; // 1 hour
     const EXPIRY_MS = `PX`; // milliseconds
 
     // cache data

@@ -12,7 +12,6 @@ import { queryFetcher } from "./index";
 const ENDPOINTS = {
   getPhonesByCountry: (countryCode: string) =>
     `/v7/second-phone/phone-numbers/${countryCode}`,
-  getPhonePrices: (phone: string) => `/v6/second-phone/prices?phone=${phone}`,
   states: () => "/v6/second-phone/usa/states",
   numbersByStateCode: (code: number) =>
     `/v6/second-phone/usa/phone-numbers/code/${code}`,
