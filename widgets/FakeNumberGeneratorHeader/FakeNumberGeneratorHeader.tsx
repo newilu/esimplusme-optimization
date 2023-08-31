@@ -3,7 +3,6 @@ import { ICountry } from "country-cities";
 import { format } from "libphonenumber-js";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
-import Link from "next/link";
 import {
   PanelSection,
   PanelSectionsWrapper,
@@ -16,6 +15,8 @@ import {
   generateFakeNumber,
 } from "@/shared/lib";
 import CountryFlag from "@/shared/ui/CountryFlag";
+import { sendSafeMixpanelEvent } from "@/utils/common";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
 import repeat from "./assets/repeat.svg";
 import {
   CountryListWrapper,
@@ -29,12 +30,18 @@ import {
 
 function FakeNumberGeneratorHeader() {
   const { t } = useTranslation("random-number");
+  const { source } = useMixpanelPageContext();
   const [selectedCountry, setSelectedCountry] = React.useState(COUNTRY_LIST[0]);
   const [generatedNumber, setGeneratedNumber] = React.useState<string | null>(
     null
   );
 
   const handleRegenerateNumber = (iso: string, areaCode: string) => {
+    sendSafeMixpanelEvent("track", "generate_number_click", {
+      iso,
+      areaCode,
+      source,
+    });
     const newFakePhoneNumber = generateFakeNumber(iso, areaCode);
 
     setGeneratedNumber(newFakePhoneNumber);

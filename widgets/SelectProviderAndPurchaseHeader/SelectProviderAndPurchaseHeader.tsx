@@ -5,6 +5,8 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import api from "@/api";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
+import { sendSafeMixpanelEvent } from "@/utils/common";
 import { getErrorMessage, setCookie } from "@/shared/lib";
 import BaseHeader from "@/shared/ui/BaseHeader";
 import card from "./assets/card.svg";
@@ -24,6 +26,11 @@ import {
 
 function SelectProviderAndPurchaseHeader() {
   const { query, back, push } = useRouter();
+  const { source } = useMixpanelPageContext();
+  const { t } = useTranslation("virtual-phone-number");
+  const [countryCode, setCountryCode] = useState<string | null>(null);
+  const [disabledPurchase, setDisabledPurchase] = useState(false);
+
   const {
     paymentAmount,
     phoneNumber,
@@ -36,9 +43,6 @@ function SelectProviderAndPurchaseHeader() {
     duration,
     count,
   } = query;
-  const { t } = useTranslation("virtual-phone-number");
-  const [countryCode, setCountryCode] = useState<string | null>(null);
-  const [disabledPurchase, setDisabledPurchase] = useState(false);
 
   const getRedirectURL = (paymentId?: string) => {
     if (
@@ -70,16 +74,34 @@ function SelectProviderAndPurchaseHeader() {
     }/virtual-phone-number/payment/success?${redirectURLSearchParams.toString()}`;
   };
 
+  const createTempUserToken = async () => {
+    const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
+    const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
+
+    if (systemAuthToken) {
+      // reset prev temp user info
+      sendSafeMixpanelEvent("reset");
+      sendSafeMixpanelEvent("register", { signed: true });
+
+      // set new temp user info
+      sendSafeMixpanelEvent("identify", systemAuthToken);
+      sendSafeMixpanelEvent("register", { signed: true });
+      setCookie("tmp_usr_session", systemAuthToken, 30);
+    }
+
+    return systemAuthToken;
+  };
+
   const handlePurchaseWithCrypto = async () => {
     setDisabledPurchase(true);
-
+    sendSafeMixpanelEvent("track", "pay_with_crypto_click", {
+      source,
+      paymentAmount,
+      phoneNumber,
+      country,
+    });
     try {
-      const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
-      const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
-
-      if (systemAuthToken) {
-        setCookie("tmp_usr_session", systemAuthToken, 30);
-      }
+      await createTempUserToken();
 
       const { data, error } = await api.secondPhone.thedexTopUp({
         price: paymentAmount as string,
@@ -106,14 +128,15 @@ function SelectProviderAndPurchaseHeader() {
       return;
 
     setDisabledPurchase(true);
+    sendSafeMixpanelEvent("track", "pay_with_card_click", {
+      source,
+      paymentAmount,
+      phoneNumber,
+      country,
+    });
 
     try {
-      const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
-      const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
-
-      if (systemAuthToken) {
-        setCookie("tmp_usr_session", systemAuthToken, 30);
-      }
+      await createTempUserToken();
 
       const paymentId = v4();
       const customerId = v4();
@@ -149,15 +172,17 @@ function SelectProviderAndPurchaseHeader() {
       typeof country !== "string"
     )
       return;
+    sendSafeMixpanelEvent("track", "pay_with_webpay_click", {
+      source,
+      paymentAmount,
+      phoneNumber,
+      country,
+      region: document.body.getAttribute("data-country"),
+    });
 
     setDisabledPurchase(true);
 
-    const { data: tempUserDataRaw } = await api.secondPhone.createTempUser();
-    const systemAuthToken = tempUserDataRaw?.data.systemAuthToken;
-
-    if (systemAuthToken) {
-      setCookie("tmp_usr_session", systemAuthToken, 30);
-    }
+    await createTempUserToken();
 
     const { data, error } = await api.secondPhone.topupWithWebpay({
       amount: +paymentAmount,

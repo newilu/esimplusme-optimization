@@ -12,7 +12,7 @@ function FAQSection() {
   const questionsList = React.useMemo(
     () =>
       Array.from(
-        Array(router.pathname.includes("virtual-phone-number") ? 14 : 8).keys()
+        Array(router.pathname.includes("virtual-phone-number") ? 17 : 8).keys()
       ).map((el) => ({
         question: t(
           `${

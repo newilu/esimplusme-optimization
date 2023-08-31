@@ -10,9 +10,9 @@ import Button from "shared/ui/Button";
 import LanguageMenu from "features/LanguageMenu";
 import CountryFlag from "@/shared/ui/CountryFlag";
 import { Country, Region, RegionById } from "@/utils/types";
+import { sendSafeGtagEvent, sendSafeMixpanelEvent } from "@/utils/common";
 import burgerMenu from "./assets/burger-menu.png";
 import ArrowRight from "./assets/ArrowRight";
-import { sendSafeGtagEvent } from "@/utils/common";
 import {
   Wrapper,
   Container,
@@ -32,16 +32,16 @@ enum Regions {
   Regional = "regional_esim",
   Global = "global_esim",
 }
-const redirectUrls = {
-  dev: {
-    mobiledata: "https://dev-mobiledata.esimplus.me/",
-    sms: "https://dev-sms.esimplus.me/",
-  },
-  prod: {
-    mobiledata: "https://mobiledata.esimplus.me/",
-    sms: "https://sms.esimplus.me/",
-  },
-};
+
+const getRedirectUrl = (type: 'mobiledata' | 'sms') => {
+  const prefix = process.env.NEXT_PUBLIC_RUNTIME_ENV === 'development'
+    ? "dev-"
+    : "";
+
+  return type === 'mobiledata' 
+    ? `https://${prefix}mobiledata.esimplus.me/`
+    : `https://${prefix}sms.esimplus.me/`
+}
 
 function Navbar({
   color,
@@ -77,9 +77,11 @@ function Navbar({
     switch (true) {
       case router.pathname.includes("virtual-phone-number"):
         sendSafeGtagEvent("signin_virtualnumber_click");
+        sendSafeMixpanelEvent("track", "signin_virtualnumber_click");
         break;
       default:
         sendSafeGtagEvent("signin_mobiledata_click");
+        sendSafeMixpanelEvent("track", "signin_mobiledata_click");
         break;
     }
   };
@@ -118,15 +120,10 @@ function Navbar({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const environment =
-        window.location.origin.includes("dev") ||
-        window.location.origin.includes("localhost")
-          ? "dev"
-          : "prod";
       const product = router.pathname.includes("virtual-phone-number")
         ? "sms"
         : "mobiledata";
-      setRedirectUrl(redirectUrls[environment][product]);
+      setRedirectUrl(getRedirectUrl(product));
     }
   }, []);
 

@@ -1,10 +1,4 @@
-import {
-  Country,
-  CountryByISO,
-  Region,
-  RegionById,
-  SecondPhoneCountry,
-} from "utils/types";
+import { Country, CountryByISO, Region, RegionById } from "utils/types";
 import { MAIN_API_URL } from "@/utils/constants";
 import { queryFetcher } from "./index";
 
@@ -20,31 +14,46 @@ const ENDPOINTS = {
 
 function listCountries() {
   return queryFetcher<{ data: { countries: Country[] } }>(
-    MAIN_API_URL.concat(ENDPOINTS.countries())
+    MAIN_API_URL.concat(ENDPOINTS.countries()),
+    {
+      enableCaching: true,
+    }
   );
 }
 
 function getCountryByIsoName(isoName: string) {
   return queryFetcher<{ data: { country: CountryByISO } }>(
-    MAIN_API_URL.concat(ENDPOINTS.country(isoName))
+    MAIN_API_URL.concat(ENDPOINTS.country(isoName)),
+    {
+      enableCaching: true,
+    }
   );
 }
 
 function listRegions() {
   return queryFetcher<{ data: { regions: Region[] } }>(
-    MAIN_API_URL.concat(ENDPOINTS.regions())
+    MAIN_API_URL.concat(ENDPOINTS.regions()),
+    {
+      enableCaching: true,
+    }
   );
 }
 
 function getWorldwideRegion() {
   return queryFetcher<{ data: { region: RegionById } }>(
-    MAIN_API_URL.concat(ENDPOINTS.worldwideRegion())
+    MAIN_API_URL.concat(ENDPOINTS.worldwideRegion()),
+    {
+      enableCaching: true,
+    }
   );
 }
 
 function getRegionById(regionId: number) {
   return queryFetcher<{ data: { region: RegionById } }>(
-    MAIN_API_URL.concat(ENDPOINTS.region(regionId))
+    MAIN_API_URL.concat(ENDPOINTS.region(regionId)),
+    {
+      enableCaching: true,
+    }
   );
 }
 

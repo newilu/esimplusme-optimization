@@ -80,6 +80,7 @@ function RegionalEsim({
   const handleRegionChange = React.useCallback((region: Region | null) => {
     scrollToId(SectionIDS.SearchYourDestination, 65);
     setSelectedRegion(region);
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { region: _region, ...rest } = router.query;
     router.push(
       {
@@ -197,7 +198,6 @@ function RegionalEsim({
                   duration={duration}
                   img={image}
                   supportedCountries={supportedCountries}
-                  price={price}
                   worldwide={worldwide}
                   embeddedHeader={
                     <CoverageCountriesOpenModalButton

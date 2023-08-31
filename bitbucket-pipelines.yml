@@ -16,6 +16,8 @@ pipelines:
             - echo NEXT_PUBLIC_GTAG_TOKEN=${NEXT_PUBLIC_GTAG_TOKEN} >> .env
             - echo NEXT_PUBLIC_FACEBOOK_TOKEN=${NEXT_PUBLIC_FACEBOOK_TOKEN} >> .env
             - echo NEXT_PUBLIC_RUNTIME_ENV=${DEV_NEXT_PUBLIC_RUNTIME_ENV} >> .env
+            - echo NEXT_PUBLIC_REDIS_HOST=${NEXT_PUBLIC_REDIS_HOST} >> .env
+            - echo NEXT_PUBLIC_REDIS_PORT=${NEXT_PUBLIC_REDIS_PORT} >> .env
             - cat .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
@@ -47,12 +49,14 @@ pipelines:
             - echo NEXT_PUBLIC_GTAG_TOKEN=${NEXT_PUBLIC_GTAG_TOKEN} >> .env
             - echo NEXT_PUBLIC_FACEBOOK_TOKEN=${NEXT_PUBLIC_FACEBOOK_TOKEN} >> .env
             - echo NEXT_PUBLIC_RUNTIME_ENV=${PROD_NEXT_PUBLIC_RUNTIME_ENV} >> .env
+            - echo NEXT_PUBLIC_REDIS_HOST=${NEXT_PUBLIC_REDIS_HOST} >> .env
+            - echo NEXT_PUBLIC_REDIS_PORT=${NEXT_PUBLIC_REDIS_PORT} >> .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
             - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
             - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
           services:
-            - docker            
+            - docker
       - step:
           name: Deploy prod
           trigger: manual
@@ -62,7 +66,7 @@ pipelines:
             - sed -i 's/IMAGE_NAME_VALUE/'"$IMAGE_NAME"'/g' ./deploy-prod.sh
             - sed -i 's/VERSION_VALUE/'"$VERSION"'/g' ./deploy-prod.sh
             - cat ./deploy-prod.sh
-            - cat ./deploy-prod.sh | ssh ${DEPLOY_USER}@${DEPLOY_HOST}      
+            - cat ./deploy-prod.sh | ssh ${DEPLOY_USER}@${DEPLOY_HOST}
 definitions:
   services:
     docker:

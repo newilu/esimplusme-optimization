@@ -1,14 +1,20 @@
 import React from "react";
 import { Trans, useTranslation } from "next-i18next";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
 import { scrollToId } from "@/shared/lib";
 import { Container, SectionTitle } from "shared/ui/styled";
 import { SectionIDS } from "shared/constants";
 import Button from "shared/ui/Button";
-import { sendSafeGtagEvent, sendSafeYMEvent } from "@/utils/common";
+import {
+  sendSafeGtagEvent,
+  sendSafeMixpanelEvent,
+  sendSafeYMEvent,
+} from "@/utils/common";
 import { Content, LeftSide, RightSide, Wrapper } from "./styled";
 
 function SetupGuide() {
   const { t } = useTranslation();
+  const { source } = useMixpanelPageContext();
 
   return (
     <Wrapper>
@@ -22,8 +28,9 @@ function SetupGuide() {
             <Button
               onClick={() => {
                 scrollToId(SectionIDS.SearchYourDestination, 65);
-                sendSafeYMEvent("setup_cta_click")
-                sendSafeGtagEvent("setup_cta_click")
+                sendSafeYMEvent("setup_cta_click");
+                sendSafeGtagEvent("setup_cta_click");
+                sendSafeMixpanelEvent("track", "setup_cta_click", { source });
               }}
               label={t("get_mobile_data")}
               variant="outlined"

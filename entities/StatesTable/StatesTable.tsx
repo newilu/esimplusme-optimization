@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import type { ICountry, IState } from "country-cities";
 import { useTranslation } from "next-i18next";
 import { createColumnHelper } from "@tanstack/react-table";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
+import { sendSafeMixpanelEvent } from "@/utils/common";
 import {
   formatAreaCode,
   formatStringToKebabCase,
@@ -42,6 +44,7 @@ function StatesTable({
 }: StatesTableProps) {
   const router = useRouter();
   const { t } = useTranslation("virtual-phone-number");
+  const { source } = useMixpanelPageContext();
 
   const params = router.asPath.split("?")[1];
   const paramsString = params ? `?${params}` : "";
@@ -120,11 +123,23 @@ function StatesTable({
       columnHelper.accessor("isoCode", {
         id: TableIDS.Purchase,
         header: () => t("buy"),
-        cell: () => (
-          <Button style={{ margin: "0 auto" }} label={t("buy")} size="small" />
+        cell: ({ row }) => (
+          <Button
+            style={{ margin: "0 auto" }}
+            label={t("buy")}
+            size="small"
+            onClick={() => {
+              sendSafeMixpanelEvent("track", "regions_table_purchase_click", {
+                country: row.original.countryCode,
+                state: row.original.name,
+                stateIso: row.original.isoCode,
+                source,
+              });
+            }}
+          />
         ),
       }),
-    [t]
+    [t, source]
   );
 
   return (

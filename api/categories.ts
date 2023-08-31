@@ -1,6 +1,6 @@
-import { queryFetcher } from "./index";
 import { Article, Category } from "@/utils/types";
 import { MAX_ELEMENTS_PER_VIEW } from "@/utils/constants";
+import { queryFetcher } from "./index";
 
 const ENDPOINTS = {
   listCategories: () => "/categories",

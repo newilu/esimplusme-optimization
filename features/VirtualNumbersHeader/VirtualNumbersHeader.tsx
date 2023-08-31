@@ -3,6 +3,8 @@ import { Trans, useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { useWindowSize } from "context/WindowSizeContext";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
+import { sendSafeGtagEvent, sendSafeMixpanelEvent } from "@/utils/common";
 import Button from "shared/ui/Button";
 import { Container } from "shared/ui/styled";
 import wechat from "./assets/Wechat.svg";
@@ -56,10 +58,11 @@ export const messages = [
 function VirtualNumbersHeader() {
   const { t } = useTranslation();
   const { isMobile } = useWindowSize();
+  const { source } = useMixpanelPageContext();
   const [items, setItems] = useState(messages);
 
   useEffect(() => {
-    if(!isMobile) {
+    if (!isMobile) {
       const interval = setInterval(
         () => setItems([items[items.length - 1]].concat(items.slice(0, -1))),
         4500
@@ -76,19 +79,21 @@ function VirtualNumbersHeader() {
           <div>
             <SectionTitle>
               <div>
-                <Trans i18nKey="acceptance_and_activation" />
+                {t('acceptance_and_activation')}
               </div>
             </SectionTitle>
-            <SectionSubtitle>{t("for_anonymous_reg")}</SectionSubtitle>
+            <SectionSubtitle>
+              <Trans i18nKey="for_anonymous_reg" components={{br: <br />}} />
+            </SectionSubtitle>
           </div>
           <Button
             onClick={() => {
-              if (typeof window !== "undefined") {
-                window.gtag(
-                  "event",
-                  "virtualnumber_header_call_to_action_click"
-                );
-              }
+              sendSafeMixpanelEvent(
+                "track",
+                "virtualnumber_header_call_to_action_click",
+                { source }
+              );
+              sendSafeGtagEvent("virtualnumber_header_call_to_action_click");
             }}
             label={
               <Link locale="en" href="/virtual-phone-number/pricing">

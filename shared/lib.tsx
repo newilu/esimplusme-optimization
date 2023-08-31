@@ -43,47 +43,32 @@ function getCurrencySymbol(currency: string) {
 }
 
 function getErrorMessage(error: any): string {
-  let message = "";
+  if (!error) return "";
 
-  if (!error) {
-    return message;
+  if (typeof error === "string") return error;
+
+  if (error.details) return error.details;
+
+  if (error.errors?.length) {
+    return Object.values(error.errors)
+      .map((err: any) => err?.message)
+      .join(" ");
   }
 
-  if (typeof error === "string") {
-    return error;
-  }
-
-  if (error?.details) {
-    return error?.details;
-  }
-  if (error?.errors?.length) {
-    Object.values(
-      error?.errors as { [s: string]: unknown } | ArrayLike<unknown>
-    ).forEach((err: any) => {
-      message += ` ${err?.message}\n`;
-    });
-  } else if (error?.message) {
+  if (error.message) {
     if (error.message.includes("Firebase")) {
-      message = error.message
-        .split("/")[1]
-        .replaceAll(/[(\-)]/g, " ") as string;
-    } else {
-      message = error.message as string;
+      return error.message.split("/")[1].replaceAll(/[(\-)]/g, " ");
     }
-  } else if (error?.errorMessage) {
-    message = error.errorMessage as string;
-  } else if (typeof error === "object") {
-    Object.values(
-      error as { [s: string]: unknown } | ArrayLike<unknown>
-    ).forEach((err) => {
-      message += ` ${err}\n`;
-    });
+    return error.message;
   }
 
-  if (message.startsWith("Unexpected JSON")) {
-    return "Server error.";
+  if (error.errorMessage) return error.errorMessage;
+
+  if (typeof error === "object") {
+    return Object.values(error).join(" ");
   }
-  return message;
+
+  return "Unknown error.";
 }
 
 function randomIntFromInterval(min: number, max: number) {
@@ -302,11 +287,7 @@ function getRandomBoolean() {
 }
 
 function getUSStateInfoByIso(stateIso = "AL") {
-  if (stateIso in statesByIso) {
-    return statesByIso[stateIso as keyof typeof statesByIso];
-  }
-
-  return statesByIso.AL;
+  return statesByIso[stateIso as keyof typeof statesByIso] || statesByIso.AL;
 }
 
 function getUSStateInfoByStateName(stateName = "Alabama") {
@@ -314,7 +295,6 @@ function getUSStateInfoByStateName(stateName = "Alabama") {
     info.name.includes(stateName)
   );
   if (state) return { isoCode: state[0], ...state[1] };
-
   return { isoCode: "AL", ...statesByIso.AL };
 }
 
@@ -349,7 +329,27 @@ function generateSecondPhonesList({
     }));
 }
 
+function formatPathToReadableEventName(path: string) {
+  const questionMarkIndex = path.indexOf("?");
+  const hasQuery = questionMarkIndex !== -1;
+  return (
+    path
+      .slice(1, hasQuery ? questionMarkIndex : undefined)
+      .replaceAll("/", "-") || "home"
+  );
+}
+
+function buildRedisKey(endpoint: string) {
+  return `${
+    process.env.NEXT_PUBLIC_BASE_URL?.startsWith("https://dev")
+      ? "dev-"
+      : "prod-"
+  }${endpoint.split("/api/")[1].replaceAll("/", "-")}-redis-cache`;
+}
+
 export {
+  buildRedisKey,
+  formatPathToReadableEventName,
   getRandomBoolean,
   generateSecondPhonesList,
   getUSStateInfoByStateName,

@@ -9,7 +9,7 @@ import Navbar from "@/widgets/Navbar";
 import DownloadAppSection from "@/features/DownloadAppSection";
 import { SecondPhoneCountry } from "@/utils/types";
 import { COUNTRY_LIST } from "@/shared/constants";
-import SpecialDealsSection from "@/features/SpecialDealsSection";
+import SpecialDealsSection from "features/VirtualPhoneNumberSpecialDealsSection";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";

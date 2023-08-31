@@ -3,9 +3,14 @@ import { useTranslation } from "next-i18next";
 import { useTheme } from "styled-components";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useMixpanelPageContext } from "@/context/MixpanelPageContextProvider";
 import { APPSTORE_LINK, GPLAY_LINK } from "@/shared/constants";
 import { SectionTitle } from "shared/ui/styled";
-import { sendSafeFbqEvent, sendSafeGtagEvent } from "@/utils/common";
+import {
+  sendSafeFbqEvent,
+  sendSafeGtagEvent,
+  sendSafeMixpanelEvent,
+} from "@/utils/common";
 import cloudConnection from "@/shared/assets/images/cloud-connection.svg";
 import phone from "@/shared/assets/images/call-calling.svg";
 import sms from "@/shared/assets/images/sms.svg";
@@ -27,16 +32,24 @@ function DownloadAppSection({
   const router = useRouter();
   const { t } = useTranslation();
   const theme = useTheme();
+  const { source } = useMixpanelPageContext();
 
   const handleMarketClick = (market: string) => {
     sendSafeFbqEvent("Lead");
     switch (true) {
       case router.pathname.includes("virtual-phone-number"):
         sendSafeGtagEvent(`virtualnumber_${market}_click`);
+        sendSafeMixpanelEvent("track", `virtualnumber_${market}_click`, {
+          source,
+        });
         break;
 
       default:
         sendSafeGtagEvent(`mobiledata_${market}_click`);
+        sendSafeMixpanelEvent("track", `mobiledata_${market}_click`, {
+          source,
+        });
+
         break;
     }
   };
@@ -57,11 +70,11 @@ function DownloadAppSection({
             </li>{" "}
             <li>
               <Image width={24} height={24} src={support} alt="support" />
-              {t("online_support")}
+              {t("online_support_virtual_phone")}
             </li>{" "}
             <li>
               <Image width={24} height={24} src={globe} alt="globe" />
-              {t("esim_profiles_with_worldwide_access")}
+              {t("user_frendly_multiple_languages")}
             </li>{" "}
             <li>
               <Image
@@ -70,11 +83,11 @@ function DownloadAppSection({
                 src={cloudConnection}
                 alt="cloud connection"
               />
-              {t("access_to_numbers_from_any_device")}
+              {t("access_to_phone_numbers_from_any_device")}
             </li>{" "}
             <li>
               <Image width={24} height={24} src={card} alt="card" />
-              {t("price_transparency")}
+              {t("price_transparency_virtual_number")}
             </li>
           </ul>
           <ButtonsWrapper>

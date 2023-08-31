@@ -224,7 +224,6 @@ function LocalEsim({ countries }: { countries: Country[] }) {
                   title={name}
                   duration={duration}
                   img={image}
-                  price={price}
                   supportedCountries={supportedCountries}
                   worldwide={worldwide}
                   embeddedHeader={

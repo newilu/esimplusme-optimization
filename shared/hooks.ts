@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 
-import { loadFacebookScript, loadGtagScript, loadYMScript } from "@/utils/analyticScripts";
+import {
+  loadFacebookScript,
+  loadGtagScript,
+  loadMixpanel,
+  loadYMScript,
+} from "@/utils/analyticScripts";
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
 import { formatAreaCode, getCountryByIsoCode } from "@/shared/lib";
 import { SecondPhoneCountry } from "@/utils/types";
@@ -29,20 +34,25 @@ function useOutsideClick(
 
 function useAnalyticScripts() {
   useEffect(() => {
-    if(typeof window !== "undefined") {
+    if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_RUNTIME_ENV !== 'development') {
       const loadAnalyticScripts = () => {
         loadYMScript();
         loadFacebookScript();
         loadGtagScript();
-      }
+        loadMixpanel();
+      };
 
-      window.addEventListener('load', loadAnalyticScripts)
+      if(document.readyState === 'complete') {
+        loadAnalyticScripts()
+      } else {
+        window.addEventListener('load', loadAnalyticScripts)
 
-      return () => {
-        window.removeEventListener('load', loadAnalyticScripts)
+        return () => {
+          window.removeEventListener('load', loadAnalyticScripts)
+        }
       }
     }
-  }, [])
+  }, []);
 }
 
 function useModalControls(
@@ -51,13 +61,8 @@ function useModalControls(
 ) {
   const [isOpen, setIsOpen] = React.useState(initState);
 
-  const openModal = React.useCallback(() => {
-    setIsOpen(true);
-  }, []);
-
-  const closeModal = React.useCallback(() => {
-    setIsOpen(false);
-  }, []);
+  const openModal = React.useCallback(() => setIsOpen(true), []);
+  const closeModal = React.useCallback(() => setIsOpen(false), []);
 
   React.useEffect(() => {
     if (options?.disableBodyScroll) {
@@ -66,14 +71,12 @@ function useModalControls(
 
       if (isOpen) {
         window.addEventListener("keydown", escapeKeyListener);
-        document.body.setAttribute("style", "overflow:hidden;");
-        document
-          .querySelector("html")
-          ?.setAttribute("style", "overflow:hidden;");
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
       } else {
         window.removeEventListener("keydown", escapeKeyListener);
-        document.body.removeAttribute("style");
-        document.querySelector("html")?.removeAttribute("style");
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
       }
     }
   }, [closeModal, isOpen, options?.disableBodyScroll]);
@@ -85,81 +88,44 @@ function useModalControls(
   };
 }
 
-function useInView(
-  ref: React.RefObject<HTMLElement>,
-  options?: { rootMargin?: string; once?: boolean }
-) {
-  const [isVisible, setIsVisible] = React.useState(false);
-  React.useEffect(() => {
-    if (ref.current !== null) {
-      const el = ref.current;
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (options?.once) {
-            if (!isVisible) {
-              setIsVisible(entry.isIntersecting);
-            }
-          } else {
-            setIsVisible(entry.isIntersecting);
-          }
-        },
-        { rootMargin: options?.rootMargin }
-      );
-
-      observer.observe(el);
-
-      return () => observer.unobserve(el as Element);
-    }
-  }, [isVisible, options, ref]);
-
-  return isVisible;
-}
-
 function useSecondPhoneCountries(options?: {
   initCountryList?: SecondPhoneCountry[];
 }) {
   const { initCountryList } = options ?? {};
 
-  const secondPhoneCoutriesList: SecondPhoneCountry[] = React.useMemo(
-    () =>
-      initCountryList && initCountryList.length
-        ? initCountryList
-            .filter(({ code }) =>
-              SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code)
-            )
-            .sort(
-              (a, b) =>
-                SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
-                SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
-            )
-        : (SECOND_PHONE_SUPPORTED_COUNTRIES.map((code) => {
-            const country = getCountryByIsoCode(code);
-            if (!country) return null;
+  return React.useMemo(() => {
+    if (initCountryList?.length) {
+      return initCountryList
+        .filter(({ code }) => SECOND_PHONE_SUPPORTED_COUNTRIES.includes(code))
+        .sort(
+          (a, b) =>
+            SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(a.code) -
+            SECOND_PHONE_SUPPORTED_COUNTRIES.indexOf(b.code)
+        );
+    }
 
-            return {
-              code,
-              country: country.name,
-              prefix: formatAreaCode(
-                getCountryCallingCode(code as CountryCode)
-              ),
-              prices: {
-                cheapest: {
-                  currency: "USD",
-                  price: DEFAULT_PHONE_NUMBER_PRICE,
-                },
-              },
-            } as SecondPhoneCountry;
-          }).filter((el) => el !== null) as SecondPhoneCountry[]),
-    [initCountryList]
-  );
+    return SECOND_PHONE_SUPPORTED_COUNTRIES.map((code) => {
+      const country = getCountryByIsoCode(code);
+      if (!country) return null;
 
-  return secondPhoneCoutriesList;
+      return {
+        code,
+        country: country.name,
+        prefix: formatAreaCode(getCountryCallingCode(code as CountryCode)),
+        prices: {
+          cheapest: {
+            currency: "USD",
+            price: DEFAULT_PHONE_NUMBER_PRICE,
+          },
+        },
+      } as SecondPhoneCountry;
+    }).filter(Boolean) as SecondPhoneCountry[];
+  }, [initCountryList]);
 }
 
 export {
   useModalControls,
   useOutsideClick,
-  useInView,
   useSecondPhoneCountries,
   useAnalyticScripts,
 };
