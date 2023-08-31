@@ -165,8 +165,6 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
     api.profiles.getWorldwideRegion(),
   ]);
 
-  console.log(countries);
-
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "en", [
