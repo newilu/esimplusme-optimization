@@ -330,9 +330,11 @@ function generateSecondPhonesList({
 }
 
 function buildRedisKey(endpoint: string) {
-  return `${process.env.NEXT_PUBLIC_BASE_URL?.startsWith(
-    "https://dev" ? "dev-" : "prod-"
-  )}${endpoint.split("/api/")[1].replaceAll("/", "-")}-redis-cache`;
+  return `${
+    process.env.NEXT_PUBLIC_BASE_URL?.startsWith("https://dev")
+      ? "dev-"
+      : "prod-"
+  }${endpoint.split("/api/")[1].replaceAll("/", "-")}-redis-cache`;
 }
 
 export {
