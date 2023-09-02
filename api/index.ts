@@ -33,7 +33,16 @@ async function queryFetcher<T = unknown>(
       {
         headers: { cacheKey },
       }
-    ).then((res) => res.json());
+    )
+      .then((res) => res.json() as Promise<string>)
+      .catch((e: unknown) => {
+        console.log(
+          "NEXTJS API: ",
+          getErrorMessage(e),
+          ` \n cacheKey: ${cacheKey}`
+        );
+        return null;
+      });
 
     if (cached) {
       const endDate = Date.now();
