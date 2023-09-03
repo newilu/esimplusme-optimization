@@ -158,7 +158,13 @@ export default function Home({
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
   locale,
+  res,
 }) => {
+  res.setHeader(
+    "Cache-Control",
+    `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`
+  );
+
   const [countries, regions, worldwideRegion] = await Promise.all([
     api.profiles.listCountries(),
     api.profiles.listRegions(),

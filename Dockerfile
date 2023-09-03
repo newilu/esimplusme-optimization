@@ -42,6 +42,12 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+RUN mkdir -p /app/.next/server/pages
+
+RUN chown -R nextjs:nodejs /app/.next/server/pages
+RUN chown -R nextjs:nodejs /app/.next
+
+
 COPY --from=builder /app/public ./public
 
 # Automatically leverage output traces to reduce image size

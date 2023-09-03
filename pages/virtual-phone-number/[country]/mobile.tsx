@@ -196,7 +196,13 @@ function Index({ country, phones, popularCountries }: PageProps) {
 export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   locale,
   params,
+  res,
 }) => {
+  res.setHeader(
+    "Cache-Control",
+    `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`
+  );
+
   const { country } = params ?? {};
   if (typeof country !== "string") {
     return {
