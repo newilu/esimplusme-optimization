@@ -100,7 +100,12 @@ function Index({
 
 export const getServerSideProps: GetServerSideProps<
   PhoneNumberStatePageProps
-> = async ({ locale, params, query }) => {
+> = async ({ locale, params, query, res }) => {
+  res.setHeader(
+    "Cache-Control",
+    `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`
+  );
+
   const { country, state } = params ?? {};
   const { phone } = query;
 

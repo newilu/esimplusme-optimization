@@ -59,7 +59,13 @@ function Pricing({
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   req,
+  res,
 }) => {
+  res.setHeader(
+    "Cache-Control",
+    `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`
+  );
+
   const countryCode = (req.headers["cf-ipcountry"] ?? "") as string;
 
   const [{ data: popularCountries }] = await Promise.all([

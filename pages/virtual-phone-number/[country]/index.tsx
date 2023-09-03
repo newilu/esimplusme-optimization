@@ -40,7 +40,7 @@ function Index({
   phoneNumberStartingPrice,
   phones,
   popularCountries,
-  phoneNumber
+  phoneNumber,
 }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation("meta");
@@ -87,9 +87,14 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   locale,
   params,
   query,
+  res,
 }) => {
+  res.setHeader(
+    "Cache-Control",
+    `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`
+  );
   const { country } = params ?? {};
-  const autonumber = query.autonumber === 'true';
+  const autonumber = query.autonumber === "true";
 
   let phoneNumberStartingPrice: number | null = null;
   let phoneNumbers: PhoneToBuy[] | null = null;
@@ -181,7 +186,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       phones: phoneNumbers,
       country: currentCountry,
       states: regions,
-      phoneNumber: autonumber && phoneNumbers?.[0] || null
+      phoneNumber: (autonumber && phoneNumbers?.[0]) || null,
     },
   };
 };
