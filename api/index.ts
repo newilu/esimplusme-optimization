@@ -34,13 +34,7 @@ async function queryFetcher<T = unknown>(
         headers: { cacheKey },
       }
     )
-      .then(async (res) => {
-        const data = (await res.json()) as Promise<string>;
-
-        console.log(res);
-        console.log(data);
-        return data;
-      })
+      .then(async (res) => (await res.json()) as Promise<any>)
       .catch((e: unknown) => {
         console.log(
           "NEXTJS API: ",
