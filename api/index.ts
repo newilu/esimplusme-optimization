@@ -1,12 +1,15 @@
-import { getErrorMessage } from "utils/common";
-import { MappedDataType } from "@/utils/types";
-import { BLOG_API_URL } from "@/utils/constants";
-import { buildRedisKey } from "@/shared/lib";
-import * as articles from "./articles";
-import * as categories from "./categories";
-import * as authors from "./authors";
-import * as profiles from "./profiles";
-import * as secondPhone from "./secondPhone";
+import { getErrorMessage } from 'utils/common';
+import { MappedDataType } from '@/utils/types';
+import { BLOG_API_URL } from '@/utils/constants';
+import * as articles from './articles';
+import * as categories from './categories';
+import * as authors from './authors';
+import * as profiles from './profiles';
+import * as secondPhone from './secondPhone';
+
+export type DefaultOptionsType = {
+  fetcher?: <T>(...args: any[]) => Promise<MappedDataType<T>>;
+};
 
 type AuthTypes = {
   [key: string]: string;
@@ -14,62 +17,19 @@ type AuthTypes = {
 
 function getAuthAndBaseHeaders(): AuthTypes {
   return {
-    "Content-Type": "application/json",
-    Accept: "application/json",
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
   };
 }
 
-async function queryFetcher<T = unknown>(
-  endpoint = "",
-  options?: RequestInit & { enableCaching?: boolean }
-): Promise<MappedDataType<T>> {
-  const { enableCaching, ...restOptions } = options ?? {};
+async function queryFetcher<T = unknown>(endpoint = '', options?: RequestInit): Promise<MappedDataType<T>> {
+  const { ...restOptions } = options ?? {};
   const startDate = Date.now();
-  const cacheKey = buildRedisKey(endpoint);
 
-  if (enableCaching) {
-    const cached = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/cache`,
-      {
-        headers: { cacheKey },
-      }
-    )
-      .then(async (res) => {
-        const data = (await res.json()) as Promise<string>;
-
-        console.log(res);
-        console.log(data);
-        return data;
-      })
-      .catch((e: unknown) => {
-        console.log(
-          "NEXTJS API: ",
-          getErrorMessage(e),
-          ` \n cacheKey: ${cacheKey}`
-        );
-        return null;
-      });
-
-    if (cached) {
-      const endDate = Date.now();
-
-      // log response time
-      console.log(endpoint, `${endDate - startDate} ms`);
-      return {
-        headers: null,
-        data: JSON.parse(cached),
-        error: null,
-      };
-    }
-  }
-
-  return fetch(
-    `${endpoint.startsWith("http") ? endpoint : BLOG_API_URL.concat(endpoint)}`,
-    {
-      ...restOptions,
-      headers: { ...restOptions?.headers, ...getAuthAndBaseHeaders() },
-    }
-  )
+  return fetch(`${endpoint.startsWith('http') ? endpoint : BLOG_API_URL.concat(endpoint)}`, {
+    ...restOptions,
+    headers: { ...restOptions?.headers, ...getAuthAndBaseHeaders() },
+  })
     .then(async (result) => {
       const endDate = Date.now();
 
@@ -84,14 +44,6 @@ async function queryFetcher<T = unknown>(
           data: null,
           error: getErrorMessage(data),
         };
-      }
-      if (enableCaching) {
-        // cache data
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cache`, {
-          headers: { cacheKey },
-          method: "POST",
-          body: JSON.stringify(data),
-        });
       }
 
       return { headers: result.headers, data, error: null };

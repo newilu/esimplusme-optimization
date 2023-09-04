@@ -1,39 +1,37 @@
-import React from "react";
-import { GetServerSideProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import type { ICountry } from "country-cities";
-import Link from "next/link";
-import styled from "styled-components";
-import Navbar from "@/widgets/Navbar";
-import {
-  COUNTRY_LIST,
-  SECOND_PHONE_SUPPORTED_COUNTRIES,
-} from "@/shared/constants";
+import React from 'react';
+import { GetServerSideProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import type { ICountry } from 'country-cities';
+import Link from 'next/link';
+import styled from 'styled-components';
+import Navbar from '@/widgets/Navbar';
+import { COUNTRY_LIST, SECOND_PHONE_SUPPORTED_COUNTRIES } from '@/shared/constants';
 import {
   formatAreaCode,
   formatStringToKebabCase,
   generateMeta,
   generateSecondPhonesList,
   scrollToId,
-} from "@/shared/lib";
-import { PhoneToBuy, SecondPhoneCountry } from "@/utils/types";
-import api from "@/api";
-import Breadcrumbs from "@/shared/ui/Breadcrumbs";
-import BaseHeader from "@/shared/ui/BaseHeader";
-import { PanelSection, PanelSectionTitle } from "@/shared/ui/styled";
-import PhoneNumberPurchase from "@/features/PhoneNumberPurchase";
-import PhoneNumbersTable from "@/features/PhoneNumbersTable";
-import { Wrapper as TableWrapper } from "@/shared/ui/BaseTable/styled";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import { useWindowSize } from "@/context/WindowSizeContext";
-import MobileNumberFaq from "@/features/MobileNumberFaq";
-import Footer from "@/components/Footer";
-import WhyDoYouNeedMobileNumber from "@/features/WhyDoYouNeedMobileNumber";
-import { NoNumbersAvailableView } from "@/features/NoNumbersAvailableView/NoNumbersAvailableView";
-import { useSecondPhoneCountries } from "@/shared/hooks";
-import { format } from "libphonenumber-js";
+} from '@/shared/lib';
+import { PhoneToBuy, SecondPhoneCountry } from '@/utils/types';
+import api from '@/api';
+import Breadcrumbs from '@/shared/ui/Breadcrumbs';
+import BaseHeader from '@/shared/ui/BaseHeader';
+import { PanelSection, PanelSectionTitle } from '@/shared/ui/styled';
+import PhoneNumberPurchase from '@/features/PhoneNumberPurchase';
+import PhoneNumbersTable from '@/features/PhoneNumbersTable';
+import { Wrapper as TableWrapper } from '@/shared/ui/BaseTable/styled';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import { useWindowSize } from '@/context/WindowSizeContext';
+import MobileNumberFaq from '@/features/MobileNumberFaq';
+import Footer from '@/components/Footer';
+import WhyDoYouNeedMobileNumber from '@/features/WhyDoYouNeedMobileNumber';
+import { NoNumbersAvailableView } from '@/features/NoNumbersAvailableView/NoNumbersAvailableView';
+import { useSecondPhoneCountries } from '@/shared/hooks';
+import { format } from 'libphonenumber-js';
+import { Cacheable } from '@/lib/redis';
 
 type PageProps = {
   country: ICountry;
@@ -95,7 +93,7 @@ const SectionsWrapper = styled.div`
 
 function Index({ country, phones, popularCountries }: PageProps) {
   const router = useRouter();
-  const { t, i18n } = useTranslation("virtual-phone-number");
+  const { t, i18n } = useTranslation('virtual-phone-number');
   const { isMobile } = useWindowSize();
   const secondPhoneCountries = useSecondPhoneCountries({
     initCountryList: popularCountries,
@@ -104,10 +102,8 @@ function Index({ country, phones, popularCountries }: PageProps) {
   const [selectedPhone, setSelectedPhone] = React.useState(phones[0]);
 
   const areaCode =
-    (country.isoCode === "US" || country.isoCode === "CA") && phones[0]
-      ? format(phones[0].phoneNumber, "INTERNATIONAL")
-          .slice(0, 6)
-          .replaceAll(" ", "-")
+    (country.isoCode === 'US' || country.isoCode === 'CA') && phones[0]
+      ? format(phones[0].phoneNumber, 'INTERNATIONAL').slice(0, 6).replaceAll(' ', '-')
       : formatAreaCode(country.phonecode);
 
   const purchaseSectionId = React.useId();
@@ -116,15 +112,15 @@ function Index({ country, phones, popularCountries }: PageProps) {
     () =>
       generateMeta({
         language: i18n.language,
-        description: t("meta:virtual_numbers_by_country_mobile_description", {
+        description: t('meta:virtual_numbers_by_country_mobile_description', {
           country: country.name,
         }),
-        title: t("meta:virtual_numbers_by_country_mobile_title", {
+        title: t('meta:virtual_numbers_by_country_mobile_title', {
           country: country.name,
           areaCode,
         }),
         asPath: router.asPath,
-        supportedLangs: ["en"],
+        supportedLangs: ['en'],
       }),
     [router.asPath, country.name, i18n.language, t, areaCode]
   );
@@ -135,30 +131,22 @@ function Index({ country, phones, popularCountries }: PageProps) {
       <Navbar />
       <BaseHeader>
         <h1>
-          {t("phone_numbers_by_country_mobile_title", {
+          {t('phone_numbers_by_country_mobile_title', {
             country: country.name,
             areaCode,
           })}
         </h1>
-        <Breadcrumbs style={{ margin: "20px 0" }}>
-          <Link href="/">{t("common:home")}</Link>
-          <Link href="/virtual-phone-number/pricing">
-            {t("common:phone_number")}
-          </Link>
-          <Link
-            href={`/virtual-phone-number/${formatStringToKebabCase(
-              country.name
-            )}`}
-          >
-            {country.name}
-          </Link>
+        <Breadcrumbs style={{ margin: '20px 0' }}>
+          <Link href="/">{t('common:home')}</Link>
+          <Link href="/virtual-phone-number/pricing">{t('common:phone_number')}</Link>
+          <Link href={`/virtual-phone-number/${formatStringToKebabCase(country.name)}`}>{country.name}</Link>
           <Link href="/mock">Mobile</Link>
         </Breadcrumbs>
         {phones.length > 0 ? (
           <SectionsWrapper>
             <PanelSection>
-              <PanelSectionTitle>{t("select_phone_number")}</PanelSectionTitle>
-            </PanelSection>{" "}
+              <PanelSectionTitle>{t('select_phone_number')}</PanelSectionTitle>
+            </PanelSection>{' '}
             <PanelSection style={{ paddingTop: 25 }}>
               <PhoneNumbersTable
                 phones={phones}
@@ -169,15 +157,9 @@ function Index({ country, phones, popularCountries }: PageProps) {
                   setSelectedPhone(phone);
                 }}
               />
-            </PanelSection>{" "}
+            </PanelSection>{' '}
             <PanelSection id={purchaseSectionId}>
-              {selectedPhone && (
-                <PhoneNumberPurchase
-                  isNumberOfMobileType
-                  country={country}
-                  phone={selectedPhone}
-                />
-              )}
+              {selectedPhone && <PhoneNumberPurchase isNumberOfMobileType country={country} phone={selectedPhone} />}
             </PanelSection>
           </SectionsWrapper>
         ) : (
@@ -193,45 +175,33 @@ function Index({ country, phones, popularCountries }: PageProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async ({
-  locale,
-  params,
-  res,
-}) => {
-  res.setHeader(
-    "Cache-Control",
-    `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`
-  );
+export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale, params, res }) => {
+  res.setHeader('Cache-Control', `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`);
 
   const { country } = params ?? {};
-  if (typeof country !== "string") {
+  if (typeof country !== 'string') {
     return {
       redirect: {
-        destination: "/virtual-phone-number/pricing",
+        destination: '/virtual-phone-number/pricing',
         statusCode: 301,
       },
     };
   }
 
-  const currentCountry = COUNTRY_LIST.find(
-    (el) => country === formatStringToKebabCase(el.name)
-  );
+  const currentCountry = COUNTRY_LIST.find((el) => country === formatStringToKebabCase(el.name));
 
   if (!currentCountry) {
     return {
       redirect: {
-        destination: "/virtual-phone-number/pricing",
+        destination: '/virtual-phone-number/pricing',
         statusCode: 301,
       },
     };
   }
 
-  const { data } = await api.secondPhone.getPhonesByCountry(
-    currentCountry.isoCode
-  );
+  const { data } = await Cacheable(api.secondPhone.getPhonesByCountry)(currentCountry.isoCode);
 
-  const { data: secondPhoneCountries } =
-    await api.secondPhone.listSecondPhoneCountries();
+  const { data: secondPhoneCountries } = await Cacheable(api.secondPhone.listSecondPhoneCountries)();
 
   const phones = data?.data.phones.length
     ? data.data.phones
@@ -241,11 +211,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en", [
-        "common",
-        "virtual-phone-number",
-        "meta",
-      ])),
+      ...(await serverSideTranslations(locale ?? 'en', ['common', 'virtual-phone-number', 'meta'])),
       country: currentCountry,
       phones,
       popularCountries: secondPhoneCountries ?? [],

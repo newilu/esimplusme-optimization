@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "SERVER_NODE_OPTIONS=--expose-gc next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },

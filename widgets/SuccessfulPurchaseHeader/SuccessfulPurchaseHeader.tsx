@@ -53,8 +53,8 @@ function SuccessfulPurchaseHeader() {
         .then(() => {
           const validCount = !Number.isNaN(Number(count)) ? Number(count) : 1;
           const formatedPaymentAmount = Number.isNaN(Number(paymentAmount))
-                ? paymentAmount
-                : Number(paymentAmount) / 100;   
+            ? paymentAmount
+            : Number(paymentAmount) / 100;
 
           const promise = () =>
             validCount > 1
@@ -80,7 +80,7 @@ function SuccessfulPurchaseHeader() {
                 num_items: 1,
                 value: formatedPaymentAmount,
               });
-        
+
               sendSafeGtagEvent("purchase", {
                 transaction_id: paymentId,
                 value: formatedPaymentAmount,
@@ -99,7 +99,7 @@ function SuccessfulPurchaseHeader() {
                   },
                 ],
               });
-        
+
               sendSafeEcommerceEvent({
                 ecommerce: {
                   currencyCode: "USD",
@@ -115,7 +115,7 @@ function SuccessfulPurchaseHeader() {
                   },
                 },
               });
-        
+
               sendSafeYMEvent("number_purchase_success", {
                 price: formatedPaymentAmount,
                 currency: "USD",
@@ -134,9 +134,9 @@ function SuccessfulPurchaseHeader() {
                 country,
               });
             }
-            
-            replace(pathname, undefined, { shallow: true })
-          })
+
+            replace(pathname, undefined, { shallow: true });
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -145,7 +145,19 @@ function SuccessfulPurchaseHeader() {
           setIsLoading(false);
         });
     }
-  }, []);
+  }, [
+    calls,
+    code,
+    count,
+    country,
+    pathname,
+    paymentAmount,
+    paymentId,
+    phone,
+    replace,
+    sms,
+    type,
+  ]);
 
   return (
     <Wrapper>
@@ -167,9 +179,7 @@ function SuccessfulPurchaseHeader() {
         fullWidth
         onClick={() => {
           const environmentPrefix =
-            process.env.NEXT_PUBLIC_RUNTIME_ENV === 'development'
-              ? "dev-"
-              : "";
+            process.env.NEXT_PUBLIC_RUNTIME_ENV === "development" ? "dev-" : "";
           push(`https://${environmentPrefix}sms.esimplus.me/register`);
         }}
         label={t("create_account")}
