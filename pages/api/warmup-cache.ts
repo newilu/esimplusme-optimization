@@ -15,6 +15,8 @@ export default async function handler(
     ...SECOND_PHONE_SUPPORTED_COUNTRIES.map((country) =>
       api.secondPhone.getPhonesByCountry(country)
     ),
+    api.profiles.listRegions(),
+    api.profiles.listCountries(),
   ]);
 
   res.status(200).json({});

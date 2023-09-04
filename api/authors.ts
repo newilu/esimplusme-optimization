@@ -1,9 +1,8 @@
-import { queryFetcher } from "./index";
-import { Author } from "@/utils/types";
+import { Author } from '@/utils/types';
+import { queryFetcher } from './index';
 
 const ENDPOINTS = {
-  listAuthors: (limit: number, offset: number) =>
-    `/authors?limit=${limit}&offset=${offset}`,
+  listAuthors: (limit: number, offset: number) => `/authors?limit=${limit}&offset=${offset}`,
   getAuthorById: (id?: string | number) => `/author/${id}`,
 };
 
