@@ -22,7 +22,7 @@ async function queryFetcher<T = unknown>(endpoint = '', options?: RequestInit): 
   const startDate = Date.now();
 
   // Log the outgoing request
-  console.log(`[OUTGOING] [${new Date().toISOString()}] ${options?.method || 'GET'} ${endpoint}`);
+  console.log(`\n [OUTGOING] [${new Date().toISOString()}] ${options?.method || 'GET'} ${endpoint}`);
 
   try {
     const response = await fetch(`${endpoint.startsWith('http') ? endpoint : BLOG_API_URL.concat(endpoint)}`, {
@@ -34,7 +34,7 @@ async function queryFetcher<T = unknown>(endpoint = '', options?: RequestInit): 
     const data = await response.json();
 
     // Log response time
-    console.log(endpoint, `${endDate - startDate} ms`);
+    console.log(endpoint, `${endDate - startDate} ms \n`);
 
     if (response.status >= 400) {
       return {
@@ -46,7 +46,7 @@ async function queryFetcher<T = unknown>(endpoint = '', options?: RequestInit): 
 
     return { headers: response.headers, data, error: null };
   } catch (e: unknown) {
-    console.error(`Error occurred while making request to ${endpoint}:`, e);
+    console.error(`Error occurred while making request to ${endpoint}: \n`, e);
     return {
       headers: null,
       data: null,
