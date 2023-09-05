@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components";
-import BaseHeader from "@/shared/ui/BaseHeader";
-import Link from "next/link";
-import { PanelSection, PanelSectionsWrapper } from "@/shared/ui/styled";
+import styled, { css } from 'styled-components';
+import BaseHeader from '@/shared/ui/BaseHeader';
+import Link from 'next/link';
+import { PanelSection, PanelSectionsWrapper } from '@/shared/ui/styled';
 
 export const GetNumberButton = styled(Link)`
   width: 100%;
@@ -47,6 +47,23 @@ export const GeneratedPhoneNumber = styled.div`
   font-size: 42px;
   line-height: 42px;
   color: ${(props) => props.theme.primaryText};
+  vertical-align: middle;
+
+  button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+    gap: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: ${(props) => props.theme.secondaryText};
+  }
 
   @media (max-width: 768px) {
     font-size: 32px;
@@ -114,7 +131,7 @@ export const Wrapper = styled(BaseHeader)`
     position: relative;
 
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       bottom: 0;
       left: 0;
