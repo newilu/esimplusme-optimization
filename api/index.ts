@@ -7,10 +7,6 @@ import * as authors from './authors';
 import * as profiles from './profiles';
 import * as secondPhone from './secondPhone';
 
-export type DefaultOptionsType = {
-  fetcher?: <T>(...args: any[]) => Promise<MappedDataType<T>>;
-};
-
 type AuthTypes = {
   [key: string]: string;
 };
@@ -23,36 +19,40 @@ function getAuthAndBaseHeaders(): AuthTypes {
 }
 
 async function queryFetcher<T = unknown>(endpoint = '', options?: RequestInit): Promise<MappedDataType<T>> {
-  const { ...restOptions } = options ?? {};
   const startDate = Date.now();
 
-  return fetch(`${endpoint.startsWith('http') ? endpoint : BLOG_API_URL.concat(endpoint)}`, {
-    ...restOptions,
-    headers: { ...restOptions?.headers, ...getAuthAndBaseHeaders() },
-  })
-    .then(async (result) => {
-      const endDate = Date.now();
+  // Log the outgoing request
+  console.log(`\n [OUTGOING] [${new Date().toISOString()}] ${options?.method || 'GET'} ${endpoint}`);
 
-      // log response time
-      console.log(endpoint, `${endDate - startDate} ms`);
+  try {
+    const response = await fetch(`${endpoint.startsWith('http') ? endpoint : BLOG_API_URL.concat(endpoint)}`, {
+      ...options,
+      headers: { ...options?.headers, ...getAuthAndBaseHeaders() },
+    });
 
-      const data = await result.json();
+    const endDate = Date.now();
+    const data = await response.json();
 
-      if (result.status >= 400) {
-        return {
-          headers: result.headers,
-          data: null,
-          error: getErrorMessage(data),
-        };
-      }
+    // Log response time
+    console.log(endpoint, `${endDate - startDate} ms \n`);
 
-      return { headers: result.headers, data, error: null };
-    })
-    .catch((e: unknown) => ({
+    if (response.status >= 400) {
+      return {
+        headers: response.headers,
+        data: null,
+        error: getErrorMessage(data),
+      };
+    }
+
+    return { headers: response.headers, data, error: null };
+  } catch (e: unknown) {
+    console.error(`Error occurred while making request to ${endpoint}: \n`, e);
+    return {
       headers: null,
       data: null,
       error: getErrorMessage(e),
-    }));
+    };
+  }
 }
 
 const api = { articles, categories, authors, profiles, secondPhone };

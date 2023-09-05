@@ -6,6 +6,7 @@ import examples from 'libphonenumber-js/examples.mobile.json';
 import { PhoneToBuy } from '@/utils/types';
 import { DEFAULT_PHONE_NUMBER_PRICE, DEFAULT_PHONE_NUMBER_TYPE } from '@/shared/constants';
 import statesByIso from './assets/us-state-info-by-iso.json';
+import toast from 'react-hot-toast';
 
 function formatDataSize(dataSize: string | number) {
   return +dataSize >= 1000 ? `${+dataSize / 1000} GB` : `${dataSize} MB`;
@@ -294,6 +295,7 @@ function buildRedisKey(args: any[]) {
     })
     .join('-')}`;
 }
+
 function findEndpoint(value: any): string | null {
   if (typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://'))) {
     return value;
@@ -324,8 +326,15 @@ function findEndpoint(value: any): string | null {
   return foundEndpoint;
 }
 
+function copyToClipboard(text: string) {
+  if (typeof window === 'undefined') return;
+  navigator.clipboard.writeText(text);
+  toast.success('Copied!');
+}
+
 export {
   findEndpoint,
+  copyToClipboard,
   buildRedisKey,
   formatPathToReadableEventName,
   getRandomBoolean,

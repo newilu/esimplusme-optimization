@@ -64,8 +64,6 @@ async function setRedisCacheByKey<T extends {}>(cacheKey: string, data: T) {
 
 function Cacheable<T extends (...args: any[]) => any>(fn: T): T {
   return async function (...args: Parameters<T>) {
-    // Extract endpoint from arguments
-
     const cacheKey = buildRedisKey(args).concat(fn.name);
 
     // Check Redis for cached data
