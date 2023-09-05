@@ -25,9 +25,18 @@ type PageProps = {
   phoneNumberStartingPrice: number | null;
   popularCountries: SecondPhoneCountry[];
   phoneNumber?: PhoneToBuy | null;
+  randomGeneratedPhones: PhoneToBuy[];
 };
 
-function Index({ country, states, phoneNumberStartingPrice, phones, popularCountries, phoneNumber }: PageProps) {
+function Index({
+  country,
+  states,
+  phoneNumberStartingPrice,
+  phones,
+  popularCountries,
+  phoneNumber,
+  randomGeneratedPhones,
+}: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation('meta');
   const secondPhoneCountries = useSecondPhoneCountries({
@@ -61,6 +70,7 @@ function Index({ country, states, phoneNumberStartingPrice, phones, popularCount
         phones={phones}
         popularCountries={secondPhoneCountries}
         phoneNumber={phoneNumber}
+        randomGeneratedPhones={randomGeneratedPhones}
       />
       <HowToGetPhoneNumber countryName={country.name} />
       <DownloadAppSection />
@@ -151,6 +161,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
       country: currentCountry,
       states: regions,
       phoneNumber: (autonumber && phoneNumbers?.[0]) || null,
+      randomGeneratedPhones: !phoneNumbers?.length
+        ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
+        : [],
     },
   };
 };

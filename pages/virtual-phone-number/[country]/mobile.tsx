@@ -13,7 +13,7 @@ import {
   generateSecondPhonesList,
   scrollToId,
 } from '@/shared/lib';
-import { PhoneToBuy, SecondPhoneCountry } from '@/utils/types';
+import { PhoneToBuy } from '@/utils/types';
 import api from '@/api';
 import Breadcrumbs from '@/shared/ui/Breadcrumbs';
 import BaseHeader from '@/shared/ui/BaseHeader';
@@ -29,14 +29,13 @@ import MobileNumberFaq from '@/features/MobileNumberFaq';
 import Footer from '@/components/Footer';
 import WhyDoYouNeedMobileNumber from '@/features/WhyDoYouNeedMobileNumber';
 import { NoNumbersAvailableView } from '@/features/NoNumbersAvailableView/NoNumbersAvailableView';
-import { useSecondPhoneCountries } from '@/shared/hooks';
 import { format } from 'libphonenumber-js';
 import { Cacheable } from '@/lib/redis';
 
 type PageProps = {
   country: ICountry;
   phones: PhoneToBuy[];
-  popularCountries: SecondPhoneCountry[];
+  randomGeneratedPhones: PhoneToBuy[];
 };
 
 const SectionsWrapper = styled.div`
@@ -91,13 +90,10 @@ const SectionsWrapper = styled.div`
   }
 `;
 
-function Index({ country, phones, popularCountries }: PageProps) {
+function Index({ country, phones, randomGeneratedPhones }: PageProps) {
   const router = useRouter();
   const { t, i18n } = useTranslation('virtual-phone-number');
   const { isMobile } = useWindowSize();
-  const secondPhoneCountries = useSecondPhoneCountries({
-    initCountryList: popularCountries,
-  });
 
   const [selectedPhone, setSelectedPhone] = React.useState(phones[0]);
 
@@ -164,7 +160,7 @@ function Index({ country, phones, popularCountries }: PageProps) {
           </SectionsWrapper>
         ) : (
           <PanelSection>
-            <NoNumbersAvailableView countries={secondPhoneCountries} />
+            <NoNumbersAvailableView phones={randomGeneratedPhones} />
           </PanelSection>
         )}
       </BaseHeader>
@@ -201,8 +197,6 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
 
   const { data } = await Cacheable(api.secondPhone.getPhonesByCountry)(currentCountry.isoCode);
 
-  const { data: secondPhoneCountries } = await Cacheable(api.secondPhone.listSecondPhoneCountries)();
-
   const phones = data?.data.phones.length
     ? data.data.phones
     : SECOND_PHONE_SUPPORTED_COUNTRIES.includes(currentCountry.isoCode)
@@ -214,7 +208,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
       ...(await serverSideTranslations(locale ?? 'en', ['common', 'virtual-phone-number', 'meta'])),
       country: currentCountry,
       phones,
-      popularCountries: secondPhoneCountries ?? [],
+      randomGeneratedPhones: !phones.length
+        ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
+        : [],
     },
   };
 };

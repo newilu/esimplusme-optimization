@@ -8,7 +8,7 @@ import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import api from '@/api';
 import Navbar from '@/widgets/Navbar';
-import { COUNTRY_LIST } from '@/shared/constants';
+import { COUNTRY_LIST, SECOND_PHONE_SUPPORTED_COUNTRIES } from '@/shared/constants';
 import { formatStringToKebabCase, generateMeta, generateSecondPhonesList, getStatesByCountryCode } from '@/shared/lib';
 import PhoneNumberPurchaseHeader from '@/widgets/PhoneNumberPurchaseHeader';
 import DownloadAppSection from '@/features/DownloadAppSection';
@@ -25,9 +25,10 @@ type PageProps = {
   country: ICountry | null;
   state: IState | null;
   phone: PhoneToBuy | null;
+  randomGeneratedPhones: PhoneToBuy[];
 };
 
-function Index({ country, state, phones, phone, countries }: PageProps) {
+function Index({ country, state, phones, phone, countries, randomGeneratedPhones }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation('virtual-phone-number');
   const secondPhoneCountries = useSecondPhoneCountries({
@@ -53,11 +54,12 @@ function Index({ country, state, phones, phone, countries }: PageProps) {
           phones={phones}
           country={country}
           countries={secondPhoneCountries}
+          randomGeneratedPhones={randomGeneratedPhones}
         />
       ) : (
         <BaseHeader>
           <PanelSection>
-            <NoNumbersAvailableView countries={secondPhoneCountries} />
+            <NoNumbersAvailableView phones={randomGeneratedPhones} />
           </PanelSection>
         </BaseHeader>
       )}
@@ -83,6 +85,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
         countries,
         state: null,
         phones: null,
+        randomGeneratedPhones: [],
       },
     };
   }
@@ -140,6 +143,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
         country: currentCountry,
         state: currentState,
         countries,
+        randomGeneratedPhones: !phones.length
+          ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
+          : [],
       },
     };
   }
@@ -166,6 +172,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
       state: currentState,
       phone: selectedPhone,
       countries,
+      randomGeneratedPhones: !filteredPhones.length
+        ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
+        : [],
     },
   };
 };

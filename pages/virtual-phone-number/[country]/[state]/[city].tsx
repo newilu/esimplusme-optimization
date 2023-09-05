@@ -33,9 +33,10 @@ type PageProps = {
   state: IState;
   city: ICity;
   countries: SecondPhoneCountry[];
+  randomGeneratedPhones: PhoneToBuy[];
 };
 
-function Index({ country, city, state, phones, countries }: PageProps) {
+function Index({ country, city, state, phones, countries, randomGeneratedPhones }: PageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation('meta');
   const secondPhoneCountries = useSecondPhoneCountries({
@@ -73,6 +74,7 @@ function Index({ country, city, state, phones, countries }: PageProps) {
         phones={phones}
         country={country}
         countries={secondPhoneCountries}
+        randomGeneratedPhones={randomGeneratedPhones}
       />
       <WhyDoYouNeedPhoneNumber cityName={city.name} />
       <Footer />
@@ -134,19 +136,24 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
   if (currentCountry.isoCode === 'US') {
     const { data } = await Cacheable(api.secondPhone.getAvailableNumbersByStateISO)(currentState.isoCode);
 
+    const phones =
+      data?.data.phones ??
+      generateSecondPhonesList({
+        countryIso: currentCountry.isoCode,
+        stateIso: currentState.isoCode,
+      });
+
     return {
       props: {
         ...(await serverSideTranslations(locale ?? 'en', ['common', 'virtual-phone-number', 'meta'])),
-        phones:
-          data?.data.phones ??
-          generateSecondPhonesList({
-            countryIso: currentCountry.isoCode,
-            stateIso: currentState.isoCode,
-          }),
+        phones,
         country: currentCountry,
         state: currentState,
         city: currentCity,
         countries,
+        randomGeneratedPhones: !phones?.length
+          ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
+          : [],
       },
     };
   }
@@ -160,15 +167,19 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
     : [];
 
   const filteredPhones = countryPhones.filter((_phone) => _phone.region === currentState?.isoCode);
+  const phones = filteredPhones.length ? filteredPhones : countryPhones;
 
   return {
     props: {
       ...(await serverSideTranslations(locale ?? 'en', ['common', 'virtual-phone-number', 'meta'])),
-      phones: filteredPhones.length ? filteredPhones : countryPhones,
+      phones,
       country: currentCountry,
       state: currentState,
       city: currentCity,
       countries,
+      randomGeneratedPhones: !phones?.length
+        ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
+        : [],
     },
   };
 };

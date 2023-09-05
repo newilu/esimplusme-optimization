@@ -1,4 +1,5 @@
 import latinize from 'latinize';
+import toast from 'react-hot-toast';
 import { differenceInDays, getHours } from 'date-fns';
 import { cities, countries, states } from 'country-cities';
 import { CountryCode, getCountryCallingCode, getExampleNumber, isValidPhoneNumber } from 'libphonenumber-js';
@@ -6,7 +7,6 @@ import examples from 'libphonenumber-js/examples.mobile.json';
 import { PhoneToBuy } from '@/utils/types';
 import { DEFAULT_PHONE_NUMBER_PRICE, DEFAULT_PHONE_NUMBER_TYPE } from '@/shared/constants';
 import statesByIso from './assets/us-state-info-by-iso.json';
-import toast from 'react-hot-toast';
 
 function formatDataSize(dataSize: string | number) {
   return +dataSize >= 1000 ? `${+dataSize / 1000} GB` : `${dataSize} MB`;
@@ -252,13 +252,21 @@ function getUSStateInfoByStateName(stateName = 'Alabama') {
   return { isoCode: 'AL', ...statesByIso.AL };
 }
 
-function generateSecondPhonesList({ countryIso, stateIso }: { countryIso: string; stateIso?: string }): PhoneToBuy[] {
+function generateSecondPhonesList({
+  countryIso,
+  stateIso,
+  amount = 20,
+}: {
+  countryIso: string;
+  stateIso?: string;
+  amount?: number;
+}): PhoneToBuy[] {
   const countryCode =
     countryIso === 'US' && stateIso
       ? getUSStateInfoByIso(stateIso).codes[0]
       : getCountryCallingCode(countryIso as CountryCode);
 
-  return Array(20)
+  return Array(amount)
     .fill(null)
     .map(() => ({
       phoneNumber: generateFakeNumber(countryIso, countryCode),

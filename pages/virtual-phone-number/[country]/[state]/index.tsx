@@ -3,7 +3,7 @@ import type { GetServerSideProps } from 'next';
 import type { ICity, ICountry, IState } from 'country-cities';
 import { format } from 'libphonenumber-js';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import type { PhoneToBuy, SecondPhoneCountry } from '@/utils/types';
+import type { PhoneToBuy } from '@/utils/types';
 import api from '@/api';
 import Navbar from '@/widgets/Navbar';
 import PhoneNumbersByRegion from '@/widgets/PhoneNumbersByRegion';
@@ -25,7 +25,6 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import WhyDoYouNeedPhoneNumberInRegion from '@/features/WhyDoYouNeedPhoneNumberInRegion';
-import { useSecondPhoneCountries } from '@/shared/hooks';
 import { Cacheable } from '@/lib/redis';
 
 type PhoneNumberStatePageProps = {
@@ -33,16 +32,13 @@ type PhoneNumberStatePageProps = {
   country: ICountry;
   state: IState;
   cities: ICity[];
-  popularCountries: SecondPhoneCountry[];
   phoneNumber: PhoneToBuy | null;
+  randomGeneratedPhones: PhoneToBuy[];
 };
 
-function Index({ phones, country, state, cities, popularCountries, phoneNumber }: PhoneNumberStatePageProps) {
+function Index({ phones, country, state, cities, phoneNumber, randomGeneratedPhones }: PhoneNumberStatePageProps) {
   const { asPath } = useRouter();
   const { t, i18n } = useTranslation('meta');
-  const secondPhoneCountries = useSecondPhoneCountries({
-    initCountryList: popularCountries,
-  });
 
   const areaCode =
     (country.isoCode === 'US' || country.isoCode === 'CA') && phones[0]
@@ -76,8 +72,8 @@ function Index({ phones, country, state, cities, popularCountries, phoneNumber }
         country={country}
         state={state}
         areaCode={areaCode}
-        popularCountries={secondPhoneCountries}
         phoneNumber={phoneNumber}
+        randomGeneratedPhones={randomGeneratedPhones}
       />
       <WhyDoYouNeedPhoneNumberInRegion regionName={state.name} />
       <DownloadAppSection />
@@ -137,10 +133,6 @@ export const getServerSideProps: GetServerSideProps<PhoneNumberStatePageProps> =
 
   const cities = getCitiesByStateCode(currentState.isoCode, currentCountry.isoCode);
 
-  const { data: secondPhoneCountries } = await Cacheable(api.secondPhone.listSecondPhoneCountries)();
-
-  const popularCountries = secondPhoneCountries ?? [];
-
   if (currentCountry.isoCode === 'US') {
     const { data: phonesByStateUS } = await Cacheable(api.secondPhone.getAvailableNumbersByStateIso)(
       currentState.isoCode
@@ -163,7 +155,9 @@ export const getServerSideProps: GetServerSideProps<PhoneNumberStatePageProps> =
         state: currentState,
         cities,
         phoneNumber,
-        popularCountries,
+        randomGeneratedPhones: !phones.length
+          ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
+          : [],
       },
     };
   }
@@ -187,11 +181,13 @@ export const getServerSideProps: GetServerSideProps<PhoneNumberStatePageProps> =
       props: {
         ...(await serverSideTranslations(locale ?? 'en', ['common', 'virtual-phone-number', 'meta'])),
         phones,
-        popularCountries,
         country: currentCountry,
         state: currentState,
         cities,
         phoneNumber,
+        randomGeneratedPhones: !phones.length
+          ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
+          : [],
       },
     };
   }
@@ -204,7 +200,9 @@ export const getServerSideProps: GetServerSideProps<PhoneNumberStatePageProps> =
       state: currentState,
       cities,
       phoneNumber,
-      popularCountries,
+      randomGeneratedPhones: !phones.length
+        ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
+        : [],
     },
   };
 };
