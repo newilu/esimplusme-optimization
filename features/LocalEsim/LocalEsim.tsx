@@ -130,7 +130,7 @@ function LocalEsim({ countries }: { countries: Country[] }) {
               debouncedFilterText
             ) {
               setActiveCountry(null);
-              router.push("/");
+              router.push("/", undefined, { shallow: true, scroll: false });
             }
           });
       } else {
