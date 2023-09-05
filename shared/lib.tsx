@@ -294,6 +294,7 @@ function buildRedisKey(args: any[]) {
     })
     .join('-')}`;
 }
+
 function findEndpoint(value: any): string | null {
   if (typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://'))) {
     return value;
