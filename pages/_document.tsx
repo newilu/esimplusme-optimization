@@ -1,9 +1,9 @@
-import React from "react";
-import Image from "next/image";
-import Document, { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
-import { ServerStyleSheet } from "styled-components";
-import i18nextConfig from "../next-i18next.config";
+import React from 'react';
+import Image from 'next/image';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Script from 'next/script';
+import { ServerStyleSheet } from 'styled-components';
+import i18nextConfig from '../next-i18next.config';
 
 class MyDocument extends Document {
   render() {
@@ -15,10 +15,7 @@ class MyDocument extends Document {
         <Head>
           <meta charSet="utf-8" />
           <link href="/app.css" rel="stylesheet" />
-          <link
-            rel="stylesheet"
-            href="https://paymentpage.ecommpay.com/shared/merchant.css"
-          />
+          <link rel="stylesheet" href="https://paymentpage.ecommpay.com/shared/merchant.css" />
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
@@ -31,21 +28,47 @@ class MyDocument extends Document {
         </Head>
         <body data-country={(this.props as any).countryCode}>
           <Main />
+          <Script strategy="beforeInteractive" id="help-crunch-script">
+            {`
+              window.helpcrunchSettings = {
+                organization: 'appvillis',
+                appId: 'dc92b31a-172f-46e8-9f88-ceddd074d9fe',
+              };
+
+              (function(w,d) { 
+                var hS=w.helpcrunchSettings;
+                if(!hS||!hS.organization){return;}
+                var widgetSrc='https://'+hS.organization+'.widget.helpcrunch.com/';
+                w.HelpCrunch=function(){w.HelpCrunch.q.push(arguments)};
+                w.HelpCrunch.q=[];
+                function r(){
+                  if (d.querySelector('script[src="' + widgetSrc + '"')) { return; }
+                  var s=d.createElement('script');
+                  s.async=1;
+                  s.type='text/javascript';
+                  s.src=widgetSrc;
+                  (d.body||d.head).appendChild(s);
+                }
+                if(d.readyState === 'complete'||hS.loadImmediately){r();} 
+                else if(w.attachEvent){w.attachEvent('onload',r)}
+                else{w.addEventListener('load',r,false)}
+              })(window, document)
+
+              HelpCrunch('showChatWidget');
+            `}
+          </Script>
           <noscript>
             <div>
               <Image
                 width={10}
                 height={10}
                 src="https://mc.yandex.ru/watch/79496440"
-                style={{ position: "absolute", left: -9999 }}
+                style={{ position: 'absolute', left: -9999 }}
                 alt=""
               />
             </div>
           </noscript>
-          <Script
-            src="https://paymentpage.ecommpay.com/shared/merchant.js"
-            strategy="afterInteractive"
-          />
+          <Script src="https://paymentpage.ecommpay.com/shared/merchant.js" strategy="afterInteractive" />
           <NextScript />
         </body>
       </Html>
@@ -57,13 +80,12 @@ MyDocument.getInitialProps = async (ctx) => {
   const originalRenderPage = ctx.renderPage;
 
   const sheet = new ServerStyleSheet();
-  const countryCode = (ctx.req?.headers["cf-ipcountry"] ?? "") as string;
+  const countryCode = (ctx.req?.headers['cf-ipcountry'] ?? '') as string;
 
   ctx.renderPage = () =>
     originalRenderPage({
       // Take precedence over the CacheProvider in our custom _app.js
-      enhanceComponent: (Component) => (props) =>
-        sheet.collectStyles(<Component {...props} />),
+      enhanceComponent: (Component) => (props) => sheet.collectStyles(<Component {...props} />),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
@@ -71,10 +93,7 @@ MyDocument.getInitialProps = async (ctx) => {
   return {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
-    styles: [
-      ...React.Children.toArray(initialProps.styles),
-      ...sheet.getStyleElement(),
-    ],
+    styles: [...React.Children.toArray(initialProps.styles), ...sheet.getStyleElement()],
     countryCode,
   };
 };
