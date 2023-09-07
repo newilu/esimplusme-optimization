@@ -20,7 +20,7 @@ pipelines:
             - echo NEXT_PUBLIC_REDIS_PORT=${NEXT_PUBLIC_REDIS_PORT} >> .env
             - cat .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-            - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
+            - docker build ./docker/prod -t "landings:${IMAGE_NAME}-${VERSION}"
             - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
             - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
           services:
@@ -52,7 +52,7 @@ pipelines:
             - echo NEXT_PUBLIC_REDIS_HOST=${NEXT_PUBLIC_REDIS_HOST} >> .env
             - echo NEXT_PUBLIC_REDIS_PORT=${NEXT_PUBLIC_REDIS_PORT} >> .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-            - docker build . -t "landings:${IMAGE_NAME}-${VERSION}"
+            - docker build ./docker/prod -t "landings:${IMAGE_NAME}-${VERSION}"
             - docker tag "landings:${IMAGE_NAME}-${VERSION}" "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
             - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
           services:
