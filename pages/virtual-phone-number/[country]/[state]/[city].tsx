@@ -203,8 +203,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
     });
   });
 
+  const uniquePaths = Array.from(new Set(paths.map((path) => JSON.stringify(path)))).map((pathStr) =>
+    JSON.parse(pathStr)
+  );
+
   return {
-    paths,
+    paths: uniquePaths,
     fallback: 'blocking',
   };
 };

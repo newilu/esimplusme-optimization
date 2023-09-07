@@ -181,7 +181,7 @@ export const getStaticProps: GetStaticProps<PhoneNumberStatePageProps> = async (
         ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
         : [],
     },
-    revalidate: 3600
+    revalidate: 3600,
   };
 };
 
@@ -198,8 +198,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }));
   });
 
+  const uniquePaths = Array.from(new Set(paths.map((path) => JSON.stringify(path)))).map((pathStr) =>
+    JSON.parse(pathStr)
+  );
+
   return {
-    paths,
+    paths: uniquePaths,
     fallback: 'blocking',
   };
 };
