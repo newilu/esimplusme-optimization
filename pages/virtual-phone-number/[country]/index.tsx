@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ICountry, IState } from 'country-cities';
-import { GetServerSideProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
@@ -69,10 +69,9 @@ function Index({ country, states, phoneNumberStartingPrice, phones, popularCount
   );
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale, params, query, res }) => {
-  res.setHeader('Cache-Control', `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`);
+export const getStaticProps: GetStaticProps<PageProps> = async ({ locale, params }) => {
   const { country } = params ?? {};
-  const autonumber = query.autonumber === 'true';
+  const autonumber = params?.autonumber === 'true';
 
   let phoneNumberStartingPrice: number | null = null;
   let phoneNumbers: PhoneToBuy[] | null = null;
@@ -152,6 +151,18 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
       states: regions,
       phoneNumber: (autonumber && phoneNumbers?.[0]) || null,
     },
+    revalidate: 3600,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = COUNTRY_LIST.map((country) => ({
+    params: { country: formatStringToKebabCase(country.name) },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
   };
 };
 

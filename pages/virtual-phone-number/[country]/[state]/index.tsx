@@ -1,5 +1,5 @@
 import React from 'react';
-import type { GetServerSideProps } from 'next';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import type { ICity, ICountry, IState } from 'country-cities';
 import { format } from 'libphonenumber-js';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -86,16 +86,8 @@ function Index({ phones, country, state, cities, popularCountries, phoneNumber }
   );
 }
 
-export const getServerSideProps: GetServerSideProps<PhoneNumberStatePageProps> = async ({
-  locale,
-  params,
-  query,
-  res,
-}) => {
-  res.setHeader('Cache-Control', `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`);
-
-  const { country, state } = params ?? {};
-  const { phone } = query;
+export const getStaticProps: GetStaticProps<PhoneNumberStatePageProps> = async ({ locale, params }) => {
+  const { country, state, phone } = params ?? {};
 
   if (typeof country !== 'string' || typeof state !== 'string') {
     return {
@@ -165,6 +157,7 @@ export const getServerSideProps: GetServerSideProps<PhoneNumberStatePageProps> =
         phoneNumber,
         popularCountries,
       },
+      revalidate: 3600,
     };
   }
 
@@ -182,30 +175,36 @@ export const getServerSideProps: GetServerSideProps<PhoneNumberStatePageProps> =
 
   const phoneNumber = phone ? phones.find((el) => el.phoneNumber === phone) ?? phones[0] ?? null : null;
 
-  if (!phones.length) {
-    return {
-      props: {
-        ...(await serverSideTranslations(locale ?? 'en', ['common', 'virtual-phone-number', 'meta'])),
-        phones,
-        popularCountries,
-        country: currentCountry,
-        state: currentState,
-        cities,
-        phoneNumber,
-      },
-    };
-  }
-
   return {
     props: {
       ...(await serverSideTranslations(locale ?? 'en', ['common', 'virtual-phone-number', 'meta'])),
       phones,
+      popularCountries,
       country: currentCountry,
       state: currentState,
       cities,
       phoneNumber,
-      popularCountries,
     },
+    revalidate: 3600,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = COUNTRY_LIST.flatMap((country) => {
+    const countryName = formatStringToKebabCase(country.name);
+    const states = getStatesByCountryCode(country.isoCode);
+
+    return states.map((state) => ({
+      params: {
+        country: countryName,
+        state: formatStringToKebabCase(removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)),
+      },
+    }));
+  });
+
+  return {
+    paths,
+    fallback: 'blocking',
   };
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ICountry } from 'country-cities';
-import type { GetServerSideProps } from 'next';
+import type { GetServerSideProps, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import api from '@/api';
 import Footer from '@/components/Footer';
@@ -54,11 +54,7 @@ function Pricing({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale, req, res }) => {
-  res.setHeader('Cache-Control', `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`);
-
-  const countryCode = (req.headers['cf-ipcountry'] ?? '') as string;
-
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [{ data: popularCountries }] = await Promise.all([Cacheable(api.secondPhone.listSecondPhoneCountries)()]);
 
   return {
@@ -66,8 +62,8 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, req, res 
       ...(await serverSideTranslations(locale ?? 'en', ['common', 'virtual-phone-number', 'meta'])),
       popularSecondPhoneCountries: popularCountries ?? [],
       allCountries: COUNTRY_LIST,
-      countryCode,
     },
+    revalidate: 3600,
   };
 };
 

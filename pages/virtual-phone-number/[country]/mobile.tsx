@@ -1,5 +1,6 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
+import { format } from 'libphonenumber-js';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { ICountry } from 'country-cities';
 import Link from 'next/link';
@@ -30,7 +31,6 @@ import Footer from '@/components/Footer';
 import WhyDoYouNeedMobileNumber from '@/features/WhyDoYouNeedMobileNumber';
 import { NoNumbersAvailableView } from '@/features/NoNumbersAvailableView/NoNumbersAvailableView';
 import { useSecondPhoneCountries } from '@/shared/hooks';
-import { format } from 'libphonenumber-js';
 import { Cacheable } from '@/lib/redis';
 
 type PageProps = {
@@ -175,10 +175,9 @@ function Index({ country, phones, popularCountries }: PageProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale, params, res }) => {
-  res.setHeader('Cache-Control', `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`);
-
+export const getStaticProps: GetStaticProps<PageProps> = async ({ locale, params }) => {
   const { country } = params ?? {};
+
   if (typeof country !== 'string') {
     return {
       redirect: {
@@ -200,7 +199,6 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
   }
 
   const { data } = await Cacheable(api.secondPhone.getPhonesByCountry)(currentCountry.isoCode);
-
   const { data: secondPhoneCountries } = await Cacheable(api.secondPhone.listSecondPhoneCountries)();
 
   const phones = data?.data.phones.length
@@ -216,6 +214,18 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
       phones,
       popularCountries: secondPhoneCountries ?? [],
     },
+    revalidate: 3600,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = COUNTRY_LIST.map((country) => ({
+    params: { country: formatStringToKebabCase(country.name) },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
   };
 };
 
