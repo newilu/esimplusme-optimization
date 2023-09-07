@@ -188,12 +188,16 @@ export const getStaticProps: GetStaticProps<PhoneNumberStatePageProps> = async (
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = COUNTRY_LIST.flatMap((country) => {
     const countryName = formatStringToKebabCase(country.name);
-    const states = getStatesByCountryCode(country.isoCode);
+    const states = getStatesByCountryCode(country.isoCode)
+      .map((state) => formatStringToKebabCase(removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)))
+      .filter((stateName) => !!stateName);
+
+    if (!states.length) return [];
 
     return states.map((state) => ({
       params: {
         country: countryName,
-        state: formatStringToKebabCase(removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS)),
+        state,
       },
     }));
   });
