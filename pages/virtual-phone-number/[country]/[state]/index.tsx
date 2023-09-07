@@ -194,6 +194,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     if (!states.length) return [];
 
+    if (!states.length) return [];
+
     return states.map((state) => ({
       params: {
         country: countryName,
