@@ -189,9 +189,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const countryName = formatStringToKebabCase(country.name);
     const states = getStatesByCountryCode(country.isoCode);
 
+    if (!states.length) return [];
+
     return states.flatMap((state) => {
       const stateName = formatStringToKebabCase(removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS));
       const cities = getCitiesByStateCode(state.isoCode, country.isoCode);
+
+      if (!cities.length) return [];
 
       return cities.map((city) => ({
         params: {

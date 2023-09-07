@@ -190,6 +190,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const countryName = formatStringToKebabCase(country.name);
     const states = getStatesByCountryCode(country.isoCode);
 
+    if (!states.length) return [];
+
     return states.map((state) => ({
       params: {
         country: countryName,
