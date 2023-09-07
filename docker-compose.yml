@@ -7,8 +7,15 @@ services:
       - 6379:6379
 
   nextjs:
-    build: .
+    build:
+      context: .
+      # for local dev change to ./docker/local/Dockerfile
+      dockerfile: ./docker/prod/Dockerfile
     ports:
       - 3000:3000
     depends_on:
       - redis
+#    for local development
+#    volumes:
+#      - .:/usr/src/app
+#      - /usr/src/app/node_modules

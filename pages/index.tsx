@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Footer from 'components/Footer';
 import Navbar from 'widgets/Navbar';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import user4 from 'features/Reviews/assets/user4.jpeg';
 import user5 from 'features/Reviews/assets/user5.jpeg';
@@ -131,9 +131,7 @@ export default function Home({ countries, regions, worldwideRegion }: HomeProps)
   );
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async ({ locale, res }) => {
-  res.setHeader('Cache-Control', `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`);
-
+export const getStaticProps: GetStaticProps<HomeProps> = async ({ locale }) => {
   const [countries, regions, worldwideRegion] = await Promise.all([
     Cacheable(api.profiles.listCountries)(),
     Cacheable(api.profiles.listRegions)(),
@@ -147,5 +145,6 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({ locale
       regions: regions.data?.data.regions ?? [],
       worldwideRegion: worldwideRegion.data?.data.region,
     },
+    revalidate: 3600, // This will re-generate the page every hour
   };
 };

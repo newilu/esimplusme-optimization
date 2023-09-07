@@ -1,5 +1,6 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
+import { format } from 'libphonenumber-js';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { ICountry } from 'country-cities';
 import Link from 'next/link';
@@ -29,7 +30,6 @@ import MobileNumberFaq from '@/features/MobileNumberFaq';
 import Footer from '@/components/Footer';
 import WhyDoYouNeedMobileNumber from '@/features/WhyDoYouNeedMobileNumber';
 import { NoNumbersAvailableView } from '@/features/NoNumbersAvailableView/NoNumbersAvailableView';
-import { format } from 'libphonenumber-js';
 import { Cacheable } from '@/lib/redis';
 
 type PageProps = {
@@ -171,10 +171,9 @@ function Index({ country, phones, randomGeneratedPhones }: PageProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale, params, res }) => {
-  res.setHeader('Cache-Control', `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`);
-
+export const getStaticProps: GetStaticProps<PageProps> = async ({ locale, params }) => {
   const { country } = params ?? {};
+
   if (typeof country !== 'string') {
     return {
       redirect: {
@@ -212,6 +211,18 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
         ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
         : [],
     },
+    revalidate: 3600,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = COUNTRY_LIST.map((country) => ({
+    params: { country: formatStringToKebabCase(country.name) },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
   };
 };
 

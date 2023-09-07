@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ICity, ICountry, IState } from 'country-cities';
-import type { GetServerSideProps } from 'next';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import type { PhoneToBuy, SecondPhoneCountry } from '@/utils/types';
 import { format } from 'libphonenumber-js';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -82,9 +82,7 @@ function Index({ country, city, state, phones, countries, randomGeneratedPhones 
   );
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale, params, res }) => {
-  res.setHeader('Cache-Control', `public, s-maxage=${60 * 60}, stale-while-revalidate=${60 * 60}`);
-
+export const getStaticProps: GetStaticProps<PageProps> = async ({ locale, params }) => {
   const { country, state, city } = params ?? {};
 
   if (typeof country !== 'string' || typeof state !== 'string' || typeof city !== 'string') {
@@ -154,6 +152,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
         randomGeneratedPhones: !phones?.length
           ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
           : [],
+        revalidate: 3600,
       },
     };
   }
@@ -180,7 +179,33 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ locale
       randomGeneratedPhones: !phones?.length
         ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
         : [],
+      revalidate: 3600,
     },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = COUNTRY_LIST.flatMap((country) => {
+    const countryName = formatStringToKebabCase(country.name);
+    const states = getStatesByCountryCode(country.isoCode);
+
+    return states.flatMap((state) => {
+      const stateName = formatStringToKebabCase(removeExcludedWords(state.name, STATE_NAME_DEPRECATED_WORDS));
+      const cities = getCitiesByStateCode(state.isoCode, country.isoCode);
+
+      return cities.map((city) => ({
+        params: {
+          country: countryName,
+          state: stateName,
+          city: formatStringToKebabCase(city.name),
+        },
+      }));
+    });
+  });
+
+  return {
+    paths,
+    fallback: 'blocking',
   };
 };
 
