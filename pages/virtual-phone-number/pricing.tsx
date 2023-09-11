@@ -63,7 +63,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       popularSecondPhoneCountries: popularCountries ?? [],
       allCountries: COUNTRY_LIST,
     },
-    revalidate: 3600,
+    revalidate: 86400,
   };
 };
 

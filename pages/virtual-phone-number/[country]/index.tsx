@@ -164,7 +164,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({ locale, params
         ? SECOND_PHONE_SUPPORTED_COUNTRIES.map((el) => generateSecondPhonesList({ countryIso: el, amount: 3 })).flat()
         : [],
     },
-    revalidate: 3600,
+    revalidate: 86400,
   };
 };
 

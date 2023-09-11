@@ -145,6 +145,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async ({ locale }) => {
       regions: regions.data?.data.regions ?? [],
       worldwideRegion: worldwideRegion.data?.data.region,
     },
-    revalidate: 3600, // This will re-generate the page every hour
+    revalidate: 86400, // This will re-generate the page every hour
   };
 };
