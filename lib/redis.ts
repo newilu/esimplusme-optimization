@@ -19,7 +19,8 @@ export function createRedisInstance(config = getRedisConfiguration()) {
       maxRetriesPerRequest: 0,
       retryStrategy: (times: number) => {
         if (times > 3) {
-          throw new Error(`[Redis] Could not connect after ${times} attempts`);
+          return null;
+          // throw new Error(`[Redis] Could not connect after ${times} attempts`);
         }
 
         return Math.min(times * 200, 1000);
@@ -45,21 +46,30 @@ export function createRedisInstance(config = getRedisConfiguration()) {
 const redis = createRedisInstance();
 
 async function getCachedDataFromRedisDb<T extends any>(cacheKey: string) {
-  const cached = await redis.get(cacheKey);
+  try {
+    const cached = await redis.get(cacheKey).catch(() => null);
 
-  // if cached, we're good!
-  if (cached) {
-    return JSON.parse(cached) as T;
+    // if cached, we're good!
+    if (cached) {
+      return JSON.parse(cached) as T;
+    }
+    return null;
+  } catch (e) {
+    return null;
   }
-  return null;
 }
 
 async function setRedisCacheByKey<T extends {}>(cacheKey: string, data: T) {
-  const MAX_AGE = 1000 * getRandomInt(50, 60) * 60; // 1 hour
-  const EXPIRY_MS = `PX`; // milliseconds
+  try {
+    const MAX_AGE = 1000 * getRandomInt(50, 60) * 60; // 1 hour
+    const EXPIRY_MS = `PX`; // milliseconds
 
-  // cache data
-  await redis.set(cacheKey, JSON.stringify(data), EXPIRY_MS, MAX_AGE);
+    // cache data
+    await redis.set(cacheKey, JSON.stringify(data), EXPIRY_MS, MAX_AGE);
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 }
 
 function Cacheable<T extends (...args: any[]) => any>(fn: T): T {

@@ -1,11 +1,5 @@
 {
-  "extends": [
-    "airbnb",
-    "airbnb-typescript",
-    "next",
-    "plugin:react-hooks/recommended",
-    "prettier"
-  ],
+  "extends": ["airbnb", "airbnb-typescript", "next", "plugin:react-hooks/recommended", "prettier"],
   "plugins": ["prettier"],
   "parserOptions": {
     "project": "./tsconfig.json"
@@ -23,6 +17,7 @@
     "no-plusplus": "off",
     "react/no-unstable-nested-components": "warn",
     "consistent-return": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "@typescript-eslint/no-use-before-define": "off"
   }
 }
