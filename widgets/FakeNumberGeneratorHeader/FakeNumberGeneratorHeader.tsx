@@ -45,7 +45,8 @@ function FakeNumberGeneratorHeader() {
   };
 
   React.useEffect(() => {
-    setGeneratedNumber(generateFakeNumber(COUNTRY_LIST[0].isoCode, COUNTRY_LIST[0].phonecode) ?? null);
+    const initialCountry = COUNTRY_LIST.find((el) => el.isoCode === 'US') ?? COUNTRY_LIST[0];
+    setGeneratedNumber(generateFakeNumber(initialCountry.isoCode, initialCountry.phonecode) ?? null);
   }, []);
 
   return (
