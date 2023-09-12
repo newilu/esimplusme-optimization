@@ -16,8 +16,11 @@ pipelines:
             - echo NEXT_PUBLIC_GTAG_TOKEN=${NEXT_PUBLIC_GTAG_TOKEN} >> .env
             - echo NEXT_PUBLIC_FACEBOOK_TOKEN=${NEXT_PUBLIC_FACEBOOK_TOKEN} >> .env
             - echo NEXT_PUBLIC_RUNTIME_ENV=${DEV_NEXT_PUBLIC_RUNTIME_ENV} >> .env
-            - echo NEXT_PUBLIC_REDIS_HOST=${NEXT_PUBLIC_REDIS_HOST} >> .env
-            - echo NEXT_PUBLIC_REDIS_PORT=${NEXT_PUBLIC_REDIS_PORT} >> .env
+            - echo RUNTIME_REDIS_HOST=${NEXT_PUBLIC_REDIS_HOST} >> .env
+            - echo RUNTIME_REDIS_PORT=${NEXT_PUBLIC_REDIS_PORT} >> .env
+            - echo BUILD_MODE=build >> .env
+            - echo BUILD_REDIS_HOST=${BITBUCKET_DOCKER_HOST_INTERNAL} >> .env
+            - echo BUILD_REDIS_PORT=6379 >> .env
             - cat .env
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - docker build -f ./docker/prod/Dockerfile -t "landings:${IMAGE_NAME}-${VERSION}" .
@@ -25,6 +28,7 @@ pipelines:
             - docker push "appvillisdocker/landings:${IMAGE_NAME}-${VERSION}"
           services:
             - docker
+            - redis
       - step:
           name: Deploy dev
           script:
@@ -71,3 +75,5 @@ definitions:
   services:
     docker:
       memory: 3072
+    redis:
+      image: redis
