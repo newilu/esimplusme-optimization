@@ -74,6 +74,7 @@ pipelines:
 definitions:
   services:
     docker:
-      memory: 2048
+      memory: 3072
     redis:
       image: redis
+      memory: 512
