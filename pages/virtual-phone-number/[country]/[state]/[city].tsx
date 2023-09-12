@@ -157,7 +157,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({ locale, params
     };
   }
 
-  const { data } = await api.secondPhone.getPhonesByCountry(currentCountry.isoCode);
+  const { data } = await Cacheable(api.secondPhone.getPhonesByCountry)(currentCountry.isoCode);
 
   const countryPhones = data?.data.phones.length
     ? data.data.phones
