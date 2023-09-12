@@ -1,3 +1,4 @@
+import { SECOND_PHONE_SUPPORTED_COUNTRIES } from '@/shared/constants';
 import { BuyMultipleNumbersPayload, MappedDataType, PhoneToBuy, SecondPhoneCountry } from '@/utils/types';
 import { MAIN_API_URL } from '@/utils/constants';
 import { getCookie } from '@/shared/lib';
@@ -45,6 +46,10 @@ function getAvailableNumbersByStateIso(isoCode: string) {
 }
 
 function getPhonesByCountry(country: string) {
+  if (!SECOND_PHONE_SUPPORTED_COUNTRIES.includes(country)) {
+    return { headers: null, error: null, data: [] };
+  }
+
   return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(`${MAIN_API_URL}${ENDPOINTS.getPhonesByCountry(country)}`);
 }
 
