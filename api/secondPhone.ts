@@ -47,7 +47,9 @@ function getAvailableNumbersByStateIso(isoCode: string) {
 
 function getPhonesByCountry(country: string) {
   if (!SECOND_PHONE_SUPPORTED_COUNTRIES.includes(country)) {
-    return { headers: null, error: null, data: [] };
+    return { headers: null, error: null, data: { data: { phones: [] } } } as MappedDataType<{
+      data: { phones: PhoneToBuy[] };
+    }>;
   }
 
   return queryFetcher<{ data: { phones: PhoneToBuy[] } }>(`${MAIN_API_URL}${ENDPOINTS.getPhonesByCountry(country)}`);
