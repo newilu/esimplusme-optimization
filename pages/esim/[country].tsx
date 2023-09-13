@@ -1,67 +1,67 @@
-import React from "react";
-import MobileDataPlanHeader from "@/widgets/MobileDataPlanHeader";
-import Navbar from "@/widgets/Navbar";
-import { GetServerSideProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import api from "@/api";
-import { CountryByISO, RegionById } from "@/utils/types";
-import SetupGuide from "@/features/MobiledataSetupGuide";
-import Reviews from "@/features/Reviews";
-import { Trans, useTranslation } from "next-i18next";
-import DownloadAppSection from "@/features/DownloadAppSection";
-import Footer from "@/components/Footer";
-import user5 from "@/features/Reviews/assets/user5.jpeg";
-import user4 from "@/features/Reviews/assets/user4.jpeg";
-import user6 from "@/features/Reviews/assets/user6.jpeg";
-import { generateRandomReviewsCount } from "@/shared/lib";
+import React from 'react';
+import MobileDataPlanHeader from '@/widgets/MobileDataPlanHeader';
+import Navbar from '@/widgets/Navbar';
+import { GetServerSideProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import api from '@/api';
+import { CountryByISO, RegionById } from '@/utils/types';
+import SetupGuide from '@/features/MobiledataSetupGuide';
+import Reviews from '@/features/Reviews';
+import { Trans, useTranslation } from 'next-i18next';
+import DownloadAppSection from '@/features/DownloadAppSection';
+import Footer from '@/components/Footer';
+import user5 from '@/features/Reviews/assets/user5.jpeg';
+import user4 from '@/features/Reviews/assets/user4.jpeg';
+import user6 from '@/features/Reviews/assets/user6.jpeg';
+import { generateRandomReviewsCount } from '@/shared/lib';
+import { Cacheable } from '@/lib/redis';
 
-type CountryProps<T extends RegionById | undefined = undefined> =
-  T extends RegionById
-    ? {
-        country?: never;
-        region: T;
-      }
-    : {
-        country: CountryByISO;
-        region?: never;
-      };
+type CountryProps<T extends RegionById | undefined = undefined> = T extends RegionById
+  ? {
+      country?: never;
+      region: T;
+    }
+  : {
+      country: CountryByISO;
+      region?: never;
+    };
 function Country({ country, region }: CountryProps) {
   const { t } = useTranslation();
-  const [reviewsCount, setReviesCount] = React.useState("350000");
+  const [reviewsCount, setReviesCount] = React.useState('350000');
 
   const reviewsList = React.useMemo(
     () => [
       {
-        name: t("mobile_data_fake_review_1_name"),
-        title: t("mobile_data_fake_review_1_title"),
-        text: t("mobile_data_fake_review_1_text"),
+        name: t('mobile_data_fake_review_1_name'),
+        title: t('mobile_data_fake_review_1_title'),
+        text: t('mobile_data_fake_review_1_text'),
         rating: 5,
       },
       {
         icon: user5,
-        name: t("mobile_data_fake_review_2_name"),
-        title: t("mobile_data_fake_review_2_title"),
-        text: t("mobile_data_fake_review_2_text"),
+        name: t('mobile_data_fake_review_2_name'),
+        title: t('mobile_data_fake_review_2_title'),
+        text: t('mobile_data_fake_review_2_text'),
         rating: 5,
       },
       {
         icon: user4,
-        name: t("mobile_data_fake_review_3_name"),
-        title: t("mobile_data_fake_review_3_title"),
-        text: t("mobile_data_fake_review_3_text"),
+        name: t('mobile_data_fake_review_3_name'),
+        title: t('mobile_data_fake_review_3_title'),
+        text: t('mobile_data_fake_review_3_text'),
         rating: 4,
       },
       {
-        name: t("mobile_data_fake_review_4_name"),
-        title: t("mobile_data_fake_review_4_title"),
-        text: t("mobile_data_fake_review_4_text"),
+        name: t('mobile_data_fake_review_4_name'),
+        title: t('mobile_data_fake_review_4_title'),
+        text: t('mobile_data_fake_review_4_text'),
         rating: 5,
       },
       {
         icon: user6,
-        name: t("mobile_data_fake_review_5_name"),
-        title: t("mobile_data_fake_review_5_title"),
-        text: t("mobile_data_fake_review_5_text"),
+        name: t('mobile_data_fake_review_5_name'),
+        title: t('mobile_data_fake_review_5_title'),
+        text: t('mobile_data_fake_review_5_text'),
         rating: 5,
       },
     ],
@@ -75,12 +75,10 @@ function Country({ country, region }: CountryProps) {
   }, []);
 
   return (
-    <div style={{ overflow: "hidden" }}>
+    <div style={{ overflow: 'hidden' }}>
       <Navbar />
       <MobileDataPlanHeader
-        title={`Mobile data with eSIM for travelers in ${
-          (region as any)?.name ?? country.country
-        }`}
+        title={`Mobile data with eSIM for travelers in ${(region as any)?.name ?? country.country}`}
         subtitle="Get a fast, secure, and stable Internet connection without overpaying mobile carriers!"
         region={region}
         country={country}
@@ -105,36 +103,26 @@ function Country({ country, region }: CountryProps) {
 
 export default Country;
 
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  params,
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale, params }) => {
   const { country } = params ?? {};
 
-  if (typeof country !== "string") {
-    return { redirect: { destination: "/", statusCode: 301 } };
+  if (typeof country !== 'string') {
+    return { redirect: { destination: '/', statusCode: 301 } };
   }
 
   const [countries, regions, worldwideRegion] = await Promise.all([
-    api.profiles.listCountries(),
-    api.profiles.listRegions(),
-    api.profiles.getWorldwideRegion(),
+    Cacheable(api.profiles.listCountries)(),
+    Cacheable(api.profiles.listRegions)(),
+    Cacheable(api.profiles.getWorldwideRegion)(),
   ]);
 
-  const isRegionalProfile = regions.data?.data.regions.find(
-    (el) => el.name.toLowerCase() === country
-  );
-  const isWorldwideProfile =
-    worldwideRegion.data?.data.region.name.toLowerCase() === country;
+  const isRegionalProfile = regions.data?.data.regions.find((el) => el.name.toLowerCase() === country);
+  const isWorldwideProfile = worldwideRegion.data?.data.region.name.toLowerCase() === country;
 
   if (isWorldwideProfile) {
     return {
       props: {
-        ...(await serverSideTranslations(locale ?? "en", [
-          "common",
-          "navbar",
-          "footer",
-        ])),
+        ...(await serverSideTranslations(locale ?? 'en', ['common', 'navbar', 'footer'])),
         countries: countries.data?.data.countries ?? [],
         regions: regions.data?.data.regions ?? [],
         region: worldwideRegion.data?.data.region,
@@ -143,20 +131,14 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
 
-  const currentRegion = regions.data?.data.regions.find(
-    (el) => el.name.toLowerCase() === country
-  );
+  const currentRegion = regions.data?.data.regions.find((el) => el.name.toLowerCase() === country);
 
   if (isRegionalProfile && currentRegion) {
-    const { data } = await api.profiles.getRegionById(currentRegion.id);
+    const { data } = await Cacheable(api.profiles.getRegionById)(currentRegion.id);
 
     return {
       props: {
-        ...(await serverSideTranslations(locale ?? "en", [
-          "common",
-          "navbar",
-          "footer",
-        ])),
+        ...(await serverSideTranslations(locale ?? 'en', ['common', 'navbar', 'footer'])),
         region: data?.data.region,
         countries: countries.data?.data.countries ?? [],
         regions: regions.data?.data.regions ?? [],
@@ -166,30 +148,22 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   const currentCountry = countries.data?.data.countries.find((el) =>
-    el.country
-      .toLowerCase()
-      .match(new RegExp(country.replaceAll("-", " ").replace(" esim", "")))
+    el.country.toLowerCase().match(new RegExp(country.replaceAll('-', ' ').replace(' esim', '')))
   );
 
   if (!currentCountry) {
-    return { redirect: { destination: "/", statusCode: 301 } };
+    return { redirect: { destination: '/', statusCode: 301 } };
   }
 
-  const { data } = await api.profiles.getCountryByIsoName(
-    currentCountry.isoName2
-  );
+  const { data } = await Cacheable(api.profiles.getCountryByIsoName)(currentCountry.isoName2);
 
   if (!data?.data.country) {
-    return { redirect: { destination: "/", statusCode: 301 } };
+    return { redirect: { destination: '/', statusCode: 301 } };
   }
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en", [
-        "common",
-        "navbar",
-        "footer",
-      ])),
+      ...(await serverSideTranslations(locale ?? 'en', ['common', 'navbar', 'footer'])),
       country: data.data.country,
       countries: countries.data?.data.countries ?? [],
       regions: regions.data?.data.regions ?? [],
