@@ -213,7 +213,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: uniquePaths,
-    fallback: 'blocking',
+    fallback: true,
   };
 };
 
